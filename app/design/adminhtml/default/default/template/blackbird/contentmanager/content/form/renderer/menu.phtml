@@ -1,0 +1,100 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+
+$content = Mage::registry('content');
+$nodes = $this->getNodes();
+
+if($nodes->getSize() > 0):
+?>
+    <?php $previous_menu = 0; ?>
+    <?php foreach($nodes as $node): ?>
+        <?php
+            $menu = $this->getMenu($node->getMenuId());
+        ?>
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <?php if($node->getMenuId() != $previous_menu) : ?>
+                    <?php
+                        $previous_menu = $node->getMenuId();
+                    ?>
+                    <tr>
+                        <td class="label"><strong><?php echo $menu->getTitle(); ?> (<?php echo $menu->getIdentifier(); ?>)</strong></td>
+                        <td class="value">
+
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><label for="url_key"><?php echo $this->__('Node information'); ?></label></td>
+                    <td class="value">
+                        <strong><?php echo $menu->getLabel($node); ?></strong> <small><i>(<?php echo $this->__('Level'); ?> <?php echo $node->getLevel(); ?>)</i></small>
+                        
+                        <?php if($node->getParentId()): ?>
+                            <br/>
+                            <?php
+                                $parent = Mage::getModel('contentmanager/menu_node')->load($node->getParentId());
+                            ?>
+                            <?php echo $this->__('Parent (n-1):'); ?> <strong><?php echo $menu->getLabel($parent); ?></strong> <small><i>(<?php echo $this->__('Level'); ?> <?php echo $parent->getLevel(); ?>)</i></small>
+                            <?php if($parent->getParentId()): ?>
+                                <br/>
+                                <?php
+                                    $parent2 = Mage::getModel('contentmanager/menu_node')->load($parent->getParentId());
+                                ?>
+                                <?php echo $this->__('Parent (n-2):'); ?> <strong><?php echo $menu->getLabel($parent2); ?></strong> <small><i>(<?php echo $this->__('Level'); ?> <?php echo $parent2->getLevel(); ?>)</i></small>
+                                <?php if($parent2->getParentId()): ?>
+                                    <br/>
+                                    <?php
+                                        $parent3 = Mage::getModel('contentmanager/menu_node')->load($parent2->getParentId());
+                                    ?>
+                                    <?php echo $this->__('Parent (n-3):'); ?> <strong><?php echo $menu->getLabel($parent3); ?></strong> <small><i>(<?php echo $this->__('Level'); ?> <?php echo $parent3->getLevel(); ?>)</i></small>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="url_key"><?php echo $this->__('URL'); ?></label></td>
+                    <td class="value">
+                        <input name="nodes[<?php echo $node->getId(); ?>][url_path]" value="<?php echo $node->getUrlPath(); ?>" type="text" class="input-text">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="url_key"><?php echo $this->__('Canonical'); ?></label></td>
+                    <td class="value">
+                        <select class="select" name="nodes[<?php echo $node->getId(); ?>][canonical]">
+                            <option value="0" <?php echo (($node->getCanonical() != 1)?'selected="selected"':''); ?>><?php echo $this->__('No'); ?></option>
+                            <option value="1" <?php echo (($node->getCanonical() == 1)?'selected="selected"':''); ?>><?php echo $this->__('Yes'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <?php endforeach; ?>
+<?php else: ?>
+    <?php echo $this->__('This content is not linked in any menu'); ?>
+<?php endif; ?>

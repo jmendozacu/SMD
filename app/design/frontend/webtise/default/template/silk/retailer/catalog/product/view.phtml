@@ -1,0 +1,702 @@
+<?php
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE BASE FILE TOO
+ * base/default/template/epicor_comm/catalog/product/view.phtml
+ */
+
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php // echo 'gets to epicor comm catalog product view';  ?>
+<?php $reconfigureCart = $this->getRequest()->getParam('recon'); ?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $canCustomerEditSkus = Mage::helper('customerconnect/skus')->canCustomerEditCpns(); ?>
+<?php
+$_product = $this->getProduct();
+
+// limit customer access to configurator button to correct licence
+
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+
+// limit customer access to configurator button to correct licence
+
+$erpAccount = $helper->getErpAccountInfo();
+/* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
+if ($erpAccount) {
+    if ($erpAccount->getAccountType() == Epicor_Comm_Model_Customer_Erpaccount::CUSTOMER_TYPE_B2B) {
+        $licenseTypes = array('Customer_Configurator');
+    } else {
+        $licenseTypes = array('Consumer_Configurator');
+    }
+} else {
+    $licenseTypes = array();
+}
+
+$showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+$this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
+
+$locHelper = $this->helper('epicor_comm/locations');
+$retailerHp = $this->helper('silk_retailer');
+/* @var $helper Epicor_Comm_Helper_Locations */
+
+$showLocations = $locHelper->isLocationsEnabled();
+$singleLocation = (count($_product->getCustomerLocations()) == 1) ? true : false;
+if ($singleLocation) {
+    $location = array_pop($_product->getCustomerLocations());
+    $_product->setToLocationPrices($location);
+}
+
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+
+$groupProduct = ($_product->getTypeId() == 'group') ? true : false;
+$simpleProduct = ($_product->getTypeId() == 'simple') ? true : false;
+$configuratorProduct = ($_product->getConfigurator()) ? true : false;
+$groupOrConfigurable = in_array($_product->getTypeId(), array('grouped', 'configurable')) ? true : false;
+$bundleProduct = ($_product->getTypeId() == 'bundle') ? true : false;
+
+$wishlistId = $this->getRequest()->getParam('wishlistid');
+
+$_product->forceMainProductToBeSaleable($groupOrConfigurable);
+?>
+
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+              id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <?php if ($wishlistId): ?>
+                    <input type="hidden" name="wishlist_id" value="<?php echo $wishlistId ?>"/>
+                <?php endif; ?>
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
+                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                <?php if (Mage::app()->getRequest()->getParam('returnurl')): ?>
+                    <input type="hidden" name="return_url"
+                           value="<?php echo base64_decode(Mage::app()->getRequest()->getParam('returnurl')); ?>"/>
+                <?php endif; ?>
+            </div>
+
+            <div class="product-img-box">
+                <div class="product-name">
+                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                </div>
+                <?php echo $this->getChildHtml('media') ?>
+            </div>
+
+            <div class="product-shop">
+                <div class="product-name">
+                    <span
+                        class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
+                </div>
+                <?php if ($showLocations && !$allSourceLocations && count($_product->getCustomerLocations()) != 0 && !$groupOrConfigurable): ?>
+                    <?php if ($_product->getTypeId() == 'bundle'): ?>
+                        <?php echo $this->getChildHtml('bundle_locations') ?>
+                    <?php else: ?>
+                        <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
+                            <?php echo $this->getChildHtml('locations') ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if ($_product->isSaleable()): ?>
+                    <?php if (!$groupOrConfigurable): ?>
+                        <div class="price-info">
+                            <?php if ($showLocations && ($singleLocation || $allSourceLocations)): ?>
+                                <?php echo $this->getChildHtml('product_type_data')   // shows stock level availability along with price ?>
+                                <?php if (($simpleProduct && !$configuratorProduct)): ?>
+                                    <?php echo $this->getTierPriceHtml() ?>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?php if (!$showLocations): ?>
+                                    <?php echo $this->getPriceHtml($_product); ?>
+                                    <?php echo $this->getChildHtml('bundle_prices');     // shows 'configured as' with price ?>
+                                    <?php echo $this->getTierPriceHtml() ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+
+                <?php endif; ?>
+
+                <div class="extra-info">
+                    <?php echo $this->getReviewsSummaryHtml($_product, 'default', false) ?>
+                    <?php echo $this->getChildHtml('product_type_availability'); ?>
+                </div>
+
+                <?php echo $this->getChildHtml('alert_urls') ?>
+
+                <div class="short-description">
+		<!--
+                    <strong><?php echo $this->__($_product->getSkuHeader()) ?></strong>
+                    <ul>
+                        <?php foreach ($_product->getSkusDetailed() as $sku): ?>
+                            <li>
+                                <?php echo $sku['sku']; ?>
+                                <?php if ($canCustomerEditSkus && $sku['isCustomerSku']): ?>
+                                    <a href="<?php echo $this->getSkuEditUrl($sku['entityId']) ?>">Edit</a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                        <?php if ($canCustomerEditSkus): ?>
+                            <li>
+                                <a href="<?php echo $this->getSkuAddUrl($_product->getId()) ?>">Add</a></li>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                    <?php if ($_product->getShortDescription()): ?>
+                        <div
+                            class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                    <?php endif; ?>
+		-->
+                </div>
+                <?php
+                $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+                $attributeSetModel->load($_product->getAttributeSetId());
+                $attributeSetId = $attributeSetModel->getAttributeSetId();
+
+                $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
+                ->setAttributeSetFilter($attributeSetId)
+                ->addFieldToFilter('attribute_group_name', 'Attributes')
+                ->load();
+
+                foreach ($attributeSetCollection as $id=>$attributeGroup) {
+                    $group_id = $attributeGroup->getAttributeGroupId();
+                }
+
+                $attributesCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+                $attributesCollection->setAttributeGroupFilter($group_id);
+                ?>
+                <div class="detail-attributes">
+                    <?php foreach ($attributesCollection as $attribute) { ?>
+                        <div class="attributes-row">
+                            <span class="attributes-label"><span><strong><?php echo $attribute->getFrontendLabel(); ?>:</strong></span></span>
+                            <span class="attributes-value"><span><?php echo $attribute->getFrontend()->getValue($_product); ?></span></span>
+                        </div>
+                    <?php } ?>
+                </div>
+
+                <?php echo $this->getChildHtml('other'); ?>
+
+                <?php if ($_product->isSaleable() && $this->hasOptions() && !$_product->getConfigurator()): ?>
+                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                <?php endif; ?>
+
+            </div>
+
+            <?php if (!$showLocations || $groupOrConfigurable || $showLocations && count($_product->getCustomerLocations()) != 0): ?>
+                <div class="add-to-cart-wrapper">
+                    <?php // if(!$showLocations || $showLocations && (!$allSourceLocations || count($_product->getCustomerLocations()) >1) ): ?>
+                    <?php if ((!$showLocations || $groupOrConfigurable) || ($showLocations && (!$allSourceLocations && count($_product->getCustomerLocations()) > 1))): ?>
+                        <?php echo $this->getChildHtml('product_type_data') ?>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('extrahint') ?>
+                    <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
+                        <?php if ($showAddToCart) : ?>
+                            <div class="add-to-box">
+                                <?php if ($_product->isSaleable()): ?>
+                                    <?php if ($reconfigureCart): ?>
+                                        <?php echo $this->getChildHtml('groupedupdatecart') ?>
+                                    <?php else: ?>
+                                        <?php if ($_product->getConfigurator()): ?>
+                                            <?php if ($this->getLicensed() && (!$showLocations || $showLocations && ($allSourceLocations || $singleLocation))): ?>
+                                                <?php //echo $this->getChildHtml('configurableaddtocart') ?>
+                                            <?php endif; ?>
+                                        <?php else : ?>
+                                            <?php //echo $this->getChildHtml('addtocart') ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php //$measureId = $_product->getResource()->getAttribute('measure')->getFrontend()->getValue($_product) ?: 0; ?>
+                                    <?php //$measureSku = $measureId ? Mage::getModel('catalog/product')->load($measureId)->getSku() : ''; ?>
+                                    <?php
+                                    $measureSku = $_product->getMeasure();
+                                    $measureId = $_product->getIdBySku($measureSku);
+                                    ?>
+
+                                    <?php echo $this->getChildHtml('sharing') ?>
+                                    <?php $newOnClick = $measureId ? "ewaProduct.addContent({sku: '{$measureSku}', productId: '{$measureId}', qty: ''}, false);" : ""; ?>
+                                    <ul class="buttons">
+                                        <li>
+                                            <?php if ($measureId && $measureSku && (Mage::getSingleton('customer/session')->isLoggedIn()) && (Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B')) : ?>
+                                                <?php
+                                                // not allowed buy
+                                                if (!$retailerHp->allowBuy()) {
+                                                    $newOnClick = 'showRefusedPopup()';
+                                                }
+                                                ?>
+                                                <button type="button" class="order_fabric_but button" onclick="<?php echo $newOnClick ?>"><?php echo $this->__('Order Made to Measure Curtains') ?></button>
+                                            <?php endif; ?>
+                                            <?php if ($_product->getConfigurator() && (Mage::getSingleton('customer/session')->isLoggedIn()) && (Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B')): ?>
+                                                <?php $locHelper = $this->helper('epicor_comm/locations');
+
+                                                $showLocations = $locHelper->isLocationsEnabled();
+
+                                                if ($showLocations) {
+                                                    $location = $_product->getRequiredLocation();
+                                                    $qty = $this->getQty() ? ", qty: '{$this->getQty()}'" : null;
+                                                    $onClick = "ewaProduct.addContent({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', location: '{$_product->getRequiredLocation()}'$qty}, false);";
+                                                } else {
+                                                    $onClick = "ewaProduct.addContent({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', qty: '{$this->getQty()}'}, false);";
+                                                }
+
+                                                if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+                                                    $onClick = 'window.location.href=\'' . Mage::getUrl('customer/account/login') . '\'';
+                                                } else {
+                                                    // not allowed buy
+                                                    if (!$retailerHp->allowBuy()) {
+                                                        $onClick = 'showRefusedPopup()';
+                                                    }
+                                                }
+                                                ?>
+                                                <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick?>"><?php echo $this->__('Order Fabric') ?></button>
+                                            <?php else: // // if ($_product->getConfigurator()) : ?>
+                                                <?php
+                                                if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+                                                    $onClick = 'window.location.href=\'' . Mage::getUrl('customer/account/login').'\'';
+                                                } else {
+                                                    // if not allow buy
+                                                    if (!$retailerHp->allowBuy()) {
+                                                        $onClick = 'showRefusedPopup()';
+                                                    } else {
+                                                        $onClick = 'jQuery(\'#order-fabric\').toggle();';
+                                                    }
+                                                }
+                                                ?>
+                                                <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
+                                                    <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
+                                                <?php endif; ?>
+                                            <?php endif; // if ($_product->getConfigurator()) : ?>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="order_fabric_but ajax-wishlist button button-secondary"><?php echo $this->__('Add to Favourites') ?></button>
+                                            <?php $sample = $_product->getIdBySku($_product->getSample()) ?>
+                                            <?php if ($sample) : ?>
+                                                <button type="button"
+                                                        class="order_fabric_but ajax-sample button"><?php echo $this->__('Order Sample') ?></button>
+                                            <?php endif; ?>
+                                        </li>
+                                    </ul>
+
+                                    <?php if ($this->helper('wishlist')->isAllow() || $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                        <span class="or"><?php echo $this->__('OR') ?></span>
+                                    <?php endif; ?>
+                                    <?php echo $this->getChildHtml('addto') ?>
+                                <?php else: ?>
+                                    <p class="availability out-of-stock">
+                                        <span><?php echo $this->__('Product currently unavailable') ?></span></p>
+                                <?php endif; ?>
+                            </div>
+                            <?php echo $this->getChildHtml('extra_buttons') ?>
+                        <?php elseif ($_product->isSaleable()): ?>
+                            <div class="add-to-box">
+                                <?php echo $this->getChildHtml('addto') ?>
+                                <?php echo $this->getChildHtml('sharing') ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            
+            <?php if ($_product->isSaleable() && $this->hasOptions() && !$_product->getConfigurator()): ?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php endif; ?>
+        </form>
+
+        <div id="order-fabric" class="order-fabric" style="display:none;">
+            <dl class="collateral-tabs">
+                <dt class="tab"><span><?php echo $this->__('Fabric:') ?>&nbsp;<?php echo $_product->getName(); ?></span>
+                </dt>
+                <dd class="tab-container" onclick="jQuery('#your_metre').focus()">
+                    <span>&nbsp;</span>
+                </dd>
+                <dt class="tab" onclick="jQuery('#your_metre').focus()">
+                    <span><?php echo $this->__('Meterage Requirements:') ?></span><span class="curMetre"></span></dt>
+                <dd class="tab-container" onclick="jQuery('#your_metre').focus()" style="float: left;margin-top: 10px;">
+                    <span>&nbsp;</span>
+                </dd>
+            </dl>
+            <div class="order-fabric">
+                <span><?php echo $this->__('Enter Your Requirements') ?></span>
+                <div style="width: 100%;margin: 20px 0px;">
+                    <input type="number" max="10000" id="your_metre"/>
+                    <span><?php echo $_product->getUom() ?></span>
+                    <!--                <button-->
+                    <!--                    onclick="document.cookie='userMetre='+ jQuery('#your_metre').val();jQuery('.curMetre').text(jQuery('#your_metre').val())">--><?php //echo $this->__('Confirm') ?><!--</button>-->
+                </div>
+                <button class="ajax-basket button"><?php echo $this->__('Add To Basket') ?></button>
+                <button class="button button-secondary"
+                    onclick="window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + jQuery('#your_metre').val()"><?php echo $this->__('Quick Buy') ?></button>
+            </div>
+        </div>
+        
+        <div class="clearer"></div>
+
+        <div class="product-collateral toggle-content tabs">
+            <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')): ?>
+                <dl id="collateral-tabs" class="collateral-tabs">
+                    <?php foreach ($detailedInfoGroup as $alias => $html): ?>
+                        <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span>
+                        </dt>
+                        <dd class="tab-container">
+                            <div class="tab-content"><?php echo $html ?></div>
+                        </dd>
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+        </div>
+
+        <?php echo $this->getChildHtml('related_products') ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function (button, url) {
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                        form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function (button, url) {
+                if (this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+            //]]>
+        </script>
+    </div>
+    
+    <div id="basket_box" style="display:none;">
+        <div class="basket_box">
+            <h1 class="msg_title"><?php echo $this->__('Added to your Basket.') ?></h1>
+            <div onclick="jQuery('#basket_box').css('display', 'none')" class="close">X</div>
+            <span><span class="curMetre"></span> <?php echo $this->__(' was added to your basket.') ?></span>
+            <div class="action_button" style="width: 100%">
+                <button type="button" class="order_fabric_but button"
+                        onclick="window.location.href='<?php echo $this->getUrl('checkout/cart') ?>';"><?php echo $this->__('View Basket') ?></button>
+                <button type="button" class="order_fabric_but button"
+                        onclick="jQuery('#basket_box').css('display', 'none')"><?php echo $this->__('Continue Shopping') ?></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="favourites_box" style="display:none;">
+        <div class="favourites_box">
+            <h1><?php echo $this->__('Added to your Favourites.') ?></h1>
+            <div onclick="jQuery('#favourites_box').css('display', 'none')" class="close">X</div>
+            <span><?php echo $_product->getName(); ?></span>
+            <div class="action_button" style="width: 100%">
+                <button type="button" class="order_fabric_but button"
+                        onclick="window.location.href='<?php echo $this->getUrl('checkout/cart') ?>';"><?php echo $this->__('View Basket') ?></button>
+                <button type="button" class="order_fabric_but button"
+                        onclick="jQuery('#favourites_box').css('display', 'none')"><?php echo $this->__('Continue Shopping') ?></button>
+            </div>
+        </div>
+    </div>
+
+    <?php echo $this->getChildHtml('upsell_products') ?>
+    <?php echo $this->getChildHtml('product_additional_data') ?>
+</div>
+<script type="application/javascript">
+    inputMetre();
+    function inputMetre() {
+        NameOfCookie = 'userMetre';
+        begin = document.cookie.indexOf(NameOfCookie + "=");
+        if (begin != -1) {
+            begin += NameOfCookie.length + 1;
+            end = document.cookie.indexOf(";", begin);
+            if (end == -1) end = document.cookie.length;
+            jQuery('#your_metre').val(unescape(document.cookie.substring(begin, end)));
+            jQuery('.curMetre').text(unescape(document.cookie.substring(begin, end)));
+        }
+    }
+
+    $j('.ajax-wishlist').click(function () {
+        var product_id = <?php echo $_product->getId();?>;
+        $j.ajax({
+            type: "GET",
+            url: '/retailer/ajax/addFavourites',
+            data: {'product': product_id, 'is_ajax': true},
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            error: function (e) {
+            },
+            success: function (data) {
+                if (data.status == 'Success') {
+//                    jQuery('#favourites_box').css('display' , 'block');
+                    window.location.href = data.url;
+                } else if (data.status == 'login') {
+                    window.location.href=data.url;
+                }
+            },
+            complete: function () {
+            }
+        });
+    });
+
+    <?php if ($_product->getIdBySku($_product->getSample())): ?>
+    $j('.ajax-sample').click(function () {
+        var product_id = <?php echo $_product->getIdBySku($_product->getSample()); ?>;
+        var qty = 1;
+        $j.ajax({
+            type: "GET",
+            url: '/retailer/ajax/addBasket',
+            data: {'product': product_id, 'qty': qty},
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            error: function (e) {
+            },
+            success: function (data) {
+                if (data.status == 'Success') {
+                    jQuery.get('<?php echo Mage::getUrl('retailer/ajax/refreshMiniCart') ?>', function(minicart){
+                        jQuery('.header-minicart').html(minicart);
+                        initLinks();
+                    });
+
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').text(data.qty + '<?php echo $_product->getUom() ?>' + ' X' + data.name);
+                    jQuery('#basket_box .msg_title').text('<?php echo $this->__('Added to your Basket') ?>');
+                    jQuery('#basket_box .action_button').show();
+                } else if (data.status == 'login') {
+                    window.location.href=data.url;
+                } else if (data.status == 'Failed') {
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').text(data.error);
+                    jQuery('#basket_box .msg_title').text(' ');
+                    jQuery('#basket_box .action_button').hide();
+                } else {
+                    console.log('wrong');
+                }
+            },
+            complete: function () {
+            }
+        });
+    });
+    <?php endif ?>
+
+    function showRefusedPopup()
+    {
+        jQuery('#basket_box .curMetre').text('<?php echo $retailerHp->getRefusedMessage() ?>');
+        jQuery('#basket_box').css('display', 'block');
+        jQuery('#basket_box .msg_title').text(' ');
+        jQuery('#basket_box .action_button').hide();
+    }
+
+    function initLinks()
+    {
+        var skipContents = $j('.skip-content');
+        var skipLinks = $j('.skip-link');
+
+        skipLinks.on('click', function (e) {
+            e.preventDefault();
+
+            var self = $j(this);
+            // Use the data-target-element attribute, if it exists. Fall back to href.
+            var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
+
+            // Get target element
+            var elem = $j(target);
+
+            // Check if stub is open
+            var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+
+            // Hide all stubs
+            skipLinks.removeClass('skip-active');
+            skipContents.removeClass('skip-active');
+
+            // Toggle stubs
+            if (isSkipContentOpen) {
+                self.removeClass('skip-active');
+            } else {
+                self.addClass('skip-active');
+                elem.addClass('skip-active');
+            }
+        });
+
+        $j('#header-cart').on('click', '.skip-link-close', function(e) {
+            var parent = $j(this).parents('.skip-content');
+            var link = parent.siblings('.skip-link');
+
+            parent.removeClass('skip-active');
+            link.removeClass('skip-active');
+
+            e.preventDefault();
+        });
+    }
+
+    $j('.ajax-basket').click(function () {
+        var product_id = <?php echo $_product->getId();?>;
+        var qty = jQuery('#your_metre').val();
+        $j.ajax({
+            type: "GET",
+            url: '/retailer/ajax/addBasket',
+            data: {'product': product_id, 'qty': qty},
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            error: function (e) {
+            },
+            success: function (data) {
+                if (data.status == 'Success') {
+                    jQuery.get('<?php echo Mage::getUrl('retailer/ajax/refreshMiniCart') ?>', function(minicart){
+                        jQuery('.header-minicart').html(minicart);
+                        initLinks();
+                    });
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').text(data.qty + '<?php echo $_product->getUom() ?>' + ' X' + data.name);
+                    jQuery('#basket_box .msg_title').text('<?php echo $this->__('Added to your Basket') ?>');
+                    jQuery('#basket_box .action_button').show();
+                } else if (data.status == 'login') {
+                    window.location.href=data.url;
+                } else if (data.status == 'Failed') {
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').text(data.error);
+                    jQuery('#basket_box .msg_title').text(' ');
+                    jQuery('#basket_box .action_button').hide();
+                } else {
+                    console.log('wrong');
+                }
+            },
+            complete: function () {
+            }
+        });
+    });
+
+
+    $j(function () {
+
+        Epicor.ewaProduct.prototype.buildContent = function (url, returnurl, error) {
+            if (error === undefined) {
+                error = false;
+            }
+            ewaProduct.loaded = false;
+            // create EWA Wrapper
+            var wrappingDiv = $j('<div class="new-content">').insertBefore('.toggle-tabs');
+
+            // create Close link
+            var closeBtn = new Element('a');
+            if (error) {
+                closeBtn.href = 'ewaProduct.closepopup("ewaWrapper")';
+            } else {
+                closeBtn.href = 'javascript:if(confirm(ewaProduct.warningMessage)){ewaProduct.closepopup("ewaWrapper");}';
+            }
+            closeBtn.update('Close');
+            wrappingDiv.append(closeBtn);
+
+            // create Loading Image
+            var myImg = new Element('img');
+            myImg.src = ewaProduct.prefix + '/skin/adminhtml/default/default/images/ajax-loader-tr.gif';
+            var myLoadingText = new Element('p');
+            myLoadingText.append('Loading...');
+
+            var myLoader = new Element('div');
+            myLoader.className = 'loading';
+            myLoader.append(myImg);
+            myLoader.append(myLoadingText);
+
+            wrappingDiv.append(myLoader);
+
+            // create iFrame
+            var myIframe = new Element('iframe');
+            $j(myIframe).hide();
+
+            if (returnurl) {
+                url = url + '/return/' + returnurl;
+            }
+
+            myIframe.src = "https://www.baidu.com/s?ie=UTF-8&wd=aaa";
+            myIframe.src = url;
+
+
+            if (!error) {
+
+                myIframe.onload = function () {
+                    $j(myIframe).show().css('width', '100%');
+                    $j('.loading').hide();
+                    clearTimeout(ewaProduct.badUrlTimer);
+                    clearTimeout(ewaProduct.errorTimer);
+                    ewaProduct.errorTimer = setTimeout("ewaProduct.autoreveal()", ' + this.ewaLoadTimeout + ');
+                    this.badUrlTimer = setTimeout("ewaProduct.badUrl()", this.badUrlTimeout);
+
+
+                };
+               myIframe.writeAttribute('onload', 'clearTimeout(ewaProduct.badUrlTimer);clearTimeout(ewaProduct.errorTimer);ewaProduct.errorTimer = setTimeout("ewaProduct.autoreveal()",' + this.ewaLoadTimeout + ');');
+               this.badUrlTimer = setTimeout("ewaProduct.badUrl()", this.badUrlTimeout);
+            }
+            wrappingDiv.append(myIframe)
+        };
+        Epicor.ewaProduct.prototype.addContent = function (data, returnurl) {
+            var ewaUrl = this.buildEwaUrl(ewaProduct.prefix + '/comm/configurator/loadewa', data);
+            this.buildContent(ewaUrl, returnurl);
+            console.log(ewaUrl);
+        };
+    })
+</script>

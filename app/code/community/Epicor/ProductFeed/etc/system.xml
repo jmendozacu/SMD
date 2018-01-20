@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <epicor_config>
+            <label>Epicor Configuration</label>
+            <sort_order>1</sort_order>
+        </epicor_config>
+    </tabs>
+    <sections>
+        <epicor_productfeed>
+            <label>Product Feed</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>9000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <product_weight_unit translate="label">
+                            <label>Product Weight Units</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_source_weights</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_weight_unit>
+                    </fields>
+                </general>
+                <google translate="label">
+                    <label>Google Feed</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Display the first 30 products only</comment>
+                        </debug>
+                        <id_strict translate="label">
+                            <label>Strict Google Product IDs</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>This will enforce alpha numeric ids for your products</comment>
+                        </id_strict>
+                        <feed_title>
+                            <label>Feed Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The feed title provided to Google</comment>
+                        </feed_title>
+                        <feed_description>
+                            <label>Feed Description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The feed description provided to Google</comment>
+                        </feed_description>
+                        <stock_avail translate="label">
+                            <label>Stock Availability</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_source_availability</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </stock_avail>
+                        <stock_avail_def_out>
+                            <label>Out of Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_source_availability</source_model>
+                            <sort_order>410</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Stock availability option to be sent if the item is out of stock</comment>
+                            <depends>
+                                <stock_avail>default</stock_avail>
+                            </depends>
+                        </stock_avail_def_out>
+                        <show_qty translate="label">
+                            <label>Provide Quantity in the Feed</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Products with 0 qty will not appear in Google</comment>
+                        </show_qty>
+                        <google_category translate="label">
+                            <label>Google Category</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_source_category</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Category from the Google Taxonomy</comment>
+                        </google_category>
+                        <url_suffix>
+                            <label>Product URL Suffix</label>
+                            <frontend_type>text</frontend_type>
+                             <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Text to be added at the end of the product url</comment>
+                        </url_suffix>
+                    </fields>
+                </google>
+            </groups>
+        </epicor_productfeed>
+    </sections>
+</config>

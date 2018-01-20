@@ -1,0 +1,70 @@
+<?php
+/* @var $this Epicor_Comm_Block_Adminhtml_Sales_Returns_View_Tab_Details */
+?>
+<?php
+$return = $this->getReturn();
+/* @var $return Epicor_Comm_Model_Customer_Return */
+?>
+<div class="entry-edit box-left" style="width:49.5%">
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Return Information') ?></h4></div>
+    <fieldset class="erp_infomation">
+        <table>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Web Return Number:') ?></strong></td>
+                <td><?php echo $return->getId() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('ERP Return Number:') ?></strong></td>
+                <td><?php echo $return->getErpReturnsNumber() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Created Date:') ?></strong></td>
+                <td><?php echo $return->getRmaDate() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Status:') ?></strong></td>
+                <td><?php echo $return->getStatusDisplay() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('RMA Case Number:') ?></strong></td>
+                <td><?php echo $return->getRmaCaseNumber() ?></td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="entry-edit box-right" style="width:49.5%">
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Customer Information') ?></h4></div>
+    <fieldset class="erp_infomation">
+        <table>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Customer Reference:') ?></strong></td>
+                <td><?php echo $return->getCustomerReference() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Customer Name:') ?></strong></td>
+                <td><?php echo $return->getCustomerName() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('Customer Email:') ?></strong></td>
+                <td><?php echo $return->getEmailAddress() ?></td>
+            </tr>
+            <tr>
+                <td class="label"><strong><?php echo $this->__('ERP Account:') ?></strong></td>
+                <td><?php echo $return->getErpAccount()->getName() ?></td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="grid_display">
+    <?php echo $this->getLinesHtml(); ?>
+    <?php echo $this->getAttachmentsHtml(); ?>
+</div>    
+<style>
+    .erp_infomation td {
+        padding:5px 15px 5px 5px;
+    }
+    .erp_infomation td.label {
+        width: 200px;
+    }
+    .grid_display{clear:both;}
+</style>

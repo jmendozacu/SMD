@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <hosting_css>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/hostingmanager/css/hosting.css</name>
+                <params/>
+            </action>
+        </reference>
+    </hosting_css>
+    <adminhtml_hostingmanager_sites_index>
+        <update handle="hosting_css"/>
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_sites" name="hostingmanager_sites" />
+        </reference>
+    </adminhtml_hostingmanager_sites_index>
+    <adminhtml_hostingmanager_sites_edit>
+        <update handle="hosting_css"/>
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_sites_edit" name="hostingmanager_sites_edit"></block>
+        </reference>
+    </adminhtml_hostingmanager_sites_edit>
+    <adminhtml_hostingmanager_certificates_index>
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_certificates" name="hostingmanager_certificates" />
+        </reference>
+    </adminhtml_hostingmanager_certificates_index>
+    <adminhtml_hostingmanager_certificates_edit>
+        <reference name="left">
+            <block type="hostingmanager/adminhtml_certificates_edit_tabs" name="right_view_tabs"></block>
+        </reference> 
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_certificates_edit" name="hostingmanager_certificates_edit"></block>
+        </reference>
+    </adminhtml_hostingmanager_certificates_edit>
+    
+    <adminhtml_hostingmanager_nginxlog_index>
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_nginxlog" name="hostingmanager_nginxlog" />
+        </reference>
+    </adminhtml_hostingmanager_nginxlog_index>
+    <adminhtml_hostingmanager_nginxlog_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/syslog.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="hostingmanager/adminhtml_nginxlog_view" name="erp_header" after="group" />
+            <block type="hostingmanager/adminhtml_nginxlog_view" template="hostingmanager/nginxlog/view/details.phtml" name="hostingmanager_nginxlog_view"></block>
+        </reference>
+    </adminhtml_hostingmanager_nginxlog_view>
+    
+</layout>

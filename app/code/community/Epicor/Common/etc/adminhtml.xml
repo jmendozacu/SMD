@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>              
+            <children>
+                <quickstart>
+                    <title>Quick Start</title>
+                    <sort_order>5</sort_order>
+                    <action>adminhtml/epicorcommon_quickstart</action>
+                </quickstart>
+                <mapping>
+                    <title>Mapping</title>
+                    <sort_order>20</sort_order>
+                    <children>
+                        <language>
+                            <title>Language</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcommon_mapping_language</action>
+                        </language>
+                    </children>
+                </mapping>
+                <import_export_comm translate="title" module="tax">
+                    <title>Import/Export Comm Settings</title>
+                    <sort_order>100</sort_order>
+                    <action>adminhtml/epicorcommon_importexport</action>
+                </import_export_comm>
+                <documentation>
+                    <title>Documentation</title>
+                    <sort_order>195</sort_order>
+                    <children>
+                        <install_notes>
+                            <title>ECC Install Notes</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcommon_notes/install/version/107SP1</action>
+                        </install_notes>
+                        <implementation_notes>
+                            <title>ECC Implementation Guide</title>
+                            <sort_order>15</sort_order>
+                            <action>adminhtml/epicorcommon_notes/implementation/version/107SP1</action>
+                        </implementation_notes>
+                        <release_101>
+                            <title>ECC Release Notes</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/epicorcommon_notes/release/version/107SP1</action>
+                        </release_101>
+                        <version_highlights>
+                            <title>ECC Version Highlights</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/epicorcommon_notes/highlights/version/107</action>
+                        </version_highlights>
+                        <version_changelog>
+                            <title>ECC Change Log</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/epicorcommon_notes/changelog</action>
+                        </version_changelog>
+                    </children>
+                </documentation>
+                <advanced>
+                    <title>Advanced</title>
+                    <sort_order>200</sort_order>
+                    <children>
+                        <cleardata>
+                            <title>Clear Data</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcommon_advanced_cleardata</action>
+                        </cleardata>
+                        <syslog>
+                            <title>System Logs</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/epicorcommon_advanced_syslog</action>
+                        </syslog>
+                        <errors>
+                            <title>System Error Reports</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/epicorcommon_advanced_errors</action>
+                        </errors>
+                         <data_postdata>
+                            <title>Post Data</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/epicorcommon_advanced_postdata</action>
+                        </data_postdata>
+                    </children>
+                </advanced>
+            </children>
+        </epicor_common>                    
+        <customer translate="title" module="customer">
+            <title>Customers</title>
+            <sort_order>40</sort_order>
+            <!-- action>adminhtml/customer/</action -->
+            <children>
+                <access>
+                    <title>Access Management</title>
+                    <sort_order>30</sort_order>
+                    <children>
+                        <groups>
+                            <title>Access Groups</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcommon_access_group</action>
+                        </groups>
+                        <rights>
+                            <title>Access Rights</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/epicorcommon_access_right</action>
+                        </rights>
+                        <admin>
+                            <title>Admin</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/epicorcommon_access_admin</action>
+                        </admin>
+                    </children>
+                </access>
+                <erpaccount>
+                    <title>Erp Accounts</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/epicorcommon_customer_erpaccount</action>
+                </erpaccount>
+            </children>
+        </customer>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common>
+                        <title>Epicor Common</title>
+                        <sort_order>10</sort_order>
+                        <children>
+                            <quickstart>
+                                <title>Quick Start</title>
+                                <sort_order>10</sort_order>
+                            </quickstart>
+                            <mapping>
+                                <title>Mapping</title>
+                                <children>
+                                    <language>
+                                        <title>Language</title>
+                                    </language>
+                                </children>
+                            </mapping>
+                            <import_export_comm>
+                                <title>Import/Export Comm Settings</title>
+                            </import_export_comm>
+                            <advanced>
+                                <title>Advanced</title>
+                                <children>
+                                    <cleardata>
+                                        <title>Clear Data</title>
+                                    </cleardata>
+                                    <syslog>
+                                        <title>System Logs</title>
+                                    </syslog>
+                                    <errors>
+                                        <title>Error Reports</title>
+                                    </errors>
+                                </children>
+                            </advanced>
+                        </children> 
+                    </epicor_common>
+                    <customer>
+                        <children>
+                            <access>
+                                <title>Access Management</title>
+                                <sort_order>20</sort_order>
+                                <children>
+                                    <groups>
+                                        <title>Access Groups</title>
+                                    </groups>
+                                    <rights>
+                                        <title>Access Rights</title>
+                                    </rights>
+                                    <admin>
+                                        <title>Access Management Admin</title>
+                                    </admin>
+                                </children>
+                            </access>
+                            <erpaccount>
+                                <title>Erp Accounts</title>
+                            </erpaccount>
+                        </children>
+                    </customer>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <epicor_common>
+                                        <title>Epicor Common config</title>
+                                    </epicor_common>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>   
+            </admin>
+        </resources>          
+    </acl>                             
+</config>

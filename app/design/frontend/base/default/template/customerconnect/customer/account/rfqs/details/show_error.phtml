@@ -1,0 +1,14 @@
+<?php
+/**
+ * RFQ CRQU submit error display
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Showerror */
+?>
+<script type="text/javascript">
+    window.parent.showMessage('<?php echo $this->getError(); ?>', 'error');
+    window.parent.$('loading-mask').hide();
+</script>

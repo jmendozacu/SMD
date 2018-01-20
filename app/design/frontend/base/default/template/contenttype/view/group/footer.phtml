@@ -1,0 +1,62 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $_content = $this->getContent();
+    $_params = $this->getParams();
+    $_identifier = $this->getIdentifier();
+    $_helper = $this->helper('contentmanager');
+    $_type = $this->getType();
+    
+    $_layoutGroup = $this->getLayoutGroup();
+    
+    //default value
+    $_labelType = $_layoutGroup->getLabel();
+    $_htmlLabelTag = $_layoutGroup->getHtmlLabelTag();
+    $_htmlTag = $_layoutGroup->getHtmlTag();
+    $_htmlId = $_layoutGroup->getHtmlId();
+    $_htmlClass = $_layoutGroup->getHtmlClass();
+    $_label = $_layoutGroup->getHtmlName();
+    
+    //extra params override
+    if(isset($_params['params']))
+    {
+        $_extraParams = $_params['params'];
+        if(isset($_extraParams['label'])) $_label = $_extraParams['label'];
+        if(isset($_extraParams['label_type'])) $_labelType = $_extraParams['label_type'];
+        if(isset($_extraParams['html_label_tag'])) $_htmlLabelTag = $_extraParams['html_label_tag'];
+        if(isset($_extraParams['html_tag'])) $_htmlTag = $_extraParams['html_tag'];
+        if(isset($_extraParams['html_id'])) $_htmlId = $_extraParams['html_id'];
+        if(isset($_extraParams['html_class'])) $_htmlClass = $_extraParams['html_class'];
+    }
+?>
+
+
+
+
+        
+        
+    <?php /*Value wrapper end*/ ?>
+    <?php if($_labelType == 1 || $_labelType == 2): ?></div><?php endif; ?>
+    <?php /*Label below*/ ?>
+    <?php if($_labelType == 2): ?><?php if($_htmlLabelTag): ?><<?php echo $_htmlLabelTag; ?> class="label"><?php endif; ?><?php echo $_label; ?><?php if($_htmlLabelTag): ?></<?php echo $_htmlLabelTag; ?>><?php endif; ?><?php endif; ?>
+<?php if($_htmlTag): ?></<?php echo $_htmlTag; ?>><?php endif; ?>

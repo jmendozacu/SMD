@@ -1,0 +1,65 @@
+<?php
+/* @var $this Epicor_Comm_Block_Customer_Returns */
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('Returns') ?></h1>
+</div>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+
+
+<ol class="opc" id="returnSteps">
+    <?php
+    $i = 0;
+    foreach ($this->getSteps() as $_stepId => $_stepInfo):
+        ?>
+        <?php
+        if (!$this->getChild($_stepId)): continue;
+        endif;
+        $i++
+        ?>
+        <li id="returns-<?php echo $_stepId ?>" class="section<?php echo!empty($_stepInfo['allow']) ? ' allow' : '' ?><?php echo!empty($_stepInfo['complete']) ? ' saved' : '' ?>">
+            <div class="step-title">
+                <span class="number"><?php echo $i ?></span>
+                <h2><?php echo $_stepInfo['label'] ?></h2>
+                <a href="#"><?php echo $this->__('Edit') ?></a>
+            </div>
+            <div id="returns-step-<?php echo $_stepId ?>" class="step a-item" style="display:none;">
+    <?php echo $this->getChildHtml($_stepId) ?>
+            </div>
+        </li>
+<?php endforeach ?>
+</ol>
+<script type="text/javascript">
+//<![CDATA[
+    document.observe('dom:loaded', function (element) {
+        FORM_KEY = "<?php echo $this->getFormKey(); ?>";
+        accordion = new Accordion('returnSteps', '.step-title', true);
+
+<?php if ($this->getActiveStep()): ?>
+            $('returns-<?php echo $this->getActiveStep() ?>').addClassName('allow');
+            accordion.openSection('returns-<?php echo $this->getActiveStep() ?>');
+<?php endif ?>
+
+        returns = new Returns(
+                accordion,
+                {
+                    saveMethod: '<?php echo $this->getUrl('epicor_comm/returns/saveMethod') ?>',
+                    failure: '<?php echo $this->getUrl('epicor_comm/returns') ?>'
+                }
+        );
+
+    });
+//]]>
+</script>
+<iframe id="lines-form-iframe" name="lines-form-iframe"  style="display:none"></iframe>
+<iframe id="attachment-form-iframe" name="attachment-form-iframe"  style="display:none"></iframe>
+<input id="configurable_url" type="hidden" value="<?php echo Mage::getUrl('*/*/configureproduct'); ?>" />
+<input type="hidden" name="uom_separator" value="<?php echo Mage::helper('epicor_common')->getUOMSeparator(); ?>" id="uom_separator" />
+<div id="loading-mask" style="display:none">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/><br/><?php echo Mage::helper('adminhtml')->__('Please wait...') ?></p>
+</div>
+<div id="window-overlay" class="window-overlay" style="display:none;"> 
+    <div id="window-overlay-content"  style="display:none;">
+        <p id="window-overlay-close"><a>Close</a></p>
+    </div>
+</div>

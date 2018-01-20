@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.7">
+   <default>
+      <reference name="right">
+         <block type="epicor_lists/contract_selection_sideblock" name="epicor_lists.contract.selection" template="epicor/lists/contract/selection/sideblock.phtml" after="cart_sidebar" />
+      </reference>
+   </default>
+   <customer_account>
+      <reference name="customer_account_navigation">
+         <block type="epicor_lists/customer_account_link" as="epicor_lists_customer_account_link" name="epicor_lists_customer_account_link">
+            <action method="addLinkToParentBlock" />
+         </block>
+      </reference>
+   </customer_account>
+   <epicor_lists_list_listgrid>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/customer_account_list" name="listmanage" />
+      </block>
+   </epicor_lists_list_listgrid>
+   
+    <epicor_lists_list_deliveryaddress>
+       <update handle="customer_account"/>
+       <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/addressselector.js</name>
+                <params/>
+            </action>
+            
+       </reference>
+        <reference name="content">  
+            <block type="epicor_lists/customer_account_deliveryaddress" name="deliveryaddress" />
+        </reference>
+    </epicor_lists_list_deliveryaddress>
+    
+     <epicor_lists_list_deliveryaddressgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/customer_account_deliveryaddress" name="deliveryaddress_grid"></block>
+        </block>
+    </epicor_lists_list_deliveryaddressgrid>
+    
+   <epicor_lists_list_index>
+      <label>Manage Lists</label>
+      <update handle="customer_account" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Manage Lists</title>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <block type="epicor_lists/customer_account_list" name="list_manage" as="list.manage" />
+      </reference>
+   </epicor_lists_list_index>
+   <epicor_lists_list_edit>
+      <label>Detail</label>
+      <update handle="customer_account" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Lists</title>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/edit.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/lists/css/manage.css</name>
+            <params />
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/form.js</file>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <block type="epicor_lists/customer_account_list_details" name="list_details" template="epicor/lists/details_sp1.phtml" />
+      </reference>
+   </epicor_lists_list_edit>
+   <epicor_lists_list_products>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/customer_account_list_products_grid" name="list_products" />
+         <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+            <reference name="grid_serializer">
+               <action method="initSerializerBlock">
+                  <grid_block_name>list_products</grid_block_name>
+                  <data_callback>getSelected</data_callback>
+                  <hidden_input_name>links[products]</hidden_input_name>
+                  <reload_param_name>products</reload_param_name>
+               </action>
+               <action method="addColumnInputName">
+                  <input_name>row_id</input_name>
+               </action>
+            </reference>
+         </block>
+      </block>
+   </epicor_lists_list_products>
+   <epicor_lists_list_productsgrid>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/customer_account_list_products_grid" name="list_products" />
+      </block>
+   </epicor_lists_list_productsgrid>
+   <epicor_lists_list_customers>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/customer_account_list_customers_grid" name="list_customers" />
+         <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+            <reference name="grid_serializer">
+               <action method="initSerializerBlock">
+                  <grid_block_name>list_customers</grid_block_name>
+                  <data_callback>getSelected</data_callback>
+                  <hidden_input_name>links[customers]</hidden_input_name>
+                  <reload_param_name>customers</reload_param_name>
+               </action>
+               <action method="addColumnInputName">
+                  <input_name>row_id</input_name>
+               </action>
+            </reference>
+         </block>
+      </block>
+   </epicor_lists_list_customers>
+   <epicor_lists_list_customersgrid>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/customer_account_list_customers_grid" name="list_customers" />
+      </block>
+   </epicor_lists_list_customersgrid>
+   <default>
+      <reference name="top.links">
+         <action method="addLink" translate="label title" helper="lists/frontend_contract">
+            <label>Contract Selection</label>
+            <url>lists/contract/select</url>
+            <title>contract_selection</title>
+            <prepare>true</prepare>
+            <urlParams />
+            <position>90</position>
+         </action>
+      </reference>
+   </default>
+    <customer_logged_in>
+        <reference name="top.links">
+            <action method="addLink" translate="label title">  
+                <label>Choose Address</label>
+                <url>lists/list/deliveryaddress</url>                                                                                                                                      
+                <title>Choose Address</title>
+                <prepare>true</prepare>
+                <urlParams/>                                                                                                           
+                <position>91</position>                                                                                                     
+            </action>
+        </reference>
+    </customer_logged_in>
+   <customer_account>
+      <reference name="customer_account_navigation">
+         <block type="epicor_lists/customer_account_link" as="epicor_lists_customer_account_link" name="epicor_lists_customer_account_link">
+            <action method="addLinkToParentBlock" />
+         </block>
+      </reference>
+   </customer_account>
+<!--   <epicor_lists_contract_index>
+      <label>My Contracts</label>
+      <update handle="customer_account" />
+      <update handle="customer_connect" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>My Contracts</title>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/contract/contract.js</name>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <block type="epicor_lists/customer_account_contract_filter" name="contract_filter" template="epicor/lists/contract_filter.phtml" />
+         <block type="epicor_lists/customer_account_contract_default" name="contract_default" template="epicor/lists/contract_default.phtml" />
+      </reference>
+   </epicor_lists_contract_index>-->
+   <!--<customer_connect_navigation>-->  
+   <epicor_lists_contracts_index>
+      <reference name="head">
+         <action method="addJs">
+            <script>prototype/window.js</script>
+         </action>
+         <action method="addItem">
+            <type>js_css</type>
+            <name>prototype/windows/themes/default.css</name>
+            <params />
+         </action>
+      </reference>
+      <label>Contract Details</label>
+      <update handle="customer_account" />
+      <update handle="customer_connect" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Contract Details</title>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <action method="setElementClass">
+            <value>col2-set</value>
+         </action>
+         <block type="epicor_common/protected" name="protected_content">
+            <action method="addProtection">
+               <name>customer.contracts.info</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>index</action>
+                  <block>customer_account_contracts_info</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <action method="addProtection">
+               <name>lists.contracts.shippingaddress</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>index</action>
+                  <block>customer_account_contracts_shippingaddress_list</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <action method="addProtection">
+               <name>lists.contracts.parts</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>index</action>
+                  <block>customer_account_contracts_parts_list</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <block type="epicor_lists/customer_account_contracts_info" name="customer.contracts.info" />
+            <block type="epicor_lists/customer_account_contracts_shippingaddress_list" name="lists.contracts.shippingaddress" />
+            <block type="epicor_lists/customer_account_contracts_parts_list" name="lists.contracts.parts" />
+            <!-- <block type="customerconnect/customer_account_customaddressallowed" name="customer.account.cusomaddressallowed" /><block type="customerconnect/customer_account_balances_period_list" name="customer.account.periodbalances" /><block type="customerconnect/customer_account_balances_aged_list" name="customer.account.agedbalances" /><block type="customerconnect/customer_account_shippingaddress_list" name="customer.account.shippingaddress" /><block type="customerconnect/customer_account_contacts_list" name="customer.account.contacts" />-->
+         </block>
+      </reference>
+   </epicor_lists_contracts_index>
+   <epicor_lists_contract_select>
+      <reference name="root">
+         <action method="setTemplate">
+            <template>page/1column.phtml</template>
+         </action>
+      </reference>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar-setup.js</file>
+         </action>
+         <action method="addItem">
+            <type>js_css</type>
+            <name>calendar/calendar-win2k-1.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/boxes.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-default-style.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-navigation.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-navigation.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/lists/css/styles.css?v=1</name>
+            <params />
+         </action>
+         <action method="addJs">
+            <script>epicor/list/contractSelect/selectContract.js</script>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-common.js</name>
+            <params />
+         </action>
+         <block type="core/html_calendar" name="calendar" template="page/js/calendar.phtml" />
+      </reference>
+      <reference name="content">
+         <block type="epicor_lists/contract_select" name="contract_select" as="contract.select" />
+      </reference>
+   </epicor_lists_contract_select>
+   <epicor_lists_contract_shipto>
+      <reference name="root">
+         <action method="setTemplate">
+            <template>page/1column.phtml</template>
+         </action>
+      </reference>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar-setup.js</file>
+         </action>
+         <action method="addItem">
+            <type>js_css</type>
+            <name>calendar/calendar-win2k-1.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/boxes.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-default-style.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-navigation.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-navigation.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/lists/css/styles.css?v=1</name>
+            <params />
+         </action>
+         <action method="addJs">
+            <script>epicor/list/contractSelect/selectContract.js</script>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-common.js</name>
+            <params />
+         </action>
+         <block type="core/html_calendar" name="calendar" template="page/js/calendar.phtml" />
+      </reference>
+      <reference name="content">
+         <block type="epicor_lists/contract_shipto" name="contract_shipto" as="contract.shipto" />
+      </reference>
+   </epicor_lists_contract_shipto>
+   <epicor_lists_list_selector>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/form.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/loader.js</file>
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/boxes.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/quickorderpad/selector.js?v=1</name>
+            <params />
+         </action>
+      </reference>
+      <reference name="root">
+         <action method="setTemplate">
+            <template>epicor/lists/quickorderpad/list/selector/popup.phtml</template>
+         </action>
+         <block type="epicor_lists/quickorderpad_list_selector_list" name="quickorderpad.selector.popup" output="toHtml" />
+      </reference>
+   </epicor_lists_list_selector>
+   <customerconnect_contracts_index>
+      <label>Contract Settings</label>
+      <update handle="customer_account" />
+      <update handle="customer_connect" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Contract List</title>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/contract/contract.js</name>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <block type="epicor_common/protected" name="protected_content">
+            <action method="addProtection">
+               <name>customer.contracts.list</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>list</action>
+                  <block>customer_list_contracts_list</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <block type="customerconnect/customer_list_contracts_list" name="lists.contracts.list" />
+         </block>
+      </reference>
+   </customerconnect_contracts_index>
+   <customerconnect_contracts_details>
+      <reference name="head">
+         <action method="addJs">
+            <script>prototype/window.js</script>
+         </action>
+         <action method="addItem">
+            <type>js_css</type>
+            <name>prototype/windows/themes/default.css</name>
+            <params />
+         </action>
+      </reference>
+      <label>Contract Details</label>
+      <update handle="customer_account" />
+      <update handle="customer_connect" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Contract Details</title>
+         </action>
+      </reference>
+      <reference name="my.account.wrapper">
+         <action method="setElementClass">
+            <value>col2-set</value>
+         </action>
+         <block type="epicor_common/protected" name="protected_content">
+            <action method="addProtection">
+               <name>customer.contracts.info</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>details</action>
+                  <block>customer_account_contracts_info</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <action method="addProtection">
+               <name>lists.contracts.shippingaddress</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>details</action>
+                  <block>customer_account_contracts_shippingaddress_list</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <action method="addProtection">
+               <name>lists.contracts.parts</name>
+               <access_right>
+                  <module>Epicor_Lists</module>
+                  <controller>Contract</controller>
+                  <action>details</action>
+                  <block>customer_account_contracts_parts_list</block>
+                  <action_type>view</action_type>
+               </access_right>
+            </action>
+            <block type="epicor_lists/customer_account_contracts_info" name="customer.contracts.info" />
+            <block type="epicor_lists/customer_account_contracts_shippingaddress_list" name="lists.contracts.shippingaddress" />
+            <block type="epicor_lists/customer_account_contracts_parts_list" name="lists.contracts.parts" />
+         </block>
+      </reference>
+   </customerconnect_contracts_details>
+   <epicor_lists_contract_products>
+      <reference name="root">
+         <action method="setTemplate">
+            <template>page/1column.phtml</template>
+         </action>
+      </reference>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/boxes.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-default-style.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-navigation.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-navigation.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-common.js</name>
+            <params />
+         </action>
+      </reference>
+      <reference name="content">
+         <block type="epicor_lists/contract_products" name="contract_products" as="contract.products" />
+      </reference>
+   </epicor_lists_contract_products>
+   <epicor_lists_contract_productsgrid>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/contract_products" name="contract_products" />
+      </block>
+   </epicor_lists_contract_productsgrid>
+   <epicor_lists_contract_addresses>
+      <reference name="root">
+         <action method="setTemplate">
+            <template>page/1column.phtml</template>
+         </action>
+      </reference>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/boxes.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-default-style.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/common/css/account-navigation.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-navigation.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/common/js/account-common.js</name>
+            <params />
+         </action>
+      </reference>
+      <reference name="content">
+         <block type="epicor_lists/contract_addresses" name="contract_addresses" as="contract.addresses" />
+      </reference>
+   </epicor_lists_contract_addresses>
+   <epicor_lists_contract_addressesgrid>
+      <block type="core/text_list" name="root" output="toHtml">
+         <block type="epicor_lists/contract_addresses" name="contract_addresses" />
+      </block>
+   </epicor_lists_contract_addressesgrid>
+   <checkout_cart_index>
+      <reference name="head">
+         <action method="addJs">
+            <file>epicor/grid.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/hash.js</file>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/events.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar.js</file>
+         </action>
+         <action method="addJs">
+            <file>calendar/calendar-setup.js</file>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/cart/contractselect.js</name>
+            <params />
+         </action>
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/lists/css/cart/contractselect.css</name>
+            <params />
+         </action>
+      </reference>
+   </checkout_cart_index>
+   <checkout_onepage_index>
+      <reference name="head">
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/chooseaddress.js</name>
+            <params />
+         </action>         
+      </reference>
+   </checkout_onepage_index>   
+   
+   <quickorderpad_form_index>
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/cart/contractselect.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/lists/css/cart/contractselect.css</name>
+                <params/>
+            </action>
+        </reference>
+    </quickorderpad_form_index>
+    
+    <quickorderpad_form_results>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/cart/contractselect.js</name>
+                <params/>
+            </action>
+        </reference>
+    </quickorderpad_form_results>
+</layout>

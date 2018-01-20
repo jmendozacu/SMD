@@ -1,0 +1,33 @@
+<?php
+    $_products = $this->getProducts();
+    $_gallery = $this->getGallery();
+    $_images = $_gallery->getMediaGalleryImages();
+    $_image = $this->getSelectedImage();
+?>
+
+<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+<div class="selected-image row">
+    <?php if($_label = $_image->getLabel()): ?>
+        <div class="header text-center row">
+            <h2><?php echo $_label ?></h2>
+        </div>
+    <?php endif; ?>
+    <div class="<?php if($_products && $_products->getSize() > 0): ?>column large-4<?php endif; ?>">
+        <img class="gallery-image" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $_image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+    </div>
+    <?php if($_products && $_products->getSize() > 0): ?>
+        <div class="column large-8 products wrapper">
+            <ul class="product-modal-list row">
+                <?php foreach($_products as $_product): ?>
+                    <li class="product column large-6">
+                        <h4 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getName(); ?>"><?php echo $_product->getName(); ?></a></h4>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getName() ?>" class="product-image"><img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image', $_product->getSmallImage())->resize(250); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                        <?php if($_product->isSaleable()): ?>
+                            <a class="product-button" href="<?php echo $_product->getProductUrl()?>"><?php echo $this->__('Buy Now') ?></a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>

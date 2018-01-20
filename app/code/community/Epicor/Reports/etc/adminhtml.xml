@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <epicor_common module="reports">
+            <children>
+                <messaging>
+                    <children>
+                        <epicor_reports module="epicor_reports">
+                            <title>Messaging Reports</title>
+                            <sort_order>90</sort_order>
+                            <action>adminhtml/reports</action>
+                        </epicor_reports>
+                    </children>
+                </messaging>
+            </children>
+        </epicor_common>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <epicor_reports_options>
+                                        <title>Epicor Messaging Reports</title>
+                                    </epicor_reports_options>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <reports translate="title" module="reports">
+                        <title>Reports</title>
+                        <sort_order>1000</sort_order>
+                        <children>
+                            <reportsbackend translate="title">
+                                <title>Messaging Reports</title>
+                            </reportsbackend>
+                        </children>
+                    </reports>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <layout>
+        <updates>
+            <reports>
+                <file>epicor_reports.xml</file>
+            </reports>
+        </updates>
+    </layout>
+</config>

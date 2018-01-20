@@ -1,0 +1,20 @@
+<?php
+/**
+ * 
+ */
+/* @var $this Epicor_SalesRep_Block_Account_Manage_Salesreps */
+
+if ($this->canEdit()) :
+    ?>
+    <form id="sales_rep_add_form" action="<?php echo Mage::getUrl('*/*/salesrepadd'); ?>" method="post" style="display:none">
+        <?php echo $this->getChildHtml('manage.salesrepsform', false); ?>
+    </form>
+    <script type="text/javascript">
+        //<![CDATA[
+        var salesRepAddForm = new varienForm("sales_rep_add_form", "");
+        //]]>
+    </script>
+
+<?php endif; ?>
+<?php
+echo $this->getChildHtml('manage.salesreps', false);

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>        
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <children>                
+                <lists>
+                    <title>Lists</title>
+                    <sort_order>33</sort_order>
+                    <children>
+                        <manage>
+                            <title>Manage</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorlists_list</action>
+                        </manage>
+                        <config>
+                            <title>Configure</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_lists</action>
+                        </config>
+                        <analyse>
+                            <title>Analyse</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/epicorlists_analyse</action>
+                        </analyse>
+                    </children>
+                </lists>               
+            </children>
+        </epicor_common>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>                    
+                    <epicor_common module="epicor_common">
+                        <children>                            
+                            <lists>
+                                <title>Lists</title>
+                                <children>
+                                    <manage>
+                                        <title>Manage</title>
+                                    </manage>
+                                    <configure>
+                                        <title>Configure</title>
+                                    </configure>
+                                    <analyse>
+                                        <title>Analyse</title>
+                                    </analyse>
+                                </children>
+                            </lists>  
+                        </children>
+                    </epicor_common>                    
+                    <system>
+                        <children>
+                            <config>
+                                <children>                                    
+                                    <epicor_lists>
+                                        <title>Epicor Lists</title>
+                                    </epicor_lists>                                    
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>	
+</config>

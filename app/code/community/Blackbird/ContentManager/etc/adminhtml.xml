@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category    Blackbird
+ * @package     Blackbird_ContentManager
+ * @copyright   Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author      Blackbird Team
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version     1.1.0
+ */
+-->
+<config>
+    <menu>
+        <contentmanager module="contentmanager">
+            <title>*Content Manager*</title>
+            <sort_order>71</sort_order>
+            <children>
+                <manage_contenttypes module="contentmanager">
+                    <title>Manage content types</title>
+                    <sort_order>0</sort_order>
+                    <action>adminhtml/contenttype</action>
+                </manage_contenttypes>
+                <manage_flag module="contentmanager">
+                    <title>Manage flags</title>
+                    <sort_order>2</sort_order>
+                    <action>adminhtml/contenttype_flag</action>
+                </manage_flag>
+                <manage_menu module="contentmanager">
+                    <title>Manage menus</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/contenttype_menu</action>
+                </manage_menu>
+                <manage_listing module="contentmanager">
+                    <title>Manage content list</title>
+                    <sort_order>3</sort_order>
+                    <action>adminhtml/contenttype_listing</action>
+                </manage_listing>
+            </children>
+        </contentmanager>
+        <!--<cms>
+            <children>
+                <contenttype_review translate="title" module="contentmanager">
+                    <title>Reviews</title>
+                    <action>adminhtml/contenttype_content_review</action>
+                    <sort_order>100</sort_order>
+                </contenttype_review>
+            </children>
+         </cms>-->
+    </menu>
+</config>

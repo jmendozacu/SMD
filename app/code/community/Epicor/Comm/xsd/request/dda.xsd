@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:all>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element type="nonEmptyString" name="accountNumber"/>
+                    <xs:element name="delivery">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="addressForRequests" name="deliveryAddress"/>
+                                <xs:element type="nonEmptyString" name="methodCode"/>
+                                <xs:element name="lines">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="line" maxOccurs="unbounded" minOccurs="1">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="nonEmptyString" name="productCode"/>
+                                                        <xs:element type="xs:float" name="quantity"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="delivery">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element name="rounds">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="round" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element name="dayOfWeek">
+                                                            <xs:simpleType>
+                                                                <xs:restriction base="xs:string">
+                                                                    <xs:pattern value=""/>
+                                                                    <xs:pattern value="[1-7]"/>
+                                                                </xs:restriction>
+                                                            </xs:simpleType>
+                                                        </xs:element>
+                                                        <xs:element type="nullableDateTime" name="nextDeliveryDate"/>
+                                                        <xs:element name="frequency">
+                                                            <xs:simpleType>
+                                                                <xs:restriction base="xs:string">
+                                                                    <xs:pattern value="[0-9]+|Daily|Weekly|Fortnightly"/>
+                                                                </xs:restriction>
+                                                            </xs:simpleType>
+                                                        </xs:element>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="dates">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element type="xs:dateTime" name="date" maxOccurs="unbounded" minOccurs="0"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/salesrepaccount.js</name>
+                <params/>
+            </action>     
+        </reference>
+    </default>
+    <adminhtml_epicorsalesrep_customer_salesrep_index>
+        <reference name="content">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep" name="salesrep" />
+        </reference>
+    </adminhtml_epicorsalesrep_customer_salesrep_index>
+    <adminhtml_epicorsalesrep_customer_salesrep_edit>
+        <reference name="head" >
+            <action method="addJs">
+                <name>epicor/salesrep/pricing_rules.js</name>
+            </action>   
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadRulesJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit" name="salesrep"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tabs" name="salesrep_tabs">
+                
+                <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_details" name="details" />
+                <!--<block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_salesreps" name="sales_reps" />-->
+                <!--<block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_erpaccounts" name="erp_accounts" />>-->
+                <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_pricingrules" name="pricing_rules" />
+                <!--<block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_hierarchy" name="hierarchy" />-->
+                <!--<block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_messagelog" name="message_log" />-->
+                
+                <action method="addTab">
+                    <name>details</name>
+                    <block>details</block>
+                </action>
+                <!--<action method="addTab"><name>sales_reps</name><block>sales_reps</block></action>>-->
+                <!--<action method="addTab"><name>erp_accounts</name><block>erp_accounts</block></action>>-->
+                <action method="addTab">
+                    <name>pricing_rules</name>
+                    <block>pricing_rules</block>
+                </action>
+                <!--<action method="addTab"><name>hierarchy</name><block>hierarchy</block></action>-->
+                <!--<action method="addTab"><name>message_log</name><block>message_log</block></action>-->
+            </block>
+        </reference>
+    </adminhtml_epicorsalesrep_customer_salesrep_edit>
+    
+    <adminhtml_epicorsalesrep_customer_salesrep_salesreps>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_salesreps" name="salesrep_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>salesrep_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[salesreps]</hidden_input_name>
+                        <reload_param_name>salesreps</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_salesreps>
+    <adminhtml_epicorsalesrep_customer_salesrep_salesrepsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_salesreps" name="salesrep_grid"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_salesrepsgrid>
+    
+    <adminhtml_epicorsalesrep_customer_salesrep_erpaccounts>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_erpaccounts" name="erpaccount_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erpaccount_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[erpaccounts]</hidden_input_name>
+                        <reload_param_name>erpaccounts</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_erpaccounts>
+    <adminhtml_epicorsalesrep_customer_salesrep_erpaccountsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_erpaccounts" name="erpaccount_grid"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_erpaccountsgrid>
+    
+    <adminhtml_epicorsalesrep_customer_salesrep_pricingrulesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_pricingrules_grid" name="pricingrule_grid"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_pricingrulesgrid>  
+    
+    <adminhtml_epicorsalesrep_customer_salesrep_hierarchy>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_hierarchy_parents" name="parents_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="parents_grid_serializer">
+                <reference name="parents_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>parents_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[parents]</hidden_input_name>
+                        <reload_param_name>parents</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_hierarchy_children" name="children_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="children_grid_serializer">
+                <reference name="children_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>children_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[children]</hidden_input_name>
+                        <reload_param_name>children</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_hierarchy>
+    <adminhtml_epicorsalesrep_customer_salesrep_parentsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_hierarchy_parents" name="parents_grid"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_parentsgrid>
+    <adminhtml_epicorsalesrep_customer_salesrep_childrengrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_hierarchy_children" name="children_grid"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_childrengrid>
+    
+    <adminhtml_epicorsalesrep_customer_salesrep_loggrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/adminhtml_customer_salesrep_edit_tab_log" name="log"></block>
+        </block>
+    </adminhtml_epicorsalesrep_customer_salesrep_loggrid>
+    
+</layout>

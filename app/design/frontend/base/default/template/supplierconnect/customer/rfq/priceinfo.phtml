@@ -1,0 +1,136 @@
+<?php
+/* @var $this Epicor_Supplierconnect_Block_Customer_Rfqs_Details_Priceinfo */
+$rfq = Mage::registry('supplier_connect_rfq_details');
+/* @var $rfq Epicor_Common_Model_Xmlvarien */
+$rfqEffectiveDate = ($rfq->getEffectiveDate()) ? Mage::helper('epicor_comm')->erpDateConversion($rfq->getEffectiveDate()) : '';
+$rfqExpiresDate = ($rfq->getExpiresDate()) ? Mage::helper('epicor_comm')->erpDateConversion($rfq->getExpiresDate()): '';
+$editable = Mage::registry('rfq_editable');
+?>
+<div class = "box-info box-account col-full">
+    <div class = "box-head">
+        <h2><?php echo $this->getTitle(); ?></h2>
+    </div>
+    <ul class="info-list col-count-2">
+        <li id="rfq_effective_date">
+            <span class="label"><?php echo $this->__('Effective Date'); ?>:</span>
+            <?php echo $rfqEffectiveDate; ?>
+            <input type="hidden" id="effective_date" name="effective_date" value="<?php echo $rfq->getEffectiveDate(); ?>"/>
+        </li>
+        <li id="rfq_expires">
+            <label for="expires_date"><span class="label"><?php echo $this->__('Expires'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="expires_date" name="expires_date" value="<?php echo $rfqExpiresDate; ?>"/>
+                <img title="Select date" id="expires_date_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle"/>
+            <?php else: ?>
+                <?php echo $rfqExpiresDate; ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_days"><?php $this->getDays($rfq); ?>
+            <label for="days"><span class="label"><?php echo $this->__('Days'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="days" name="days" value="<?php echo $this->getDays($rfq); ?>"/>
+            <?php else: ?>
+                <?php echo $this->getDays($rfq); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_lead_days">
+            <label for="lead_days"><span class="label"><?php echo $this->__('Lead Days'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="lead_days" name="lead_days" value="<?php echo $rfq->getLeadDays(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getLeadDays(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_quantity_on_hand">
+            <label for="quantity_on_hand"><span class="label"><?php echo $this->__('Quantity On Hand'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="quantity_on_hand" name="quantity_on_hand" value="<?php echo $rfq->getQuantityOnHand(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getQuantityOnHand(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_reference">
+            <label for="reference"><span class="label"><?php echo $this->__('Reference'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="reference" name="reference" value="<?php echo $rfq->getReference(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getReference(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_currency">
+            <span class="label"><?php echo $this->__('Currency'); ?>:</span>
+            <?php echo $rfq->getCurrencyCode(); ?>
+        </li>
+        <li id="rfq_minimum_price">
+            <label for="minimum_price"><span class="label"><?php echo $this->__('Minimum Line Value'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="minimum_price" name="minimum_price" value="<?php echo $rfq->getMinimumPrice(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getMinimumPrice(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_base_unit_price">
+            <label for="base_unit_price"><span class="label"><?php echo $this->__('Base Unit Price'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="base_unit_price" name="base_unit_price" value="<?php echo $rfq->getBaseUnitPrice(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getBaseUnitPrice(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_price_per">
+            <label for="price_per"><span class="label"><?php echo $this->__('Price Per'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <select id="price_per" name="price_per">
+                    <?php foreach ($this->getPricePerOptions($rfq) as $value => $label): ?>
+                        <option value="<?php echo $value; ?>" <?php if ($rfq->getPricePer() == $value) : ?>selected="selected"<?php endif; ?>><?php echo $label; ?></option>;
+                    <?php endforeach ?>
+                </select>
+            <?php else: ?>
+                <?php echo $rfq->getPricePer(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_discount_percent">
+            <label for="discount_percent"><span class="label"><?php echo $this->__('Discount %'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="discount_percent" name="discount_percent" value="<?php echo $rfq->getDiscountPercent(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getDiscountPercent(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_price_break_modifier">
+            <label for="price_break_modifier"><span class="label"><?php echo $this->__('Price Break Modifier'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <select id="price_break_modifier" name="price_break_modifier">
+                    <?php foreach ($this->getPriceBreakModifierOptions($rfq) as $value => $label): ?>
+                        <option value="<?php echo $value; ?>" <?php if ($rfq->getPriceBreakModifier() == $value) : ?>selected="selected"<?php endif; ?>><?php echo $label; ?></option>;
+                    <?php endforeach ?>
+                </select>
+            <?php else: ?>
+                <?php echo $rfq->getPriceBreakModifier(); ?>
+            <?php endif; ?>
+        </li>
+    </ul>
+    <ul class="info-list-extra">
+        <li id="rfq_price_comments">
+            <label for="price_comments"><span class="label"><?php echo $this->__('Comments'); ?></span></label>
+            <?php if ($editable) : ?>
+                <textarea id="price_comments" name="price_comments" cols="130" rows="5"><?php echo $rfq->getPriceComments(); ?></textarea>
+            <?php else: ?>
+                <?php echo $rfq->getPriceComments(); ?>
+            <?php endif; ?>
+        </li>
+    </ul>
+</div>
+<?php if (Mage::registry('rfq_editable')) : ?>
+    <?php $format = Mage::helper('core')->jsonEncode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)); ?>
+    <script type="text/javascript">// <![CDATA[
+        Calendar.setup({
+            inputField: 'expires_date',
+            ifFormat: <?php echo $format; ?>,
+            button: 'expires_date_trig',
+            align: 'Bl',
+            singleClick: true
+        });
+    // ]]></script>
+    <?php
+endif;

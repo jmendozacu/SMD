@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+    
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element name="list">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="brands" name="brands"/>
+                                <xs:element name="accounts">
+                                    <xs:complexType>
+                                        <xs:sequence>                                            
+                                            <xs:element name="accountNumber" type="nonEmptyString" maxOccurs="unbounded" minOccurs="1" />                                                                                        
+                                        </xs:sequence>                                       
+                                    </xs:complexType>                                            
+                                </xs:element>                                
+                                <xs:element type="xs:string" name="listCode"/>
+                                <xs:element type="xs:string" name="listTitle"/>
+                                <xs:element type="xs:string" name="listSettings"/>
+                                <xs:element name="listStatus">
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:pattern value="A|I" />
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="restrictions">
+                                    <xs:complexType>
+                                        <xs:sequence>        
+                                            <xs:element name="restriction" type="restriction" maxOccurs="unbounded" minOccurs="0"/>                                            
+                                        </xs:sequence>        
+                                    </xs:complexType>                                            
+                                </xs:element>
+                                <xs:element name="products">
+                                    <xs:complexType>
+                                        <xs:sequence>                                            
+                                            <xs:element name="product" type="curpProduct" maxOccurs="unbounded" minOccurs="1" />                                            
+                                        </xs:sequence>                                       
+                                    </xs:complexType>
+                                </xs:element>   
+                                                        
+                            </xs:all>
+                            <xs:attribute name="delete" use="required" type="yesNo" />
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="restriction">
+        <xs:all>
+            <xs:element ref="addresses"/>
+            <xs:element ref="countries"/>
+            <xs:element ref="counties"/>
+            <xs:element ref="postcodes"/>
+        </xs:all>
+        <xs:attribute type="xs:string" use="required" name="type"/>
+    </xs:complexType>
+    <xs:element name="address">
+        <xs:complexType>
+            <xs:all>
+                <xs:element type="xs:string" name="addressCode"/>
+                <xs:element type="xs:string" name="name"/>
+                <xs:element type="xs:string" name="address1"/>
+                <xs:element type="xs:string" name="address2"/>
+                <xs:element type="xs:string" name="address3"/>
+                <xs:element type="xs:string" name="city"/>
+                <xs:element type="xs:string" name="county"/>
+                <xs:element type="xs:string" name="country"/>
+                <xs:element type="xs:string" name="postcode"/>
+            </xs:all>
+            <xs:attribute type="xs:string" use="required" name="delete" />
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="addresses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="address" maxOccurs="unbounded" minOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="countries">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="xs:string" name="country" maxOccurs="unbounded" minOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="counties">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="address" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="country"/>
+                            <xs:element type="xs:string" name="county"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+                                      
+    
+    <xs:element name="postcodes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="address" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="country"/>
+                            <xs:element type="xs:string" name="postcode"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+ 
+    <xs:complexType name="curpProduct">
+        <xs:sequence>
+            <xs:element type="xs:string" name="productCode" />
+            <xs:element name="unitOfMeasures" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>                                            
+                        <xs:element name="unitOfMeasure" maxOccurs="unbounded" minOccurs="1" >  
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element type="xs:string" name="unitOfMeasureCode" maxOccurs="1"/>
+                                </xs:sequence>
+                            </xs:complexType>                                          
+                        </xs:element>  
+                    </xs:sequence>                                       
+                </xs:complexType>
+            </xs:element>  
+        </xs:sequence>
+        <xs:attribute name="delete" use="required" type="yesNo" />
+    </xs:complexType>
+    
+   
+</xs:schema>

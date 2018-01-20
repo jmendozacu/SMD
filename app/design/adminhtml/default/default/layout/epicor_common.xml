@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>epicor/common/compatibility_fixes.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/array_table_handler.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account_selector.js</name>
+                <params/>
+            </action>      
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/contract.js</name>
+                <params/>
+            </action>
+            <action method="addjs">
+                <name>epicor/common/common.js</name>
+                <params/>
+            </action>                      
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account_selector.css</name>
+                <params/>
+            </action>
+            <block type="core/text" name="ie_compatability">
+                <action method="setText">
+                    <text>
+<![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge" />]]>
+                    </text>
+                </action>
+            </block> 
+            <block type="core/text" name="skype_prevention">
+                <action method="setText">
+                    <text>
+<![CDATA[<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />]]>
+                    </text>
+                </action>
+            </block>  
+        </reference>
+    </default>
+    
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>epicor/adminhtml.js</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+    <adminhtml_epicorcommon_access_group_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_access_group" name="group" />
+        </reference>
+    </adminhtml_epicorcommon_access_group_index>
+    <adminhtml_epicorcommon_access_group_edit>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_access_group_edit" name="group_view" />
+        </reference>
+        <reference name="left">
+            <block type="epicor_common/adminhtml_access_group_edit_tabs" name="right_view_tabs"></block>
+        </reference>  
+    </adminhtml_epicorcommon_access_group_edit>
+    <adminhtml_epicorcommon_access_group_rights>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_group_edit_tab_rights" name="rights.grid" ></block>
+            <block type="adminhtml/widget_grid_serializer" name="rightsgrid_serializer">
+                <reference name="rightsgrid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>rights.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[rights]</hidden_input_name>
+                        <reload_param_name>rights</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>                  
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcommon_access_group_rights>
+    <adminhtml_epicorcommon_access_group_rightsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_group_edit_tab_rights" name="rights.grid" ></block>
+        </block>
+    </adminhtml_epicorcommon_access_group_rightsgrid>
+    <adminhtml_epicorcommon_access_right_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_access_right" name="right" />
+        </reference>
+    </adminhtml_epicorcommon_access_right_index>
+    <adminhtml_epicorcommon_access_right_edit>  
+        <reference name="content">
+            <block type="epicor_common/adminhtml_access_right_edit" name="right_view" />
+        </reference>
+        <reference name="left">
+            <block type="epicor_common/adminhtml_access_right_edit_tabs" name="right_view_tabs"></block>
+        </reference>     
+    </adminhtml_epicorcommon_access_right_edit>
+    <adminhtml_epicorcommon_access_right_groups>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_right_edit_tab_groups" name="groups.grid" ></block>
+            <block type="adminhtml/widget_grid_serializer" name="groupsgrid_serializer">
+                <reference name="groupsgrid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>groups.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[groups]</hidden_input_name>
+                        <reload_param_name>groups</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>                  
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcommon_access_right_groups>
+    <adminhtml_epicorcommon_access_right_groupsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_right_edit_tab_groups" name="groups.grid" ></block>
+        </block>
+    </adminhtml_epicorcommon_access_right_groupsgrid>
+    
+    <adminhtml_epicorcommon_access_right_elements>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_right_edit_tab_elements" name="elements.grid" ></block>
+            <block type="adminhtml/widget_grid_serializer" name="elementsgrid_serializer">
+                <reference name="elementsgrid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>elements.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[elements]</hidden_input_name>
+                        <reload_param_name>elements</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>                   
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcommon_access_right_elements>
+    <adminhtml_epicorcommon_access_right_elementsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_right_edit_tab_elements" name="elements.grid" ></block>
+        </block>
+    </adminhtml_epicorcommon_access_right_elementsgrid>
+    <adminhtml_epicorcommon_access_group_customer>  
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_group_edit_tab_customers" name="customer.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>customer.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[customers]</hidden_input_name>
+                        <reload_param_name>customers</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>                 
+                </reference>
+            </block>
+        </block>   
+    </adminhtml_epicorcommon_access_group_customer>
+    <adminhtml_epicorcommon_access_group_customergrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_group_edit_tab_customers" name="customer.grid"/>
+        </block>
+    </adminhtml_epicorcommon_access_group_customergrid>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>customer_edit_tab_accessgroups</name>
+                <block>epicor_common/adminhtml_customer_edit_tab_accessgroups</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+    <adminhtml_epicorcommon_customer_access_group>  
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_customer_edit_tab_accessgroups" name="groups.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>groups.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[groups]</hidden_input_name>
+                        <reload_param_name>groups</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>                   
+                </reference>
+            </block>
+        </block>   
+    </adminhtml_epicorcommon_customer_access_group>
+    <adminhtml_epicorcommon_customer_access_groupgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_customer_edit_tab_accessgroups" name="groups.grid"/>
+        </block>
+    </adminhtml_epicorcommon_customer_access_groupgrid>
+    <adminhtml_epicorcommon_access_admin_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_access_admin" name="right_view" />
+        </reference>
+        <reference name="left">
+            <block type="epicor_common/adminhtml_access_admin_tabs" name="access_admin_tabs"></block>
+        </reference> 
+    </adminhtml_epicorcommon_access_admin_index>
+    <adminhtml_epicorcommon_access_admin_excludedelements>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_admin_tab_excludedelements" name="elements.grid" ></block>
+            <block type="adminhtml/widget_grid_serializer" name="excludedelements_grid_serializer">
+                <reference name="excludedelements_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>elements.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[elements]</hidden_input_name>
+                        <reload_param_name>elements</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcommon_access_admin_excludedelements>
+    <adminhtml_epicorcommon_access_admin_excludedelementsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_common/adminhtml_access_admin_tab_excludedelements" name="elements.grid" ></block>
+        </block>
+    </adminhtml_epicorcommon_access_admin_excludedelementsgrid>
+    
+    <adminhtml_epicorcommon_mapping_language_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_mapping_language" name="languagemapping" />
+        </reference>
+    </adminhtml_epicorcommon_mapping_language_index>
+    <adminhtml_epicorcommon_mapping_language_edit>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_mapping_language_edit" name="languagemapping_edit" />
+        </reference>
+    </adminhtml_epicorcommon_mapping_language_edit>
+    <adminhtml_epicorcommon_quickstart_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/quickstart.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="js">
+            <block type="core/template" name="quickstart_js" template="epicor_common/quickstart/js.phtml" />
+        </reference>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_quickstart" name="epicor_common_quickstart" />
+        </reference>
+        <reference name="left">
+            <block type="epicor_common/adminhtml_quickstart_edit_tabs" name="epicor_common_quickstart_tabs" />
+        </reference>
+    </adminhtml_epicorcommon_quickstart_index>
+    <adminhtml_epicorcommon_quickstart_customer_settings>
+        <block type="epicor_common/adminhtml_quickstart_edit_tab_customer_form" name="root" output="toHtml" />
+    </adminhtml_epicorcommon_quickstart_customer_settings>
+    <adminhtml_epicorcommon_quickstart_products_configurator_settings>
+        <block type="epicor_common/adminhtml_quickstart_edit_tab_productsconfigurator_form" name="root" output="toHtml" />
+    </adminhtml_epicorcommon_quickstart_products_configurator_settings>
+    <adminhtml_epicorcommon_quickstart_checkout_settings>
+        <block type="epicor_common/adminhtml_quickstart_edit_tab_checkout_form" name="root" output="toHtml" />
+    </adminhtml_epicorcommon_quickstart_checkout_settings>
+    <adminhtml_epicorcommon_quickstart_b2b_settings>
+        <block type="epicor_common/adminhtml_quickstart_edit_tab_b2b_form" name="root" output="toHtml" />
+    </adminhtml_epicorcommon_quickstart_b2b_settings>
+    <adminhtml_epicorcommon_importexport_index>       
+        <reference name="content">
+            <block type="epicor_common/adminhtml_importexport" name="epicor_common_importexport_comm">
+                <block type="epicor_common/adminhtml_mappingtables" name="epicor_common_importexport_mappingTables" template="epicor_common/comm_settings_backup/mappingTables.phtml"/>
+            </block>
+        </reference> 
+    </adminhtml_epicorcommon_importexport_index>
+    <adminhtml_epicorcommon_importexport_storemapping>       
+        <reference name="content">
+            <block type="epicor_common/adminhtml_importexport_storemapping" name="epicor_common_importexport_mappingTables_storemapping" template="epicor_common/comm_settings_backup/storemapping.phtml">
+                <block type="adminhtml/store_switcher" name="epicor_common_importexport_storelist" template="epicor_common/comm_settings_backup/storelist.phtml" />
+            </block>
+        </reference> 
+    </adminhtml_epicorcommon_importexport_storemapping>
+    <adminhtml_epicorcommon_advanced_cleardata_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_cleardata_clear" name="common.advanced.cleardata" />
+        </reference>
+    </adminhtml_epicorcommon_advanced_cleardata_index>
+    <adminhtml_epicorcommon_advanced_postdata_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_postdata_upload" name="entity_postdata" />
+        </reference>
+    </adminhtml_epicorcommon_advanced_postdata_index>
+    
+    <adminhtml_epicorcommon_advanced_postdata_postdata>
+        <update handle="adminhtml_epicorcommon_advanced_postdata_index" />
+    </adminhtml_epicorcommon_advanced_postdata_postdata>
+    
+    <adminhtml_epicorcommon_advanced_syslog_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_syslog" name="common.advanced.syslog" />
+        </reference>
+    </adminhtml_epicorcommon_advanced_syslog_index>
+    <adminhtml_epicorcommon_advanced_syslog_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/syslog.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_syslog_view" name="erp_header" after="group" />
+            <block type="epicor_common/adminhtml_advanced_syslog_view"  template="epicor_common/advanced/syslog/view/details.phtml" name="common.advanced.syslog.view"/>
+        </reference>
+    </adminhtml_epicorcommon_advanced_syslog_view>  
+    <adminhtml_epicorcommon_advanced_errors_index>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_errors" name="common.advanced.errors" />
+        </reference>
+    </adminhtml_epicorcommon_advanced_errors_index>
+    <adminhtml_epicorcommon_advanced_errors_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/syslog.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_common/adminhtml_advanced_errors_view" name="erp_header" after="group" />
+            <block type="epicor_common/adminhtml_advanced_errors_view"  template="epicor_common/advanced/errors/view/details.phtml" name="common.advanced.errors.view"/>
+        </reference>
+    </adminhtml_epicorcommon_advanced_errors_view>  
+</layout>

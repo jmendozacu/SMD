@@ -1,0 +1,10 @@
+.log_view{ 
+    margin:0px;
+    padding:3px;
+    background:black;
+    color:#2EC029;
+    font:normal 11px Lucida Console, Courier New, serif;
+    min-height:300px;
+    max-height:300px;
+    overflow-y: scroll;
+} 

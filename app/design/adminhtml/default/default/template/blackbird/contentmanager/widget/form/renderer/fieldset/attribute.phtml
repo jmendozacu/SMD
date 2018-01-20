@@ -1,0 +1,55 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+
+$option = Mage::helper('contentmanager')->getOptionByFieldIdentifier($_element->getName(), $this->getRequest()->getParam('id'));
+$attribute_code = $option->getData('attribute');
+
+$attribute_details = Mage::getSingleton("eav/config")->getAttribute("catalog_product", $attribute_code);
+$options = $attribute_details->getSource()->getAllOptions(false);
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
+    <?php if ($_element->getType()=='hidden'): ?>
+    <td colspan="2" class="hidden"><?php echo trim($_element->getElementHtml()) ?></td>
+    <?php else: ?>
+    <td class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="<?php echo $_element->hasValueClass() ? $_element->getValueClass() : 'value' ?><?php echo $_class ? " {$_class}-value" : ''?>">
+        
+        <select <?php if($option->getData('max_characters') == 1): ?>size="7" multiple="multiple"<?php endif; ?> id="<?php echo $_element->getHtmlId() ?>" name="<?php echo $_element->getName() ?><?php if($option->getData('max_characters') == 1): ?>[]<?php endif; ?>" <?php echo $_element->serialize($_element->getHtmlAttributes()) ?>>
+            <?php foreach($options as $attributeOption): ?>
+                <option value="<?php echo $attributeOption["value"]; ?>" <?php if(in_array($attributeOption["value"], explode(',', $_element->getEscapedValue()))): ?>selected="selected"<?php endif; ?>><?php echo $attributeOption["label"]; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php echo $this->getAfterElementHtml() ?>
+        <?php if ($_note): ?>
+            <p class="note<?php echo $_class ? " {$_class}-note" : ''?>" id="note_<?php echo $_element->getId()?>"><span><?php echo $_note ?></span></p>
+        <?php endif ?>
+    </td>
+    <?php endif; ?>
+</tr>
+<?php endif; ?>

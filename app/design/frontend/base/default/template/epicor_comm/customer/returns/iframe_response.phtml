@@ -1,0 +1,16 @@
+<?php
+/**
+ * Return Lines post js
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+
+/* @var $this Epicor_Comm_Block_Customer_Returns_Lines_Linespost */
+?>
+<script type="text/javascript">
+    window.parent.returns.setLoadWaiting(false); 
+    window.parent.returns.setStepResponse(<?php echo $this->getJson(); ?>); 
+</script>
+    

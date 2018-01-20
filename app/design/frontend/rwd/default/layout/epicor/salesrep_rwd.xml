@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    
+
+    <customer_account>   
+        <reference name="left">
+            <action method="unsetChild"><alias>salesrep_navigation</alias></action>
+        </reference>
+        <reference name="left_first">
+            <action method="insert">
+                <blockName>salesrep_navigation</blockName>
+                <sibling></sibling>
+                <after>customer_account_navigation</after>
+            </action>
+        </reference>
+    </customer_account>
+
+</layout> 

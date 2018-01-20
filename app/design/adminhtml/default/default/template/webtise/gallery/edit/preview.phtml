@@ -1,0 +1,72 @@
+<?php
+    $_gallery = Mage::registry('current_gallery');
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Gallery Preview') ;?></h4>
+    </div>
+    <div class="fieldset fieldset-wide">
+        <div class="hor-scroll">
+            <table class="form-list">
+                <tbody>
+                    <tr>
+                        <td class="label">
+                            <span><?php echo $this->__('Display:') ;?></span>
+                        </td>
+                        <td class="value">
+                            <img class="preview carousel " src="<?php echo $this->getSkinUrl('images/webtise/gallery/preview/carousel.png') ?>"/>
+                            <img class="preview grid_uneven no-display" src="<?php echo $this->getSkinUrl('images/webtise/gallery/preview/grid-uneven.png') ?>"/>
+                            <img class="preview grid_even no-display" src="<?php echo $this->getSkinUrl('images/webtise/gallery/preview/grid-even.png') ?>"/>
+                            <img class="preview single no-display" src="<?php echo $this->getSkinUrl('images/webtise/gallery/preview/single.png') ?>"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <span><?php echo $this->__('Custom page XML:') ;?></span>
+                        </td>
+                        <td class="value">
+                            <div class="custom-xml-example">
+                                <p>
+                                    <span class="xml-line"><?php echo htmlentities('<some_layout_handle>')?></span>
+                                    <span class="xml-line one"><?php echo htmlentities('<reference name="some.reference.block">') ?></span>
+                                    <span class="xml-line two"><?php echo htmlentities('<block type="gallery/view_custom" name="some.block.name" as="some_block_alias" template="path/to/your/template.phtml">') ?></span>
+                                    <span class="xml-line three"><?php echo htmlentities('<action method="setGalleryId"><gallery_id>Id of gallery you wish to show</gallery_id></action>') ?></span>
+                                    <span class="xml-line two"><?php echo htmlentities('</block>') ?></span>
+                                    <span class="xml-line one"><?php echo htmlentities('</reference>') ?></span>
+                                    <span class="xml-line"><?php echo htmlentities('</some_layout_handle>') ?></span>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+        var typeSelect = $j("#display_type");
+
+        <?php if($display = $_gallery->getDisplayType()):?>
+            var display = "<?php echo $display; ?>";
+        <?php else: ?>
+            var display = "carousel";
+        <?php endif; ?>
+
+        $j("img.preview").each(function() {
+            $j(this).addClass('no-display');
+        });
+        $j("img.preview."+display).removeClass('no-display');
+
+        typeSelect.on('change', function (e) {
+            var optionSelected = $j("option:selected", this);
+            var valueSelected = this.value;
+            $j("img.preview").each(function() {
+                $j(this).addClass('no-display');
+            });
+            $j("img.preview."+valueSelected).removeClass('no-display');
+        });
+
+    //]]>
+</script>

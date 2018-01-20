@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+    
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element name="list">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="brands" name="brands"/>
+                                <xs:element name="accounts">
+                                    <xs:complexType>
+                                        <xs:sequence>                                            
+                                            <xs:element name="accountNumber" type="xs:string" maxOccurs="unbounded" minOccurs="0" />                                                                                        
+                                        </xs:sequence>                                       
+                                        <xs:attribute name="exclude" use="required" type="yesNo" />
+                                    </xs:complexType>                                            
+                                </xs:element>                                
+                                <xs:element type="xs:string" name="listCode"/>
+                                <xs:element type="xs:string" name="listTitle"/>
+                                <xs:element type="xs:string" name="listSettings"/>
+                                <xs:element name="listStatus">
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:pattern value="A|I" />
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="listDescription"/>   
+                                <xs:element name="products">
+                                    <xs:complexType>
+                                        <xs:sequence>                                            
+                                            <xs:element name="product" type="cupgProduct" maxOccurs="unbounded" minOccurs="1" />                                            
+                                        </xs:sequence>  
+                                        <xs:attribute name="exclude" use="required" type="yesNo" />                                     
+                                    </xs:complexType>
+                                </xs:element>                             
+                            </xs:all>
+                            <xs:attribute name="delete" use="required" type="yesNo" />
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="cupgProduct">
+        <xs:sequence>
+                <xs:element type="xs:string" name="productCode" />
+                <xs:element name="unitOfMeasures" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>                                            
+                            <xs:element name="unitOfMeasure" maxOccurs="unbounded" minOccurs="1" >  
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="xs:string" name="unitOfMeasureCode" maxOccurs="1"/>
+                                    </xs:sequence>
+                                </xs:complexType>                                          
+                            </xs:element>  
+                        </xs:sequence>                                       
+                    </xs:complexType>
+                </xs:element>  
+        </xs:sequence>
+        <xs:attribute name="delete" use="required" type="yesNo" />
+    </xs:complexType>
+    
+</xs:schema>

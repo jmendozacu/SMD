@@ -1,0 +1,514 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$options = $this->getAllOptions();
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
+    <td>
+        <div id="contenttype-dnd-blocks" class="">
+            <!--ITEM TYPE GROUP-->
+            <div class="column-dropable f-left">
+                <div class="contenttype-dnd-block group">
+                    <label><?php echo $this->__('Group'); ?><span class="desc"></span></label><span class="collapse" onclick="collapseLayoutItem(jQuery(this).parent());"></span>
+                    <div class="layout-form">
+                        <input class="input_column" type="hidden" name="layout_group[{{id}}][column]" />
+                        <input class="input_sort_order" type="hidden" name="layout_group[{{id}}][sort_order]" />
+                        <input class="input_layout_group_id" type="hidden" name="layout_group[{{id}}][parent_layout_group_id]" />
+                        
+                        <input type="hidden" name="layout_group[{{id}}][layout_group_id]" value="{{id}}" />
+                        
+                        <button title="<?php echo $this->__('Remove group'); ?>" type="button" class="f-right scalable delete" onclick="jQuery(this).parent().parent().remove();" style=""><span><span><span><?php echo $this->__('Remove group'); ?></span></span></span></button>
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_group_html_name input-text" type="text" name="layout_group[{{id}}][html_name]" value="" />
+                                        <p class="note"><span><?php echo $this->__('Label that can be displayed upper the group'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label option'); ?></label></td>
+                                    <td class="value">
+                                        <select class="layout_group_label" name="layout_group[{{id}}][label]">
+                                            <option value="0"><?php echo $this->__('Hide label'); ?></option>
+                                            <option value="1"><?php echo $this->__('Show label over the element'); ?></option>
+                                            <option value="2"><?php echo $this->__('Show label below the element'); ?></option>
+                                            <option value="3"><?php echo $this->__('Show label inline'); ?></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_group_html_label_tag input-text" type="text" name="layout_group[{{id}}][html_label_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_group_html_tag input-text" type="text" name="layout_group[{{id}}][html_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element ID'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_group_html_id input-text" type="text" name="layout_group[{{id}}][html_id]" />
+                                        <p class="note"><span><?php echo $this->__('Replace default element ID'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Classes'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_group_html_class input-text" type="text" name="layout_group[{{id}}][html_class]" />
+                                        <p class="note"><span><?php echo $this->__('Additionnal CSS class(es) for the element'); ?></span></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="column-dropable group-area" rel="{{id}}">
+                            <span><?php echo $this->__('Drag and drop your child items here'); ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--ITEM TYPE FIELD-->
+            <div class="column-dropable f-left">
+                <div class="contenttype-dnd-block field">
+                    <label><?php echo $this->__('Field'); ?><span class="desc"></span></label><span class="collapse" onclick="collapseLayoutItem(jQuery(this).parent());"></span>
+                    <div class="layout-form">
+                        <input class="input_column" type="hidden" name="layout_field[{{id}}][column]" />
+                        <input class="input_sort_order" type="hidden" name="layout_field[{{id}}][sort_order]" />
+                        <input class="input_layout_group_id" type="hidden" name="layout_field[{{id}}][layout_group_id]" />
+                        <button title="<?php echo $this->__('Remove field'); ?>" type="button" class="f-right scalable delete" onclick="jQuery(this).parent().parent().remove();" style=""><span><span><span><?php echo $this->__('Remove field'); ?></span></span></span></button>
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Select the field'); ?></label></td>
+                                    <td class="value">
+                                        <select class="layout_field_option_id" name="layout_field[{{id}}][option_id]" onchange="changeLayoutFieldType(this)">
+                                            <option value="0"><?php echo $this->__('Title'); ?></option>
+                                           <?php foreach ($options as $option): ?>
+                                                <option type="<?php echo $option->getType(); ?>" value="<?php echo $option->getOptionId(); ?>"><?php echo $option->getIdentifier(); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label option'); ?></label></td>
+                                    <td class="value">
+                                        <select class="layout_field_label" name="layout_field[{{id}}][label]">
+                                            <option value="0"><?php echo $this->__('Hide label'); ?></option>
+                                            <option value="1"><?php echo $this->__('Show label over the element'); ?></option>
+                                            <option value="2"><?php echo $this->__('Show label below the element'); ?></option>
+                                            <option value="3"><?php echo $this->__('Show label inline'); ?></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_field_html_label_tag input-text" type="text" name="layout_field[{{id}}][html_label_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_field_html_tag input-text" type="text" name="layout_field[{{id}}][html_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element ID'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_field_html_id input-text" type="text" name="layout_field[{{id}}][html_id]" />
+                                        <p class="note"><span><?php echo $this->__('Replace default element ID'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Classes'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_field_html_class input-text" type="text" name="layout_field[{{id}}][html_class]" />
+                                        <p class="note"><span><?php echo $this->__('Additionnal CSS class(es) for the element'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr style="display: none;">
+                                    <td class="label"><label><?php echo $this->__('Format'); ?></label></td>
+                                    <td class="value">
+                                        <div class="contenttype-format format-file" style="display: none;">
+                                            <input type="radio" onclick="if(jQuery(this).parent().children('.custom_label').is(':checked')) { jQuery(this).parent().children('.format-extra').show(); } else  { jQuery(this).parent().children('.format-extra').hide(); }" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="file_filename_without" /> <?php echo $this->__('Use filename as label (without extension)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" onclick="if(jQuery(this).parent().children('.custom_label').is(':checked')) { jQuery(this).parent().children('.format-extra').show(); } else  { jQuery(this).parent().children('.format-extra').hide(); }" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="file_filename_with" /> <?php echo $this->__('Use filename as label (with extension)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" onclick="if(jQuery(this).parent().children('.custom_label').is(':checked')) { jQuery(this).parent().children('.format-extra').show(); } else  { jQuery(this).parent().children('.format-extra').hide(); }" class="checkbox layout_field_format custom_label" name="layout_field[{{id}}][format]" value="file_custom_label" /> <?php echo $this->__('Custom label'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <div class="format-extra" style="display: none;">
+                                                <input type="text" class="input-text layout_field_format_extra" name="layout_field[{{id}}][format_extra]" />
+                                                <p class="note"><span><?php echo $this->__('You can use replacement pattern.<br/>Example: <strong>{{title}}</strong> will be automatically replaced by the field value of the content (field with the identifier "title").<br/>Use plain text value of a field, type <strong>{{title|plain}}</strong>'); ?></span></p>
+                                            </div>
+                                        </div>
+                                        <div class="contenttype-format format-image" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="image_cropped" /> <?php echo $this->__('Use cropped image if existing'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="image_original" /> <?php echo $this->__('Use original image'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="checkbox" class="checkbox layout_field_format_link" name="layout_field[{{id}}][link]" value="1" /> <?php echo $this->__('Link to original image'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <div class="format-extra">
+                                                <?php echo $this->__('Height'); ?> <input type="text" class="input-text layout_field_format_height" name="layout_field[{{id}}][format_height]" />
+                                                <?php echo $this->__('Width'); ?> <input type="text" class="input-text layout_field_format_width" name="layout_field[{{id}}][format_width]" />
+                                                <p class="note"><span><?php echo $this->__('Type 0 for a dynamic height, or dynamic width, depending on the other value. Put the 2 fields at 0 for no resize.'); ?></span></p>
+                                            </div>
+                                        </div>
+                                        <div class="contenttype-format format-checkbox" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="checkbox_list_values" /> <?php echo $this->__('Display all values as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="checkbox_list_titles" /> <?php echo $this->__('Display all titles as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="checkbox_comma_values" /> <?php echo $this->__('Concatenate all values by a comma (value1, value2)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="checkbox_comma_titles" /> <?php echo $this->__('Concatenate all titles by a comma (value1, value2)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-multiple" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="multiple_list_values" /> <?php echo $this->__('Display all values as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="multiple_list_titles" /> <?php echo $this->__('Display all titles as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="multiple_comma_values" /> <?php echo $this->__('Concatenate all values by a comma (value1, value2)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="multiple_comma_titles" /> <?php echo $this->__('Concatenate all titles by a comma (value1, value2)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-radio" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="radio_select_value" /> <?php echo $this->__('Display value'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="radio_select_title" /> <?php echo $this->__('Display title'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-drop_down" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="drop_select_value" /> <?php echo $this->__('Display value'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="drop_select_title" /> <?php echo $this->__('Display title'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-date" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_short" /> <?php echo $this->__('Short date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_medium" /> <?php echo $this->__('Medium date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_long" /> <?php echo $this->__('Long date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-date_time" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_time_short" /> <?php echo $this->__('Short date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_time_medium" /> <?php echo $this->__('Medium date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="date_time_long" /> <?php echo $this->__('Long date format'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-product" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="product_name" /> <?php echo $this->__('Display products names'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="product_name_image" /> <?php echo $this->__('Display products names and images'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="product_name_price" /> <?php echo $this->__('Display products names and prices'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="product_name_image_price" /> <?php echo $this->__('Display products names, images and prices'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="product_all" /> <?php echo $this->__('Display products as they are usually on listing'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-category" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="category_name" /> <?php echo $this->__('Display categories names'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-content" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="content_name_linked" /> <?php echo $this->__('Display contents names with links'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="content_name" /> <?php echo $this->__('Display contents names'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                        </div>
+                                        <div class="contenttype-format format-attribute" style="display: none;">
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="attribute_list_values" /> <?php echo $this->__('Display all values as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="attribute_list_titles" /> <?php echo $this->__('Display all titles as a list (ul > li)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="attribute_comma_values" /> <?php echo $this->__('Concatenate all values by a comma (value1, value2)'); ?>
+                                            <div class="contenttype-spacer"></div>
+                                            <input type="radio" class="checkbox layout_field_format" name="layout_field[{{id}}][format]" value="attribute_comma_titles" /> <?php echo $this->__('Concatenate all titles by a comma (value1, value2)'); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--ITEM TYPE CMS BLOCK-->
+            <div class="column-dropable f-left">
+                <div class="contenttype-dnd-block cms_block">
+                    <label><?php echo $this->__('CMS Block'); ?><span class="desc"></span></label><span class="collapse" onclick="collapseLayoutItem(jQuery(this).parent());"></span>
+                    <div class="layout-form">
+                        <input class="input_column" type="hidden" name="layout_block[{{id}}][column]" />
+                        <input class="input_sort_order" type="hidden" name="layout_block[{{id}}][sort_order]" />
+                        <input class="input_layout_group_id" type="hidden" name="layout_block[{{id}}][layout_group_id]" />
+                        <button title="<?php echo $this->__('Remove block'); ?>" type="button" class="f-right scalable delete" onclick="jQuery(this).parent().parent().remove();" style=""><span><span><span><?php echo $this->__('Remove block'); ?></span></span></span></button>
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Select the block'); ?></label></td>
+                                    <td class="value">
+                                        <select class="layout_block_block_id" name="layout_block[{{id}}][block_id]">
+                                            <?php 
+                                                $blockCollection = Mage::getModel('cms/block')->getCollection();
+                                                
+                                                foreach($blockCollection as $block):
+                                                    $storeIds = $block->getResource()->lookupStoreIds($block->getId());
+                                                    $stores = array();
+                                                    foreach($storeIds as $storeId)
+                                                    {
+                                                        if($storeId == 0)
+                                                        {
+                                                            $stores[] = $this->__('All store views');
+                                                        }
+                                                        else
+                                                        {
+                                                            $stores[] = Mage::getModel('core/store')->load($storeId)->getName();
+                                                        }
+                                                    }
+                                            ?>
+                                                <option value="<?php echo $block->getId(); ?>">(<?php echo $this->__('Identifier'); ?>: <?php echo $block->getIdentifier(); ?>, <?php echo $this->__('Store view'); ?> <?php echo join(', ', $stores); ?>) <?php echo $block->getTitle(); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label option'); ?></label></td>
+                                    <td class="value">
+                                        <select class="layout_block_label" name="layout_block[{{id}}][label]">
+                                            <option value="0"><?php echo $this->__('Hide label'); ?></option>
+                                            <option value="1"><?php echo $this->__('Show label over the element'); ?></option>
+                                            <option value="2"><?php echo $this->__('Show label below the element'); ?></option>
+                                            <option value="3"><?php echo $this->__('Show label inline'); ?></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Label HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_block_html_label_tag input-text" type="text" name="layout_block[{{id}}][html_label_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Type'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_block_html_tag input-text" type="text" name="layout_block[{{id}}][html_tag]" value="div" />
+                                        <p class="note"><span><?php echo $this->__('"div" by default. e.g: h1, h2, label, ...'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element ID'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_block_html_id input-text" type="text" name="layout_block[{{id}}][html_id]" />
+                                        <p class="note"><span><?php echo $this->__('Replace default element ID'); ?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo $this->__('Wrapper HTML Element Classes'); ?></label></td>
+                                    <td class="value">
+                                        <input class="layout_block_html_class input-text" type="text" name="layout_block[{{id}}][html_class]" />
+                                        <p class="note"><span><?php echo $this->__('Additionnal CSS class(es) for the element'); ?></span></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--ITEM TYPE REVIEWS-->
+            <!--<div class="column-dropable f-left">
+                <div class="contenttype-dnd-block review">
+                    <label><?php echo $this->__('Reviews'); ?></label>
+                </div>
+            </div>-->
+            <script type="text/javascript">
+                function initExistingLayoutItems()
+                {
+                    var column;
+                    var item;
+                    var type;
+                    
+                    <?php
+                        $masterCollection = $this->getMasterCollection();
+
+                        foreach($masterCollection as $layoutItem):
+                            $format = unserialize($layoutItem->getFormat());
+                    ?>
+                        type =  '<?php echo $layoutItem->getType(); ?>';
+                        
+                        if(type == 'field')
+                        {
+                            item = jQuery('#contenttype-dnd-blocks .field').clone(true);
+                            item.html(item.html().replace(new RegExp('{{id}}', 'g'), current_layout_field_id));
+                        }
+                        else if(type == 'block')
+                        {
+                            item = jQuery('#contenttype-dnd-blocks .cms_block').clone(true);
+                            item.html(item.html().replace(new RegExp('{{id}}', 'g'), current_layout_block_id));
+                        }
+                        else if(type == 'group')
+                        {
+                            item = jQuery('#contenttype-dnd-blocks .group').clone(true);
+                            item.html(item.html().replace(new RegExp('{{id}}', 'g'), current_layout_group_id));
+                        }
+                        
+                        if(type == 'group')
+                        {
+                            if(<?php echo ($layoutItem->getParentLayoutGroupId()>0)?'true':'false'; ?>)
+                            {
+                                //append item in the parent group
+                                item.appendTo(jQuery('#layout-configure .group[group_id=<?php echo $layoutItem->getParentLayoutGroupId(); ?>] > .layout-form > .group-area'));
+                            }
+                            else
+                            {
+                                //check if column exists
+                                column = 1;
+                                if(jQuery('#layout-configure #col<?php echo $layoutItem->getColumn(); ?>').length > 0)
+                                {
+                                    column = <?php echo $layoutItem->getColumn(); ?>;
+                                }
+                                //append item in the column
+                                item.appendTo(jQuery('#layout-configure #col'+column));
+                            }
+                        }
+                        else
+                        {
+                            if(<?php echo ($layoutItem->getLayoutGroupId()>0)?'true':'false'; ?>)
+                            {
+                                //append item in the parent group
+                                item.appendTo(jQuery('#layout-configure .group[group_id=<?php echo $layoutItem->getLayoutGroupId(); ?>] > .layout-form > .group-area'));
+                            }
+                            else
+                            {
+                                //check if column exists
+                                column = 1;
+                                if(jQuery('#layout-configure #col<?php echo $layoutItem->getColumn(); ?>').length > 0)
+                                {
+                                    column = <?php echo $layoutItem->getColumn(); ?>;
+                                }
+                                //append item in the column
+                                item.appendTo(jQuery('#layout-configure #col'+column));
+                            }
+                        }
+                        
+                        //set default values
+                        if(type == 'field')
+                        {
+                            jQuery('.layout_field_option_id', item).val('<?php echo $layoutItem->getOptionId(); ?>').change();
+                            jQuery('.layout_field_label', item).val('<?php echo $layoutItem->getLabel(); ?>');
+
+                            jQuery('.layout_field_html_tag', item).val('<?php echo $layoutItem->getHtmlTag(); ?>');
+                            jQuery('.layout_field_html_label_tag', item).val('<?php echo $layoutItem->getHtmlLabelTag(); ?>');
+                            jQuery('.layout_field_html_id', item).val('<?php echo $layoutItem->getHtmlId(); ?>');
+                            jQuery('.layout_field_html_class', item).val('<?php echo $layoutItem->getHtmlClass(); ?>');
+
+                            jQuery('.layout_field_format_extra', item).val('<?php echo $format['extra']; ?>');
+                            jQuery('.layout_field_format_height', item).val('<?php echo $format['height']; ?>');
+                            jQuery('.layout_field_format_width', item).val('<?php echo $format['width']; ?>');
+                            jQuery('.layout_field_format[value=<?php echo $format['type']; ?>]', item).prop( "checked", 'checked' );
+                            if('<?php echo $format['type']; ?>' == 'file_custom_label')
+                            {
+                                jQuery('.format-extra', item).show();
+                            }
+                            jQuery('.layout_field_format_link[value=<?php echo $format['link']; ?>]', item).prop( "checked", 'checked' );
+                            jQuery(item).attr('sort_order', '<?php echo $layoutItem->getSortOrder(); ?>');
+                            jQuery(item).attr('field_id', '<?php echo $layoutItem->getLayoutFieldId(); ?>');
+
+                            var $select = jQuery('.layout_field_option_id', item);
+                            var $select_html = jQuery('option[value='+jQuery($select).val()+']', $select).html();
+                            jQuery('> label span.desc', item).html(' - '+$select_html);
+                        }
+                        else if(type == 'block')
+                        {
+                            jQuery('.layout_block_block_id', item).val('<?php echo $layoutItem->getBlockId(); ?>').change();
+                            jQuery('.layout_block_label', item).val('<?php echo $layoutItem->getLabel(); ?>');
+
+                            jQuery('.layout_block_html_label_tag', item).val('<?php echo $layoutItem->getHtmlLabelTag(); ?>');
+                            jQuery('.layout_block_html_tag', item).val('<?php echo $layoutItem->getHtmlTag(); ?>');
+                            jQuery('.layout_block_html_id', item).val('<?php echo $layoutItem->getHtmlId(); ?>');
+                            jQuery('.layout_block_html_class', item).val('<?php echo $layoutItem->getHtmlClass(); ?>');
+
+                            jQuery(item).attr('sort_order', '<?php echo $layoutItem->getSortOrder(); ?>');
+                            jQuery(item).attr('block_id', '<?php echo $layoutItem->getLayoutBlockId(); ?>');
+
+                            var $select = jQuery('.layout_block_block_id', item);
+                            var $select_html = jQuery('option[value='+jQuery($select).val()+']', $select).html();
+                            jQuery('> label span.desc', item).html(' - '+$select_html);
+                        }
+                        else if(type == 'group')
+                        {
+                            jQuery('.layout_group_label', item).val('<?php echo $layoutItem->getLabel(); ?>');
+                            jQuery('.layout_group_html_name', item).val('<?php echo addslashes($layoutItem->getHtmlName()); ?>');
+                            jQuery('.layout_group_html_tag', item).val('<?php echo $layoutItem->getHtmlTag(); ?>');
+                            jQuery('.layout_group_html_label_tag', item).val('<?php echo $layoutItem->getHtmlLabelTag(); ?>');
+                            jQuery('.layout_group_html_id', item).val('<?php echo $layoutItem->getHtmlId(); ?>');
+                            jQuery('.layout_group_html_class', item).val('<?php echo $layoutItem->getHtmlClass(); ?>');
+                            jQuery(item).attr('group_id', '<?php echo $layoutItem->getLayoutGroupId(); ?>');
+                            jQuery(item).attr('sort_order', '<?php echo $layoutItem->getSortOrder(); ?>');
+
+                            jQuery('> label span.desc', item).html(' - '+'<?php echo addslashes($layoutItem->getHtmlName()); ?>');                            
+                        }
+                        
+                        //collapse
+                        collapseLayoutItem(item);
+                        
+                        if(type == 'field')
+                        {
+                            current_layout_field_id++;
+                        }
+                        else if(type == 'block')
+                        {
+                            current_layout_block_id++;
+                        }
+                        else if(type == 'group')
+                        {
+                            current_layout_group_id++;
+                        }
+                        
+                    <?php endforeach; ?>
+                }
+            </script>
+        </div>
+    </td>
+</tr>
+<?php endif; ?>

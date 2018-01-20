@@ -1,0 +1,9 @@
+<?php
+$showUom = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart');
+$showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart_column');
+?>
+<?php if ($showUom && $showInColumn) : ?>
+    <th>
+        <?php echo $this->__('Unit of Measure') ?>
+    </th>
+<?php endif; ?>

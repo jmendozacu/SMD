@@ -1,0 +1,2333 @@
+//
+// Magento
+//
+// NOTICE OF LICENSE
+//
+// This source file is subject to the Academic Free License (AFL 3.0)
+// that is bundled with this package in the file LICENSE_AFL.txt.
+// It is also available through the world-wide-web at this URL:
+// http://opensource.org/licenses/afl-3.0.php
+// If you did not receive a copy of the license and are unable to
+// obtain it through the world-wide-web, please send an email
+// to license@magento.com so we can send you a copy immediately.
+//
+// DISCLAIMER
+//
+// Do not edit or add to this file if you wish to upgrade Magento to newer
+// versions in the future. If you wish to customize Magento for your
+// needs please refer to http://www.magento.com for more information.
+//
+// @category    design
+// @package     rwd_default
+// @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+// @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+//
+
+@charset "UTF-8";
+
+/* ============================================ *
+ * Base Styles
+ * ============================================ */
+
+@-ms-viewport {
+    width: device-width;
+}
+
+@-o-viewport {
+    width: device-width;
+}
+
+@viewport {
+    width: device-width;
+}
+
+// Prevent 300ms delay in IE on touch devices
+a, button {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body,
+button,
+input,
+select,
+table,
+textarea {
+    color: $c-text;
+    font-family: $f-stack-sans;
+    font-size: $f-size;
+    line-height: $b-line-height;
+}
+
+a {
+    color: $c-link;
+    text-decoration: none;
+}
+
+a:hover {
+    color: $c-link-hover;
+    text-decoration: underline;
+}
+
+a:focus {
+    color: darken($c-action, 30%);
+    outline-color: $c-link-active;
+}
+
+ol,
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================ *
+ * Typography
+ * ============================================ */
+
+h1, .h1 { @include h1; }
+
+h2, .h2 { @include h2; }
+
+h3, .h3 { @include h3; }
+
+h4, .h4 { @include h4; }
+
+h5, .h5 { @include h5; }
+
+h6, .h6 { @include h6; }
+
+/* ============================================ *
+ * Shared Classes
+ * ============================================ */
+
+.address-list address {
+    margin-bottom: 1em;
+}
+
+.availability {
+    font-size: $f-size-s;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+.availability .label {
+    display: none;
+}
+
+.availability.in-stock {
+    color: #A39161;
+    font-size: 20px !important;
+    text-transform: none;
+}
+
+.availability.available-soon,
+.availability.out-of-stock {
+    color: $c-danger;
+}
+
+.availability-only {
+    color: $c-danger;
+    margin-bottom: $box-spacing;
+}
+
+/* -------------------------------------------- *
+ * Page Titles
+ */
+
+.page-title h1,
+.page-title h2,
+.product-name h1,
+.product-name .h1 {
+    @include pageTitle;
+    font-weight: 400;
+}
+
+/* -------------------------------------------- *
+ * Block Module
+ */
+
+.block,
+.col-left-first {
+    margin-bottom: 20px;
+}
+
+.col-left-first .block:last-of-type {
+    margin-bottom: 0;
+}
+
+.block-title {
+    border-top: 1px solid $c-module-border;
+    margin-bottom: 5px;
+    padding: 10px 0 0;
+    position: relative;
+
+    h2,
+    h3,
+    strong {
+        @include h4;
+        color: $c-text-primary;
+        font-weight: 600;
+        margin-bottom: 0;
+        text-transform: uppercase;
+    }
+    small {
+        color: $c-text-gray;
+        font-size: 100%;
+        font-weight: normal;
+    }
+}
+
+// On account pages, don't remove the top border in order to create separation between block and .block-account
+body:not(.customer-account) .block:first-child .block-title {
+    border-top: none;
+    padding-top: 0;
+}
+
+.block-subtitle {
+    font-weight: bold;
+    margin-bottom: $element-spacing;
+}
+
+.block-content {
+    margin-top: 5px;
+}
+
+.block-content.unpad {
+    padding: 0;
+}
+
+.block-content li.item {
+    margin: 0 0 $box-spacing 9px;
+}
+
+.block-content li.item:last-child {
+    margin-bottom: 0;
+}
+
+.block .actions {
+    margin: $box-spacing 0 0;
+
+    &:after {
+        @include clearfix;
+    }
+
+    a {
+        float: left;
+    }
+    .button {
+        float: right;
+    }
+}
+
+.col-left,
+.col-right {
+    // Align the vertical height of the anchor to line up with the button
+    .block .actions .button ~ a {
+        line-height: 33px;
+        margin-right: 5px;
+    }
+}
+
+@include bp(max-width, $bp-medium) {
+
+    .sidebar {
+        // Don't apply to layered nav, since it gets special treatment
+        .block:not(.block-layered-nav) {
+            margin-bottom: 0;
+
+            .block-title {
+                border-bottom: none;
+                border-top: none;
+                margin-bottom: 0;
+                margin-top: 0;
+                padding: 0;
+
+                > strong {
+                    @include accordionDtBase('right', $c-module-border);
+                    border-bottom: 0;
+                    cursor: pointer;
+                    display: block;
+                    width: 100%;
+                }
+
+                &.active {
+                    > strong {
+                        @include accordionDtBase('down', $c-module-border);
+                    }
+                }
+            }
+
+            .block-content {
+                border-color: $c-module-border;
+                border-width: 0 1px;
+                border-style: solid;
+                margin-top: 0;
+                padding: $box-spacing;
+            }
+        }
+        // This selector is highly fickle, because if a div gets added beneath the last normal block in a sidebar,
+        // it will break. However it is the simplest solution to applying this trivial style.
+        .block:last-of-type {
+            border-bottom: 1px solid $c-module-border;
+        }
+    }
+}
+
+/* -------------------------------------------- *
+ * Secondary Navigation
+ */
+
+.block-account,
+.block-cms-menu {
+    .block-title {
+        border-top: none;
+        padding-top: 0;
+    }
+
+    li {
+        font-family: $f-stack-special;
+        margin: 7px 0;
+        text-transform: uppercase;
+
+        strong {
+            color: $c-action;
+            font-weight: 400;
+        }
+
+        a {
+            color: $c-text;
+            display: block;
+
+            &:hover {
+                opacity: 0.50;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+/* ============================================ *
+ * Buttons
+ * ============================================ */
+
+ button {
+
+    border-radius: 0; // Remove chromes default radius
+
+ }
+
+/* Secondary Buttons */
+.cart .buttons-set .button,
+.cart-table .button,
+.sidebar .actions .button,
+.button.button-secondary {
+    background: $c-button-secondary;
+    color: $c-text;
+    padding: 7px 15px;
+
+    &:hover {
+        background: $c-button-secondary-hover;
+        cursor: pointer;
+    }
+
+    &:active {
+        background: $c-button-secondary-active;
+        color: $c-text;
+    }
+
+    &:focus {
+        background: $c-button-secondary-active;
+        color: $c-text;
+        outline: none;
+    }
+}
+
+.sidebar .actions button.button {
+    white-space: normal;
+}
+
+body > .gallery-wrapper {
+
+    img {
+
+        width: 100%;
+
+    }
+
+}
+
+.tag-navigation {
+
+    padding: 0 !important;
+    
+    .tag-category,
+    .selected-tags {
+
+        padding: 20px;
+
+    }
+
+    .selected-tags {
+
+        background: #e8e8e8;
+        border-bottom: 5px solid #FFFFFF;
+        border-top: 5px solid #FFFFFF;
+
+        .selected-tag-category {
+
+            margin-bottom: 15px;
+
+        }
+
+        .selected-tag {
+
+            position: relative;
+        
+        }
+
+        .swatch-container {
+
+            position: relative;
+            display: inline-block;
+            margin-right: 5px; 
+
+            .swatch {
+
+                &:hover {
+
+                    cursor: pointer;
+                
+                }
+            
+            }
+
+            .remove {
+
+                display: none;
+                top: 4px;
+                width: 100%;
+                text-align: center;
+                font-size: 22px;
+                color: #ccc;
+                text-shadow: 1px 1px 5px #000000;
+            
+            }
+
+            &:hover {
+
+                .remove {
+                    
+                    display: block;
+
+                }
+
+            }
+
+        }
+
+        .remove {
+
+            position: absolute;
+            right: 0;
+            text-transform: uppercase;
+
+            &:hover {
+
+                cursor: pointer;
+
+            }
+        
+        }
+
+    }
+
+    .tag-category {
+
+        border-bottom: 1px solid #CCCCCC;
+
+        &:last-child {
+
+            border-bottom: 0;
+        
+        }
+    
+    }
+
+    .tag-link {
+
+        &:hover {
+
+            cursor: pointer;
+        
+        }
+
+        .selected {
+
+            border: 1px solid #000000;
+
+        }
+
+    }
+
+}
+
+.cms-page-view, .contacts-index-index {
+
+    .block:first-child .block-title {
+        margin-bottom: 0 !important;
+    }
+
+    .col-left {
+        width: 25%;
+    }
+
+    .col-main {
+        width: 75%;
+    }
+
+    .block-cms-menu {
+        background: $c-module-background;
+        padding: 0 10px 10px 0;
+
+        .block-title {
+            margin-left: 10px;
+            padding: 10px;
+
+            strong {
+                background: transparent !important;
+                border-bottom: none !important;
+                font-size: 25px !important;
+                padding: 0 !important;
+            }
+        }
+
+        .block-content {
+            ul {
+
+                li {
+                    margin-top: 0;
+                    margin-bottom: 0;
+
+                    a {
+                        padding: 10px 10px;
+
+                        &:hover {
+                            background: $c-white url(../images/rightarrownav.png) no-repeat 98% center;
+                            color: $c-text;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.clearer {
+    clear: both;
+}
+
+@include bp(max-width, $bp-medium) {
+
+    .cms-page-view {
+        .sidebar .block:not(.block-layered-nav) .block-title > strong,
+        .sidebar .block:not(.block-layered-nav) .block-content,
+        .sidebar .block:last-of-type {
+            border: none !important;
+        }
+
+        .col-left {
+            .block-content {
+                padding-left: 0;
+            }
+        }
+
+        .sidebar .block:not(.block-layered-nav) .block-title > strong:after,
+        .sidebar .block:not(.block-layered-nav) .block-title.active > strong:after {
+            left: auto !important;
+            right: 1%;
+        }
+
+        .block-cms-menu  {
+            padding: 0;
+
+            li {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+/* Primary Buttons */
+
+.button,
+.cart-table .product-cart-actions .button,
+#co-shipping-method-form .buttons-set .button,
+.footer .button {
+    background: $c-button;
+    border: 0;
+    color: $c-white;
+    display: inline-block;
+    font-size: 21px;
+    font-weight: normal;
+    font-family: $f-stack-special;
+    line-height: 24px;
+    padding: 7px 15px;
+    text-align: center;
+    text-transform: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    letter-spacing: 1px;
+
+    &:hover {
+        cursor: pointer;
+        background: $c-button-hover;
+    }
+    &:active {
+        color: $c-white;
+        background: $c-button-active;
+    }
+    &:focus {
+        background-color: $c-button-active;
+        color: $c-white;
+        outline: none;
+    }
+}
+
+a.button {
+    text-decoration: none;
+}
+
+a.button:hover {
+    color: $c-white;
+}
+
+/* Disabled - class for anchor, state for form elements */
+.button.disabled,
+.button:disabled {
+    background: #C8C8C8;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Adjacent buttons */
+.button + .button {
+    margin-left: 5px;
+}
+
+// This mixin gets applied to elements that are only buttons on smartphones (or sometimes tablets), such as layered
+// nav links or checkbox labels.
+// Building this as a mixin (rather than an extendable class) since it will be included within mq breakpoints, and
+// extending doesn't work within media queries: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#_in_directives
+@mixin touch-button {
+    background-color: $c-module-background;
+    color: $c-text;
+    padding: 5px 10px;
+}
+
+.button2 {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    margin: 0;
+    padding: 0 5px;
+    vertical-align: middle;
+}
+
+.button2:focus {
+    outline: none;
+}
+
+.button2 span,
+.button2 span span {
+    color: $c-action;
+    display: inline-block;
+    font-family: $f-stack-special;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: underline;
+    text-transform: uppercase;
+
+    &:hover {
+        color: $c-stimulus;
+        text-decoration: none;
+    }
+}
+
+@include bp(max-width, $bp-medium) {
+    .col2-set .buttons-set {
+        .button,
+        .button2 {
+            float: none;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        .back-link {
+            display: none;
+        }
+        .required {
+            display: none;
+        }
+    }
+}
+
+@include bp(max-width, $bp-xsmall) {
+    .buttons-set {
+        .button {
+            float: none;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: $element-spacing;
+            width: 100%;
+        }
+        .back-link {
+            display: none;
+        }
+        .required {
+            display: none;
+        }
+    }
+}
+
+/* -------------------------------------------- *
+ * Paypal Button
+ */
+
+.paypal-logo.paypal-after {
+    float: left;
+}
+
+.paypal-after .paypal-or {
+    float: left;
+}
+
+.paypal-or {
+    line-height: 34px;
+    margin: 0 10px 5px;
+}
+
+.paypal-after .paypal-button {
+    float: left;
+}
+
+.paypal-button {
+    line-height: 0;
+}
+
+.paypal-button img {
+    display: inline;
+}
+
+@include bp(max-width, 740px) {
+    .paypal-or {
+        line-height: 20px;
+    }
+
+    .paypal-logo,
+    .paypal-or,
+    .paypal-button {
+        display: block;
+        float: none;
+        margin-right: 0;
+        margin-left: 0;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+/* -------------------------------------------- *
+ * Button Sets
+ */
+
+.buttons-set {
+    border-top: 1px solid $c-module-border-light;
+    clear: both;
+    margin: $box-spacing 0 0;
+    padding-top: $box-spacing;
+    text-align: right;
+
+    p.required {
+        float: right;
+        line-height: 33px;
+        margin: 0;
+        margin-left: $gap;
+    }
+    .back-link {
+        float: left;
+        line-height: 33px;
+        margin: 0;
+    }
+    a:not(.button) {
+        display: inline-block;
+        line-height: 20px;
+        padding: 5px;
+    }
+    button.button {
+        float: right;
+        margin-left: 5px;
+        min-width: 140px;
+    }
+
+    &:after {
+        @include clearfix;
+    }
+}
+
+/* -------------------------------------------- *
+ * Icons
+ */
+
+.icon-sprite {
+    background-image: url(../images/icon_sprite.png);
+    background-repeat: no-repeat;
+    @include image-replacement;
+}
+
+@include if-min-resolution(2) {
+    .icon-sprite {
+        background-image: url(../images/icon_sprite@2x.png);
+        background-size: 100px 1000px;
+    }
+}
+
+/* -------------------------------------------- *
+ * Breadcrumbs
+ */
+
+.breadcrumbs {
+    margin: -15px 0 15px;
+    overflow: hidden;
+}
+
+.breadcrumbs li {
+    float: left;
+    font-size: $f-size-xs;
+    font-family: $f-stack-special;
+    text-transform: uppercase;
+}
+
+.breadcrumbs a {
+    color: $c-text;
+    float: left;
+}
+
+.breadcrumbs a:hover {
+    color: $c-action;
+}
+
+.breadcrumbs strong {
+    color: $c-text;
+    font-weight: normal;
+}
+
+.breadcrumbs span {
+    float: left;
+    padding: 0 7px;
+}
+
+@include bp(max-width, $bp-medium) {
+
+    .breadcrumbs {
+        margin-top: 10px;
+    }
+
+    .main-container {
+        padding-top: 0 !important;
+    }
+
+}
+
+@include bp(max-width, $bp-small) {
+
+    .breadcrumbs {
+       display: none;
+    }
+
+
+}
+
+/* -------------------------------------------- *
+ * Button - Remove / Previous
+ */
+
+.btn-remove,
+.btn-previous {
+    border: 1px solid $c-module-border-light;
+    color: transparent;
+    display: inline-block;
+    font: 0/0 a;
+    height: 20px;
+    position: relative;
+    text-align: center;
+    text-shadow: none;
+    width: 20px;
+
+    &:hover {
+        background-color: $c-action;
+        border-color: $c-action;
+    }
+}
+
+.btn-remove {
+    &:after {
+        content: 'X';
+        color: $c-action;
+        font-size: 10px;
+        font-family: Arial, $f-stack-sans;
+        font-weight: bold;
+        height: 20px;
+        line-height: 20px;
+        width: 100%;
+    }
+    &:hover:after {
+        color: $c-white;
+        text-decoration: none;
+    }
+}
+
+.btn-remove2 {
+    @extend .icon-sprite;
+    $icon-padding: 3px;
+    background-position: 4px -650px+2px;
+    border: none;
+    vertical-align: top; // Adding this so that the button will show at the top of the cart rows, rather than at the baseline
+
+    &:after {
+        display: none;
+    }
+    &:hover {
+        background-color: transparent;
+        @include opacity(0.8);
+    }
+}
+
+.btn-previous {
+    &:after {
+        @include triangle(left, 4px, $c-action);
+        left: 50%;
+        margin-left: -2px;
+        margin-top: -4px;
+        position: absolute;
+        top: 50%;
+    }
+    &:hover:after {
+        @include triangle(left, 4px, $c-white);
+    }
+}
+
+.block-layered-nav .currently,
+.mini-products-list,
+#compare-items {
+
+    .btn-remove,
+    .btn-previous {
+        float: right;
+        margin-left: 6px;
+    }
+}
+
+/* -------------------------------------------- *
+ * Checkout Agreements
+ */
+
+.checkout-agreements li {
+    margin-bottom: 20px;
+}
+
+.checkout-agreements .agreement-content {
+    border: 1px solid $c-module-border;
+    background: $c-module-background;
+    max-width: 670px;
+    max-height: 125px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* -------------------------------------------- *
+ * CVV Security Code
+ */
+
+.cvv-what-is-this {
+    font-size: $f-size-s;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+/* -------------------------------------------- *
+ * Container
+ */
+
+.main-container,
+.footer-container {
+    max-width: $max-container-width;
+    margin: 0 auto;
+    padding: $trim-small;
+    position: relative;
+
+    &:after {
+        @include clearfix;
+    }
+}
+.footer-container {
+    background: $c-gray;
+    max-width: 100%;
+
+    .footer {
+        margin: 0 auto;
+        max-width: $max-container-width;
+        padding: $trim-small;
+
+    }
+}
+
+@include bp(min-width, 480px) {
+
+    .main-container,
+    .footer-container {
+        padding: $trim;
+    }
+}
+
+.footer-container {
+    padding-top: 0px;
+}
+
+/* -------------------------------------------- *
+ * Column Layouts
+ */
+
+.main:after,
+.col-wrapper:after {
+    @include clearfix;
+}
+
+.col-left,
+.col-right,
+.col-main {
+    padding: 0 10px;
+}
+
+.col-left {
+    clear: left;
+    float: left;
+    padding-left: 0; /* Remove the 15px padding */
+    width: 20%;
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.col-right {
+    float: right;
+    padding-right: 0; /* Remove the 15px padding */
+    width: percentage(240px/960px);
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.col-main {
+    float: left;
+    width: 80%;
+}
+
+.col1-layout {
+    .col-main {
+        float: none;
+        padding: 0; /* Remove the 15px padding */
+        width: auto;
+
+    }
+
+    .category-title {
+        border-top: 1px solid #CDCDCD;
+        padding-top: 25px;
+    }
+}
+
+.col2-left-layout {
+    .col-main {
+        float: right;
+        padding-right: 0; /* Remove the 15px padding */
+    }
+}
+
+.col2-right-layout {
+    .col-main {
+        padding-left: 0; /* Remove the 15px padding */
+    }
+}
+
+.col3-layout {
+    .col-right {
+        width: percentage(200px/960px);
+    }
+
+    .col-wrapper {
+        float: left;
+        width: percentage(760px/960px);
+
+        .col-main {
+            float: right;
+            width: percentage(560px/760px);
+        }
+
+        .col-left {
+            width: 20%;
+        }
+    }
+}
+
+@include bp(max-width, 1000px) {
+    .col3-layout {
+        .col-right {
+            clear: left;
+            float: left;
+            padding-left: 0;
+            padding-right: 10px;
+            width: percentage(240px/960px);
+        }
+
+        .col-wrapper {
+            float: right;
+            width: 100%;
+
+            .col-main {
+                float: right;
+                width: percentage(720px/960px);
+            }
+
+            .col-left {
+                width: percentage(240px/960px);
+            }
+        }
+    }
+}
+
+@include bp(max-width, $bp-medium) {
+    .col-left,
+    .col-right,
+    .col-main,
+    .col1-layout .col-left,
+    .col1-layout .col-right,
+    .col1-layout .col-main,
+    .col2-left-layout .col-left,
+    .col2-left-layout .col-right,
+    .col2-left-layout .col-main,
+    .col2-right-layout .col-left,
+    .col2-right-layout .col-right,
+    .col2-right-layout .col-main,
+    .col3-layout .col-wrapper .col-left,
+    .col3-layout .col-right,
+    .col3-layout .col-wrapper .col-main {
+        float: none;
+        margin-bottom: 10px; // Since columns are stacked, we want there to be vertical spacing
+        padding: 0;
+        width: auto;
+    }
+
+    .col3-layout .col-wrapper {
+        float: none;
+        width: auto;
+    }
+
+    .col-main {
+        float: none;
+        width: auto;
+    }
+
+    .col-main .col-left {
+        padding: 0; /* On product listing pages, the left column gets moved inside col-main on small viewports */
+    }
+}
+
+/* Content Columns */
+
+.col2-set {
+    width: 100%;
+
+    .col-1,
+    .col-2 {
+        width: 50%;
+        padding: $box-spacing-large;
+
+        @include bp(max-width, $bp-medium) {
+            padding: $box-spacing;
+        }
+    }
+
+    .col-1 {
+        float: left;
+        padding-left: 0;
+    }
+
+    .col-2 {
+        float: right;
+        padding-right: 0;
+    }
+
+    @include bp(max-width, $bp-xsmall) {
+        .col-1,
+        .col-2 {
+            border: 0;
+            float: none;
+            padding-right: 0;
+            padding-left: 0;
+            width: auto;
+        }
+    }
+
+    .narrow {
+        width: 33%;
+    }
+
+    .wide {
+        width: 65%;
+    }
+
+    &:after {
+        @include clearfix;
+    }
+}
+
+/* -------------------------------------------- *
+ * Top Container
+ */
+@include bp(min-width, $bp-medium + 1) {
+    .top-container {
+        max-width: $max-container-width;
+        margin: 0 auto;
+        padding: 0 $trim;
+    }
+}
+
+/* -------------------------------------------- *
+ * Global Site Notice
+ */
+
+.global-site-notice {
+    background: $c-dark;
+    color: $c-text-white;
+    font-size: $f-size-xxs;
+
+    .notice-inner {
+        background-image: url('../images/demo-logo.png');
+        background-position: left;
+        background-repeat: no-repeat;
+        line-height: $f-size-xxs;
+        max-width: $max-content-width;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 40px;
+        padding-left: 120px;
+        padding-top: (40px - $f-size-xxs) / 2;
+        padding-bottom: (40px - $f-size-xxs) / 2;
+        width: 100%;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+}
+
+/* -------------------------------------------- *
+ * Promotional Message Banner
+ */
+
+.promo-msg {
+    color: $c-text-primary;
+    font-family: $f-stack-special;
+    margin: $box-spacing;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* -------------------------------------------- *
+ * Grid
+ */
+
+.grid:after {
+    @include clearfix;
+}
+
+/* -------------------------------------------- *
+ * Messages
+ */
+.success {
+    color: $c-success;
+}
+
+.error {
+    color: $c-danger;
+    font-weight: bold;
+}
+
+.notice {
+    color: $c-warn;
+    font-weight: bold;
+}
+
+/* -------------------------------------------- *
+ * Messages
+ */
+
+.messages {
+    margin-bottom: $gap;
+}
+
+.messages li li {
+    background: $c-module-background;
+    font-size: $f-size-l;
+    margin-bottom: 5px;
+    padding: 7px 10px 7px 20px;
+    position: relative;
+}
+
+.messages li li:before {
+    left: 0;
+    margin-top: -6px;
+    top: 50%;
+}
+
+.messages .error-msg li {
+    background-color: $c-danger-background;
+    border-left: 5px solid $c-danger;
+    color: $c-black;
+}
+
+.messages .error-msg li:before {
+    @include triangle(right, 6px, $c-danger);
+}
+
+.messages .notice-msg li {
+    background-color: $c-warn-background;
+    border-left: 5px solid $c-warn;
+    color: $c-black;
+}
+
+.messages .notice-msg li:before {
+    @include triangle(right, 6px, $c-warn);
+}
+
+.messages .success-msg li {
+    background-color: $c-success-background;
+    border-left: 5px solid $c-success;
+    color: $c-black;
+}
+
+.messages .success-msg li:before {
+    @include triangle(right, 6px, $c-success);
+}
+
+// ---------------------------------------------
+
+@include bp(min-width, 915px) {
+
+    .order-list-grid .col-1 {
+        width: 30%;
+    }
+
+    .order-list-grid .col-2 {
+        padding-right: 20px;
+        width: 50%;
+    }
+
+    .order-list-grid .col-3 {
+        clear: none;
+        padding-top: 0;
+        width: 20%;
+    }
+
+}
+
+/* -------------------------------------------- *
+ * Page Popup
+ */
+
+.page-popup {
+    background: $c-white;
+    height: auto;
+    padding: 20px;
+}
+
+.page-popup h1 {
+    font-size: 36px;
+    margin: 0 0 0.5em;
+}
+
+/* -------------------------------------------- *
+ * Payment Methods
+ */
+
+.payment-methods {
+    margin-bottom: 20px;
+}
+
+.payment-methods dt {
+    padding: 5px 0;
+}
+
+.payment-methods dd {
+    padding-top: 10px;
+}
+
+.payment-methods .form-list {
+    background: $c-module-background;
+    border: 1px solid $c-module-border;
+    display: inline-block;
+    margin: 5px 15px 15px;
+    max-width: 100%;
+    padding: 15px;
+    position: relative;
+}
+
+.payment-methods .form-list:before {
+    @include triangle(up, 10px, $c-module-border);
+    top: -11px;
+    left: 30px;
+}
+
+.payment-methods .form-list:after {
+    @include triangle(up, 10px, $c-module-background);
+    top: -10px;
+    left: 30px;
+}
+
+.payment-methods .form-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* -------------------------------------------- *
+ * Please Wait (Loading Indicator)
+ */
+
+.please-wait {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 10px;
+    margin-top: 5px;
+    white-space: nowrap; /* Prevent the linebreak in the HTML from causing layout issues */
+
+    img {
+        float: left;
+        margin-right: 5px;
+        width: 24px; // Actual image is 48px, thereby supporting hi-res screens
+    }
+}
+
+/* -------------------------------------------- *
+ * Price Box - Standard
+ */
+
+.price-box {
+    font-family: $f-stack-sans;
+    margin: $element-spacing 0;
+}
+
+.price-box p {
+    margin-bottom: 0;
+}
+
+.price-notice {
+    color: $c-text-gray;
+}
+
+.price-box .price {
+    color: $c-text-primary;
+    font-size: $f-size-xl;
+}
+
+.price-box .price,
+.price {
+    font-family: $f-stack-sans;
+}
+
+.price-box .price-label {
+    color: $c-text-gray;
+    font-family: $f-stack-special;
+    white-space: nowrap;
+}
+
+.price-box .minimal-price-link {
+    color: $c-text-primary;
+    display: block; /* We want this to show on its own line, otherwise the layout looks funky */
+    padding-left: 1em;
+
+    .label {
+        color: $c-text-gray;
+    }
+}
+
+/* -------------------------------------------- *
+ * Price Box - Special
+ */
+
+.price-box .old-price,
+.price-box .special-price {
+    display: inline-block;
+
+    .price-label {
+        display: none;
+    }
+
+    .price {
+        display: inline-block;
+    }
+}
+
+.price-box .old-price {
+    .price {
+        color: $c-text-gray;
+        text-decoration: line-through;
+    }
+}
+
+.price-box .special-price {
+    color: $c-text-primary;
+    padding-left: 1em;
+
+    .price-label {
+        color: #D84D3C;
+    }
+}
+
+/* -------------------------------------------- *
+ * Price Box - Taxes
+ */
+
+.price-box .price-excluding-tax,
+.price-box .price-including-tax {
+    display: block;
+}
+
+span.weee {
+    display: block;
+}
+
+/* -------------------------------------------- *
+ * Tier Prices
+ */
+
+.product-pricing,
+.tier-prices,
+.tier-prices-grouped {
+    background: #FBF4DE;
+    border: 1px solid #E2D4C7;
+    display: inline-block;
+    margin-top: $element-spacing;
+    padding: 4px 8px;
+
+    li {
+        font-size: $f-size-xs;
+    }
+    .benefit {
+        font-style: italic;
+    }
+    .price {
+        font-weight: bold;
+    }
+}
+
+/* ============================================ *
+ * Item Options
+ * ============================================ */
+
+.item-options {
+    font-family: $f-stack-special;
+    font-size: $f-size;
+
+    &:after {
+        @include clearfix;
+    }
+
+    dt {
+        clear: left;
+        float: left;
+        font-style: italic;
+        font-weight: 600;
+        padding-right: 5px;
+
+        &:after {
+            content: ': ';
+        }
+    }
+
+    dd {
+        float: left;
+        margin: 0 0 6px;
+        padding-left: 10px;
+    }
+}
+
+.truncated,
+.truncated a.dots {
+    cursor: help;
+}
+
+.truncated a.details {
+    cursor: help;
+    height: 16px;
+    line-height: 16px;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.truncated .truncated_full_value {
+    position: relative;
+    z-index: 300;
+}
+
+.truncated .truncated_full_value .item-options {
+    border: 1px solid $c-action;
+    background-color: #F6F6F6;
+    display: none;
+    left: -100px;
+    padding: 8px;
+    position: absolute;
+    top: 21px;
+    width: 200px;
+    z-index: 300;
+
+    &:after {
+        @include triangle(up, 7px, $c-action);
+        left: (100px + -3px);
+        top: -7px;
+    }
+}
+
+.truncated .truncated_full_value .item-options > p {
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.truncated .show .item-options {
+    display: block;
+}
+
+@include bp(max-width, $bp-xsmall) {
+
+    .truncated {
+        cursor: inherit;
+
+        a.details {
+            display: none;
+        }
+
+        .truncated_full_value {
+            .item-options {
+                background-color: transparent;
+                border: none;
+                display: block;
+                position: static;
+                width: 100%;
+                z-index: 1;
+
+                p {
+                    float: none;
+                }
+
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+/* -------------------------------------------- *
+ * Printer Friendly Page
+ */
+
+.page-print {
+    background: $c-white;
+    margin: 20px;
+    width: 6.5in;
+}
+
+/* -------------------------------------------- *
+ * Add to links
+ */
+
+.add-to-links {
+    margin: $element-spacing 0;
+
+    a {
+        display: inline-block;
+        padding: 0 3px 3px;
+    }
+}
+
+.add-to-links .separator {
+    display: none;
+}
+
+/* -------------------------------------------- *
+ * Product Image
+ */
+
+.product-image,
+.no-touch .product-img-box .product-image:not(.zoom-available):hover {
+    display: block;
+    position: relative;
+}
+
+@include bp (max-width, $bp-medium) {
+    body .product-img-box .product-image:hover {
+        border-color: $c-module-border-light;
+    }
+}
+
+.no-touch .product-image:hover {
+    border-color: $c-module-border-highlight;
+}
+
+/* -------------------------------------------- *
+ * Ratings
+ */
+
+.ratings {
+    margin: 7px 0;
+
+    .rating-box,
+    .rating-links {
+        margin: 5px 0;
+    }
+
+    .rating-box {
+        @extend .icon-sprite;
+        background-repeat: repeat-x;
+        background-position: 0 -615px;
+        height: 13px;
+        overflow: hidden;
+        width: 65px;
+    }
+    .rating-box .rating {
+        @extend .icon-sprite;
+        background-repeat: repeat-x;
+        background-position: 0 -600px;
+        float: left;
+        height: 13px;
+    }
+    .amount {
+        display: block;
+        margin: 5px auto;
+    }
+
+    .rating-links {
+        .separator {
+            margin: 0 3px;
+        }
+    }
+}
+
+/* -------------------------------------------- *
+ * Standard Formatted Text Block
+ */
+
+.std p {
+    margin: 0 0 $b-margin-bottom;
+}
+
+.std ol {
+    list-style: decimal outside;
+    margin-bottom: $b-margin-bottom;
+}
+
+.std ol li {
+    margin-left: 2em;
+}
+
+.std ul {
+    list-style: disc outside;
+    margin-bottom: $b-margin-bottom;
+}
+
+.std ul li {
+    margin-left: 2em;
+}
+
+.std .note {
+    color: $c-text-gray;
+    font-size: $f-size-s;
+}
+
+/* -------------------------------------------- *
+ * Tabs
+ */
+
+.tabs {
+    background: $c-white;
+    margin-bottom: $gap;
+}
+
+/* -------------------------------------------- *
+ * Toolbar
+ */
+
+.toolbar {
+    margin-bottom: 15px;
+    margin-top: $box-spacing;
+    padding: 5px 10px 0px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pager-no-toolbar {
+    margin-bottom: $box-spacing;
+}
+
+// This will apply to the bottom toolbar
+.pager-no-toolbar ~ .pager-no-toolbar {
+    margin-top: $box-spacing;
+}
+
+.toolbar,
+.pager {
+    color: $c-text;
+    font-family: $f-stack-special;
+    font-size: $f-size-xs;
+    line-height: 30px;
+}
+
+.toolbar label,
+.pager-no-toolbar label {
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+$toolbar-icon-padding-offset: 8px;
+
+.sorter {
+    float: left;
+    margin-bottom: 5px;
+
+    label {
+        float: left;
+        margin-right: 5px;
+
+        &:after {
+            content: ':';
+        }
+    }
+}
+
+.sorter > .sort-by {
+    float: left;
+    height: 30px;
+    margin-right: 5px;
+
+    .sort-by-switcher {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+
+        @extend .icon-sprite;
+    }
+    .sort-by-switcher--asc {
+        background-position: 0+4px (-550px+$toolbar-icon-padding-offset);
+        &:hover {
+            background-position: -50px+4px (-550px+$toolbar-icon-padding-offset);
+        }
+    }
+    .sort-by-switcher--desc {
+        background-position: 0+4px (-575px+$toolbar-icon-padding-offset);
+        &:hover {
+            background-position: -50px+4px (-575px+$toolbar-icon-padding-offset);
+        }
+    }
+
+    
+}
+
+.toolbar .sort-by {
+
+    display: inline-block;
+    position: relative;
+
+    .btn-dropdown {
+        background-image: url(../images/select.png);
+        background-position: top right;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        height: 35px;
+        padding-right: 40px;
+        width: 170px;
+
+    }
+
+    .dropdown-content {
+        background-color: #f5f5f5;
+        box-shadow: 0px 11px 16px 0px rgba(0,0,0,0.2);
+        display: none;
+        min-width: 190px;
+        overflow: auto;
+        position: absolute;
+        right: 0;
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        display: block;
+        font-size: 16px;
+        padding: 4px 16px;
+        text-decoration: none;
+
+        &:hover,
+        &.active {
+            background: #eaeaea;
+        }
+    }
+
+    .dropdown a:hover {background-color: #f1f1f1}
+
+    .show {display:block;}
+
+}
+
+.sorter > .view-mode {
+    float: right;
+
+    .grid,
+    .list {
+        float: left;
+        height: 30px;
+        width: 30px;
+        @extend .icon-sprite;
+    }
+    .grid {
+        background-position: $toolbar-icon-padding-offset (-500px+$toolbar-icon-padding-offset);
+        margin-right: 5px;
+    }
+    strong.grid,
+    a.grid:hover {
+        background-position: -50px+$toolbar-icon-padding-offset (-500px+$toolbar-icon-padding-offset);
+    }
+    .list {
+        // We want the icon to line up with the container width, so we are adding 3px
+        background-position: $toolbar-icon-padding-offset+3px (-525px+$toolbar-icon-padding-offset);
+    }
+    strong.list,
+    a.list:hover {
+        background-position: -50px+$toolbar-icon-padding-offset+3px (-525px+$toolbar-icon-padding-offset);
+    }
+}
+
+.pager {
+    float: right;
+
+    & > .count-container {
+        float: left;
+    }
+
+    .amount {
+        float: left;
+        font-family: $f-stack-sans;
+        margin: 0 15px 0 0;
+        white-space: nowrap;
+        font-size: 21px;
+    }
+
+    .limiter {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+
+        & > label {
+            padding-right: 5px;
+
+            &:after {
+                content: ':';
+            }
+        }
+    }
+
+    .amount,
+    .limiter,
+    .pages {
+        margin-bottom: 5px;
+    }
+
+}
+
+.pages {
+    float: right;
+    overflow: hidden;
+    margin-left: 15px;
+
+    strong {
+        display: none;
+    }
+}
+
+.pages li {
+    float: left;
+}
+
+.pages a,
+.pages .current {
+    border: 0;
+    color: $c-action;
+    display: inline-block;
+    font-family: $f-stack-sans;
+    font-size: $f-size-s;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 25px;
+}
+
+.pages .current,
+.pages .current:hover {
+    background-color: $c-white;
+    border: 1px solid $c-module-border;
+    color: $c-text;
+    cursor: default;
+    width: 30px;
+}
+
+.pages .next,
+.pages .previous {
+    // New HP5BP technique: https://github.com/h5bp/html5-boilerplate/commit/aa0396eae757c9e03dda4e463fb0d4db5a5f82d7
+    background-color: transparent;
+    color: transparent;
+    font: 0/0 a;
+    position: relative;
+    text-shadow: none;
+
+    &:hover {
+        border: 1px solid $c-action;
+    }
+}
+
+.pages .next {
+    &:before {
+        @include triangle(right, 4px, $c-action);
+        left: 50%;
+        margin-top: -3px;
+        margin-left: -2px;
+        top: 50%;
+    }
+    &:hover:before {
+        @include triangle(right, 4px, $c-stimulus);
+    }
+}
+
+.pages .previous {
+    &:before {
+        @include triangle(left, 4px, $c-action);
+        left: 50%;
+        margin-top: -3px;
+        margin-left: -2px;
+        top: 50%;
+    }
+    &:hover:before {
+        @include triangle(left, 4px, $c-stimulus);
+    }
+}
+
+@include bp(max-width, $bp-xsmall) {
+    // Only hide the "amount" element if page has pagination AND is inside of toolbar (since we only want it hiding on product listing)
+    // Otherwise show the amount since there is plenty of space
+    .pager .amount--has-pages {
+        display: none;
+    }
+
+    .pages {
+        float: left;
+    }
+
+    // When there are 5+ pages, it is important to hide this label in order to not break to three lines
+    .limiter label {
+        display: none;
+    }
+}
+
+@include bp(max-width, $bp-medium) {
+    // One one column layouts, the toolbar doesn't have to break until a smaller viewport
+    .col1-layout {
+        .sorter,
+        .pager {
+            width: 100%;
+        }
+
+        .pager {
+            clear: both;
+            float: left;
+
+            .pages {
+                float: left;
+                margin-left: 0;
+            }
+
+            .count-container {
+                float: right;
+            }
+        }
+    }
+}
+
+@include bp(max-width, $bp-large) {
+
+    .col2-left-layout,
+    .col2-right-layout,
+    .col3-layout {
+        .sorter,
+        .pager {
+            width: 100%;
+        }
+
+        .pager {
+            clear: both;
+            float: left;
+
+            .pages {
+                float: left;
+                margin-left: 0;
+            }
+
+            .count-container {
+                float: right;
+            }
+        }
+    }
+}
+
+@include bp(max-width, 1279px) {
+
+    .toolbar .view-mode > label {
+        display: none;
+    }
+}
+
+/* ============================================ *
+ * Tax - Full Tax Summary
+ * ============================================ */
+
+#checkout-review-table,
+#shopping-cart-totals-table,
+body.customer-account .data-table {
+    .summary-collapse {
+        cursor: pointer;
+        position: relative;
+
+        &:before {
+            @include triangle(down, 7px, $c-blue);
+            display: inline-block;
+            margin-right: 5px;
+            position: static;
+        }
+        &:hover:before {
+            @include triangle(down, 7px, $c-stimulus);
+            display: inline-block;
+            margin-right: 5px;
+            position: static;
+        }
+    }
+
+    .show-details {
+        .summary-collapse {
+            &:before {
+                @include triangle(up, 7px, $c-blue);
+                display: inline-block;
+                margin-right: 5px;
+                position: static;
+            }
+            &:hover:before {
+                @include triangle(up, 7px, $c-stimulus);
+                display: inline-block;
+                margin-right: 5px;
+                position: static;
+            }
+        }
+    }
+}
+
+// Center the arrow, as the font is larger in tfoot
+#shopping-cart-totals-table tfoot td .summary-collapse {
+    &:before,
+    &:hover:before {
+        margin-bottom: 5px;
+    }
+}
+
+/* ============================================ *
+ * Magento Helpers
+ * ============================================ */
+
+.a-center {
+    text-align: center;
+}
+
+.a-right,
+.align-right {
+    text-align: right;
+}
+
+.no-display {
+    display: none !important;
+}
+
+.nobr,
+.nowrap {
+    white-space: nowrap;
+}
+
+.width-full {
+    width: 100%;
+}
+
+/* ============================================ *
+ * Custom Helpers
+ * ============================================ */
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================ *
+ * Print Styles
+ * ============================================ */
+
+.page-print .print-head {
+    margin: 0 0 15px;
+}
+
+.page-print .print-head .logo {
+    float: none;
+    max-height: 50px;
+    width: auto;
+}
+/* ============================================ *
+ * Crumbs
+ * ============================================ */
+
+.crumb-wrap {
+    max-width: 1380px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 20px 10px 20px;
+}
+
+.amount {
+    float: left;
+    font-family: $f-stack-sans;
+    margin: 0 15px 0 0;
+    white-space: nowrap;
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.sort-by {
+    background: $c-module-background;
+    padding: 0 10px;
+
+    label {
+        text-transform: none;
+        font-size: 16px;
+        margin-right: -7px;
+        position: relative;
+        z-index: 9;
+}
+
+    select {
+        background: $c-module-background;
+        border: none;
+        font-size: 16px;
+        height: 35px;
+        padding: 5px; /* If you add too much padding here, the options won't show in IE */
+        width: 268px;
+    }
+}
+
+.ct-field-area {
+    margin-bottom: 40px;
+    h3 {
+        font-size: 88px;
+        border-top: 1px solid #BCBCBC;
+    }
+
+    ul {
+        margin-left: 80px;
+        
+        li {
+            font-size: 20px;
+            width: 24%;
+            display: inline-block;
+            font-weight: 400;
+            margin-bottom: 10px;
+
+            a:hover {
+                text-decoration: none;
+                opacity: 0.50;
+            }
+        }
+    }
+}
+
+#aznav {
+    margin-bottom: 0;
+
+    p {
+        font-size: 20px;
+    }
+    ul {
+        margin-left: 0;
+        li {
+            font-size: 27px;
+            width: auto;
+            padding: 0 7px;
+        }
+    }
+}
+
+@include bp(max-width, 900px) {
+    .ct-field-area {
+
+        ul {
+
+            li {
+                width: 32%;
+
+            }
+        }
+    }
+}
+
+@include bp(max-width, 700px) {
+    .ct-field-area {
+
+        ul {
+            margin-left: 0;
+
+            li {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.product-image-gallery .gallery-image.visible {
+    width: 100%;
+}
+
+#about-banner img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}

@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category    Blackbird
+ * @package     Blackbird_ContentManager
+ * @copyright   Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author      Blackbird Team
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version     1.1.0
+ */
+ -->
+<widgets>
+    <contentmanager_list type="contentmanager/widget_list">
+        <name>Content Manager: List of contents</name>
+        <description type="desc">Add a list of content from Content Manager extension.</description>
+        <parameters>
+            
+            <content_type translate="label description">
+                <required>0</required>
+                <visible>1</visible>
+                <label>Content Type</label>
+                <type>select</type>
+                <source_model>contentmanager/widget_contenttype</source_model>
+                <description>Set the list to display only the selected content type</description>
+            </content_type>
+            
+            <limit translate="label description">
+                <required>0</required>
+                <visible>1</visible>
+                <label>Limit</label>
+                <type>text</type>
+                <description>Define how many content will be displayed per page</description>
+            </limit>
+            
+            <order_field translate="label description">
+                <required>0</required>
+                <visible>1</visible>
+                <label>Order - Field</label>
+                <type>select</type>
+                <source_model>contentmanager/widget_contenttype_option</source_model>
+                <description>Define the sort order of the list. Set the field identifier you want to sort by, then set the sort type</description>
+            </order_field>
+            
+            <order_type translate="label description">
+                <required>0</required>
+                <visible>1</visible>
+                <label>Order - Type</label>
+                <type>select</type>
+                <values>
+                    <asc translate="label">
+                        <value>asc</value>
+                        <label>Ascending</label>
+                    </asc>
+                    <desc translate="label">
+                        <value>desc</value>
+                        <label>Descending</label>
+                    </desc>
+                </values>
+            </order_type>
+            
+            <attributes_to_show translate="label description">
+                <required>0</required>
+                <visible>0</visible>
+                <label>Fields to show in your list</label>
+                <type>text</type>
+                <helper_block>
+                    <type>contentmanager/widget_attributes_show</type>
+                </helper_block>
+            </attributes_to_show>
+            
+            <attributes_to_filter translate="label description">
+                <required>0</required>
+                <visible>0</visible>
+                <label>Fields to filter by</label>
+                <type>text</type>
+                <helper_block>
+                    <type>contentmanager/widget_attributes_filter</type>
+                </helper_block>
+            </attributes_to_filter>
+            
+        </parameters>
+    </contentmanager_list>
+    <contentmanager_content_link type="contentmanager/widget_link" translate="name description" module="cms">
+        <name>Content Manager: Content Link</name>
+        <description>Link to a Content page</description>
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <content_id type="complex" translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Content</label>
+                <type>label</type>
+                <helper_block>
+                    <type>contentmanager/adminhtml_widget_chooser_content_widget</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Content...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </content_id>
+            <anchor_text translate="label description">
+                <visible>1</visible>
+                <label>Anchor Custom Text</label>
+                <description>If empty, the Content Title will be used</description>
+                <type>text</type>
+            </anchor_text>
+            <title translate="label">
+                <visible>1</visible>
+                <label>Anchor Custom Title</label>
+                <type>text</type>
+            </title>
+            <template translate="label">
+                <label>Template</label>
+                <visible>1</visible>
+                <type>select</type>
+                <value>contenttype/widget/link/link_block.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>contenttype/widget/link/link_block.phtml</value>
+                        <label>Content Link Block Template</label>
+                    </default>
+                    <link_inline translate="label">
+                        <value>contenttype/widget/link/link_inline.phtml</value>
+                        <label>Content Link Inline Template</label>
+                    </link_inline>
+                </values>
+            </template>
+        </parameters>
+    </contentmanager_content_link>    
+</widgets>

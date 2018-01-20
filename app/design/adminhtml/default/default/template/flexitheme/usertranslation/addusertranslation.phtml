@@ -1,0 +1,28 @@
+<form id="user_translation_add_form" action="<?php echo Mage::getUrl('adminhtml/flexitheme_usertranslation/addBaseUserTranslation');?> " method="post">
+    <input type="hidden" value="<?php echo $this->_formkey; ?>" name="form_key">
+    <table id="userTranslationGrid_table_add" class="data" cellspacing="0">
+        <tr class="headings">
+            <th colspan="2">
+                <span>Add Custom Translation Data</span>
+            </th>
+        </tr> 
+        <tr class="headings">
+            <td> 
+                <span>Custom Phrase</span>
+            </td> 
+        </tr>
+        <tr> 
+            <td><input id="userTranslation_string" class="input-text required-entry" type="text" value="" name="user_translation_string"></td>
+        </tr>   
+        </div>
+    </table>
+    <div id="buttons">
+        <p></p>
+        <button type="submit" id="userTranslationGrid_table_add_submit">submit</button>
+        <!--<button type="submit" id="userTranslationGrid_table_add_submit" onclick="userTranslationGrid.submit()">submit</button>-->
+        <!--<button type="button" id="userTranslationGrid_table_add_cancel" onclick="userTranslationGrid.cancel()">cancel</button>-->
+    </div>   
+</form>
+<script type="text/javascript">
+   var user_translation_add_form = new varienForm("user_translation_add_form");
+</script>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <adminhtml_faqs_index>
+        <reference name="content">
+            <block type="epicor_faqs/adminhtml_faqs" name="faqs" />
+        </reference>
+    </adminhtml_faqs_index>
+
+    <adminhtml_faqs_grid>
+        <block type="epicor_faqs/adminhtml_faqs_grid" name="root"/>
+    </adminhtml_faqs_grid>
+
+    <adminhtml_faqs_new>
+        <update handle="adminhtml_faqs_edit" />
+    </adminhtml_faqs_new>
+
+    <adminhtml_faqs_edit>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="epicor_faqs/adminhtml_faqs_edit" name="faqs_edit" >
+
+            </block>
+        </reference>
+    </adminhtml_faqs_edit>
+</layout>

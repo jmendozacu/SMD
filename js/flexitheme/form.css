@@ -1,0 +1,75 @@
+
+body.flexitheme-adminhtml-theme-edit .entry-edit .entry-edit-head h4 { 
+    width:100%;
+}
+.font_form_field select {
+    padding-left:0px!important;
+}
+.font_form_field{
+    display: block; 
+    width:450px; 
+    margin-right:-170px
+}
+.font_form_field select.font-size {
+    width:60px!important;
+}
+.font_form_field select.font-weight {
+    width:71px!important;
+    padding-left:0px;
+}
+.font_form_field select.text-decoration {
+    width:102px!important;
+}
+
+.font_form_field div.colorpicker-container {
+    display:inline-block;
+    position: relative;
+}
+
+.font_form_field div.colorpicker-container>div {
+    position:absolute;
+    z-index:300;
+    background:#fff;
+    padding:5px;
+    border:1px solid #ccc;
+}
+
+.form-list p.note {
+    clear:both;
+}
+
+.hor-scroll {
+    overflow: visible!important;
+}
+#phraseGrid_table input.input-text,
+#userTranslationGrid_table input.input-text
+{width:98.75% !important;}
+#phraseGrid_table td, 
+#userTranslationGrid_table td 
+{width:45%;}
+#userTranslationGrid_table_add th
+
+{border-color: #F9F9F9 #D1CFCF #F9F9F9 #F9F9F9;
+ background: url("/skin/adminhtml/default/default/images/sort_row_bg.gif") repeat-x scroll 0 50% rgba(0, 0, 0, 0);
+ font-size: 1.2em;
+} 
+#userTranslationGrid_table_add tr span,
+#userTranslationGrid_table_add td span
+
+{color: #2D444F; font-weight:bold;font-size:0.9em;}
+/*{color: #2F2F2F;}*/
+#userTranslationGrid_table_add_cancel{
+    margin-left:20px;
+}
+#userTranslationGrid_table td{
+    width:45%;
+}
+#userTranslationGrid_table_add{
+    width:100%;
+}
+#userTranslationGrid_table_add td input{
+    width:98%;
+}
+#user_translation_add_form div#buttons p{ 
+    height:1em !important;
+}

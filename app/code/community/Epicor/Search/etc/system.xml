@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <epicor_config>
+            <label>Epicor Configuration</label>
+            <sort_order>1</sort_order>
+        </epicor_config>
+    </tabs>
+    <sections>
+        <epicor_search>
+            <label>Catalog Search</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>9000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <max_results>
+                            <label>Max Number of Results Returned by the Search Query</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Default of 250 results. leave blank for default]]></comment>
+                        </max_results>
+                        <and_or>
+                            <label>Search Terms are Matched with the OR Condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </and_or>
+                        <wildcard_prefix>
+                            <label>Prepend the Search Terms with a Wildcard</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Searching for <strong>red</strong> with also return feathe<strong>red</strong>]]></comment>
+                        </wildcard_prefix>
+                        <wildcard_suffix>
+                            <label>Append the Search Terms with a Wildcard</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Searching for <strong>red</strong> with also return <strong>red</strong>uction]]></comment>
+                        </wildcard_suffix>
+                        <order_by>
+                            <label>Ordering of Results after Search Term Relevance</label>
+                            <frontend_model>search/adminhtml_config_form_field_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_by>
+                        <separators>
+                            <label>Search Terms Separators</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[List of characters that separate terms if used in search]]></comment>
+                        </separators>
+                    </fields>
+                </general>
+            </groups>
+        </epicor_search>
+    </sections>
+</config>

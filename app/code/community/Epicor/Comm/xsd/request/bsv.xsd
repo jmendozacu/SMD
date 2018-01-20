@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:all>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element type="nonEmptyString" name="accountNumber"/>
+                    <xs:element type="nonEmptyString" name="currencyCode"/>
+                    <xs:element name="delivery">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="addressAny" name="deliveryAddress"/>
+                                <xs:element type="xs:float" name="charge"/>
+                                <xs:element type="xs:string" name="methodCode"/>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="order">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="xs:string" name="customerReference"/>
+                                <xs:element type="xs:dateTime" name="dateOrdered"/>
+                                <xs:element type="xs:dateTime" name="dateRequired"/>
+                                <xs:element type="xs:string" name="quoteNumber"/>
+                                <xs:element type="xs:string" name="eccGqrQuoteNumber"/>
+                                <xs:element type="xs:string" name="erpGqrQuoteNumber"/>
+                                <xs:element type="xs:float" name="goodsTotal"/>
+                                <xs:element type="xs:float" name="goodsTotalInc"/>
+                                <xs:element type="xs:float" name="discountAmount"/>
+                                <xs:element type="xs:float" name="carriageAmount"/>
+                                <xs:element type="xs:float" name="carriageAmountInc"/>
+                                <xs:element type="xs:float" name="grandTotal"/>
+                                <xs:element type="xs:float" name="grandTotalInc"/>
+                            </xs:all>
+                            <xs:attribute type="yesNo" name="preventRepricing" use="required" />
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="lines">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="line" maxOccurs="unbounded" minOccurs="0">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="nonEmptyString" name="productCode"/>
+                                            <xs:element type="xs:string" name="unitOfMeasureCode"/>
+                                            <xs:element type="xs:float" name="quantity"/>
+                                            <xs:element type="xs:float" name="price"/>
+                                            <xs:element type="xs:float" name="priceInc"/>
+                                            <xs:element type="xs:float" name="lineValue"/>
+                                            <xs:element type="xs:float" name="lineValueInc"/>
+                                            <xs:element type="nullableFloat" name="lineDiscount"/>
+                                            <xs:element type="xs:string" name="taxCode"/>
+                                            <xs:element type="xs:dateTime" name="dateRequired"/>
+                                            <xs:element type="attributes" name="attributes"/>
+                                        </xs:all>
+                                        <xs:attribute type="xs:int" name="number" use="required" />
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+   
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="order">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="xs:string" name="currencyCode"/>
+                                <xs:element type="xs:string" name="quoteNumber" minOccurs="0"/>
+                                <xs:element type="xs:float" name="goodsTotal"/>
+                                <xs:element type="xs:float" name="goodsTotalInc"/>
+                                <xs:element type="xs:float" name="discountAmount"/>
+                                <xs:element type="xs:float" name="carriageAmount"/>
+                                <xs:element type="xs:float" name="carriageAmountInc"/>
+                                <xs:element type="xs:float" name="grandTotal"/>
+                                <xs:element type="xs:float" name="grandTotalInc"/>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="lines">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="line" maxOccurs="unbounded" minOccurs="0">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="nonEmptyString" name="productCode"/>
+                                            <xs:element type="xs:string" name="unitOfMeasureCode"/>
+                                            <xs:element type="xs:float" name="quantity"/>
+                                            <xs:element type="xs:float" name="price"/>
+                                            <xs:element type="xs:float" name="priceInc"/>
+                                            <xs:element type="xs:float" name="lineValue"/>
+                                            <xs:element type="xs:float" name="lineValueInc"/>
+                                            <xs:element name="discount">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="xs:string" name="description" minOccurs="0"/>
+                                                        <xs:element type="xs:float" name="value"/>
+                                                        <xs:element type="nullableFloat" name="percent" minOccurs="0"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                            <xs:element type="xs:string" name="taxCode"/>
+                                            <xs:element type="xs:dateTime" name="dateRequired"/>
+                                            <xs:element type="xs:dateTime" name="nextDeliveryDate"/>
+                                            <xs:element type="attributes" name="attributes"/>
+                                        </xs:all>
+                                        <xs:attribute type="xs:int" name="number" use="required" />
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

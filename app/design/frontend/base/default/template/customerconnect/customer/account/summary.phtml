@@ -1,0 +1,41 @@
+<?php
+/**
+ * Template for block Epicor_Customerconnect_Block_Customer_Account_Summary
+ */
+if ($this->isErpCustomer()) :
+    ?>
+    <div class="block block-account-summary">
+        <div class="block-title">
+            <strong><span><?php echo $this->__('Account Summary') ?></span></strong>
+        </div>
+        <div class="block-content">
+            <div class="empty">
+                <?php if ($this->showField('name')) : ?>
+                    <p>
+                        <strong><?php echo $this->getErpCustomer()->getName() ?></strong>
+                    </p>
+                <?php endif; ?>
+                <?php if ($this->showField('code')) : ?>
+                    <p>
+                        <strong><?php echo $this->__('Short Code:') ?></strong><br />
+                        <?php echo $this->getErpCustomer()->getShortCode() ?>
+                    </p>
+                <?php endif; ?>
+                <?php if ($this->showField('credit_limit')) : ?>
+                    <p>
+                        <strong><?php echo $this->__('Credit Limit:') ?></strong><br />
+                        <?php echo $this->getCreditLimit(); ?>
+                    </p>
+                <?php endif; ?>
+                <?php if ($this->showField('balance')) : ?>
+                    <p>
+                        <strong><?php echo $this->__('Current Balance:') ?></strong><br />
+                        <?php echo $this->getBalance(); ?>
+                    </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php
+
+endif;

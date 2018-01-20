@@ -1,0 +1,227 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+
+$nodes = Mage::registry('nodes_data');
+$menu_data = Mage::registry('menu_data');
+?>
+
+<tr>
+    <td>
+        <!-- MENU ITEM LAYOUT-->
+        <div id="menu-layout" style="display: none;">
+
+            <div class="menu-node" id="menu-{{node_id}}">
+                <label><span>{{label}}</span> <i>{{status_label}}</i> <i>{{entity_id}}{{url}}</i></label>
+                <span onclick="collapseMenuItem(jQuery(this).parent());" class="collapse collapsed"></span>
+
+                <div class="menu-properties">
+                    <input class="prefix_to_change" type="hidden" name="{{prefix}}[node_id]" value="{{node_id}}" />
+                    <input class="prefix_to_change" type="hidden" name="{{prefix}}[menu_id]" value="{{menu_id}}" />
+                    <input class="prefix_to_change menu-position" type="hidden" name="{{prefix}}[position]" value="{{position}}" />
+                    <input class="prefix_to_change" type="hidden" name="{{prefix}}[level]" value="{{level}}" />
+                    <input class="prefix_to_change" type="hidden" name="{{prefix}}[format]" value="{{format}}" />
+                    <input class="prefix_to_change delete_menu_item" type="hidden" name="{{prefix}}[is_deleted]" value="0" />
+                    
+                    <button title="<?php echo $this->__('Remove menu item'); ?>" style="margin-right: 10px;" type="button" class="f-right scalable delete" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this menu item and all his children?'); ?>)')) removeMenuItem(jQuery(this).parent().parent());" style=""><span><span><span><?php echo $this->__('Remove menu item'); ?></span></span></span></button>
+                    <table class="form-list" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Label'); ?></label></td>
+                                <td class="value">
+                                    <input type="text" class="input-text prefix_to_change" name="{{prefix}}[label]" value="{{label}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Status'); ?></label></td>
+                                <td class="value">
+                                    <select class="prefix_to_change" name="{{prefix}}[status]">
+                                        <option value="0" {{status_0}}="{{status_0}}"><?php echo $this->__('Disabled'); ?></option>
+                                        <option value="1" {{status_1}}="{{status_1}}"><?php echo $this->__('Enabled'); ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Target'); ?></label></td>
+                                <td class="value">
+                                    <select class="prefix_to_change" name="{{prefix}}[target]">
+                                        <option value="_self" {{target_self}}="{{target_self}}"><?php echo $this->__('Self: open in the same window'); ?></option>
+                                        <option value="_blank" {{target_blank}}="{{target_blank}}"><?php echo $this->__('Blank: open in a new window'); ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('CSS classes'); ?></label></td>
+                                <td class="value">
+                                    <input type="text" class="input-text prefix_to_change" name="{{prefix}}[classes]" value="{{classes}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Type'); ?></label></td>
+                                <td class="value">
+                                    <select class="prefix_to_change menu_type" name="{{prefix}}[type]" onchange="changeMenuType(this);">
+                                        <option value="content" {{type_content}}="{{type_content}}"><?php echo $this->__('Content'); ?></option>
+                                        <option value="page" {{type_page}}="{{type_page}}"><?php echo $this->__('Page'); ?></option>
+                                        <option value="category" {{type_category}}="{{type_category}}"><?php echo $this->__('Category'); ?></option>
+                                        <option value="product" {{type_product}}="{{type_product}}"><?php echo $this->__('Product'); ?></option>
+                                        <option value="block" {{type_block}}="{{type_block}}"><?php echo $this->__('Block: direcly include a CMS block in the menu'); ?></option>
+                                        <option value="node" {{type_node}}="{{type_node}}"><?php echo $this->__('Node: no link, only a node for future children'); ?></option>
+                                        <option value="custom" {{type_custom}}="{{type_custom}}"><?php echo $this->__('Custom: allows to link to external URL or custom URL'); ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="format_product" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Product SKU'); ?></label></td>
+                                <td class="value">
+                                    <?php
+                                       $action = 'getProductChooser(\'' . $this->getUrl('adminhtml/cm_ajax_widget/chooser', array('attribute' => 'sku', 'form' => 'rule_conditions_fieldset', '_secure' => Mage::app()->getStore()->isAdminUrlSecure())) . '?isAjax=true\', \'field-product-{{increment}}\', true); return false;';
+                                    ?>
+
+                                    <input type="text" id="field-product-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[entity_id]" value="{{entity_id}}">
+                                    <a href="javascript:void(0)" class="rule-choose-trigger" onclick="<?php echo $action; ?>"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif'); ?>" alt="" class="v-middle" title="<?php echo Mage::helper('contentmanager')->__('Open Chooser'); ?>" /></a>
+                                    <a href="javascript:void(0)" class="rule-param-apply" onclick="$('chooser-container-field-product-{{increment}}').innerHTML = '';"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif'); ?>" class="v-middle" alt="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>" title="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>"></a>
+                                    
+                                    <div class="chooser-container" id="chooser-container-field-product-{{increment}}"></div>
+                                </td>
+                            </tr>
+                            <tr class="format_content" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Content ID'); ?></label></td>
+                                <td class="value">
+                                    <?php
+                                       $action = 'getProductChooser(\'' . $this->getUrl('adminhtml/cm_ajax_widget/chooser', array('attribute' => 'content', 'form' => 'rule_conditions_fieldset', '_secure' => Mage::app()->getStore()->isAdminUrlSecure())) . '?isAjax=true\', \'field-content-{{increment}}\', true); return false;';
+                                    ?>
+
+                                    <input type="text" id="field-content-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[entity_id]" value="{{entity_id}}">
+                                    <a href="javascript:void(0)" class="rule-choose-trigger" onclick="<?php echo $action; ?>"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif'); ?>" alt="" class="v-middle" title="<?php echo Mage::helper('contentmanager')->__('Open Chooser'); ?>" /></a>
+                                    <a href="javascript:void(0)" class="rule-param-apply" onclick="$('chooser-container-field-content-{{increment}}').innerHTML = '';"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif'); ?>" class="v-middle" alt="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>" title="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>"></a>
+                                    
+                                    <div class="chooser-container" id="chooser-container-field-content-{{increment}}"></div>
+                                </td>
+                            </tr>
+                            <tr class="format_content" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Specific URL'); ?></label></td>
+                                <td class="value">
+                                    <input type="text" id="field-content-url-path-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[url_path]" value="{{url_path}}">
+                                    <p class="note"><span><?php echo $this->__('Keep empty to use the default content URL in the menu'); ?></span></p>
+                                </td>
+                            </tr>
+                            <tr class="format_content" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Default URL for this content (canonical)'); ?></label></td>
+                                <td class="value">
+                                    <select  class="select prefix_to_change" id="field-content-canonical-{{increment}}" name="{{prefix}}[canonical]">
+                                        <option value="0" {{canonical_0}}="{{canonical_0}}"><?php echo $this->__('No'); ?></option>
+                                        <option value="1" {{canonical_1}}="{{canonical_1}}"><?php echo $this->__('Yes'); ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="format_page" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Page ID'); ?></label></td>
+                                <td class="value">
+                                    <?php
+                                       $action = 'getProductChooser(\'' . $this->getUrl('adminhtml/cm_ajax_widget/chooser', array('attribute' => 'pag', 'form' => 'rule_conditions_fieldset', '_secure' => Mage::app()->getStore()->isAdminUrlSecure())) . '?isAjax=true\', \'field-page-{{increment}}\', true); return false;';
+                                    ?>
+
+                                    <input type="text" id="field-page-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[entity_id]" value="{{entity_id}}">
+                                    <a href="javascript:void(0)" class="rule-choose-trigger" onclick="<?php echo $action; ?>"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif'); ?>" alt="" class="v-middle" title="<?php echo Mage::helper('contentmanager')->__('Open Chooser'); ?>" /></a>
+                                    <a href="javascript:void(0)" class="rule-param-apply" onclick="$('chooser-container-field-page-{{increment}}').innerHTML = '';"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif'); ?>" class="v-middle" alt="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>" title="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>"></a>
+                                    
+                                    <div class="chooser-container" id="chooser-container-field-page-{{increment}}"></div>
+                                </td>
+                            </tr>
+                            <tr class="format_block" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Block ID'); ?></label></td>
+                                <td class="value">
+                                    <?php
+                                       $action = 'getProductChooser(\'' . $this->getUrl('adminhtml/cm_ajax_widget/chooser', array('attribute' => 'block', 'form' => 'rule_conditions_fieldset', '_secure' => Mage::app()->getStore()->isAdminUrlSecure())) . '?isAjax=true\', \'field-block-{{increment}}\', true); return false;';
+                                    ?>
+
+                                    <input type="text" id="field-block-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[entity_id]" value="{{entity_id}}">
+                                    <a href="javascript:void(0)" class="rule-choose-trigger" onclick="<?php echo $action; ?>"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif'); ?>" alt="" class="v-middle" title="<?php echo Mage::helper('contentmanager')->__('Open Chooser'); ?>" /></a>
+                                    <a href="javascript:void(0)" class="rule-param-apply" onclick="$('chooser-container-field-block-{{increment}}').innerHTML = '';"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif'); ?>" class="v-middle" alt="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>" title="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>"></a>
+                                    
+                                    <div class="chooser-container" id="chooser-container-field-block-{{increment}}"></div>
+                                </td>
+                            </tr>
+                            <tr class="format_category" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Category ID'); ?></label></td>
+                                <td class="value">
+                                    <?php
+                                       $action = 'getProductChooser(\'' . $this->getUrl('adminhtml/cm_ajax_widget/chooser', array('attribute' => 'category_ids', 'form' => 'rule_conditions_fieldset', '_secure' => Mage::app()->getStore()->isAdminUrlSecure())) . '?isAjax=true\', \'field-category-{{increment}}\', true); return false;';
+                                    ?>
+
+                                    <input type="text" id="field-category-{{increment}}" class="input-text prefix_to_change" name="{{prefix}}[entity_id]" value="{{entity_id}}">
+                                    <a href="javascript:void(0)" class="rule-choose-trigger" onclick="<?php echo $action; ?>"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif'); ?>" alt="" class="v-middle" title="<?php echo Mage::helper('contentmanager')->__('Open Chooser'); ?>" /></a>
+                                    <a href="javascript:void(0)" class="rule-param-apply" onclick="$('chooser-container-field-category-{{increment}}').innerHTML = '';"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif'); ?>" class="v-middle" alt="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>" title="<?php echo Mage::helper('contentmanager')->__('Apply'); ?>"></a>
+                                    
+                                    <div class="chooser-container" id="chooser-container-field-category-{{increment}}"></div>
+                                </td>
+                            </tr>
+                            <tr class="format_node" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('Link to first child'); ?></label></td>
+                                <td class="value">
+                                    <input type="checkbox" {{firstchild}}="{{firstchild}}" class="checkbox prefix_to_change" name="{{prefix}}[firstchild]" value="1"> <?php echo $this->__('Yes'); ?>
+                                </td>
+                            </tr>
+                            <tr class="format_custom" style="display: none;">
+                                <td class="label"><label><?php echo $this->__('URL path'); ?></label></td>
+                                <td class="value">
+                                    <input type="text" class="input-text prefix_to_change" name="{{prefix}}[url]" value="{{url}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="actions">
+                        <button style="margin-right: 10px;" onclick="addCtVirginMenuNode('<?php echo $menu_data->getId(); ?>', jQuery(this).parent().next());" class=" f-right scalable add" type="button" title="<?php echo $this->__('Add menu item'); ?>"><span><span><span><?php echo $this->__('Add menu item'); ?></span></span></span></button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="children column-dropable">
+                        
+                    </div>
+                    <div class="actions">
+                        <button style="margin-right: 10px; margin-bottom: 10px;" onclick="addCtVirginMenuNode('<?php echo $menu_data->getId(); ?>', jQuery(this).parent().prev());" class=" f-right scalable add" type="button" title="<?php echo $this->__('Add menu item'); ?>"><span><span><span><?php echo $this->__('Add menu item'); ?></span></span></span></button>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="menu-container" class="column-dropable">
+            <div class="actions">
+                <button style="" onclick="addCtVirginMenuNode('<?php echo $menu_data->getId(); ?>', jQuery('#menu-container'));" class="scalable add f-right" type="button" title="<?php echo $this->__('Add menu item'); ?>"><span><span><span><?php echo $this->__('Add menu item'); ?></span></span></span></button>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="actions">
+            <button style="" onclick="addCtVirginMenuNode('<?php echo $menu_data->getId(); ?>', jQuery('#menu-container'));" class="scalable add f-right" type="button" title="<?php echo $this->__('Add menu item'); ?>"><span><span><span><?php echo $this->__('Add menu item'); ?></span></span></span></button>
+            <div class="clear"></div>
+        </div>        
+        
+        <script type="text/javascript">
+            <?php echo $this->generateJs($nodes); ?>
+        </script>
+    </td>
+</tr>

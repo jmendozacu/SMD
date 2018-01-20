@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:all>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element name="customer">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="nonEmptyString" name="name"/>
+                                <xs:element type="addressForRequests" name="registeredAddress"/>
+                                <xs:element type="addressForRequests" name="invoiceAddress"/>
+                                <xs:element type="addressForRequests" name="deliveryAddress"/>
+                                <xs:element type="xs:string" name="registrationEmailAddress"/>
+                            </xs:all>
+                            <xs:attribute type="yesNo" name="delete"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="customer">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="nonEmptyString" name="accountNumber"/>
+                                <xs:element type="nonEmptyString" name="accountName"/>
+                                <xs:element type="brands" name="brands"/>
+                                <xs:element name="account">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="xs:float" name="balance"/>
+                                            <xs:element type="nullableFloat" name="creditLimit"/>
+                                            <xs:element type="xs:float" name="unallocatedCash"/>
+                                            <xs:element type="nonEmptyString" name="baseCurrencyCode"/>
+                                            <xs:element type="xs:string" name="emailAddress"/>
+                                            <xs:element type="xs:string" name="salesRep"/>
+                                            <xs:element type="nullableFloat" name="minOrderValue"/>
+                                            <xs:element type="currencies" name="currencies"/>
+                                        </xs:all>
+                                        <xs:attribute type="yesNo" name="onStop" use="required"/>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="taxCode"/>
+                                <xs:element name="defaults">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="address" name="registeredAddress"/>
+                                            <xs:element type="address" name="deliveryAddress"/>
+                                            <xs:element type="address" name="invoiceAddress"/>
+                                            <xs:element type="xs:string" name="registrationEmailAddress"/>
+                                        </xs:all>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:all>
+                            <xs:attribute type="yesNo" name="allowBackOrders" use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <tabs>
+        <webtise translate="label" module="gallery">
+            <label>Webtise</label>
+            <sort_order>500</sort_order>
+        </webtise>
+    </tabs>
+    <sections>
+        <gallery translate="label" module="gallery">
+            <label>Banner Manager</label>
+            <tab>webtise</tab>
+            <sort_order>10</sort_order>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <block_refs translate="label" module="gallery">
+                    <label>Custom Block References</label>
+                    <expanded>1</expanded>
+                    <sort_order>10</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <custom translate="label" module="gallery">
+                            <label>Custom Structural Blocks</label>
+                            <frontend_model>gallery/adminhtml_custom_block_references</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Add custom structural blocks to add galleries into. Must be Block type core/text_list or make a call to getChildHtml() with no parameter to render all children]]>.
+                            </comment>
+                        </custom>
+                    </fields>
+                </block_refs>
+            </groups>
+        </gallery>
+    </sections>
+</config>

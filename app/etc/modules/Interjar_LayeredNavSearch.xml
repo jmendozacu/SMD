@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <modules>
+        <Interjar_LayeredNavSearch>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Wyomind_Layer />
+            </depends>
+        </Interjar_LayeredNavSearch>
+    </modules>
+</config>

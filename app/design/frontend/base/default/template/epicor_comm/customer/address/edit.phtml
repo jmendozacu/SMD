@@ -1,0 +1,231 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Edit customer address template
+ *
+ * @see Mage_Customer_Block_Address_Edit
+ */
+$allowEdits = Mage::helper('epicor_common')->customerAddressPermissionCheck('edit'); 
+$allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionCheck('create'); 
+$telephoneRequired = Mage::getStoreConfig('checkout/options/telephone_required');
+$displayMobilePhone = Mage::getStoreConfigFlag('customer/address/display_mobile_phone');
+$mobileRequired = $displayMobilePhone && Mage::getStoreConfigFlag('checkout/options/mobile_number_required');
+$displayInstructions = Mage::getStoreConfigFlag('customer/address/display_instructions');
+$displayEmail = Mage::getStoreConfigFlag('customer/address/display_email');
+?>
+<?php if ($this->getTitle()): ?>
+    <div class="page-title">
+        <h1><?php echo $this->getTitle() ?></h1>
+    </div>
+<?php endif; ?>
+<?php if ($allowEdits || ($allowAdditional && $this->getAddress()->getErpAddressCode() == null)): ?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate">
+        <div class="fieldset">
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+            <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+            <h2 class="legend"><?php echo $this->__('Contact Information') ?></h2>
+            <ul class="form-list">
+                <li class="fields">
+                    <?php echo $this->getNameBlockHtml() ?>
+                </li>
+                <li class="wide">
+                    <label for="company"><?php echo $this->__('Company') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="company" id="company" title="<?php echo $this->__('Company') ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" class="input-text" />
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">                    
+                    <?php if($telephoneRequired){ ?>
+                         <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                          <div class="input-box">
+                            <input type="text" name="telephone" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="telephone" />
+                        </div>
+                    <?php }else{ ?>
+                          <label for="telephone" ><?php echo $this->__('Telephone') ?></label>
+                           <div class="input-box">
+                            <input type="text" name="telephone" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="telephone" />
+                           </div>
+                    <?php } ?>
+                    </div> 
+                    <?php  if($displayMobilePhone) : ?>
+                        <div class="field">
+                        <?php if($mobileRequired){ ?>
+                            <label for="mobile_number" class="required"><em>*</em><?php echo $this->__('Mobile') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="mobile_number" id="mobile_number" title="<?php echo $this->__('Mobile') ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getMobileNumber()) ?>" class="input-text required-entry" />
+                            </div>
+                        <?php }else{ ?>
+                            <label for="mobile_number"><?php echo $this->__('Mobile') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="mobile_number" id="mobile_number" title="<?php echo $this->__('Mobile') ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getMobileNumber()) ?>" class="input-text" />
+                            </div>
+                        <?php } ?>
+                        </div>
+                    <?php endif ?> 
+                 </li>   
+                 <li class="fields">    
+                    <div class="field">
+                        <label for="fax"><?php echo $this->__('Fax') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="fax" id="fax" title="<?php echo $this->__('Fax') ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" class="input-text" />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Address') ?></h2>
+            <ul class="form-list">
+                <li class="wide">
+                    <label for="street_1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
+                    </div>
+                </li>
+                <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                    <li class="wide">
+                        <div class="input-box">
+                            <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address %s', $_i) ?>" id="street_<?php echo $_i ?>" class="input-text" />
+                        </div>
+                    </li>
+                <?php endfor ?>
+                <li class="fields">
+                    <div class="field">
+                        <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="city" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>"  title="<?php echo $this->__('City') ?>" class="input-text required-entry" id="city" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                        <div class="input-box">
+                            <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                                <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                            </select>
+                            <script type="text/javascript">
+                                //<![CDATA[
+                                $('region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                                //]]>
+                            </script>
+                            <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" />
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="zip" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international required-entry" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                        <div class="input-box">
+                            <?php echo $this->getCountryHtmlSelect() ?>
+                        </div>
+                    </div>
+                </li>
+                <?php if($displayEmail): ?>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="email"><?php echo $this->__('Email Address') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="email" class="input-text validate-email" />
+                            </div>
+                        </div>
+                    </li>
+                <?php endif ?>
+                <?php  if($displayInstructions) : ?>    
+                    <li class="wide">
+                        <label for="instructions" class=""><?php echo $this->__('Delivery Instructions') ?></label>
+                        <div class ="input-box">
+                            <textarea id="instructions" name ="instructions" maxlength="<?php echo $this->getMaxCommentSize(); ?>"><?php echo $this->getAddress()->getInstructions(); ?></textarea>
+                              <?php if ($this->limitTextArea()): ?>
+                                    <p><span id="max-len-feedback"><?php echo $this->getRemainingCommentSize(); ?></span> <?php echo Mage::helper('epicor_comm')->__('Chars Remaining'); ?></p>
+                              <?php endif; ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($this->canMarkDefaultShippingBillingAddress()): ?>
+                    <li<?php if($this->canSetAsDefaultBilling()) echo ' class="control"' ?>>
+                        <?php if($this->isDefaultBilling()): ?>
+                            <strong><?php echo $this->__('Default Billing Address') ?></strong>
+                        <?php elseif($this->canSetAsDefaultBilling()): ?>
+                            <input type="checkbox" id="primary_billing" name="default_billing" value="1" title="<?php echo $this->__('Use as My Default Billing Address') ?>" class="checkbox" /><label for="primary_billing"><?php echo $this->__('Use as my default billing address') ?></label>
+                        <?php else: ?>
+                            <input type="hidden" name="default_billing" value="1" />
+                        <?php endif; ?>
+                    </li>
+                    <li<?php if($this->canSetAsDefaultShipping()) echo ' class="control"' ?>>
+                        <?php if($this->isDefaultShipping()): ?>
+                            <strong><?php echo $this->__('Default Shipping Address') ?></strong>
+                        <?php elseif($this->canSetAsDefaultShipping()): ?>
+                            <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" title="<?php echo $this->__('Use as My Default Shipping Address') ?>" class="checkbox" /><label for="primary_shipping"><?php echo $this->__('Use as my default shipping address') ?></label>
+                        <?php else: ?>
+                            <input type="hidden" name="default_shipping" value="1" />
+                        <?php endif; ?>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo $this->__('Save Address') ?>" class="button"><span><span><?php echo $this->__('Save Address') ?></span></span></button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        //<![CDATA[
+        var dataForm = new VarienForm('form-validate', true);
+        new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
+        <?php if(Mage::getStoreConfigFlag('customer/address/limits_enabled')){ ?>
+            var limitcheck = new checkLengthLimits( <?php echo Mage::getStoreConfig('customer/address/limit_name_length') ? Mage::getStoreConfig('customer/address/limit_name_length') : 10234 ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_address_line_length') ? Mage::getStoreConfig('customer/address/limit_address_line_length') : 10234  ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_telephone_length') ? Mage::getStoreConfig('customer/address/limit_telephone_length') : 10234 ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_instructions_length') ? Mage::getStoreConfig('customer/address/limit_instructions_length') : 10234 ?> 
+                                               );
+        <?php } ?>                  
+        //]]>
+    </script>
+<?php if ($this->limitTextArea()): ?>
+    <script>
+        $('instructions').observe('keyup',function(event){       
+            var max = <?php echo $this->getMaxCommentSize(); ?>;
+            var current = event.element().value.length;
+            $('max-len-feedback').innerHTML = (max - current);
+        });
+    </script>
+<?php endif; ?>
+    
+<?php else: ?>
+    <p><?php echo $this->__('Address editing has been disabled by the system administrators.') ?></p>
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+<?php endif; ?>

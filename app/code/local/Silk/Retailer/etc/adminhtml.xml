@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <retailer translate="title" module="silk_retailer">
+            <title>Retailer</title>
+            <sort_order>60</sort_order>
+            <children>
+                <retailers translate="title" module="silk_retailer">
+                    <title>Retailers</title>
+                    <action>silk_retailer/adminhtml_retailers/index</action>
+                </retailers>
+            </children>
+        </retailer>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <retailer translate="title" module="silk_retailer">
+                        <children>
+                            <retailers translate="title" module="silk_retailer">
+                                <title>Retailers</title>
+                            </retailers>
+                        </children>
+                    </retailer>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,77 @@
+<?php
+/**
+ * Template for block Epicor_Customerconnect_Block_Customer_Account_Summary
+ */
+//if ($this->isErpCustomer()) :
+$options = Mage::getModel('epicor_comm/config_source_yesnonulloption')->toOptionArray();
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+/* @var $customer Epicor_Comm_Model_Customer */
+
+$customAddressAllowed = Mage::helper('epicor_common')->customerAddressPermissionCheck('create', 'erpaccount');
+?>
+<div class="col-1 box-info box-account">
+    <div class="box-head">
+        <h2><?php echo $this->__('Contact Address Creation') ?></h2>
+        <button id="custom_address_allowed_button" class="scalable" type="submit">Update</button>
+    </div>
+    <div class="block-content">
+        <form action="<?php echo $this->getUrl('*/*/saveCusomAddress') ?>" method="post" id="role_edit_form">
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <fieldset id="erp_custom_address_allowed">
+                <label for="erp_custom_address_allowed"><?php echo $this->__('Can Contacts Create Addresses?') ?></label>
+                <select name="custom_address_allowed" id="custom_address_allowed" class="select">
+                    <?php foreach ($options as $key => $value): ?>
+                        <?php if ($value['value'] != ''): ?>
+                            <option value="<?php echo $value['value'] ?>" <?php if ($customAddressAllowed == $value['value']) : ?>selected='selected'<?php endif; ?>><?php echo $value['label'] ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+            </fieldset>
+        </form>
+        <div id="custom_address_allowed_messages">
+            <div id="custom_message_allowed_failure_response">Unable to update, please try later</div>
+        </div>
+    </div>
+</div>
+<script>
+    $('custom_message_allowed_failure_response').hide();
+    $("custom_address_allowed_button").observe('click', function () {
+        var newValue = $("custom_address_allowed").value;
+        var url = location.protocol + '//' + location.hostname + '/customerconnect/account/saveCustomAddressAllowed'
+        url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');
+        $('loading-mask').show();
+        this.ajaxRequest = new Ajax.Request(url, {
+            method: 'post',
+            parameters: {customAddressAllowed: newValue},
+            onComplete: function (request) {
+                this.ajaxRequest = false;
+            }.bind(this),
+            onSuccess: function (data) {
+                var json = data.responseText.evalJSON();
+                if (json.type == 'success') {
+                    if (json.redirect) {
+                        window.location.replace(json.redirect);
+                    }
+                } else {
+                    $('loading-mask').hide();
+                    if (json.message) {
+                        showMessage(json.message, json.type);
+                    }
+                }
+            }.bind(this),
+            onFailure: function (request) {
+                $('loading-mask').hide();
+                $('custom_message_allowed_failure_response').show();
+                delay(custom_message_allowed_failure_response, 5);
+            }.bind(this),
+            onException: function (request, e) {
+                alert(e);
+            }.bind(this)
+        });
+    })
+
+    function delay(message, time) {
+        Element.hide.delay(time, message);
+    }
+
+</script>

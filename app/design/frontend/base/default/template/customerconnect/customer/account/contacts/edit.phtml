@@ -1,0 +1,98 @@
+<?php
+/**
+ * Edit contact
+ */
+if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customerData = Mage::getSingleton('customer/session')->getCustomer();
+}
+?>
+
+<?php $telephoneRequired = Mage::getStoreConfig('checkout/options/telephone_required'); ?>
+<div id="update-contact" style="display:none;" class="box-info box-account">
+    <input type="hidden" value="<?php echo $customerData->getEmail(); ?>" name="loggedin_customer_email" id="loggedin_customer_email" />
+    <input type="hidden" value="<?php echo $customerData->getEccMasterShopper(); ?>" name="loggedin_customer_mastershopper" id="loggedin_customer_master_shopper" />
+    <form action="<?php echo Mage::getUrl('customerconnect/account/saveContact') ?>" method="post" id="update-contact-form">   
+        <input type="hidden" name="old_data" id="contact_old_data" />
+
+        <h2 id="update-contact-title" class="legend"><?php echo Mage::helper('customerconnect')->__('Update Contact') ?></h2>
+        <h2 id="add-contact-title" class="legend"><?php echo Mage::helper('customerconnect')->__('Add Contact') ?></h2>
+        <div class="formfields">
+            <p class="required  pop-up"><?php echo Mage::helper('customerconnect')->__('* Required Fields') ?></p>
+            <ul id="contacts-form-fieldset-list" class="form-list update-contact-form-list"> 
+                <li>
+                    <label for="contact_name" class="required"><em>*</em><?php echo Mage::helper('customerconnect')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="name" title="<?php echo Mage::helper('customerconnect')->__('Name') ?>" id="contact_name" class="input-text required-entry" />
+                    </div>
+                </li>
+                <li>
+                    <label for="contact_function" class="required"><em>*</em><?php echo Mage::helper('customerconnect')->__('Function') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="function" title="<?php echo Mage::helper('customerconnect')->__('Function') ?>" id="contact_function" class="input-text required-entry" />
+                    </div>
+                </li>
+                <li>
+                    <label for="contact_email_address" id="contact_email_address_label" ><?php echo Mage::helper('customerconnect')->__('Email Address') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="email_address" title="<?php echo Mage::helper('customerconnect')->__('Email Address') ?>" id="contact_email_address" class="input-text validate-email" />
+                    </div>
+                </li>
+                <li>
+                    <?php if ($telephoneRequired) { ?>
+                        <label for="contact_telephone_number" class="required"><em>*</em><?php echo Mage::helper('customerconnect')->__('Telephone Number') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="telephone_number" title="<?php echo Mage::helper('customerconnect')->__('Telephone Number') ?>" id="contact_telephone_number" class="input-text required-entry" />
+                        </div>
+                    <?php } else { ?> 
+                        <label for="contact_telephone_number" ><?php echo Mage::helper('customerconnect')->__('Telephone Number') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="telephone_number" title="<?php echo Mage::helper('customerconnect')->__('Telephone Number') ?>" id="contact_telephone_number" class="input-text" />
+                        </div>
+                    <?php } ?> 
+                </li>
+                <li>
+                    <label for="contact_fax_number" ><?php echo Mage::helper('customerconnect')->__('Fax Number') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="fax_number" title="<?php echo Mage::helper('customerconnect')->__('Fax Number') ?>" id="contact_fax_number" class="input-text" />
+                    </div>
+                </li>
+                <li>
+                    <label for="contact_web_enabled" ><?php echo Mage::helper('customerconnect')->__('Web Enabled') ?></label>
+                    <div class="input-box">
+                        <input type="checkbox" name="web_enabled" title="<?php echo Mage::helper('customerconnect')->__('Web Enabled') ?>" id="contact_web_enabled" value="1"/>
+                        <input type="hidden" name="login_id" id="contact_login_id" />
+                    </div>
+                </li>
+
+                <li id="master_shopper_li">
+                    <label for="contact_mastershopper_enabled" ><?php echo Mage::helper('customerconnect')->__('Master Shopper') ?></label>
+                    <div class="input-box">
+                        <input type="checkbox"  name="master_shopper" title="<?php echo Mage::helper('customerconnect')->__('Master Shopper') ?>" value="" id="contact_master_shopper" onclick="update_value()"/>
+                        <input type="hidden" name="ecc_master_shopper" id="contact_ecc_master_shopper" />
+                    </div>
+                </li>
+                <?php if (Mage::registry('manage_permissions')) : ?>
+                    <li id="manage_permissions">
+                        <p><strong><?php echo Mage::helper('customerconnect')->__('Manage Access Groups') ?></strong></p>
+                        <select multiple="multiple" name="access_groups" size="5">
+                            <?php foreach (Mage::helper('epicor_common/access')->getAccessGroupsForErpAccount() as $group) : ?>
+                                <option value="<?php echo $group->getId(); ?>"><?php echo $group->getEntityName(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <p><?php echo Mage::helper('customerconnect')->__('Press Ctrl and click to select multiple') ?></p>
+                    </li>
+                <?php endif; ?>
+                <li class="fields">
+
+                </li>
+            </ul>
+        </div>
+        <div class="buttonbar">                       
+            <button type="submit" title="<?php echo Mage::helper('customerconnect')->__('Save Contact') ?>" id="update-contact-submit" class="button"><span><span><?php echo Mage::helper('customerconnect')->__('Save Contact') ?></span></span></button>
+        </div>
+    </form>
+</div>  
+<script>
+    varienGlobalEvents.attachEventHandler('editContact');
+</script>
+

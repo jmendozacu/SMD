@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+  <default>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/3columns.phtml</template>
+      </action>
+    </reference>
+    <reference name="top.container">
+      <block type="flexitheme/frontend_template_quicklinks" name="flexitheme.top.container.quick.links">
+        <action method="setClone">
+          <clone>top.links</clone>
+        </action>
+      </block>
+      <block type="flexitheme/frontend_template_welcome" name="flexitheme.top.container.welcome"/>
+      <block type="flexitheme/frontend_template_logo" name="flexitheme.top.container.site.logo"/>
+    </reference>
+    <reference name="left">
+      <block type="catalog/navigation" name="flexitheme.left.catalog.topnav" template="catalog/navigation/side.phtml"/>
+    </reference>
+    <reference name="content"/>
+    <reference name="right">
+      <block type="core/template" name="flexitheme.right.search" template="catalogsearch/form.mini.phtml"/>
+      <block type="checkout/cart_sidebar" name="flexitheme.right.cart_sidebar" template="epicor_comm/checkout/cart/sidebar.phtml">
+        <action method="addItemRender">
+          <type>simple</type>
+          <block>checkout/cart_item_renderer</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>grouped</type>
+          <block>checkout/cart_item_renderer_grouped</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>configurable</type>
+          <block>checkout/cart_item_renderer_configurable</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+          <label>Shopping Cart Sidebar Extra Actions</label>
+        </block>
+      </block>
+      <block type="catalog/product_compare_sidebar" name="flexitheme.right.catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+      <block type="epicor_comm/cart_quickadd" name="flexitheme.right.epicor_comm.cart.quickadd" template="epicor_comm/cart/quickadd.phtml"/>
+    </reference>
+    <reference name="bottom.container">
+      <block type="flexitheme/frontend_template_quicklinks" name="flexitheme.bottom.container.footer.links">
+        <action method="setClone">
+          <clone>footer_links</clone>
+        </action>
+      </block>
+      <block type="page/switch" name="flexitheme.bottom.container.store_switcher" template="page/switch/stores.phtml"/>
+    </reference>
+  </default>
+  <catalog_product_view>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/3columns.phtml</template>
+      </action>
+    </reference>
+    <reference name="top.container"/>
+    <reference name="left"/>
+    <reference name="content"/>
+    <reference name="right"/>
+    <reference name="bottom.container"/>
+  </catalog_product_view>
+  <catalog_category_default>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/3columns.phtml</template>
+      </action>
+    </reference>
+    <reference name="top.container"/>
+    <reference name="left"/>
+    <reference name="content"/>
+    <reference name="right"/>
+    <reference name="bottom.container"/>
+  </catalog_category_default>
+  <checkout_cart_index>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/1column.phtml</template>
+      </action>
+    </reference>
+    <reference name="top.container"/>
+    <reference name="content"/>
+    <reference name="bottom.container"/>
+  </checkout_cart_index>
+</layout>

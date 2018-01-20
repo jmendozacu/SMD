@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <sales>
+            <children>
+                <returns>
+                    <title>Returns</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/epicorcomm_returns</action>
+                </returns>
+            </children>               
+        </sales>
+        <customer translate="title" module="customer">
+            <title>Customers</title>
+            <sort_order>40</sort_order>
+            <!-- action>adminhtml/customer/</action -->
+            <children>
+                <erpaccount>
+                    <title>Erp Accounts</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/epicorcomm_customer_erpaccount</action>
+                </erpaccount>
+            </children>
+        </customer>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>               
+            <children>
+                <mapping>
+                    <title>Mapping</title>
+                    <sort_order>20</sort_order>
+                    <children>
+                        <country>
+                            <title>Country</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_country</action>
+                        </country>
+                        <orderstatus>
+                            <title>Order Status</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_orderstatus</action>
+                        </orderstatus>
+                        <payment>
+                            <title>Payment</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_payment</action>
+                        </payment>
+                        <currency>
+                            <title>Currency</title>
+                            <sort_order>40</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_currency</action>
+                        </currency>
+                        <cardtype>
+                            <title>Card Type</title>
+                            <sort_order>45</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_cardtype</action>
+                        </cardtype>
+                        <shippingmethods>
+                            <title>Shipping Methods</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_shippingmethods</action>
+                        </shippingmethods>
+                        <remotelinks>
+                            <title>Remote Links</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_remotelinks</action>
+                        </remotelinks>
+                    </children>
+                </mapping>      
+                <messaging>
+                    <title>Messaging</title>
+                    <sort_order>30</sort_order>
+                    <children>
+                        <commsettings>
+                            <title>Networking and General</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/system_config/edit/section/Epicor_Comm</action>
+                        </commsettings>
+                        <commsrequests>
+                            <title>Request Messages</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_comm_enabled_messages</action>                                    
+                        </commsrequests>
+                        <commfields>
+                            <title>Upload Messages</title>
+                            <sort_order>30</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_comm_field_mapping</action>
+                        </commfields>
+                        <loggingconfig>
+                            <title>Logging Config</title>
+                            <sort_order>40</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_comm_message_logging</action>
+                        </loggingconfig>
+                        <log>
+                            <title>Log</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/epicorcomm_message_log</action>
+                        </log>
+                        <commsyn>
+                            <title>Send SYN request</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/epicorcomm_message_syn</action>
+                        </commsyn>
+                        <syn_log>
+                            <title>SYN Log</title>
+                            <sort_order>70</sort_order>
+                            <action>adminhtml/epicorcomm_message_syn/log</action>
+                        </syn_log>
+                        <xml_upload>
+                            <title>XML Upload</title>
+                            <sort_order>80</sort_order>
+                            <action>adminhtml/epicorcomm_message_xmlupload</action>
+                        </xml_upload>                        
+                    </children>
+                </messaging>
+                <returns>
+                    <title>Returns</title>
+                    <sort_order>31</sort_order>
+                    <children>
+                        <manage>
+                            <title>Manage</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcomm_returns</action>
+                        </manage>
+                        <config>
+                            <title>Configure</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_comm_returns</action>
+                        </config>
+                    </children>
+                </returns>
+                <locations>
+                    <title>Locations</title>
+                    <sort_order>32</sort_order>
+                    <children>
+                        <manage>
+                            <title>Manage</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorcomm_locations</action>
+                        </manage>
+                        <config>
+                            <title>Configure</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/system_config/edit/section/epicor_comm_locations</action>
+                        </config>
+                    </children>
+                </locations>
+                <advanced>
+                    <children>
+                        <entity_register>
+                            <title>Uploaded Data</title>
+                            <sort_order>40</sort_order>
+                            <action>adminhtml/epicorcomm_advanced_entityreg</action>
+                        </entity_register>
+                    </children>
+                </advanced>
+            </children>
+        </epicor_common>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <sales>
+                        <children>
+                            <returns>
+                                <title>Epicor Returns</title>
+                                <sort_order>60</sort_order>
+                            </returns>
+                        </children>               
+                    </sales>
+                    <epicor_common module="epicor_common">
+                        <children>
+                            <mapping>
+                                <title>Mapping</title>
+                                <children>
+                                    <country>
+                                        <title>Country</title>
+                                    </country>
+                                    <orderstatus>
+                                        <title>Order Status</title>
+                                    </orderstatus>
+                                    <payment>
+                                        <title>Payment</title>
+                                    </payment>
+                                    <currency>
+                                        <title>Currency</title>
+                                    </currency>
+                                    <cardtype>
+                                        <title>Card Type</title>
+                                    </cardtype>
+                                    <shippingmethods>
+                                        <title>Shipping Methods</title>
+                                    </shippingmethods>
+                                </children>
+                            </mapping>  
+                            <messaging>
+                                <title>Messaging</title>
+                                <children>
+                                    <commsettings>
+                                        <title>Networking and General</title>
+                                    </commsettings>
+                                    <commsrequests>
+                                        <title>Request Messages</title>
+                                    </commsrequests>
+                                    <commfields>
+                                        <title>Upload Messages</title>
+                                    </commfields>
+                                    <loggingconfig>
+                                        <title>Logging Config</title>
+                                    </loggingconfig>
+                                    <log>
+                                        <title>Log</title>
+                                    </log>
+                                    <commsyn>
+                                        <title>Send SYN request</title>
+                                    </commsyn>
+                                    <syn_log>
+                                        <title>SYN Log</title>
+                                    </syn_log>
+                                    <xml_upload>
+                                        <title>XML Upload</title>
+                                    </xml_upload>
+                                </children>
+                            </messaging> 
+                            <returns>
+                                <title>Returns</title>
+                                <children>
+                                    <manage>
+                                        <title>Manage</title>
+                                    </manage>
+                                    <configure>
+                                        <title>Configure</title>
+                                    </configure>
+                                </children>
+                            </returns>   
+                            <locations>
+                                <title>Locations</title>
+                                <children>
+                                    <manage>
+                                        <title>Manage</title>
+                                    </manage>
+                                    <configure>
+                                        <title>Configure</title>
+                                    </configure>
+                                </children>
+                            </locations>   
+                        </children>
+                    </epicor_common>
+                    <customer>
+                        <children>
+                            <erpaccount>
+                                <title>Erp Accounts</title>
+                            </erpaccount>
+                        </children>
+                    </customer>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <Epicor_Comm>
+                                        <title>Epicor Comm Settings</title>
+                                    </Epicor_Comm>
+                                    <epicor_comm_field_mapping>
+                                        <title>Epicor Comms Field Mapping</title>
+                                    </epicor_comm_field_mapping>
+                                    <epicor_comm_message_logging>
+                                        <title>Epicor Comms Message Logging Config</title>
+                                    </epicor_comm_message_logging>
+                                    <epicor_comm_enabled_messages>
+                                        <title>Epicor Comms Requests</title>
+                                    </epicor_comm_enabled_messages>
+                                    <epicor_comm_returns>
+                                        <title>Epicor Returns</title>
+                                    </epicor_comm_returns>
+                                    <epicor_comm_erp_accounts>
+                                        <title>Epicor ERP Accounts</title>
+                                    </epicor_comm_erp_accounts>
+                                    <epicor_comm_locations>
+                                        <title>Epicor Locations</title>
+                                    </epicor_comm_locations>
+                                    <epicor_product_config>
+                                        <title>Epicor Product Settings</title>
+                                    </epicor_product_config>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>	
+</config>

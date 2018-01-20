@@ -1,0 +1,305 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+/* @var $this Mage_Catalog_Block_Product_List */
+?>
+<?php
+$_productCollection=$this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+// EPICOR ECC > START
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+
+// limit customer access to configurator button to correct licence
+
+$erpAccount = $helper->getErpAccountInfo();
+/* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
+if ($erpAccount) {
+    if ($erpAccount->getAccountType() == Epicor_Comm_Model_Customer_Erpaccount::CUSTOMER_TYPE_B2B) {
+        $licenseTypes = array('Customer_Configurator');
+    } else {
+        $licenseTypes = array('Consumer_Configurator');
+    }
+} else {
+    $licenseTypes = array();
+}
+
+
+$showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+
+$showLocations = $locHelper->isLocationsEnabled();
+
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+
+$location = '';
+$this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
+
+Mage::register('list_mode', $this->getMode());
+// EPICOR ECC < END
+?>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+<div class="category-products">
+    <?php echo $this->getToolbarHtml() ?>
+    <?php // List mode ?>
+    <?php if($this->getMode()!='grid'): ?>
+    <?php $_iterator = 0; ?>
+    <ol class="products-list" id="products-list">
+    <?php foreach ($_productCollection as $_product): ?>
+        <?php
+        // EPICOR ECC > START
+        /* @var $product Epicor_Comm_Model_Product */
+        $customerLocations = $_product->getCustomerLocations();
+        $singleLocation = count($customerLocations) == 1;
+        if ($singleLocation) {
+            $location = array_pop($customerLocations);
+            $_product->setToLocationPrices($location);
+        }
+
+        if (Mage::registry('current_product')) :
+            Mage::unregister('current_product');
+        endif;
+        Mage::register('current_product', $_product);
+        // EPICOR ECC < END
+        ?>
+        <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+            <?php // Product Image ?>
+            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                <?php /* Based on the native RWD styling, product images are displayed at a max of ~400px wide when viewed on a
+                        one column page layout with four product columns from a 1280px viewport. For bandwidth reasons,
+                        we are going to serve a 300px image, as it will look fine at 400px and most of the times, the image
+                        will be displayed at a smaller size (eg, if two column are being used or viewport is smaller than 1280px).
+                        This $_imgSize value could even be decreased further, based on the page layout
+                        (one column, two column, three column) and number of product columns. */ ?>
+                <?php $_imgSize = 300; ?>
+                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->keepFrame(false)->resize($_imgSize); ?>"
+                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+            </a>
+            <?php // Product description ?>
+            <div class="product-shop">
+                <div class="f-fix">
+                    <div class="product-primary">
+                        <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?></a></h2>
+                        <?php if($_product->getRatingSummary()): ?>
+                        <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                        <?php endif; ?>
+                        <?php
+                        // Provides extra blocks on which to hang some features for products in the list
+                        // Features providing UI elements targeting this block will display directly below the product name
+                        if ($this->getChild('name.after')) {
+                            $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                            foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                    $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                    $_nameAfterChild->setProduct($_product);
+                                echo $_nameAfterChild->toHtml();
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="product-secondary">
+                        <?php // EPICOR ECC > START ?>
+                        <?php if ($_product->getPrice() == 0 && $_product->getConfigurator()): ?>
+                            <div class="price-box"><span class="price"><?php echo $this->__('Price on configuration'); ?></span></div>
+                        <?php else: ?>
+                        <?php // EPICOR ECC < END ?>
+                            <?php echo $this->getPriceHtml($_product, true) ?>
+                        <?php // EPICOR ECC > START ?>
+                        <?php endif; ?>
+                        <?php // EPICOR ECC < END ?>
+                    </div>
+                    <?php if ($showAddToCart && $showLocations && !$singleLocation && (!$_product->canConfigure() && $_product->isSaleable())): ?>
+                    <div class="desc std">
+                        <?php //if ($showLocations && !$singleLocation): ?>
+                         <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
+                                <?php echo $this->getChildHtml('locations', false) ?>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                    <div class="product-secondary">
+                        <?php if(!$_product->canConfigure() && $_product->isSaleable()): ?>
+                            <?php // EPICOR ECC > START ?>
+                            <?php if ($showAddToCart) : ?>
+                                <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
+                                <?php elseif ($_product->getConfigurator() && $this->getLicensed()): ?>
+                                    <?php echo $this->getChildHtml('configurableaddtocartlist', false) ?>
+                                <?php else: ?>
+                                    <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="get">
+                                        <?php if ($_product->getTypeId() == 'bundle'): ?>
+                                            <?php $selectionCollection = $_product->getTypeInstance(true)->getSelectionsCollection($_product->getTypeInstance(true)->getOptionsIds($_product), $_product); ?>
+                                            <?php foreach ($selectionCollection as $option) : ?>
+                                                <input type="hidden" name="bundle_option[<?php echo $option->option_id; ?>]" value="<?php echo $option->selection_id; ?>" />
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
+                                            <input type="hidden" name="location_code" value="<?php echo $location->getLocationCode(); ?>" />
+                                        <?php endif; ?>
+                                        <p class="action"><button type="submit" title="<?php echo $this->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                                    </form>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <p class="action"><a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>
+                            <?php endif; ?>
+                            <?php // EPICOR ECC < END ?>
+                        <?php elseif($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+                            <p class="action"><a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>
+                        <?php
+                        // EPICOR ECC > START
+                        /*<?php else: ?>
+                            <p class="action availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>*/
+                        // EPICOR ECC < END
+                        ?>
+                        <?php endif; ?>
+                        <?php // EPICOR ECC > START ?>
+                        <?php if($_product->isSaleable()) : ?>
+                        <?php switch ($_product->getStockType()):
+                                case 'bool':
+                                    ?>
+                                    <?php if ($_product->isAvailable()): ?>
+                                        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+                                    <?php else: ?>
+                                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+                                    <?php break; ?>
+                                <?php case 'range': ?>
+                                    <?php $_img = $_product->getStockRange(); ?>
+                                        <p class="availability-traffic-light-grid"><img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" /></p>
+                                    <?php break; ?>
+                                <?php case 'level': ?>
+                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel(true) ?></span></p>
+                                    <?php break; ?>
+                            <?php endswitch; ?>
+                        <?php else: ?>
+                            <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
+                        <?php endif; ?>
+                        <?php echo $this->getChildHtml('epicor_extra', false); ?>
+                        <?php // EPICOR ECC < END ?>
+                        <ul class="add-to-links">
+                            <?php // EPICOR ECC > START ?>
+                            <?php if($_product->isSaleable()) : ?>
+                            <?php // EPICOR ECC < END ?>
+                                <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                        <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                                <?php endif; ?>
+                                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                                        <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                                <?php endif; ?>
+                            <?php // EPICOR ECC > START ?>
+                            <?php endif; ?>
+                            <?php // EPICOR ECC < END ?>
+                        </ul>
+                    </div>
+                    <div class="desc std">
+                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                        <?php // EPICOR ECC > START ?>
+                        <div class="skus">
+                            <strong><?php echo $this->__($_product->getSkuHeader()); ?></strong>
+                            <ul>
+                                <?php foreach ($_product->getSkus() as $sku): ?>
+                                    <li><?php echo $sku; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php // EPICOR ECC < END ?>
+                    </div>
+                </div>
+            </div>
+        </li>
+    <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+    <?php else: ?>
+
+    <?php // Grid Mode ?>
+
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <?php $_columnCount = $this->getColumnCount(); ?>
+    <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
+        <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php
+        // EPICOR ECC > START
+        $customerLocations = $_product->getCustomerLocations();
+        $singleLocation = count($customerLocations) == 1;
+        if ($singleLocation) {
+            $location = array_pop($customerLocations);
+            $_product->setToLocationPrices($location);
+        }
+        if (Mage::registry('current_product')) :
+            Mage::unregister('current_product');
+        endif;
+        Mage::register('current_product', $_product);
+        // EPICOR ECC < END ?>
+            <?php /*if ($i++%$_columnCount==0): ?>
+            <?php endif*/ ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                    <?php $_imgSize = 210; ?>
+                    <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                        src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                        alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                </a>
+                <div class="product-info">
+                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+
+                </div>
+            </li>
+            <?php /*if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+            <?php endif*/ ?>
+        <?php endforeach ?>
+    </ul>
+    <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+    <?php endif; ?>
+
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+</div>
+<?php endif; ?>
+<?php
+// Provides a block where additional page components may be attached, primarily good for in-page JavaScript
+if ($this->getChild('after')) {
+    $_afterChildren = $this->getChild('after')->getSortedChildren();
+    foreach ($_afterChildren as $_afterChildName) {
+        $_afterChild = $this->getChild('after')->getChild($_afterChildName);
+        //set product collection on after blocks
+        $_afterChild->setProductCollection($_productCollection);
+        echo $_afterChild->toHtml();
+    }
+}
+

@@ -1,0 +1,76 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ * 
+ * 
+ * 
+ * 
+ * This template loops on all the content fields and render them directly with the method ->render();
+ * We recommand to override this template file in your design package folder
+ * Documentation: http://black.bird.eu/documentation/content/template-description-and-override
+ * 
+ * 
+ * AVAILABLE METHODS
+ * 
+ * Get all raw values as an array
+ * $content->getData();
+ * 
+ * Get a specific value by his field identifier
+ * $content->getData('field_identifier');
+ * $content->getFieldIdentifier();
+ * $content->getAttributeText('field_identifier');
+ * 
+ * Get content type model
+ * $content->getContentType();
+ * 
+ * Get image URL for an image field type.
+ * $content->getImage($attributeName, $width = NULL, $height = NULL, $original = false);
+ * 
+ * Get file absolute URL, for a file field typ
+ * $content->getFile($field_identifier);
+ * 
+ * Get content url
+ * $content->getUrl();
+ * 
+ * Render a field in HTML
+ * $content->render($element, $params);
+ * 
+ * See complete documentation and more examples:
+ * http://black.bird.eu/documentation/content/php-helper-methods-render-methods
+ * 
+ */
+?>
+<?php
+    $content = $this->getContent();
+    $content_type = Mage::getModel('contentmanager/contenttype')
+                        ->load($content->getCtId());
+            
+    $options = $content_type->getContentTypeOptionsCollection();
+?>
+<div class="ct-view ct-view-<?php echo $content_type->getIdentifier(); ?>" id="ct-view-<?php echo $content->getId(); ?>">
+    
+    <?php echo $content->render('title'); ?>
+    <?php foreach($options as $option): ?>
+    
+        <?php echo $content->render($option); ?>
+    
+    <?php endforeach; ?>
+    
+</div>

@@ -1,0 +1,98 @@
+<?php
+/**
+ * Edit customer address template
+ *
+ * @see Mage_Customer_Block_Address_Edit
+ */
+
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+
+$showLocations = $locHelper->isLocationsEnabled();
+$isLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+
+?>
+<?php if (!Mage::registry('quickadd_displayed')) : ?>
+    <input type="hidden" id="quickadd_logged_in" value="<?php echo $isLoggedIn ?>" />
+    <div id="cart-quick-add" class="block block-quick-add" tabindex="-1" >
+        <div class="block-title">
+            <strong><span><?php echo $this->getTitle(); ?></span></strong>
+        </div>
+        <div class="block-content">
+            <div class="empty">
+                <form action="/comm/quickadd/add" method="post" id="quickadd-form">                     
+                     <?php if($this->showLocations()) : ?>                    
+                        <input type="hidden" id="qa_sku_locations_on" value="<?php echo Mage::getUrl('comm/quickadd/nonAutoLocations') ?>" id="qa_sku_locations_on" />
+                    <?php endif; ?>
+
+                    <ul class="quickadd-form-list">
+                        <li class="wide">
+                            <label for="sku" class="required"><em>*</em><?php echo $this->__('SKU') ?></label>
+                            <div class="input-box quickadd-autocomplete-container">
+                                <input type="text" name="sku" value="" title="<?php echo $this->__('SKU') ?>" id="qa_sku" class="input-text required-entry" tabindex="-1" />
+                                <div class="quickadd-autocomplete" id="quickadd_autocomplete"></div>
+
+                            </div>
+                        </li>
+                        <li class="wide">
+                            <label for="qty" class="required"><em>*</em><?php echo $this->__('Qty') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="qty" value="" title="<?php echo $this->__('Qty') ?>" id="qa_qty" class="input-text required-entry validate-number" />
+                            </div>
+                        </li>
+                        <?php if($this->showLocations()) : ?>
+                        <li id="qa_location" class="wide" style="display:none;">
+                            <label for="qty" class="required"><em>*</em><?php echo $this->__('Location') ?></label>
+                            <div class="location_input"></div>
+                        </li>
+                        <?php endif; ?>
+                        <li class="target">
+                            <div class="field">
+                                <span><?php echo $this->__('Add to:') ?></span>
+                                
+                             <?php if(Mage::getStoreConfig('wishlist/general/active')): ?>   
+                                <input type="radio" name="target" value="wishlist"  title="<?php echo $this->__('Wishlist') ?>" class="input-text" />
+                                <label for="county" class="required"><?php echo $this->__('Wishlist') ?></label>
+                            <?php endif ?>
+                                <input type="radio" name="target" value="basket"  title="<?php echo $this->__('Cart') ?>" class="input-text" checked="checked" />
+                                <label for="county" class="required"><?php echo $this->__('Cart') ?></label>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="buttons-set actions">
+                        <input type="hidden" name="product_id" value="" id="qa_product_id" />
+                        <input type="hidden" name="super_group" value="" id="qa_super_group" />
+                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                        <button type="submit" title="<?php echo $this->__('Add') ?>" class="button" id="quickadd-submit"><span><span><?php echo $this->__('Add') ?></span></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript" src="<?php echo $this->getSkinUrl('epicor/comm/js/quickadd.js') ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->getJsUrl('mage/adminhtml/form.js') ?>"></script>
+        <?php if ($this->autoCompleteAllowed()) : ?>
+            <script type="text/javascript">
+                //<![CDATA[
+                if ($('quickadd-form')) {
+                    document.observe('dom:loaded', function() {
+                        $('quickadd-form').observe('submit', submitQuickAdd);
+                    });
+
+
+                    function submitQuickAdd(event) {
+                        var quickaddform = new varienForm($('quickadd-form'));
+                        var valid = quickaddform.validate();
+                        if (!valid) {
+                            event.stop();
+                        }
+                    }
+                }
+                
+                var qaSearchForm = new Epicor.searchForm('quickadd-form', 'qa_sku', 'qa_super_group', '', '', '', 'qa_product_id', <?php if($showLocations) : ?>'qa_location'<?php else: ?>''<?php endif;?>,'qa_qty');
+                qaSearchForm.initAutocomplete('<?php echo Mage::getUrl('epicor_comm/quickadd/autocomplete'); ?>', 'quickadd_autocomplete');
+                //]]>;
+            </script>
+    <?php endif; ?>
+    </div>   
+    <?php Mage::register('quickadd_displayed', true); ?>
+<?php endif; ?>

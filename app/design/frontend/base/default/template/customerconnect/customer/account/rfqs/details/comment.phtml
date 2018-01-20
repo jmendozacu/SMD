@@ -1,0 +1,20 @@
+<?php
+/**
+ * RFQ quote comment
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Comment */
+?>
+<div class = "box-info box-account col-full">
+    <div class = "box-head">
+        <h2><?php echo $this->__('Comments'); ?></h2>
+    </div>
+    <?php if (Mage::registry('rfqs_editable') || Mage::registry('rfqs_editable_partial')) : ?>
+        <textarea id="note_text" name="note_text"><?php echo $this->getComment(); ?></textarea>
+    <?php else: ?>
+        <?php echo nl2br($this->getComment()); ?>
+    <?php endif; ?>
+</div>

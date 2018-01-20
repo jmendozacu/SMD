@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <menu>
+        <cms>
+            <children>
+                <gallery_manager translate="title" module="gallery">
+                    <title>Banner Manager</title>
+                    <children>
+                        <gallery translate="title" module="gallery">
+                            <title>Galleries</title>
+                            <action>adminhtml/webtise_gallery</action>
+                        </gallery>
+                        <gallery_tag translate="title" module="gallery">
+                            <title>Gallery Tags</title>
+                            <action>adminhtml/webtise_gallery_tag</action>
+                        </gallery_tag>
+                        <gallery_tag_category translate="title" module="gallery">
+                            <title>Gallery Tag Categories</title>
+                            <action>adminhtml/webtise_gallery_tag_category</action>
+                        </gallery_tag_category>
+                    </children>
+                </gallery_manager>
+            </children>
+        </cms>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <cms>
+                        <children>
+                            <gallery_manager translate="title" module="gallery">
+                                <title>Banner Manager</title>
+                                <sort_order>75</sort_order>
+                                <children>
+                                    <gallery translate="title" module="gallery">
+                                        <title>Galleries</title>
+                                        <sort_order>10</sort_order>
+                                    </gallery>
+                                    <gallery_tag translate="title" module="gallery">
+                                        <title>Gallery Tags</title>
+                                        <sort_order>20</sort_order>
+                                    </gallery_tag>
+                                    <gallery_tag_category translate="title" module="gallery">
+                                        <title>Gallery Tag Categories</title>
+                                        <sort_order>30</sort_order>
+                                    </gallery_tag_category>
+                                </children>
+                            </gallery_manager>
+                        </children>
+                    </cms>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <gallery translate="title" module="gallery">
+                                        <title>Banner Manager</title>
+                                        <sort_order>75</sort_order>
+                                    </gallery>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+    </resources>
+    </acl>
+</config>

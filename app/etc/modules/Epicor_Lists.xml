@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Epicor_Lists>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Log />
+                <Epicor_Comm />
+                <Epicor_Common />
+            </depends>
+        </Epicor_Lists>
+    </modules>
+</config>

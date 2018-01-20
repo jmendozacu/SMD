@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<layout version="0.0.0.1">
+    
+    <default>
+        <reference name="head">
+                <action method="addJs"><script>flexitheme/jquery/jquery-1.7.2.min.js</script></action>
+                <action method="addJs"><script>flexitheme/jquery/jquery.no-conflict.js</script></action>
+                <action method="addJs"><script>flexitheme/jquery/plugins/jquery-ui-1.8.22.custom.min.js</script></action>
+                <action method="addJs"><script>flexitheme/jquery/plugins/farbtastic.js</script></action>
+                <action method="addJs"><script>flexitheme/jquery/plugins/jquery.fancybox.js</script></action>
+                <action method="addJs"><script>flexitheme/jquery/plugins/jquery.miniColors.js</script></action>
+                <action method="addJs"><script>flexitheme/form-tools.js</script></action>
+                <action method="addJs"><script>flexitheme/simulate.js</script></action>
+                <action method="addJs"><script>flexitheme/translation.js</script></action>
+                <action method="addItem"><type>js_css</type><name>flexitheme/form.css</name></action>
+                <action method="addItem"><type>js_css</type><name>flexitheme/jquery/plugins/jquery.miniColors.css</name></action>
+                <action method="addItem"><type>js_css</type><name>flexitheme/jquery/plugins/farbtastic.css</name></action>
+                <action method="addItem"><type>js_css</type><name>flexitheme/jquery/plugins/jquery.fancybox.css</name></action>
+        </reference>
+    </default>
+    
+    <adminhtml_flexitheme_theme_import>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_theme_import" name="flexithemes_import" />
+        </reference>
+    </adminhtml_flexitheme_theme_import>
+    
+    <adminhtml_flexitheme_theme_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_theme" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_theme_index>
+    <adminhtml_flexitheme_theme_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_theme_edit" name="flexithemes_edit" />
+        </reference>
+        
+        <reference name="left">
+            <block type="flexitheme/adminhtml_theme_edit_tabs" name="flexithemes_edit_tabs"></block>
+        </reference>   
+    </adminhtml_flexitheme_theme_edit>
+    
+    <adminhtml_flexitheme_layout_import>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_import" name="flexithemes_layout_import" />
+        </reference>
+    </adminhtml_flexitheme_layout_import>
+    
+    <adminhtml_flexitheme_layout_index>       
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_index>
+    <adminhtml_flexitheme_layout_edit>
+        <reference name="head">
+                <action method="addJs"><script>flexitheme/sortable.blocks.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_edit" name="flexithemes_edit" />
+        </reference>
+        
+        <reference name="left">
+            <block type="flexitheme/adminhtml_layout_edit_tabs" name="flexithemes_edit_tabs"></block>
+        </reference>   
+    </adminhtml_flexitheme_layout_edit>
+    
+    
+    <adminhtml_flexitheme_layout_block_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_index>
+    <adminhtml_flexitheme_layout_block_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_edit" name="flexithemes_edit" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_edit>
+    
+    <adminhtml_flexitheme_layout_block_callout_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_callout" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_callout_index>
+    <adminhtml_flexitheme_layout_block_callout_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadTinyMce"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+            <action method="addJs"><script>flexitheme/callout_edit.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_callout_edit" name="flexithemes_edit" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_callout_edit>
+    
+    <adminhtml_flexitheme_layout_block_slider_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_slider" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_slider_index>
+    <adminhtml_flexitheme_layout_block_slider_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_slider_edit" name="flexithemes_edit" />
+        </reference>        
+        <reference name="left">
+            <block type="flexitheme/adminhtml_layout_block_slider_edit_tabs" name="flexithemes_edit_tabs" />
+        </reference>   
+    </adminhtml_flexitheme_layout_block_slider_edit>
+    
+    <adminhtml_flexitheme_layout_block_navigation_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_navigation" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_navigation_index>
+    <adminhtml_flexitheme_layout_block_navigation_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_navigation_edit" name="flexithemes_edit" />
+        </reference>        
+        <reference name="left">
+            <block type="flexitheme/adminhtml_layout_block_navigation_edit_tabs" name="flexithemes_edit_tabs" />
+        </reference>   
+    </adminhtml_flexitheme_layout_block_navigation_edit>
+    
+    <adminhtml_flexitheme_layout_block_navigation_link_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_navigation_link" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_navigation_link_index>
+    <adminhtml_flexitheme_layout_block_navigation_link_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_block_navigation_link_edit" name="flexithemes_edit" />
+        </reference>
+    </adminhtml_flexitheme_layout_block_navigation_link_edit>
+    
+    <adminhtml_flexitheme_layout_page_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_page" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_page_index>
+    <adminhtml_flexitheme_layout_page_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_page_edit" name="flexithemes_edit" />
+        </reference>
+    </adminhtml_flexitheme_layout_page_edit>
+    
+    <adminhtml_flexitheme_layout_template_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_template" name="flexithemes" />
+        </reference>
+    </adminhtml_flexitheme_layout_template_index>
+    <adminhtml_flexitheme_layout_template_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_layout_template_edit" name="flexithemes_edit" />
+        </reference>
+        
+        <reference name="left">
+            <block type="flexitheme/adminhtml_layout_template_edit_tabs" name="flexithemes_edit_tabs" />
+        </reference>   
+    </adminhtml_flexitheme_layout_template_edit>
+    <adminhtml_flexitheme_translation_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_translation" name="flexithemes_translation" />
+        </reference>        
+    </adminhtml_flexitheme_translation_index>
+   
+    <adminhtml_flexitheme_translation_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_translation_edit" name="flexithemes_translation_edit" />
+        </reference> 
+        <reference name="left">
+            <block type="flexitheme/adminhtml_translation_edit_tabs" name="flexithemes_translation_edit_tabs"/>
+        </reference>       
+    </adminhtml_flexitheme_translation_edit>  
+    <adminhtml_flexitheme_scope_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_scope" name="flexithemes_scope">
+                <!--<block type="flexitheme/adminhtml_scope_grid" name="flexithemes_scope_grid"/>-->
+            </block>
+        </reference>        
+    </adminhtml_flexitheme_scope_index>
+    <adminhtml_flexitheme_usertranslation_index>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_usertranslation_edit" name="flexithemes_usertranslation" />
+        </reference> 
+        <reference name="left">
+            <block type="flexitheme/adminhtml_usertranslation_edit_tabs" name="flexithemes_usertranslation_edit_tabs"/>
+            <!--<action method="addTab"><name>add_user_translation</name><block>flexitheme\adminhtml\usertranslation\edit\tabs\usertranslations</block></action>-->
+           
+            <!--<block type="catalog/product_view_tabs" name="product.info.tabs" as="info_tabs" template="catalog/product/view/tabs.phtml"/>-->
+            <!--<block type="flexitheme/adminhtml_usertranslation_edit_tabs_userusertranslations" name="flexithemes_usertranslation_edit_tabs_userusertranslations"/>-->
+                <!--<action method="addTab"><name>usertranslation_edit_tabs_userusertranslations</name><block>flexitheme/adminhtml_usertranslation_edit_tabs_userusertranslations</block></action>-->
+            <!--</block>-->
+        </reference>              
+    </adminhtml_flexitheme_usertranslation_index>
+   
+    <adminhtml_flexitheme_usertranslation_edit>
+        <reference name="content">
+            <block type="flexitheme/adminhtml_usertranslation_edit" name="flexithemes_usertranslation_edit" />
+        </reference> 
+        <reference name="left">
+            <block type="flexitheme/adminhtml_usertranslation_edit_tabs" name="flexithemes_usertranslation_edit_tabs"/>
+        </reference>       
+    </adminhtml_flexitheme_usertranslation_edit>     
+</layout>

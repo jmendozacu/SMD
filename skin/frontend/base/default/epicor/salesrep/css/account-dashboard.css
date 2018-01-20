@@ -1,0 +1,42 @@
+/* 
+    Document   : style
+    Created on : 12-Jan-2016, 10:37:34
+    Author     : Guillermo.Garza
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.vcard dt.sec {
+    float:left;
+    width: 120px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.box-info .salesrep-stats li {
+   width:115%;
+   margin-left:-15%;
+}
+
+.box-info .salesrep-stats span.label {
+    width:85%;
+}
+
+.box-info .salesrep-stats span.value {
+    width:10%;
+}
+
+.salesrep_masq_button {
+    float:left;
+    margin-right:10px;
+}
+
+input.lines_price.disabled,
+input.discount.disabled {
+    color:#bbb;
+    border: 1px solid #ccc;
+}
+
+#masqueradegrid .pager input.page  {
+    width: 3.3em !important;
+}

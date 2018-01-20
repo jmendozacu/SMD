@@ -1,0 +1,92 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @see Mage_Catalog_Block_Product_List_Toolbar
+ */
+?>
+<?php if($this->getCollection()->getSize()): ?>
+<div class="toolbar">
+
+
+    <?php if( $this->isExpanded() ): ?>
+    <div class="sorter">
+
+        <p class="amount">
+            <?php echo $this->__('%s Results', $this->getTotalNum()) ?>
+        </p>
+
+    </div>
+    <?php endif; ?>
+    <div class="sort-by">
+        <span class="btn-dropdown" onclick="dropdownSorter()"><?php echo $this->__('Sort By'); ?></span>
+        <div id="myDropdown" class="dropdown-content">
+            <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
+                <?php if($_key == 'price'): continue; // Remove price here to keep config in one place ?>
+                <?php elseif ($_key == 'position') : ?>
+                <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__('Best Sellers') ?></a>
+                <?php else: ?>
+                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__('%s - A - Z', $_order) ?></a>
+                    <a href="<?php echo $this->getOrderUrl($_key, 'desc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'desc'): ?> class="active"<?php endif; ?>><?php echo $this->__('%s - Z - A', $_order) ?></a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+        
+    <div class="pager">
+
+        <?php echo $this->getPagerHtml() ?>
+
+    </div>
+</div>
+
+<script>
+
+function dropdownSorter() {
+    jQuery("#myDropdown").toggleClass("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.btn-dropdown')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+</script>
+
+<?php endif ?>

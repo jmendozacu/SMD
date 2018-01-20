@@ -1,0 +1,134 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+$content = Mage::registry('content_data');
+
+$helper = Mage::helper('contentmanager');
+$option = $helper->getOptionByFieldIdentifier($_element->getName(), $this->getRequest()->getParam('id'));
+$image_dimensions = $content->getData($option->getIdentifier().'_ctdi');
+$img_alt = $content->getData($option->getIdentifier().'_alt');
+$img_url = $content->getData($option->getIdentifier().'_url');
+$img_title = $content->getData($option->getIdentifier().'_titl');
+
+$imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $helper->getCtImageFolder() . '/' .$option->getFilePath() . '/' . $_element->getEscapedValue().'?='.time();
+$imageCroppedUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $helper->getCtImageFolder() . '/' .$option->getFilePath() . '/' . $helper->getCtImageCroppedFolder() .'/' . $_element->getEscapedValue().'?='.time();
+$imageCroppedPathFull = str_replace(array("/", '\\'), DS, Mage::getBaseDir('media') . DS . $helper->getCtImageFolder() . DS . str_replace(array('/', '\\'), DS, $option->getFilePath()) . DS . $helper->getCtImageCroppedFolder() . DS . $_element->getEscapedValue());
+
+if(!file_exists($imageCroppedPathFull))
+{
+    $imageCroppedUrl = $imageUrl;
+}
+
+if(!$image_dimensions)
+{
+    if(file_exists($imageUrl))
+    {
+        $dimensionsOrignial = getimagesize($imageUrl);
+    }
+    else
+    {
+        $dimensionsOrignial[0]=0;
+        $dimensionsOrignial[1]=0;
+    }
+    $image_dimensions = '0:0:'.$option->getCropW().':'.$option->getCropH().':'.$dimensionsOrignial[0].':'.$dimensionsOrignial[1];
+}
+
+
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
+    <?php if ($_element->getType()=='hidden'): ?>
+    <td colspan="2" class="hidden"><?php echo trim($_element->getElementHtml()) ?></td>
+    <?php else: ?>
+    <td class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td>
+
+        <?php if($_element->getEscapedValue()): ?>
+            <input type="hidden" name="<?php echo $_element->getName() ?>" id="<?php echo $_element->getName() ?>" value="<?php echo $_element->getEscapedValue() ?>" />
+            
+            <div class="contenttype-crop">
+                <a title="<?php echo $this->__('Click to view in real size'); ?>" href="<?php echo $imageCroppedUrl; ?>" title="<?php echo $_element->getEscapedValue() ?>" target="_blank">
+                    <img src="<?php echo $imageCroppedUrl; ?>" />
+                </a>
+                <div class="contenttype-overlay-crop">
+                    <table width="100%" cellspacing="0" height="100%" cellpadding="0"><tr><td><?php echo $this->__('Save the content to refresh the crop'); ?></td></tr></table>
+                </div>
+            </div>
+            <div class="clear"></div>
+            
+            <?php if($option->getCrop()): ?>
+                <script type="text/javascript">
+                    if(pointeditor == undefined)
+                    {
+                        var pointeditor = Array();
+                    }
+                    pointeditor['<?php echo $_element->getName() ?>'] = new PointEditor({
+                        loading_label: '<?php echo $this->__('Loading...'); ?>',
+                        identifier: '<?php echo $_element->getName() ?>',
+                        crop_w: '<?php echo $option->getCropW() ?>',
+                        crop_h: '<?php echo $option->getCropH() ?>',
+                        url_image: '<?php echo $imageUrl ?>',
+                        keep_aspect_ratio: '<?php echo $option->getKeepAspectRatio(); ?>'
+                    });
+                </script>
+            <?php endif; ?>
+            
+            <?php if($option->getCrop()): ?><button id="" title="Edit crop" type="button" class="scalable add edit-crop" onclick="pointeditor['<?php echo $_element->getName() ?>'].open(this);" style=""><span><span><span>Edit crop</span></span></span></button><?php endif; ?>
+            
+            <br/>
+            <input type="checkbox" name="delete[]" id="delete_<?php echo $_element->getName() ?>" value="<?php echo $_element->getName() ?>" /> <label for="delete_<?php echo $_element->getName() ?>"><?php echo $this->__('Delete file')?></label>
+            <br/>
+        <?php endif; ?>
+        
+        <input id="<?php echo $_element->getHtmlId() ?>" name="<?php echo $_element->getName() ?>" value="<?php echo $_element->getEscapedValue() ?>" <?php echo $_element->serialize($_element->getHtmlAttributes()) ?> />
+        <?php echo $_element->getAfterElementHtml() ?>
+        
+        <?php if ($_note): ?>
+            <p class="note<?php echo $_class ? " {$_class}-note" : ''?>" id="note_<?php echo $_element->getId()?>"><span><?php echo $_note ?></span></p>
+        <?php endif ?>
+        <input type="hidden" name="<?php echo $_element->getName() ?>_ctdi" id="<?php echo $_element->getName() ?>_ctdi" value="<?php echo $image_dimensions; ?>" />
+        
+        <?php if($option->getImgAlt()): ?>
+            <div style="margin-top: 5px;">
+                <label style="width: 70px; display: inline-block;" for="<?php echo $_element->getName() ?>_alt"><?php echo $this->__('Image "alt"'); ?></label> <input type="text" name="<?php echo $_element->getName() ?>_alt" id="<?php echo $_element->getName() ?>_alt" value="<?php echo $img_alt; ?>" />
+            </div>
+        <?php endif; ?>
+        <?php if($option->getImgUrl()): ?>
+            <div style="margin-top: 5px;">
+                <label style="width: 70px; display: inline-block;" for="<?php echo $_element->getName() ?>_url"><?php echo $this->__('Image "url"'); ?></label> <input type="text" name="<?php echo $_element->getName() ?>_url" id="<?php echo $_element->getName() ?>_url" value="<?php echo $img_url; ?>" />
+            </div>
+        <?php endif; ?>
+        <?php if($option->getImgTitle()): ?>
+            <div style="margin-top: 5px;">
+                <label style="width: 70px; display: inline-block;" for="<?php echo $_element->getName() ?>_titl"><?php echo $this->__('Image "title"'); ?></label> <input type="text" name="<?php echo $_element->getName() ?>_titl" id="<?php echo $_element->getName() ?>_titl" value="<?php echo $img_title; ?>" />
+            </div>
+        <?php endif; ?>
+        
+    </td>
+    <?php endif; ?>
+</tr>
+<?php endif; ?>

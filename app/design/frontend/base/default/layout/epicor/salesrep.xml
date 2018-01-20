@@ -1,0 +1,544 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>   
+        <reference name="left">
+            <block type="customer/account_navigation" name="salesrep_navigation" after="customer_account_navigation" template="epicor/salesrep/navigation.phtml">
+                <action method="setTitle" translate="label" module="epicor_salesrep">
+                    <value>Sales Rep</value>
+                </action>
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>Dashboard</name>
+                    <path>epicor_salesrep/account</path>
+                    <label>Dashboard</label>
+                </action>
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>Quotes</name>
+                    <path>epicor_salesrep/crqs</path>
+                    <label>Quotes</label>
+                    <url_params></url_params>
+                    <msgtype>CRQS</msgtype>
+                    <accessFunction>epicor_comm/messaging_crqs::mutipleAccountsEnabled</accessFunction>
+                </action>
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>Orders</name>
+                    <path>salesrep/order/history</path>
+                    <label>Orders</label>
+                </action>
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>My Sales Rep Account</name>
+                    <path>epicor_salesrep/account_manage</path>
+                    <label>My Sales Rep Account</label>
+                </action>
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>My Login Information</name>
+                    <path>customer/account/edit</path>
+                    <label>My Login Information</label>
+                </action>
+            </block>
+        </reference>
+    </customer_account>
+    
+    <sales_rep>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/supplierconnect/css/style.css</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>            
+            <action method="addJs">
+                <file>epicor/grid.js?v=2</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>          
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-default-style.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/account-dashboard.css?v=2</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-navigation.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-navigation.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-common.js</name>
+                <params/>
+            </action>             
+            <block type="core/html_calendar" name="calendar" template="page/js/calendar.phtml" />
+        </reference>
+    </sales_rep>
+    
+    <salesrep_layout_enabled>
+        <remove name="customer_account_navigation"/>
+        <reference name="sales.order.history">
+            <action method="setTemplate">
+                <template>epicor/salesrep/sales/order/history.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/rfq-extra.js?v=1.0.8</name>
+                <params/>
+            </action>
+        </reference>
+    </salesrep_layout_enabled>
+    
+    <salesrep_layout_disabled>
+        <remove name="salesrep_navigation"/>
+    </salesrep_layout_disabled>
+    
+    <salesrep_layout_masquerading>
+    </salesrep_layout_masquerading>
+    
+    <salesrep_layout_not_masquerading>
+        <remove name="customer_account_dashboard_summary"/>
+        <remove name="right.customer.account.summary"/>
+        <remove name="epicor_comm.locationpicker"/>
+        <remove name="right.reports.product.viewed"/>
+        <remove name="left.reports.product.viewed"/>
+        <remove name="sale.reorder.sidebar"/>
+        <remove name="footer"/>
+    </salesrep_layout_not_masquerading>
+
+    <epicor_salesrep_account_index>
+        <label>Account Information</label>
+        <update handle="customer_account"/>
+        <update handle="sales_rep"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Sales Rep Dashboard</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>epicor/salesrep/js/selectsalesrep.js</file>
+            </action>            
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="supplierconnect.dashboard.title" template="epicor/salesrep/account/dashboard/title.phtml" />
+            <block type="epicor_salesrep/account_dashboard_information" name="dashboard.information"/>
+            <block type="epicor_salesrep/account_dashboard_stats" name="dashboard.stats" />
+            <block type="epicor_salesrep/account_dashboard_erpSelector" name="dashboard.erpselector"/>
+        </reference>
+        <reference name="content">
+            <block type="epicor_salesrep/manage_select" name="manage_select" as="manage.select" />
+        </reference>        
+    </epicor_salesrep_account_index>
+    <epicor_salesrep_account_masqueradegrid> 
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/manage_select_grid" name="manage.selectgrid" />
+        </block>
+    </epicor_salesrep_account_masqueradegrid>     
+    <salesrep_account_manage>
+        <update handle="customer_account"/>
+        <update handle="sales_rep"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Sales Rep Account</title>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/manage.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="supplierconnect.dashboard.title" template="epicor/salesrep/account/manage/title.phtml" />
+            <block type="epicor_salesrep/account_manage_menu" name="manage.menu" template="epicor/salesrep/account/manage/menu.phtml"/>
+        </reference>
+    </salesrep_account_manage> 
+    
+    
+    <epicor_salesrep_account_manage_index>
+        <update handle="salesrep_account_manage"/>
+        <label>Sales Rep Account - Details</label>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/account_manage_details" name="manage.details" />
+        </reference>
+    </epicor_salesrep_account_manage_index>
+    
+    
+    <epicor_salesrep_account_manage_pricingrules> 
+        <update handle="salesrep_account_manage"/>
+        <label>Sales Rep Account - Pricing Rules</label>
+        <reference name="head" >
+            <action method="addJs">
+                <name>epicor/salesrep/pricing_rules.js</name>
+            </action>   
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/rules.css</name>
+                <params/>
+            </action> 
+            <action method="addItem">
+                <type>js</type>
+                <name>extjs/ext-tree.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>extjs/fix-defer.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>extjs/ext-tree-checkbox.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>extjs/resources/css/ext-all.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>extjs/resources/css/ytheme-magento.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>mage/adminhtml/rules.js</name>
+                <params/>
+                <if/>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/account_manage_pricingrules" name="search_result_list" template="epicor/salesrep/account/manage/pricingrules.phtml">
+                <block type="epicor_salesrep/account_manage_pricingrules_form" name="manage.pricingrulesform" />
+                <block type="epicor_salesrep/account_manage_pricingrules_list" name="manage.pricingrules" />
+            </block>
+        </reference>
+    </epicor_salesrep_account_manage_pricingrules> 
+    
+    <epicor_salesrep_account_manage_hierarchy> 
+        <update handle="salesrep_account_manage"/>
+        <label>Sales Rep Account - Hierarchy</label>
+        <reference name="head" >
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/rules.css</name>
+                <params/>
+            </action> 
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/account_manage_hierarchy" name="search_result_list" template="epicor/salesrep/account/manage/hierarchy.phtml">
+                <block type="epicor_salesrep/account_manage_parents" name="manage.parents" />
+                <block type="epicor_salesrep/account_manage_children_form" name="manage.childrenform" />
+                <block type="epicor_salesrep/account_manage_children" name="manage.children" />
+            </block>
+        </reference>
+    </epicor_salesrep_account_manage_hierarchy> 
+    
+    <epicor_salesrep_account_manage_salesreps> 
+        <update handle="salesrep_account_manage"/>
+        <label>Sales Rep Account - Sales Reps</label>
+        <reference name="head" >
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/rules.css</name>
+                <params/>
+            </action> 
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/account_manage_salesreps" name="search_result_list" template="epicor/salesrep/account/manage/salesreps.phtml">
+                <block type="epicor_salesrep/account_manage_salesreps_form" name="manage.salesrepsform" />
+                <block type="epicor_salesrep/account_manage_salesreps_list" name="manage.salesreps" />
+            </block>
+        </reference>
+    </epicor_salesrep_account_manage_salesreps> 
+    
+    <epicor_salesrep_account_manage_erpaccounts> 
+        <update handle="salesrep_account_manage"/>
+        <label>Sales Rep Account - ERP Accounts</label>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/account_manage_erpaccounts" name="search_result_list" template="epicor/salesrep/account/manage/erpaccounts.phtml">
+                <block type="epicor_salesrep/account_manage_erpaccounts_grid" name="manage.erpaccounts" />
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>manage.erpaccounts</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[erpaccounts]</hidden_input_name>
+                            <reload_param_name>erpaccounts</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action> 
+                    </reference>
+                </block>
+            </block>
+        </reference>
+    </epicor_salesrep_account_manage_erpaccounts> 
+    <epicor_salesrep_account_manage_erpaccountsgrid> 
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/account_manage_erpaccounts_grid" name="manage.erpaccounts" />
+        </block>
+    </epicor_salesrep_account_manage_erpaccountsgrid> 
+    
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </checkout_cart_index>
+    
+    <customerconnect_rfqs_details>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </customerconnect_rfqs_details>
+    <customerconnect_rfqs_new>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </customerconnect_rfqs_new>
+    <customerconnect_rfqs_update>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </customerconnect_rfqs_update>
+    
+    <epicor_salesrep_crqs_details translate="label">
+        <label>Sales Rep CRQ Details</label>
+        <update handle="customerconnect_rfqs_details"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Sales Rep CRQ Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/crqs_details_info" name="rfqs.info" />
+        </reference>
+    </epicor_salesrep_crqs_details>
+    
+    <epicor_salesrep_crqs_index translate="label">
+        <label>Sales Rep CRQ Details</label>
+        <update handle="customerconnect_rfqs_index"/>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/crqs_list" name="rfqslist" />
+        </reference>
+    </epicor_salesrep_crqs_index>
+    
+    <epicor_salesrep_crqs_update>
+        <label>Sales Rep CRQ Details</label>
+        <update handle="customerconnect_rfqs_update"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Sales Rep CRQ Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_salesrep/crqs_details_info" name="rfqs.info" />
+        </reference>
+    </epicor_salesrep_crqs_update>
+    
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/checkout/salesrep_contact.js</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="checkout.progress">
+            <block type="epicor_salesrep/checkout_onepage_progress_salesrep_contact" name="pre_billing" as="pre_billing" template="epicor/salesrep/checkout/onepage/progress/salesrep/contact.phtml"></block>
+        </reference> 
+        <reference name="checkout.onepage">
+            <block type="epicor_salesrep/checkout_onepage_salesrep_contact" name="checkout.onepage.salesrep.contact" as="salesrep_contact" template="epicor/salesrep/checkout/onepage/salesrep/contact.phtml"></block>
+        </reference>      
+    </checkout_onepage_index>
+    
+    <checkout_onepage_salesrep_contact>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="epicor_salesrep/checkout_onepage_salesrep_contact" name="root" output="toHtml" template="epicor/salesrep/checkout/onepage/salesrep/contact.phtml" />
+    </checkout_onepage_salesrep_contact>
+    
+    <salesrep_checkout_onepage_billing>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="checkout/onepage_billing" name="salesrep_billing_step" output="toHtml" as="salesrep_billing_step" template="epicor_comm/checkout/onepage/billing.phtml"/>
+    </salesrep_checkout_onepage_billing>
+    <salesrep_checkout_onepage_shipping>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="checkout/onepage_shipping" name="salesrep_shipping_step" output="toHtml" as="salesrep_shipping_step" template="epicor_comm/checkout/onepage/shipping.phtml"/>
+    </salesrep_checkout_onepage_shipping>
+    
+    <checkout_onepage_progress_salesrep_contact>
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="epicor_salesrep/checkout_onepage_progress_salesrep_contact" name="root" output="toHtml"  template="epicor/salesrep/checkout/onepage/progress/salesrep/contact_load.phtml">
+            <action method="setInfoTemplate">
+                <method></method>
+                <template></template>
+            </action>
+        </block>
+    </checkout_onepage_progress_salesrep_contact>
+    
+    
+    <quickorderpad_form_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </quickorderpad_form_index>
+    <quickorderpad_form_results>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/salesrepPricing.js?v=3</name>
+                <params/>
+            </action>
+        </reference>
+    </quickorderpad_form_results>
+    
+    <epicor_salesrep_order_history translate="label">
+        <label>Customer My Account Order History</label>
+        <update handle="sales_order_history"/>
+    </epicor_salesrep_order_history>
+
+    <epicor_salesrep_order_view translate="label">
+        <label>Customer My Account Order View</label>
+        <update handle="sales_order_view"/>
+    </epicor_salesrep_order_view>
+
+    <epicor_salesrep_order_invoice translate="label">
+        <label>Customer My Account Order Invoice View</label>
+        <update handle="sales_order_invoice"/>
+    </epicor_salesrep_order_invoice>
+
+    <epicor_salesrep_order_shipment translate="label">
+        <label>Customer My Account Order Shipment View</label>
+        <update handle="sales_order_shipment"/>
+    </epicor_salesrep_order_shipment>
+
+    <epicor_salesrep_order_creditmemo translate="label">
+        <label>Customer My Account Order Creditmemo View</label>
+        <update handle="sales_order_creditmemo"/>
+    </epicor_salesrep_order_creditmemo>
+
+    <epicor_salesrep_order_reorder>
+        <update handle="sales_order_reorder"/>
+    </epicor_salesrep_order_reorder>
+
+    <epicor_salesrep_order_print translate="label">
+        <label>Sales Order Print View</label>
+        <update handle="sales_order_print"/>
+    </epicor_salesrep_order_print>
+
+    <epicor_salesrep_order_printinvoice translate="label">
+        <label>Sales Invoice Print View</label>
+        <update handle="sales_order_printinvoice"/>
+    </epicor_salesrep_order_printinvoice>
+
+    <epicor_salesrep_order_printshipment translate="label">
+        <label>Sales Shipment Print View</label>
+        <update handle="sales_order_printshipment"/>
+    </epicor_salesrep_order_printshipment>
+
+    <epicor_salesrep_order_printcreditmemo>
+        <update handle="sales_order_printcreditmemo"/>
+    </epicor_salesrep_order_printcreditmemo>
+    <epicor_salesrep_account_masqueradepopup>
+        <reference name="head"> 
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>   
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs"> 
+                <file>mage/adminhtml/loader.js</file>               
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action> 
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/masqueradeSearch.js</name>
+                <params/>
+            </action>
+        </reference> 
+        <reference name="root">
+            <action method="setTemplate">
+                <template>epicor/salesrep/masqueradesearchgrid.phtml</template>
+            </action>
+            <block type="epicor_comm/customer_account_masqueradesearch_list" name="masquerade.search.popup" output="toHtml"/>       
+        </reference>
+    </epicor_salesrep_account_masqueradepopup>
+    <epicor_salesrep_account_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/masqueradeSearchParent.js</name>
+                <params/>
+            </action>
+        </reference> 
+    </epicor_salesrep_account_index>
+    
+</layout> 

@@ -1,0 +1,36 @@
+<div class="page-title">
+    <h1><?php echo $this->__('Edit SKU') . ' ' . $this->getProduct()->getSku(); ?> </h1>
+</div>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate">
+    <?php if($this->getCustomerSku()->getEntityId()): ?>
+    <input type="hidden" name="entity_id" value="<?php echo $this->escapeHtml($this->getCustomerSku()->getEntityId()) ?>" />
+    <?php else: ?>
+    <input type="hidden" name="product_id" value="<?php echo $this->escapeHtml($this->getProduct()->getId()) ?>" />
+    <?php endif; ?>
+    <div class="fieldset">
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="customer_sku" class="required"><em>*</em><?php echo $this->__('Customer SKU') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="customer_sku" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Customer Sku')) ?>" value="<?php echo $this->escapeHtml($this->getCustomerSku()->getSku()) ?>" class="input-text required-entry" id="telephone" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="description"><?php echo $this->__('Description') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="description" id="fax" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Description')) ?>" value="<?php echo $this->escapeHtml($this->getCustomerSku()->getDescription()) ?>" class="input-text" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button data-action="save-customer-sku" type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Save SKU')) ?>" class="button"><span><span><?php echo $this->__('Save SKU') ?></span></span></button>
+    </div>
+</form>

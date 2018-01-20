@@ -1,0 +1,12 @@
+<tfoot class="totals">
+    <?php foreach ($this->getRows() as $x => $row): ?>
+        <tr class="<?php echo $row['label_class']; ?><?php echo ($x == 0) ? ' first' : ''; ?>" colspan="<?php echo $this->getColumns(); ?>">
+            <td <?php echo 'colspan="' . $this->getColumns() . '"'; ?> class="a-right">
+                <?php echo $row['label']; ?>
+            </td>
+            <td class="<?php echo!(empty($row['value_class'])) ? $row['value_class'] : $row['label_class']; ?>">
+                <span class="price"><?php echo $row['value']; ?></span>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tfoot>

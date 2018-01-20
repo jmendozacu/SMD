@@ -1,0 +1,55 @@
+<?php
+$_galleryId = $this->getData('gallery_id');
+$_gallery = Mage::getModel('gallery/gallery')->load($_galleryId);
+$_media = $_gallery->getMediaGalleryImages();
+$_carouselItems = $_gallery->getCarouselItems();
+?>
+
+<div class="gallery-wrapper text-center gallery-<?php echo $_gallery->getId() ?> <?php echo $_gallery->getGalleryClass(); ?>">
+
+    <?php if($_gallery->getShowTitle()): ?>
+        <h1 class="gallery-title"><?php echo $_gallery->getTitle(); ?></h1>
+    <?php endif; ?>
+
+    <?php if($_gallery->getDescription()): ?>
+        <p class="gallery-description"><?php echo $_gallery->getDescription(); ?></p>
+    <?php endif; ?>
+
+    <div class="carousel-images">
+
+        <?php foreach($_media as $image): ?>
+
+            <?php if($this->hasLink($image)): ?>
+                <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
+            <?php endif; ?>
+
+            <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+
+
+            <?php if($this->hasLink($image)): ?>
+                </a>
+            <?php endif; ?>
+
+        <?php endforeach; ?>
+
+    </div>
+
+    <?php if($_gallery->getGalleryHtml()): ?>
+        <div class="gallery-html">
+            <?php echo $_gallery->getGalleryHtml(); ?>
+        </div>
+    <?php endif; ?>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+        $j('.carousel-images').slick({
+            infinite: true,
+            slidesToShow: <?php echo $_carouselItems ?>,
+            slidesToScroll: <?php echo $_carouselItems ?>
+        });
+
+    //]]>
+</script>

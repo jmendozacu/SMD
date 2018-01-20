@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+   <tabs>
+        <blackbird translate="label">
+            <label><![CDATA[<span class="blackbird-menu-admin">Blackbird Extensions</span>]]></label>
+            <sort_order>200</sort_order>
+        </blackbird>
+    </tabs>
+    <sections>
+        <blackbird_contentmanager translate="label" module="contentmanager">
+            <class>separator-top</class>
+            <label>Content Manager</label>
+            <tab>blackbird</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>40</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <frontend translate="label">
+                    <label>Frontend</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <flat_contentmanager_content translate="label comment">
+                            <label>Use Flat Content</label>
+                            <comment><![CDATA[Enable for reindexing a big number of contents]]>.</comment>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>adminhtml/system_config_form_field_select_flatproduct</frontend_model>
+                            <backend_model>catalog/system_config_backend_catalog_product_flat</backend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </flat_contentmanager_content>
+                    </fields>
+                </frontend>
+            </groups>
+        </blackbird_contentmanager>
+    </sections>
+</config>

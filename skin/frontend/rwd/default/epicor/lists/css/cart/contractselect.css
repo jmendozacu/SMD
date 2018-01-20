@@ -1,0 +1,220 @@
+/**
+ * @category   Epicor
+ * @package    Epicor_Lists
+ * @author     Epicor Websales Team
+ */
+
+#line-contract-select {
+    background: #fff;
+    padding:1em;
+}
+
+#line-contract-select-header {
+    width:50%;
+    float:left;
+}
+
+#line-select-no-contract, 
+#line-select-close-popup {
+    float:right;
+}
+
+
+/* TABLES
+*******************************************************************************/
+
+/* Grid - General */
+#line-contract-select .grid                           { border-bottom:0; padding-bottom:.5em; }
+#line-contract-select .grid table                     { width:100%; border:1px solid #cbd3d4; border-bottom:none; }
+#line-contract-select .grid table.border              { border:1px solid #cbd3d4; }
+#line-contract-select .grid tbody                     { background:#fff; }    /* Zebra odd-row */
+#line-contract-select .grid tr.even, #line-contract-select .grid tr.even tr { background:#f6f6f6; } /* Zebra even-row */
+#line-contract-select .grid tr.on-mouse               { background:#fcf5dd; cursor:pointer; } /* Rows mouse-over */
+#line-contract-select .grid tr.invalid                { background-color:#f5d6c7; }
+#line-contract-select .grid th, #line-contract-select .grid td              { padding:2px 4px 2px 4px; }
+#line-contract-select .grid th                        { white-space:nowrap; }
+#line-contract-select .grid td.editable input.input-text { width:50px !important; margin-left:4px !important; }
+#line-contract-select .grid td input.input-text       { width:86%; }
+#line-contract-select .grid td input.input-text-export-filter { width:272px; }
+#line-contract-select .grid td input.input-text-range { width:104px; }
+#line-contract-select .grid td input.input-text-range-date { width:87px; }
+#line-contract-select .grid td input.input-inactive   { background:#eee; }
+#line-contract-select .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
+#line-contract-select .grid table.border td           { background:#fff !important; }
+#line-contract-select .grid table td.first,
+#line-contract-select .grid table td.last             { border-right:0; }
+#line-contract-select .grid table td.product          { text-align:right; }
+#line-contract-select .grid table td.empty-text       { padding:15px; }
+#line-contract-select .grid table td .action-select   { width:100%; }
+#line-contract-select .grid .separator                { padding:0 4px; color:#b9b9b9; }
+
+#line-contract-select .grid tbody.odd tr              { background:#fff !important; }
+#line-contract-select .grid tbody.even tr             { background:#f6f6f6 !important; }
+#line-contract-select .grid tbody.odd tr td,
+#line-contract-select .grid tbody.even tr td          { border-bottom:0; }
+#line-contract-select .grid tbody.odd tr.border td,
+#line-contract-select .grid tbody.even tr.border td   { border-bottom:1px solid #dadfe0; }
+
+
+/* Grid - Pager and Buttons row */
+#line-contract-select table.actions                   { width:100%; margin:.5em 0; }
+#line-contract-select table.actions td                { vertical-align:top; }
+#line-contract-select .pager {float: none !important;}
+#line-contract-select .pager select                   { width:4em!important; margin:0 4px; }
+#line-contract-select .pager input.page               { width:2em !important; }
+#line-contract-select .pager .arrow                   { margin:0 3px; vertical-align:middle; }
+
+#line-contract-select .pager img, 
+#line-contract-select .pager input {
+    display:inline !important;
+}
+
+
+/* Grid - Headings */
+#line-contract-select .grid tr.headings { background:url(images/sort_row_bg.gif) 0 50% repeat-x; }
+#line-contract-select .grid tr.headings th { border-width:1px; border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9; border-style:solid; padding-top:1px; padding-bottom:0; font-size:.9em; }
+#line-contract-select .grid tr.headings th.last { border-right:0; }
+#line-contract-select .grid tr.headings th.no-link { /* Grid th with no sorting functionality */ padding-top:2px; padding-bottom:1px; color:#67767e; }
+#line-contract-select .grid tr.headings th span.nobr { display:block; /* FF3 fix */ }
+#line-contract-select .grid tr.headings th a { display:block; padding:2px 4px 1px 0; color:#2d444f; text-decoration:none; }
+#line-contract-select .grid tr.headings th a:hover { color:#d85909; text-decoration:none; }
+#line-contract-select .grid tr.headings th a.sort-arrow-desc,
+#line-contract-select .grid tr.headings th a.sort-arrow-asc { background:url(images/sort_on_bg.gif) 0 0 no-repeat; border-bottom:1px solid #fff; border-right:1px solid #fff; padding-bottom:2px; }
+#line-contract-select .grid tr.headings th span.sort-title { display:block; padding:3px 12px 4px 0; line-height:1; font-size: 11px; font-weight: normal; }
+
+#line-contract-select .grid tr.headings th a.sort-arrow-desc span.sort-title,
+#line-contract-select .grid tr.headings th a.sort-arrow-asc span.sort-title { background-position:right 50%; background-repeat:no-repeat; padding:3px 12px 2px 8px; }
+#line-contract-select .grid tr.headings th a.sort-arrow-desc span.sort-title { background-image:url(images/grid_sort_desc.gif); }
+#line-contract-select .grid tr.headings th a.sort-arrow-asc span.sort-title { background-image:url(images/grid_sort_asc.gif); }
+
+
+/* Grid - Mass Action */
+#line-contract-select .massaction { width:100%; height:26px; border:1px solid #d1cfcf; border-bottom:none; background:url(images/massaction_bg.gif) repeat-x 0 100% #ebebeb; font-size:.9em; }
+#line-contract-select .massaction td                              { width:50%; border-top:1px solid #fff; padding:1px 8px; vertical-align:middle; }
+#line-contract-select .massaction .entry-edit fieldset .select    { width:auto; /*width:120px;*/ display:inline; }
+#line-contract-select .massaction .entry-edit fieldset select.validation-failed { border:1px dashed #eb340a !important; background:#faebe7 !important }
+#line-contract-select .massaction .entry-edit fieldset            { margin:0; padding:0; background:none; border:none; }
+#line-contract-select .massaction .entry-edit fieldset .field-row { display:inline; }
+#line-contract-select .massaction .entry-edit .field-row label    { float:none; width:auto; margin-left:13px; }
+#line-contract-select .massaction .entry-edit                     { margin:0 !important; padding:0; }
+#line-contract-select .massaction .entry-edit .validation-advice  { display:none !important; }
+#line-contract-select .massaction a { text-decoration:none; }
+#line-contract-select .massaction .entry-edit fieldset span.form_row,
+#line-contract-select .massaction .entry-edit fieldset span.field-row { clear:none !important; display:inline; float:left !important; margin:0; padding:0 5px 0 0; }
+
+#line-contract-select .massaction .entry-edit .outer-span { float:left; }
+
+/* Grid - Filter */
+#line-contract-select .grid tr.filter                  { background:url(images/filter_row_bg.gif) repeat-x #e3eff1; cursor:default; }
+#line-contract-select .grid tr.filter th               { padding-top:5px; padding-bottom:5px; border:1px solid #bdbdbd; border-width:0 1px 1px 0; white-space:normal; }
+#line-contract-select .grid tr.filter th.last          { border-right:0; }
+#line-contract-select .grid tr.filter input.input-text { width:85%; }
+#line-contract-select .grid tr.filter select           { width:100%; }
+#line-contract-select .grid tr.filter .range .range-line { margin-bottom:3px; width:100px; }
+#line-contract-select .grid tr.filter .range div.date  { min-width:121px; }
+#line-contract-select .grid tr.filter .range input     { float:right; width:50px !important; margin-top:0; }
+#line-contract-select .grid tr.filter .range select    { float:right; width:56px !important; margin-top:0; }
+#line-contract-select .grid tr.filter .range .label    { display:block; width:36px; float:left; padding-left:2px; }
+#line-contract-select .grid tr.filter .date img        { width:15px; height:15px; cursor:pointer; vertical-align:middle; }
+#line-contract-select .grid .head-massaction select    { width:auto !important; max-width:90px; }
+#line-contract-select .grid select.select-export-filter,
+#line-contract-select .grid select.multiselect-export-filter { width:278px; }
+
+/* Grid Footer */
+#line-contract-select .grid table tfoot tr            { background:#D7E5EF; }
+#line-contract-select .grid table tfoot tr td         { border-top:1px solid #9babb9; background:#e5ecf2; line-height:1.7em; }
+#line-contract-select .grid table.border tfoot tr td  { background:#D7E5EF !important; }
+
+
+/* Dynamic Grid */ /* Used in pages like Catalog -> Attributes */
+#line-contract-select .dynamic-grid th                { padding:2px;width:100px; }
+#line-contract-select .dynamic-grid td                { padding:2px; }
+#line-contract-select .dynamic-grid td input          { width:94px; }
+#line-contract-select tr.dynamic-grid td,
+#line-contract-select tr.dynamic-grid th { padding:2px 10px 2px 0; width:auto; }
+#line-contract-select tr.dynamic-grid input.input-text { width:154px; }
+#line-contract-select .available { color:#080; font-weight:bold; }
+#line-contract-select .not-available { color:#800; }
+
+
+#line-contract-select .grid tr .form-list tr          { background:#fff !important; } /* Follows grid row background-color */
+#line-contract-select .grid tr.even .form-list tr     { background:#f6f6f6 !important; } /* Follows grid row background-color */
+#line-contract-select .grid tr.on-mouse .form-list tr { background:#fcf5dd !important; } /* Follows grid row background-color */
+#line-contract-select .grid tr .form-list             { margin:8px 0; }
+.field-row                      { display:block; margin-bottom:5px; }
+
+#line-contract-select .content-buttons.form-buttons,
+#line-contract-select .content-header .form-buttons   { text-align:right; margin-bottom:0; }
+#line-contract-select .content-header .content-buttons-placeholder { display:inline !important; }
+#line-contract-select .content-header .form-buttons   { float:right; }
+#line-contract-select .content-header td.form-buttons   { float:none; }
+#line-contract-select .content-header .form-buttons button { margin-bottom:3px; }
+#line-contract-select .sub-btn-set { border:1px solid #ddd; border-width:0 1px; background:url(images/sub_button_bg.gif) repeat; padding:3px 10px; text-align:right; }
+#line-contract-select button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
+#line-contract-select button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
+#line-contract-select button:not(.button),
+#line-contract-select .form-button { 
+background: none repeat scroll 0 0 #3399cc;
+    border: 0 none;
+    color: #ffffff !important;
+    display: inline-block;
+    font-family: "Raleway","Helvetica Neue",Verdana,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 19px;
+    padding: 7px 15px;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 0 0.1em !important;
+}
+#line-contract-select button:hover                    { background: none repeat scroll 0 0 #2e8ab8;
+    cursor: pointer; }
+#line-contract-select button:active                   { background: none repeat scroll 0 0 #2e8ab8; }
+#line-contract-select button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
+#line-contract-select button span span                { background:none !important; padding:0 !important; margin:0 !important; display:inline !important; }
+/* Google Chrome specific fix for empty buttons */
+#line-contract-select button.add span:after,
+#line-contract-select button.delete span:after { display:inline-block; clear:both; content:"."; font-size:0; line-height:0; height:0; overflow:hidden; }
+#line-contract-select button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
+#line-contract-select button.fail,
+#line-contract-select button.cancel,
+#line-contract-select button.delete { border-color:#d24403 #a92000 #a92000 #d24403; background-image:url(images/cancel_btn_bg.gif); background-color:#fcaf81; color:#fff; }
+#line-contract-select button.fail:hover,
+#line-contract-select button.cancel:hover,
+#line-contract-select button.fail:active,
+#line-contract-select button.cancel:active,
+#line-contract-select button.cancel span,
+#line-contract-select button.btn-chooser { display:block; margin:0 0 10px; }
+
+#line-contract-select button.disabled,
+#line-contract-select button.disabled:hover,
+
+#line-contract-select button.icon-btn { width:32px !important; }
+#line-contract-select button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
+
+#line-contract-select .buttons-set { margin:0 0 10px; }
+#line-contract-select .buttons-set button { margin-right:5px; }
+
+
+#line-contract-select .grid tr.read { background:#fff !important; }
+#line-contract-select .grid tr.unread { background:#fcf6f5 !important; }
+#line-contract-select .grid-row-title { color:#444; font-weight:bold; }
+
+#line-contract-select .grid-severity-critical,
+#line-contract-select .grid-severity-critical span,
+#line-contract-select .grid-severity-major,
+#line-contract-select .grid-severity-major span,
+#line-contract-select .grid-severity-minor,
+#line-contract-select .grid-severity-minor span,
+#line-contract-select .grid-severity-notice,
+#line-contract-select .grid-severity-notice span { display:block; height:16px; background-image:url(images/bg_notifications.gif); background-repeat:no-repeat; font:bold 10px/16px Arial, Helvetica, sans-serif; text-transform:uppercase; text-align:center; padding:0 0 0 7px; margin:1px 0; white-space:nowrap; color:#fff; }
+#line-contract-select .grid-severity-critical { background-position:0 0; }
+#line-contract-select .grid-severity-critical span { background-position:100% 0; padding:0 7px 0 0; }
+#line-contract-select .grid-severity-major { background-position:0 -16px; }
+#line-contract-select .grid-severity-major span { background-position:100% -16px; padding:0 7px 0 0; }
+#line-contract-select .grid-severity-minor { background-position:0 -32px; }
+#line-contract-select .grid-severity-minor span { background-position:100% -32px; padding:0 7px 0 0; }
+#line-contract-select .grid-severity-notice { background-position:0 -48px; }
+#line-contract-select .grid-severity-notice span { background-position:100% -48px; padding:0 7px 0 0; }

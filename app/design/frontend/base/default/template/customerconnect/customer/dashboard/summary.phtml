@@ -1,0 +1,52 @@
+<?php
+/**
+ * Template for block Epicor_Customerconnect_Block_Customer_Account_Summary
+ */
+
+if ($this->getErpCustomer()->getId()) :
+    ?><div class="box-info box-account col-2">
+        <div class="box-head">
+            <h2><?php echo $this->__('Account Information') ?></h2>
+        </div>
+<?php if($this->getDisplayDashboard()){  // display if dashboard available?>   
+        <ul class="info-list col-count-<?php echo $this->getColumnCount(); ?>">
+            <?php if ($this->showField('name')) : ?>
+                <li>
+                    <span class="label"><?php echo $this->__('Name:') ?></span>
+                    <?php echo $this->getErpCustomer()->getName() ?>
+                </li>
+            <?php endif; ?>
+            <?php if ($this->showField('code')) : ?>
+                <li>
+                    <span class="label"><?php echo $this->__('Short Code:') ?></span>
+                    <?php echo $this->getErpCustomer()->getShortCode() ?>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($this->showField('credit_limit')) : ?>
+                <li>
+                    <span class="label"><?php echo $this->__('Credit Limit:') ?></span>
+                    <?php echo $this->getCreditLimit(); ?>
+                </li>
+            <?php endif; ?>
+            <?php if ($this->showField('min_order_value')) : ?>
+                    <!--<p>-->
+                <li>
+                    <span class="label"><?php echo $this->__('Min Order Value:') ?></span>      
+                        <!--<strong><?php //echo $this->__('Minimum Order Value:') ?></strong><br />-->
+                        <?php echo $this->getMinOrderValue(); ?>
+                    <!--</p>--> 
+                 </li>    
+                <?php endif; ?>          
+            <?php if ($this->showField('balance')) : ?>
+                <li>
+                    <span class="label"><?php echo $this->__('Current Balance:') ?></span>
+                     <?php echo $this->getBalance(); ?>
+                </li>
+            <?php endif; ?>
+        </ul>
+<?php } ?>        
+    </div>
+<?php
+
+endif;

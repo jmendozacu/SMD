@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+	<default>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>css/local.css</stylesheet>
+			</action>
+		</reference>
+	</default>	
+
+	<catalog_category_landing>
+		<reference name="content">
+		    <block type="core/template" name="catalog.subcategories" template="catalog/category/view/subcategories.phtml" />
+		</reference>
+	</catalog_category_landing>
+
+</layout>

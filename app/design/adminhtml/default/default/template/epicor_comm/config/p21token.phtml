@@ -1,0 +1,34 @@
+<?php
+/**
+ * Response CUS - Upload Customer Record
+ *
+ * @category   Epicor
+ * @package    Epicor_Comm
+ * @author     Epicor Websales Team
+ */
+
+/* @var $this Epicor_Comm_Block_Adminhtml_Config_P21token */
+
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function getToken() {
+        new Ajax.Request('<?php echo $this->getAjaxCheckUrl() ?>', {
+            method:     'get',
+            onSuccess: function(transport){
+                switch(transport.responseText) {
+                    case 'Token retrieved successully':
+                        alert('Token retrieved successully');
+                        break;
+                        
+                    default:
+                        alert(transport.responseText);
+                        break;
+                }
+            }
+        });
+    }
+    //]]>
+</script>
+ 
+<?php echo $this->getButtonHtml() ?>

@@ -1,0 +1,45 @@
+<?php
+/**
+ * Template for filter items block
+ *
+ * @var $this   Mage_Catalog_Block_Layer_Filter_Category
+ * @var $helper Wyomind_Layer_Helper_Category
+ */
+$helper = $this->helper('layer/category');
+$tree = $helper->getTree($this->getFilter()->getCategory());
+$expand = $helper->getExpandTree();
+$showCount = $helper->getShowProductsCount();
+$current = $helper->getCurrentCategory();
+$currentLevel = $current->getLevel() - 2;
+?>
+<?php if ($tree->getNodes()->count() > 0): ?>
+    <div class="category-filter-tree">
+        <ul>
+            <?php foreach ($tree->getNodes() as $node): ?>
+                <?php
+                $level = $node->getLevel() - 2;
+                $pathIds = explode('/', $node->getData('path'));
+                $in = in_array($current->getId(), $pathIds);
+                $inParent = count(array_intersect($current->getParentIds(), $pathIds)) > 3;
+                if (!$expand && !$in && $level > 1 && (!$inParent || $level > $currentLevel) || $node->getName() == "") {
+                    continue;
+                }
+                ?>
+                <li class="level<?php echo $level ?><?php echo $current->getId() == $node->getEntityId() ? ' active' : '' ?>">
+                    <label for="category-filter-<?php echo $node->getId() ?>">
+                        <?php if (!$expand && $node->getChildrenCount() && $level > 0): ?>
+                            <div class="<?php echo in_array($node->getId(), $current->getPathIds()) ? 'on' : 'off' ?>"></div>
+                        <?php endif; ?>
+                        <a id="category-filter-<?php echo $node->getId() ?>"
+                           href="<?php echo $this->escapeUrl($helper->getNodeUrl($node)) ?>">
+                               <?php echo $this->escapeHtml($node->getName()) ?>
+                        </a>
+                    </label>
+                    <?php if ($showCount): ?>
+                        <span class="count"> (<?php echo $node->getProductCount2() ?>)</span>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,26 @@
+<?php 
+$_blockId = $this->getModelId(); 
+if(!empty($_blockId)) :
+    $_title = $this->getTitle();
+    if (empty($_title)): ?>
+        <div class="callout callout-image top">
+    <?php else : ?>
+        <div class="callout block callout-image top">
+            <div class="block-title">
+                <strong><span><?php echo $this->getTitle(); ?></span></strong>
+            </div>
+            <div class="block-content">
+     <?php endif; ?>
+          <?php if($this->getLink()): ?>
+            <a href="<?php echo $this->getLink(); ?>" title="<?php echo $this->getImageAlt(); ?>" >
+          <?php endif; ?>
+            <img src="<?php echo $this->getImage(); ?>" alt="<?php echo $this->getImageAlt(); ?>" />
+          <?php if($this->getLink()): ?>
+            </a>
+          <?php endif; ?>
+        </div>
+
+    <?php if (!empty($_title)): ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

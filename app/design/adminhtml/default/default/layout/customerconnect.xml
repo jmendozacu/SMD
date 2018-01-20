@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+     <adminhtml_customerconnect_mapping_invoicestatus_index>
+        <label>Invoice Status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Invoice Status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_invoicestatus" name="invoicestatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_invoicestatus_index>
+    <adminhtml_customerconnect_mapping_invoicestatus_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_invoicestatus_edit" name="invoicestatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_invoicestatus_edit>
+    
+    <adminhtml_customerconnect_mapping_rmastatus_index>
+        <label>Rma Status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Rma Status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_rmastatus" name="rmastatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_rmastatus_index>
+    <adminhtml_customerconnect_mapping_rmastatus_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadTinyMce"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_rmastatus_edit" name="rmastatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_rmastatus_edit>
+    
+    <adminhtml_customerconnect_mapping_servicecallstatus_index>
+        <label>Service Call Status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Service Call Status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_servicecallstatus" name="servicecallstatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_servicecallstatus_index>
+    <adminhtml_customerconnect_mapping_servicecallstatus_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_servicecallstatus_edit" name="servicecallstatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_servicecallstatus_edit>
+    
+    <adminhtml_customerconnect_mapping_erporderstatus_index>
+        <label>Erp Order Status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Erp Order Status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_erporderstatus" name="erporderstatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_erporderstatus_index>
+    <adminhtml_customerconnect_mapping_erporderstatus_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_erporderstatus_edit" name="erporderstatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_erporderstatus_edit>
+
+    <adminhtml_customerconnect_mapping_erpquotestatus_index>
+        <label>Erp Quote Status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Erp Quote Status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_erpquotestatus" name="erpquotestatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_erpquotestatus_index>
+    <adminhtml_customerconnect_mapping_erpquotestatus_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_erpquotestatus_edit" name="erpquotestatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_erpquotestatus_edit>
+
+    <adminhtml_customerconnect_mapping_reasoncode_index>
+        <label>Reason Code</label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Reason Code</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_reasoncode" name="reasoncodelist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_reasoncode_index>
+    <adminhtml_customerconnect_mapping_reasoncode_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_reasoncode_edit" name="reasoncodemapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_reasoncode_edit>
+</layout>

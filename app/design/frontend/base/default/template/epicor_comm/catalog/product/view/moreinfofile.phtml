@@ -1,0 +1,7 @@
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct();?>
+<?php $_moreinfofile = $_helper->productAttribute($_product, $_product->getMoreInfoRaw(), 'more_info_raw'); ?>
+<?php if (!empty($_moreinfofile) && $_moreinfofile != 'no') : ?>
+    <h2><?php echo $this->__('More Information'); ?></h2>
+    <a target="_blank" href="<?php echo $this->helper('epicor_comm/Product')->getMoreInfoUrl($_moreinfofile) ?>" title="<?php echo $this->__('Download More Product Information'); ?>"><?php echo $this->__('Download Product Information'); ?></a>
+<?php endif; ?>

@@ -1,0 +1,24 @@
+<?php
+$_product = Mage::registry('current_product');
+/* @var $_product Epicor_Comm_Model_Product */
+
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+
+$showLocations = $locHelper->isLocationsEnabled();
+
+if ($showLocations) {    
+    $location = $_product->getRequiredLocation();
+    $qty = $this->getQty() ? ", qty: '{$this->getQty()}'" : null;
+    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', location: '{$_product->getRequiredLocation()}'$qty}, false);";
+} else {
+    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', qty: '{$this->getQty()}'}, false);";
+}
+?>
+<div class="configurable_addtocart">  
+<?php $buttonTitle = $this->__('Configure Product'); ?>
+    <div class="add-to-cart">
+        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="<?php echo $onClick ?>"><span><span><?php echo $buttonTitle ?></span></span></button> 
+<?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+</div>

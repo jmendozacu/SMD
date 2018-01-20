@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>               
+            <children>
+                <hostingmanager>
+                    <title>Web Hosting Management</title>
+                    <sort_order>200</sort_order>
+                    <children>
+                        <sites>
+                            <title>Sites</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/hostingmanager_sites/</action>
+                        </sites>
+                        <certificates>
+                            <title>SSL Certificates</title>
+                            <sort_order>20</sort_order>
+                            <action>adminhtml/hostingmanager_certificates/</action>
+                        </certificates>
+                    </children>
+                </hostingmanager>
+                <advanced>
+                    <children>
+                        <nginx_log>
+                            <title>Nginx Logs</title>
+                            <sort_order>40</sort_order>
+                            <action>adminhtml/hostingmanager_nginxlog/</action>
+                        </nginx_log>
+                    </children>
+                </advanced>
+            </children>
+        </epicor_common>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common module="epicor_common">
+                        <children>
+                            <hostingmanager>
+                                <title>Web Hosting Management</title>
+                                <children>
+                                    <sites>
+                                        <title>Sites</title>
+                                    </sites>
+                                    <certificates>
+                                        <title>SSL Certificates</title>
+                                    </certificates>
+                                </children>
+                            </hostingmanager> 
+                        </children>
+                    </epicor_common>
+                </children>
+            </admin>
+        </resources>
+    </acl>	
+</config>

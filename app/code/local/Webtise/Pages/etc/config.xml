@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Webtise_Pages>
+            <version>0.1.0</version>
+        </Webtise_Pages>
+    </modules>
+    <global>
+        <page>
+            <layouts>
+                <catalog_category_landing translate="label">
+                    <label>Category Landing</label>
+                    <template>page/1column.phtml</template>
+                    <layout_handle>catalog_category_landing</layout_handle>
+                </catalog_category_landing>
+            </layouts>            
+        </page>
+    </global>
+</config>
+

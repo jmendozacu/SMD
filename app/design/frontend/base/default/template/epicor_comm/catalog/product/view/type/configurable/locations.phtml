@@ -1,0 +1,103 @@
+<?php
+/**
+ * Locations template
+ *
+ */
+/* @var $this Epicor_Comm_Block_Catalog_Product_View_Locations */
+
+$_product = $this->getProduct();
+/* @var $_product Epicor_Comm_Model_Product */
+
+$locations = $this->getLocations($_product);
+
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+
+$showPrices = true;//$helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+$showQty = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+$showPrices = true;//$this->getHidePrices() ? false : $showPrices;
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $locHelper Epicor_Comm_Helper_Locations */
+
+$_product->setMainProductIsSaleable(true);
+    ?>
+    <h3 class="locations_header"><?php echo $this->__('Locations'); ?></h3>
+    <table class="data-table grouped-items-table" id="super-product-table">
+        <col />
+        <?php if ($showPrices && $this->getCanShowProductPrice($_product)): ?>
+            <col />
+        <?php endif; ?>
+        <?php if ($showQty/* && $_product->isSaleable()*/): ?>
+            <col width="1" />
+        <?php endif; ?>
+        <thead>
+            <tr>
+                <th><?php echo $this->__('Location') ?></th>
+                <?php if ($showPrices && $this->getCanShowProductPrice($_product)): ?>
+                    <th class="a-right"><?php echo $this->__('Price') ?></th>
+                <?php endif; ?>
+                <?php if ($showQty/* && $_product->isSaleable()*/): ?>
+                    <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $x = 0; ?>
+            <?php foreach ($locations as $location): ?>
+                <?php $_product->setToLocationPrices($location); ?>
+                <tr>                
+                    <td>
+                        <?php echo $location->getName(); ?>
+                        <?php if ($_product->isSaleable()) : ?>   
+                            <?php
+                            switch ($_product->getStockType()):
+                                case 'bool':
+                                    ?>
+                                    <?php if ($_product->isAvailable()): ?>
+                                        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+                                    <?php else: ?>
+                                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+                                    <?php break; ?> 
+                                <?php case 'range': ?>
+                                    <?php $_img = $_product->getStockRange(); ?>
+                                    <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
+                                    <?php break; ?> 
+                                <?php case 'level': ?>
+                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel() ?></span></p>
+                                    <?php break; ?>         
+                            <?php endswitch; ?>  
+                        <?php else: ?>            
+                            <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>  
+                        <?php endif; ?> 
+                    </td>
+                    <?php if ($showPrices && $this->getCanShowProductPrice($_product)): ?>
+                        <td class="a-right">
+                            <?php echo $this->getPriceHtml($location, $_product, true) ?>
+                            <?php echo $this->getTierPriceHtml($location, $_product, $this) ?>
+                        </td>
+                    <?php endif; ?>
+                        <td class="a-center">
+                    <?php if ($showQty && $_product->isSaleable()): ?>
+                        
+                            <input type="hidden" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][location_code]" value="<?php echo $location->getLocationCode() ?>" />
+                            <input type="text" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][qty]" maxlength="12" value="<?php echo $this->getEditQty(); ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                            <?php if ($_product->getConfigurator()): ?>
+                                <div class="configurable_addtocart">  
+                                    <?php $buttonTitle = $this->__('Configure Product'); ?>
+                                    <div class="add-to-cart">
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="ewaProduct.submit({sku: '<?php echo $_product->getSku(); ?>', productId: '<?php echo $_product->getId(); ?>', location: '<?php echo $location->getLocationCode() ?>'}, false);"><span><span><?php echo $buttonTitle ?></span></span></button>
+                                        <?php echo $this->getChildHtml('', true, true) ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        
+                    <?php endif; ?>
+                            </td>
+                </tr>
+                <?php $x++; ?>
+            <?php endforeach; ?>
+            <?php $_product->restoreOrigData(); ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('super-product-table')</script>

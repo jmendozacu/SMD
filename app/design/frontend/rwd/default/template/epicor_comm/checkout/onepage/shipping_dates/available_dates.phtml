@@ -1,0 +1,36 @@
+<div class="fieldset">
+    <ul class="sp-methods form-list">
+        <?php if ($this->showAsList()): ?>
+            <?php foreach ($this->getAvailableDates() as $id => $date): ?>
+                <li class="control">
+                    <input class="radio" type="radio" <?php echo $id == 0 ? 'checked ' : ''; ?>name="shipping_dates[shipby]" id="shipping_dates:shipby-<?php echo $id; ?>" value="<?php echo $date; ?>" />
+                    <label for="shipping_dates:shipby-<?php echo $id; ?>"><?php echo Mage::helper('epicor_common')->convertIso8601DateNoLocale($date, 'F j, Y');
+                ?></label>
+                </li>
+            <?php endforeach; ?>
+            <?php if (count($this->getAvailableDates()) === 0): ?>
+                <li class="control">
+                    <input class="radio" type="radio" checked name="shipping_dates[shipby]" id="shipping_dates:shipby-0" value="<?php echo $this->getDefaultAvailableDate(); ?>" />
+                    <label for="shipping_dates:shipby-0"><?php echo $this->__('Next Available Day'); ?></label>
+                </li>
+            <?php endif; ?>
+        <?php else: ?>
+            <li class="fields">
+                <div class="fields">
+                    <label for="shipping_dates:shipby"><?php echo $this->__('Available Delivery Dates : '); ?></label>
+                    <select name="shipping_dates[shipby]" id="shipping_dates[shipby]">
+                        <?php foreach ($this->getAvailableDates() as $id => $date): ?>
+                        <option value="<?php echo $date; ?>"><?php echo Mage::helper('epicor_common')->convertIso8601DateNoLocale($date, 'F j, Y');
+                            ?></option>
+                        <?php endforeach; ?>
+                        <?php if (count($this->getAvailableDates()) === 0): ?>
+                            <option value="<?php echo $this->getDefaultAvailableDate(); ?>">
+                            <?php echo $this->__('Next Available Day'); ?>
+                            </option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ul>
+</div>

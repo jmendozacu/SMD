@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>   
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/rwd-styles.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="minicart_content">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/cart/minicart/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/minicart/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>simple</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/minicart/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/cart/minicart/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/cart/minicart/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>bundle/checkout_cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/minicart/default.phtml</template>
+            </action>
+        </reference>
+    </default>
+    <catalog_product_view>
+        <reference name="product.info">
+            <block before="description" type="catalog/product_view" name="product.moreinfofile" template="epicor_comm/catalog/product/view/moreinfofile.phtml">
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+            <block before="description" type="catalog/product_view" name="product.moreinfofile" template="epicor_comm/catalog/product/view/relateddocuments.phtml">
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+                <action method="setTitle" translate="value"><value>Related Documents</value></action>
+            </block>
+            <block type="epicor_comm/catalog_product_view_configurableaddtocart" name="epicor_comm.configurableaddtocart" as="configurableaddtocart" template="epicor_comm/catalog/product/view/configurableaddtocart.phtml" />
+            <block type="epicor_comm/catalog_product_view_groupedupdatecart" name="epicor_comm.groupedupdatecart" as="groupedupdatecart" template="epicor_comm/catalog/product/view/groupedupdatecart.phtml" />
+        </reference>
+    </catalog_product_view>    
+</layout> 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <layerednavsearch translate="title" module="layerednavsearch">
+                                        <title>Layered Navigation Search</title>
+                                        <sort_order>100</sort_order>
+                                    </layerednavsearch>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

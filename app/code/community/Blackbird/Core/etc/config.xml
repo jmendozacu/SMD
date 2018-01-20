@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category    Blackbird
+ * @package     Blackbird_ContentManager
+ * @copyright   Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author      Blackbird Team
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version     1.1.0
+ */
+ -->
+<config>
+	<modules>
+            <Blackbird_Core>
+                <version>1.0.1</version>
+            </Blackbird_Core>
+	</modules>
+	
+	<global>
+            <models>
+                <core>
+                    <rewrite>
+                        <blackbirdfeed>Blackbird_Core_Model_Blackbirdfeed</blackbirdfeed>
+                    </rewrite>
+                </core>
+            </models>
+            <blocks>
+                <blackbirdcore>
+                    <class>Blackbird_Core_Block</class>
+                </blackbirdcore>
+            </blocks>
+	</global>
+
+	<adminhtml>
+            <layout>
+                <updates>
+                    <core>
+                        <file>blackbird/core.xml</file>
+                    </core>
+                    <bird_base>
+                        <file>blackbird/version.xml</file>
+                    </bird_base>
+                </updates>
+            </layout>
+            <translate>
+                <modules>
+                    <Blackbird_Core>
+                        <files>
+                            <default>Blackbird_Core.csv</default>
+                        </files>
+                    </Blackbird_Core>
+                </modules>
+            </translate>
+            <acl>
+                <resources>
+                    <admin>
+                        <children>
+                            <contentmanager>
+                                <title>Blackbird extensions</title>
+                                <children>
+                                    <core>
+                                        <title>Blackbird Core</title>
+                                    </core>
+                                </children>
+                            </contentmanager>
+                            <system>
+                                <children>
+                                    <config>
+                                        <children>
+                                            <contentmanager>
+                                                <title>Blackbird Core</title>
+                                            </contentmanager>
+                                        </children>
+                                    </config>
+                                </children>
+                            </system>
+                        </children>
+                    </admin>
+                </resources>
+            </acl>
+            <events>
+                <controller_action_predispatch>
+                    <observers>
+                        <blackbird_core_notification>
+                            <type>model</type>
+                            <class>core/blackbirdfeed</class>
+                            <method>observe</method>
+                        </blackbird_core_notification>
+                    </observers>
+                </controller_action_predispatch>
+            </events>
+	</adminhtml>
+</config>

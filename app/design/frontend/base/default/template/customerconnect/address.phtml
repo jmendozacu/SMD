@@ -1,0 +1,55 @@
+<div class='<?php echo $this->getOnRight() ? 'col-2 ' : 'col-1'; ?> box-info box-account'>
+    <div class="box-head">
+        <h2><?php echo $this->getTitle(); ?></h2>
+        <?php if (!empty($this->_addressData) && $this->getShowUpdateLink()) : ?>
+            <?php if(Mage::helper('customerconnect')->checkMsgAvailable('CUAU')){ ?>
+                <div class="<?php echo $this->getAddressType(); ?>-update a-right">    
+                     <button type="submit" class="scalable"  id="<?php echo $this->getAddressType(); ?>_address_update"><?php echo Mage::helper('customerconnect')->__('Update'); ?></button>
+                </div>
+            <?php } ?>
+        <?php endif; ?>
+    </div>
+    <?php if (!empty($this->_addressData)) : ?>
+        <dl class="vcard">
+            <dt class="address hidden">Address</dt>
+            <dd class="first fn org"><?php echo $this->getName(); ?></dd>
+            <dd class="adr break">
+                <span class="street-address"><?php echo $this->getStreet(); ?></span>
+                <span class="locality"><?php echo $this->getCity(); ?></span>
+                <span class="region"><?php echo $this->getCounty(); ?></span>
+                <span class="postal-code"><?php echo $this->getPostcode(); ?></span>
+                <span class="country-name"><?php echo $this->getCountry(); ?></span>
+            </dd>
+            <?php if (Mage::getStoreConfigFlag('customer/address/display_email')): ?>      
+                <?php if ($this->_addressData->getEmailAddress()): ?>
+                    <dt class="sec email"><abbr title="Email">Email</abbr> :</dt>
+                    <dd class="sec email spaced"><?php echo $this->_addressData->getEmailAddress(); ?></dd>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if ($this->getTelephoneNumber()): ?>
+                <dt class="sec tel"><abbr title="Telephone Number">Tel</abbr> :</dt>
+                <dd class="sec tel spaced"><?php echo $this->getTelephoneNumber(); ?></dd>
+            <?php elseif ($this->_addressData->getPhone()): ?>
+                <dt class="sec tel"><abbr title="Telephone Number">Tel</abbr> :</dt>
+                <dd class="sec tel spaced"><?php echo $this->_addressData->getPhone(); ?></dd>
+            <?php endif; ?>
+            <?php if(Mage::getStoreConfigFlag('customer/address/display_mobile_phone')): ?>         
+                <?php if ($this->getMobileNumber()): ?>         
+                    <dt class="sec fax"><abbr title="Mobile Number">Mob</abbr> :</dt>
+                    <dd class="sec fax spaced"><?php echo $this->getMobileNumber(); ?></dd>
+                <?php elseif ($this->_addressData->getMobileNumber()): ?>
+                    <dt class="sec fax"><abbr title="Mobile Number">Mob</abbr> :</dt>
+                    <dd class="sec fax spaced"><?php echo $this->_addressData->getMobileNumber(); ?></dd>
+                <?php  endif; ?>
+            <?php  endif; ?>
+            <?php if ($this->getFaxNumber()): ?>
+                <dt class="sec fax"><abbr title="Fax Number">Fax</abbr> :</dt>
+                <dd class="sec fax spaced"><?php echo $this->getFaxNumber(); ?></dd>
+            <?php elseif ($this->_addressData->getFax()): ?>
+                <dt class="sec fax"><abbr title="Fax Number">Fax</abbr> :</dt>
+                <dd class="sec fax spaced"><?php echo $this->_addressData->getFax(); ?></dd>
+            <?php  endif; ?>
+        </dl>
+    <?php endif; ?>
+</div>
+

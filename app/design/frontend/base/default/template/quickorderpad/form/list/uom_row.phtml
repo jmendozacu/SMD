@@ -1,0 +1,17 @@
+<?php
+$_product = Mage::registry('current_product');
+$loopProduct = Mage::registry('current_loop_product') ? : $_product;
+
+$showUom = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart');
+$showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart_column');
+$rowspan = Mage::registry('current_rowspan');
+?>
+<?php if ($showUom && $showInColumn) : ?>
+    <td class="uom" rowspan="<?php echo $rowspan; ?>">
+        <?php if (($_product->getTypeId() != 'grouped') || ($loopProduct->getPackSize() != '' && $_product->getStkType() == 'grouped')) : ?>                
+            <?php echo $this->__($this->htmlEscape($loopProduct->getPackSize() ? : $_product->getDefaultUom())) ?>
+        <?php else: ?>
+            <?php echo $this->__($this->htmlEscape($loopProduct->getName())) ?>
+        <?php endif ?> 
+    </td>
+<?php endif; ?>

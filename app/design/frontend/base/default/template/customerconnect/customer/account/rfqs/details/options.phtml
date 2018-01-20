@@ -1,0 +1,75 @@
+<?php
+/**
+ * RFQ editable options display
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Options */
+
+$helper = Mage::helper('customerconnect');
+/* @var $helper Epicor_Customerconnect_Helper_Data */
+
+$rfq = Mage::registry('customer_connect_rfq_details');
+/* @var $rfq Epicor_Common_Model_Xmlvarien */
+$rfqRequiredDate = $this->getRequiredDate();
+$updateType = Mage::registry('rfqs_editable_partial') ? 'partial' : 'full';
+$editable = Mage::registry('rfqs_editable');
+$class = Mage::registry('rfq_new') ? 'col-full' : 'col-2';
+$currency = $helper->getCurrencyMapping($rfq->getCurrencyCode(), Epicor_Comm_Helper_Messaging::ERP_TO_MAGENTO);
+$currencySymbol = $helper->getCurrencySymbol($currency);
+?>
+<input type="hidden" id="quote_currency_symbol" name="currency_symbol" value="<?php echo $currencySymbol; ?>"/>
+<input type="hidden" id="quote_currency_code" name="currency_code" value="<?php echo $rfq->getCurrencyCode(); ?>"/>
+<input type="hidden" id="quote_number" name="quote_number" value="<?php echo $rfq->getQuoteNumber(); ?>"/>
+<input type="hidden" id="quote_sequence" name="quote_sequence" value="<?php echo $rfq->getQuoteSequence(); ?>"/>
+<input type="hidden" id="update_type" name="update_type" value="<?php echo $updateType; ?>"/>
+<input type="hidden" id="web_reference" name="web_reference" value="<?php echo $this->getWebReference(); ?>"/>
+<script type="text/javascript">
+    var priceFormatter = new Product.OptionsPrice(<?php echo $this->getJsonConfig(); ?>);
+</script>
+<div class = "box-info box-account <?php echo $class; ?>">
+    <div class="box-head">
+        <h2><?php echo $this->getTitle(); ?></h2>
+    </div>
+    <ul class="info-list">
+        <li id="rfq_required">
+            <label for="required_date"><span class="label"><?php echo $this->__('Required'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="required_date" name="required_date" value="<?php echo $rfqRequiredDate; ?>" class="validate-date required-entry"/>
+                <img title="Select date" id="required_date_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle"/>
+            <?php else: ?>
+                <?php echo $rfqRequiredDate; ?>
+                <input type="hidden" id="required_date" name="required_date" value="<?php echo $rfqRequiredDate; ?>" />
+            <?php endif; ?>
+        </li>
+        <li id="rfq_customer_reference">
+            <label for="customer_reference">
+                <span class="label"><?php echo $this->__('Reference'); ?>:</span></label>
+            <?php if ($editable) : ?>
+                <input type="text" id="customer_reference" name="customer_reference" value="<?php echo $rfq->getCustomerReference(); ?>" />
+            <?php else: ?>
+                <?php echo $rfq->getCustomerReference(); ?>
+                <input type="hidden" id="customer_reference" name="customer_reference" value="<?php echo $rfq->getCustomerReference(); ?>" />
+            <?php endif; ?>
+        </li>
+    </ul>
+</div>
+<?php if (Mage::registry('rfqs_editable')) : ?>
+    <?php $format = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT); ?>
+    <script type="text/javascript">// <![CDATA[
+        Calendar.setup({
+            inputField: 'required_date',
+            ifFormat: '<?php echo $format; ?>',
+            button: 'required_date_trig',
+            align: 'Bl',
+            singleClick: true
+        });
+        // ]]></script>
+    <input type="hidden" id="date_input_format" value="<?php echo $format; ?>"/>
+    <?php
+
+
+
+endif;

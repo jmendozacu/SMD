@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Epicor_ProductFeed>
+            <version>1.0.6.0.0</version>
+        </Epicor_ProductFeed>
+    </modules>
+    <global>
+        <ecc_version_info>
+            <Epicor_ProductFeed>
+                <version>1.0.7.7</version>
+                <released>2017-04-12</released>
+            </Epicor_ProductFeed>
+        </ecc_version_info>
+        <models>
+            <productfeed>
+                <class>Epicor_ProductFeed_Model</class>
+            </productfeed>
+        </models>     
+        <helpers>
+            <productfeed>
+                <class>Epicor_ProductFeed_Helper</class>
+            </productfeed>
+        </helpers>
+        <resources>
+            <productfeed_setup>
+                <setup>
+                    <module>Epicor_ProductFeed</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </productfeed_setup>
+        </resources>
+    </global>
+    <frontend>
+        <secure_url>
+            <productfeed>/feed/</productfeed>
+        </secure_url>
+        <routers>
+            <productfeed>
+                <use>standard</use>
+                <args>
+                    <module>Epicor_ProductFeed</module>
+                    <frontName>feed</frontName>
+                </args>
+            </productfeed>
+        </routers>
+    </frontend>
+    <crontab>
+        <jobs>
+            <productfeed>
+                <schedule>
+                    <cron_expr>0 3 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>productfeed/feed::googleFeed</model>
+                </run>
+            </productfeed>
+        </jobs>
+    </crontab>
+    <default>
+        <epicor_productfeed>
+            <general>
+                <product_weight_unit>kg</product_weight_unit>
+            </general>
+            <google>
+                <show_qty>false</show_qty>
+                <id_strict>false</id_strict>
+                <debug>false</debug>
+                <stock_avail>in stock</stock_avail>
+                <stock_avail_def_out>out of stock</stock_avail_def_out>
+            </google>
+        </epicor_productfeed>
+    </default>
+</config>

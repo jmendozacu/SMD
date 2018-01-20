@@ -1,0 +1,47 @@
+/* Styles for Masonry Pages/Galleries */
+
+.uneven-grid-images {
+    max-width: 100%;
+}
+
+.uneven-grid-images .grid-item-wrapper {
+    margin: 5px 0;
+    width: 100%;
+}
+
+.tag-links.swatch {
+    display: flex;
+}
+
+.tag-links.swatch li {
+    margin-right: 10px;
+}
+
+.tag-category {
+    padding: 15px 0;
+}
+
+.uneven-grid-images .grid-item-wrapper img {
+    max-width: 100%;
+}
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-width : 768px) {
+
+    .uneven-grid-images .grid-item-wrapper {
+        width: 48%;
+    }
+
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+
+    .uneven-grid-images .grid-item-wrapper {
+        width: 32%;
+    }
+
+}

@@ -1,0 +1,177 @@
+<?php
+/**
+ * Edit customer address template
+ *
+ * @see Mage_Customer_Block_Address_Edit
+ */
+/* @var $this Epicor_Customerconnect_Block_Customer_Address */
+?>
+<?php $telephoneRequired = Mage::getStoreConfig('checkout/options/telephone_required'); ?>
+<?php $mobileRequired = Mage::getStoreConfigFlag('customer/address/display_mobile_phone') && Mage::getStoreConfigFlag('checkout/options/mobile_number_required'); ?>
+<?php if (!$this->getHideWrapper()) : ?>
+    <div id="update-<?php echo $this->getAddressType(); ?>-address" style="display:none;" class="box-info box-account">
+        <form action="<?php echo $this->getFormSaveUrl() ?>" method="post" id="update-<?php echo $this->getAddressType(); ?>-address-form">   
+        <?php endif; ?>
+        <input type="hidden" id="<?php echo $this->getAddressType(); ?>_default_country" name="default_country" value="<?php echo Mage::helper('core')->getDefaultCountry(); ?>"/>
+        <input type="hidden" id="<?php echo $this->getAddressType(); ?>_old_data" name="old_data" value="<?php echo $this->escapeHtml($this->getJsonEncodedData()); ?>"/>
+        <?php if (!$this->getHideWrapper()) : ?>
+            <h2 class="legend" id="add-<?php echo $this->getAddressType(); ?>-address-title">Add <?php echo ucfirst($this->getAddressType()); ?> Address</h2>
+            <h2 class="legend" id="update-<?php echo $this->getAddressType(); ?>-address-title">Update <?php echo ucfirst($this->getAddressType()); ?> Address</h2>
+        <?php endif; ?>
+        <div class="formfields">
+            <ul id="shipping-form-fieldset-list" class="form-list  update-<?php echo $this->getAddressType(); ?>-form-list">
+                <?php if ($this->getShowAddressCode() !== false) : ?>
+                    <li id="field_<?php echo $this->getAddressType(); ?>_address_code">
+                        <label for="<?php echo $this->getAddressType(); ?>_address_code" class="required"><em>*</em><?php echo $this->__('Address Code') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>address_code<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->getAddressCode(); ?>" title="<?php echo $this->__('Address Code') ?>" id="<?php echo $this->getAddressType(); ?>_address_code" class="input-text required-entry" />
+                        </div>
+                    </li>
+                <?php else: ?>
+                    <input type="hidden" name="<?php echo $this->getFieldnamePrefix(); ?>address_code<?php echo $this->getFieldnameSuffix(); ?>" value="" id="<?php echo $this->getAddressType(); ?>_address_code" />
+                <?php endif; ?>
+                <li id="field_<?php echo $this->getAddressType(); ?>_name">
+                    <label for="<?php echo $this->getAddressType(); ?>_name" class="required"><em>*</em><?php echo $this->__('Name') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>name<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getName()) ?>" title="<?php echo $this->__('Name') ?>" id="<?php echo $this->getAddressType(); ?>_name" class="input-text required-entry" />
+                    </div>                    
+                </li>
+                <?php $_streetValidationClass = $this->helper('customer/address')->getAttributeValidationClass('street'); ?>
+                <li id="field_<?php echo $this->getAddressType(); ?>_address1">
+                    <label for="<?php echo $this->getAddressType(); ?>_address1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>address1<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getAddress1()) ?>" title="<?php echo $this->__('Street Address') ?>" id="<?php echo $this->getAddressType(); ?>_address1" class="input-text <?php echo $_streetValidationClass ?>  required-entry" />
+                    </div>
+                </li>
+                <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                    <li id="field_<?php echo $this->getAddressType(); ?>_address<?php echo $_i ?>">
+                        <div class="input-box">
+                            <?php $address = 'getAddress' . $_i; ?>
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?><?php echo $this->__('address%s', $_i) ?><?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->$address()) ?>" title="<?php echo $this->__('address%s', $_i) ?>" id="<?php echo $this->getAddressType(); ?>_address<?php echo $_i ?>" class="input-text"  />
+                        </div>
+                    </li> 
+                <?php endfor; ?>
+                <li class="fields"  id="field_<?php echo $this->getAddressType(); ?>_city">
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>city<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getCity()) ?>"  title="<?php echo $this->__('City') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?> required-entry" id="<?php echo $this->getAddressType(); ?>_city" />
+                        </div>
+                    </div>
+                </li>
+                <li class="fields"  id="field_<?php echo $this->getAddressType(); ?>_county">
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_county" ><em class="required">*</em><?php echo $this->__('State/Province') ?></label>
+                        <div class="input-box">
+                            <select defaultValue="<?php echo $this->getRegionId() ?>" id="<?php echo $this->getAddressType(); ?>_county_id" name="<?php echo $this->getFieldnamePrefix(); ?>county_id<?php echo $this->getFieldnameSuffix(); ?>" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                                <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                            </select>
+                            <input type="text" id="<?php echo $this->getAddressType(); ?>_county" name="<?php echo $this->getFieldnamePrefix(); ?>county<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getCounty()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('region') ?>" style="display:none;" />
+                        </div>
+                    </div>
+                </li>
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_postcode">
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>postcode<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="<?php echo $this->getAddressType(); ?>_postcode" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?> required-entry" />
+                        </div>
+                    </div>
+                </li> 
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_country">    
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                        <div class="input-box">
+                            <?php echo $this->getCountryHtmlSelect($this->getCountryCode(), $this->getFieldnamePrefix() . 'country' . $this->getFieldnameSuffix(), $this->getAddressType() . '_country') ?>
+                        </div>
+                    </div>
+                </li>
+            <?php  if($this->displayEmail()) : ?>
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_email">
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_email" class="email"><?php echo $this->__('Email') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>email<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getEmail()) ?>"  title="<?php echo $this->__('Email') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('email') ?>"  id="<?php echo $this->getAddressType(); ?>_email" />
+                        </div>
+                    </div>
+                </li>
+            <?php endif ?>
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_telephone">
+                    <div class="field">
+                        <?php if ($telephoneRequired) { ?>
+                            <label for="<?php echo $this->getAddressType(); ?>_telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>telephone<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getTelephoneNumber()) ?>"  title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="<?php echo $this->getAddressType(); ?>_telephone" />
+                            </div>
+                        <?php } else { ?> 
+                            <label for="<?php echo $this->getAddressType(); ?>_telephone" > <?php echo $this->__('Telephone') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>telephone<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getTelephoneNumber()) ?>"  title="<?php echo $this->__('Telephone') ?>" class="input-text" id="<?php echo $this->getAddressType(); ?>_telephone" />
+                            </div>
+                        <?php } ?> 
+                    </div>
+                </li>
+            <?php  if($this->displayMobilePhone()) : ?>
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_mobile_number">
+                    <div class="field">
+                        <?php if ($mobileRequired) { ?>
+                            <label for="<?php echo $this->getAddressType(); ?>_mobile_number" class="required"><em>*</em><?php echo $this->__('Mobile') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>mobile_number<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getMobileNumber()) ?>"  title="<?php echo $this->__('Mobile') ?>" class="input-text required-entry" id="<?php echo $this->getAddressType(); ?>_mobile_number" />
+                            </div>
+                        <?php } else { ?>
+                            <label for="<?php echo $this->getAddressType(); ?>_mobile_number"><?php echo $this->__('Mobile') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>mobile_number<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getMobileNumber()) ?>"  title="<?php echo $this->__('Mobile') ?>" class="input-text " id="<?php echo $this->getAddressType(); ?>_mobile_number" />
+                            </div>
+                        <?php } ?>    
+                    </div>
+                </li>
+            <?php endif ?>
+                <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_fax">
+                    <div class="field">
+                        <label for="<?php echo $this->getAddressType(); ?>_fax"><?php echo $this->__('Fax Number') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="<?php echo $this->getFieldnamePrefix(); ?>fax<?php echo $this->getFieldnameSuffix(); ?>" value="<?php echo $this->escapeHtml($this->getFaxNumber()) ?>"  title="<?php echo $this->__('Fax') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('phone') ?>" id="<?php echo $this->getAddressType(); ?>_fax" />
+                        </div>
+                    </div>
+                </li>
+            <?php  if($this->displayInstructions()) : ?>    
+                <?php if ($this->getAddressType() == 'delivery') : ?>                
+                    <li class="fields" id="field_<?php echo $this->getAddressType(); ?>_instructions">
+                        <div class="field">
+                            <label for="<?php echo $this->getAddressType(); ?>_instructions"><?php echo $this->__('Instructions') ?></label>
+                            <div class="input-box">
+                                <textarea name="<?php echo $this->getFieldnamePrefix(); ?>instructions<?php echo $this->getFieldnameSuffix(); ?>" title="<?php echo $this->__('Instructions') ?>" class="input-text" id="<?php echo $this->getAddressType(); ?>_instructions"><?php echo $this->escapeHtml($this->getCarriageText()) ?></textarea>
+                            </div>
+                        </div>
+                    </li>
+                <?php endif; ?> 
+            <?php endif; ?> 
+                <li id="field_required">
+                    <div class="field required pop-up">                        
+                        <span><?php echo $this->__('* Required Fields') ?></span>
+                    </div>   
+                </li>
+            </ul>
+        </div> 
+        <?php if (!$this->getHideWrapper()) : ?>
+            <div class="buttonbar">     
+                <button type="submit" title="<?php echo $this->__('Save Address') ?>" id="update-<?php echo $this->getAddressType(); ?>-address-submit" class="button"><span><span><?php echo $this->__('Save Address') ?></span></span></button>
+            </div>
+        </form>
+    </div>    
+<?php endif; ?>
+<script type="text/javascript">
+//<![CDATA[
+        var dataForm = new VarienForm('form-validate', true);
+        new RegionUpdater('<?php echo $this->getAddressType(); ?>_country', '<?php echo $this->getAddressType(); ?>_county', '<?php echo $this->getAddressType(); ?>_county_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'postcode');
+        <?php if(Mage::getStoreConfigFlag('customer/address/limits_enabled')){ ?>    
+                var limitcheck = new checkLengthLimits( <?php echo Mage::getStoreConfig('customer/address/limit_name_length') ? Mage::getStoreConfig('customer/address/limit_name_length') : 10234 ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_address_line_length') ? Mage::getStoreConfig('customer/address/limit_address_line_length') : 10234  ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_telephone_length') ? Mage::getStoreConfig('customer/address/limit_telephone_length') : 10234 ?> 
+                                               ,<?php echo Mage::getStoreConfig('customer/address/limit_instructions_length') ? Mage::getStoreConfig('customer/address/limit_instructions_length') : 10234 ?> 
+                                               );
+        <?php } ?>                                      
+    //]]>
+</script>

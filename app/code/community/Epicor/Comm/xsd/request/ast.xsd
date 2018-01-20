@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+    
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element name="customer">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="nonEmptyString" name="accountNumber"/>
+                                <xs:element type="nonEmptyString" name="currencyCode"/>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+	
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="account">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="xs:float" name="balance"/>
+                                <xs:element type="nullableFloat" name="creditLimit"/>
+                                <xs:element type="xs:float" name="unallocatedCash"/>
+                                <xs:element type="nonEmptyString" name="currencyCode"/>
+                                <xs:element type="nullableFloat" name="minOrderValue"/>
+                            </xs:all>
+                            <xs:attribute type="yesNo" name="onStop" use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

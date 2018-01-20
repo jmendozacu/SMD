@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="footer_links" >
+            <action method="addLink" translate="label title" module="epicor_faqs" ifconfig="faqs/view/enabled">
+                <label>F.A.Q.</label>
+                <url>faq</url>
+                <title>Frequently Asked Questions</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>50</position>
+            </action>
+        </reference>
+    </default>
+    <epicor_faqs_index_index translate="label">
+        <label>F.A.Q.</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+            <action method="setHeaderTitle" translate="title" module="epicor_faqs">
+                <title>Frequently Asked Questions</title>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/faqs/css/faqStyle.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/faqs/css/accordionStyle.css</name>
+            </action>
+            <!-- jQuery -->
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery.no-conflict.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/faqs/js/faqsVote.js</name>
+                <params><![CDATA[name="zzz-faq_js_2"]]></params>
+            </action>
+
+            <!-- jQuery UI -->
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery-ui.min.js</script>
+                <params><![CDATA[name="zzz-faq_js_1"]]></params>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="faqs_title" template="epicor/faqs/title.phtml" />
+            <block type="epicor_faqs/list" name="faqs_list" template="epicor/faqs/list.phtml">
+                <block type="epicor_faqs/vote" name="faqs_vote" template="epicor/faqs/vote.phtml" />
+            </block>
+        </reference>
+    </epicor_faqs_index_index>
+    <epicor_faqs_index_vote>
+        <block type="epicor_faqs/vote" output="toHtml" name="root" template="epicor/faqs/vote.phtml" before="-" />
+    </epicor_faqs_index_vote>
+</layout>

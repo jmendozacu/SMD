@@ -1,0 +1,222 @@
+/*
+// ----------------------------------------------
+// Usage example:
+// For IE set $mq-support to false.
+// Set the fixed value.
+// Then use mixins to test whether styles should be applied.
+// ----------------------------------------------
+
+$mq-support: false;
+$mq-fixed-value: 1024;
+
+// Renders at fixed value
+@include bp (min-width, 300px) { 
+    div { color:#000; }
+}
+
+// Doesn't render without MQ support
+@include bp (min-width, 1200px) { 
+    div { color:#FFF; }
+}
+
+// Doesn't render without MQ support
+@include bp (max-width, 300px) { 
+    div { color:#444; }
+}
+
+// Renders at fixed value
+@include bp (max-width, 1200px) { 
+    div { color:#888; }
+}
+
+// ----------------------------------------------
+*/
+/* ============================================ *
+ * Homepage
+ * ============================================ */
+/* -------------------------------------------- *
+ * Primary Banner
+ */
+body.cms-home .std {
+  display: none;
+}
+body.cms-home .main-container {
+  padding-top: 20px;
+}
+body.cms-home .slideshow-container {
+  margin-top: 0;
+}
+
+.slideshow .banner-msg {
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  top: 30%;
+  width: 100%;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.slideshow .banner-msg h2 {
+  color: #FFFFFF;
+  font-size: 24px;
+  text-shadow: 1px 1px 3px #555;
+}
+
+.slideshow .banner-msg h2 strong {
+  display: block;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+/* -------------------------------------------- *
+ * Promotion Banner Section
+ */
+.promos {
+  margin: 0 0 10px 0;
+  padding: 0;
+  width: 100%;
+}
+
+.promos:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Specifying the body only in order to override the .std ul li styling */
+body .promos > li {
+  border: 1px solid #CCCCCC;
+  list-style: none;
+  margin: 0 0 10px 0;
+  position: relative;
+  text-align: center;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.promos > li:last-child {
+  margin-bottom: 0;
+}
+
+.promos img {
+  max-width: 100%;
+  width: 100%;
+}
+
+.promos a:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  display: block;
+}
+
+.promos span {
+  color: #FFF;
+  display: block;
+  font-family: "goudy-old-style", serif;
+  font-weight: 500;
+  font-size: 20px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 10%;
+  width: 100%;
+  text-shadow: 1px 1px 3px #555;
+}
+
+.promos strong {
+  display: block;
+  font-weight: 600;
+  font-size: 26px;
+}
+
+.promos span {
+  font-size: 16px;
+}
+
+.promos strong {
+  font-size: 17px;
+}
+
+/* Config: Three columns + flexible gutter */
+body .promos > li {
+  float: left;
+  margin-right: 2.38095%;
+  width: 31.74603%;
+}
+
+.promos > li:nth-child(3n) {
+  margin-right: 0;
+}
+
+.promos span {
+  font-size: 18px;
+}
+
+.promos strong {
+  font-size: 24px;
+}
+
+/* -------------------------------------------- *
+ * New Products Section
+ */
+/* Hiding the reviews content via CSS because we can't modify the template, */
+/* since it may be used in other places where those elements are needed */
+.cms-index-index .products-grid .ratings,
+.cms-index-index .products-grid .actions,
+.cms-index-noroute .products-grid .ratings,
+.cms-index-noroute .products-grid .actions {
+  display: none;
+}
+
+.cms-index-index h2.subtitle {
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  color: #717274;
+  font-weight: 600;
+  padding: 6px 0;
+  text-align: center;
+}
+
+.cms-index-noroute h2.subtitle {
+  display: none;
+}
+
+.slick-track img {
+  display: inline-block;
+}
+
+.gallery-wrapper {
+  position: relative;
+}
+.gallery-wrapper .slick-prev,
+.gallery-wrapper .slick-next {
+  background: transparent;
+  border: none;
+  outline: none;
+  position: absolute;
+  text-indent: -6000px;
+  top: 45%;
+  z-index: 999999;
+}
+.gallery-wrapper .slick-prev:hover,
+.gallery-wrapper .slick-next:hover {
+  opacity: 0.50;
+}
+.gallery-wrapper .slick-prev {
+  background: url(../images/prev.png) no-repeat;
+  height: 94px;
+  left: 30px;
+  width: 42px;
+}
+.gallery-wrapper .slick-next {
+  background: url(../images/next.png) no-repeat;
+  height: 94px;
+  right: 30px;
+  width: 42px;
+}

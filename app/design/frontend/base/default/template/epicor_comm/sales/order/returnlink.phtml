@@ -1,0 +1,8 @@
+<?php
+/* @var $this Epicor_Comm_Block_Sales_Order_Returnlink */
+?>
+<?php if ($this->canReturn()) : ?>
+    <span class="separator">|</span>
+    <a href="<?php echo $this->getReturnUrl() ?>" class="link-reorder"><?php echo $this->__('Return') ?></a>
+    <?php
+ endif; ?>

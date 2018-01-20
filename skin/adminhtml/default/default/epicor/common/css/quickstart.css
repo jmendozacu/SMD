@@ -1,0 +1,49 @@
+/* 
+    Document   : quickstart
+    Created on : 14/11/2013
+    Author     : Sean Flynn
+    Description: quickstart css
+      
+*/
+
+.entry-edit .fieldset {
+    background-color:lightcoral;
+}
+.entry-edit .fieldset-complete {
+    background-color:lightgreen;
+}
+.fieldset div.grid {
+    width:200px;
+}
+
+.form-list td.value select {
+    min-width: 100px;
+    width:auto;
+}
+
+.form-list .grid td input.input-text {
+    width: 200px;
+}
+
+.license_value_N, .license_value_Y{
+    float:right;
+    width:15px;
+    height:17px;
+    background-repeat:no-repeat;
+}
+.license_value_N{
+    background-image: url('/skin/frontend/base/default/epicor/common/images/cancel_icon.gif');
+}
+.license_value_Y{
+    background-image: url('/skin/frontend/base/default/epicor/common/images/success_msg_icon.gif');
+}
+.form-list td.label label, .form-list td.label {
+    width: 160px;
+}
+#mapping_payment_mapping select.select {
+    width: 160px;
+}
+#mapping_payment_mapping td input.input-text {
+     min-width: 120px;
+     width: auto;
+ }

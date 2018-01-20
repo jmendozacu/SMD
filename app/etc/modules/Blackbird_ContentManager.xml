@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Blackbird_ContentManager>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Blackbird_Core />
+                <Mage_Core />
+                <Mage_Eav />
+            </depends>
+        </Blackbird_ContentManager>
+    </modules>
+</config>

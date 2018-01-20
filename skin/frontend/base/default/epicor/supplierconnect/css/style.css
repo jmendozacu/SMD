@@ -1,0 +1,52 @@
+/* 
+    Document   : style
+    Created on : 09-Sep-2013, 10:51:16
+    Author     : Paul.Ketelle
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+#rfq_update, #purchase_order_update {
+    position:relative;
+    display:block;
+}
+
+
+@media only screen and (min-width: 321px) {
+    
+#rfq_save, #purchase_order_save {
+    position: absolute;
+    right: 0;
+    top: -5px;
+}
+
+}
+
+.col2-set .col-2{
+    clear:right; 
+}
+#supplierconnect_password_update em{
+    color: #EB340A;    
+}
+#supplierconnect_password_update li label{
+    width:200px;
+}    
+
+#supplier_connect_order_comments {
+    width:auto;
+}
+
+.fields {
+    clear: both;
+}
+
+#supplierconnect_orders_lines_table tr td textarea {
+    width:200px;
+}
+
+@media only screen and (max-width: 320px) {
+    #rfq_save, #purchase_order_save {
+        position: inherit;
+    }
+}

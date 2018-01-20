@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <Epicor_Comm translate="label" module="epicor_comm">
+            <groups>
+                <quickorderpad translate="label">
+                    <class>separator-top</class>
+                    <label>Quick Order Pad</label>
+                    <sort_order>120</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <show_cart_summary translate="label">
+                            <config_path>quickorderpad/general/show_cart_summary</config_path>
+                            <label>Show Cart Summary </label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Enables / disables Cart Summary block on right hand side of Quick Order pad page</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_cart_summary>
+                        <show_quickorderpad_images translate="label">
+                            <config_path>quickorderpad/general/show_quickorderpad_images</config_path>
+                            <label>Show Product Images in Search Results</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_quickorderpad_images>
+                    </fields>
+                </quickorderpad>
+            </groups>
+        </Epicor_Comm>
+    </sections>
+</config>

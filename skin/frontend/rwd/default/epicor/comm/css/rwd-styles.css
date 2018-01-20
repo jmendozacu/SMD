@@ -1,0 +1,236 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24-Nov-2014, 16:45:22
+    Author     : Paul.Ketelle
+*/
+
+.checkout-cart-index #loading-mask {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left:0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    color:#d85909;
+    font-size:1.1em;
+    font-weight:bold;
+    text-align:center;
+    opacity:0.80;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /* IE8 */
+    z-index:500;
+}
+
+.checkout-cart-index #loading-mask .loader {
+    position:fixed;
+    top:45%;
+    left:50%;
+    width:150px;
+    margin-left:-105px;
+    padding:15px 10px;
+    background:#fff4e9;
+    border:2px solid #f1af73;
+    color:#d85909;
+    font-weight:bold;
+    text-align:center;
+    z-index:1000;
+}
+
+.checkout-cart-index #loading-mask .loader img {
+    display:inline;
+}
+
+#header-cart.block-cart .block-cart {
+    display: block;
+}
+
+#shopping-cart-table td span.uom-qty {
+    font-size:90%;
+    display:block;
+}
+
+#checkout-review-table {
+    clear:both;
+}
+
+/* window overlay present in all other css files */
+#window-overlay { background:url(../images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }
+.checkout-onepage-index #window-overlay {text-align:center;}
+
+/* style search popup on shipping and billing page */
+#search_iframe
+/*#search_iframe .box-account*/
+{padding:10px;}
+
+.epicor-comm-onepage-shippingpopup .box-info.box-account.col-full div,
+.epicor-comm-onepage-billingpopup .box-info.box-account.col-full div {
+    padding: 10px;
+}
+.content-header h3{font-weight:bold;}
+
+table.data textarea {
+    width: auto;
+}
+
+table.data .attachments-row {
+    padding:10px;
+}.content-header h3{font-weight:bold;}
+
+a#createCsvUploadFileLink{
+    text-decoration: none;    
+}
+
+.main-container,
+.footer-container {
+    margin-left: 300px;
+}
+.logo {
+    position: relative
+}
+
+.product_list_locations div.product_locations_wrapper {
+    width:420px;
+}
+
+/*.product_list_locations div.product_locations_wrapper form.addtobasketform {
+    text-align: right;
+}*/
+
+.locations_header {
+    clear:both;
+}
+.catalog-product-view .product-view .product-shop .price-info{
+    max-width:100%;
+}
+
+.catalog-product-view .price-box{clear:both;}
+
+.catalog-category-view .locations .button
+, .catalog-category-view .locations a
+{float:right;}
+
+p.availability-traffic-light-grid {
+  text-align:right;  
+}
+
+p.availability-traffic-light {
+  text-align:center;  
+}
+
+p.availability-traffic-light img ,
+p.availability-traffic-light-grid img {
+  display:inline;
+}
+#masquerade-as label.required {float:left;}
+.masquerade_search_options_box{clear:both;}
+.epicor-salesrep-account-index #search_iframe{position:absolute;}
+
+.products-grid p.locations_add_to_cart {
+    margin:0;
+}
+.products-list .product-shop .product-secondary {   
+    width: 40% !important;
+}  
+.price-on-configuration{text-align:left;}
+
+#search_iframe {
+    background:#fff;
+}
+
+@media only screen and (max-width: 500px) { 
+    .products-grid > li {
+        position: initial !important;
+    }
+    
+    .products-grid .product-info {
+        position: initial !important;
+    }
+    
+    .products-grid .product_locations_wrapper {
+        position: absolute !important;
+        left: 1px !important;
+    }
+
+    .location-element {
+        float: none !important;
+        width: 100% !important;
+    }
+
+    .product_grid_locations  .location-name {
+        float: none !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    .products-list .product-shop .product-primary, .products-list .product-shop .desc { 
+        width: 60% !important;
+    }
+}
+}
+
+#shopping-cart-table .summary-collapse:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-top: 7px solid #3399cc;
+  border-bottom: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+#shopping-cart-table .summary-collapse:hover:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-top: 7px solid #246b8f;
+  border-bottom: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+#shopping-cart-table .show-details .summary-collapse:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #3399cc;
+  border-top: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+#shopping-cart-table .show-details .summary-collapse:hover:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #246b8f;
+  border-top: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+dd[id^="checkout_item_options_"], 
+dd[id^="cart_item_options_"]
+{clear:both;} 

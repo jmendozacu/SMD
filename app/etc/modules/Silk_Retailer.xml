@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Silk_Retailer>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Silk_Retailer>
+    </modules>
+</config>

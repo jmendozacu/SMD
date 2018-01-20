@@ -1,0 +1,35 @@
+<?php
+    $_gallery = $this->getGallery();
+    $_media = $this->getGalleryImages();
+?>
+<div class="gallery-wrapper text-center gallery-<?php echo $_gallery->getId() ?> <?php echo $_gallery->getGalleryClass(); ?>">
+
+    <?php if($_gallery->getShowTitle()): ?>
+        <h1 class="gallery-title"><?php echo $_gallery->getTitle(); ?></h1>
+    <?php endif; ?>
+
+    <?php if($_gallery->getDescription()): ?>
+        <p class="gallery-description"><?php echo $_gallery->getDescription(); ?></p>
+    <?php endif; ?>
+
+    <div class="carousel-images">
+
+        <?php foreach($_media as $image): ?>
+            <?php if($this->isLinkGeneric()): ?>
+                <a class="grid-item-link" href="<?php echo $_gallery->getGenericUrl() ?>">
+            <?php endif; ?>
+            <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+            <?php if($this->isLinkGeneric()): ?>
+                </a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+    </div>
+
+    <?php if($_gallery->getGalleryHtml()): ?>
+        <div class="gallery-html">
+            <?php echo $_gallery->getGalleryHtml(); ?>
+        </div>
+    <?php endif; ?>
+
+</div>

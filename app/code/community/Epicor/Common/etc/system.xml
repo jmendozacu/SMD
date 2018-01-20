@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <Epicor_Comm translate="label" module="epicor_comm">
+            <label>Networking and General</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <epicor_address_search_trigger translate="label">
+                    <label>Epicor Address Search Trigger</label>
+                    <frontend_type>text</frontend_type>                   
+                    <sort_order>210</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                             
+                        <versionsavailable translate="label">
+                            <label>Number of Addresses Needed before Address Search Button Appears</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>    
+                            <sort_order>10</sort_order>                            
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </versionsavailable>                       
+                    </fields>                    
+                </epicor_address_search_trigger>  
+                <assets>                             
+                    <fields>                             
+                        <suffixes translate="label">
+                            <label>Suffixes in media folder to be deleted if not matched to a product</label>
+                            <frontend_type>text</frontend_type>                           
+                            <sort_order>100</sort_order>                            
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </suffixes>                       
+                    </fields>                    
+                </assets>  
+            </groups>
+        </Epicor_Comm>
+        <epicor_common translate="label" module="epicor_common">
+            <label>Access Rights</label>
+            <tab>customer</tab>
+            <sort_order>9</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>  
+                <accessrights>
+                    <label>Access Rights</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active>
+                            <label>Enabled</label>
+                            <comment>Use Access Groups and Rights?</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </active>
+                        <cache_lifetime>
+                            <label>Cache lifetime (seconds)</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </cache_lifetime>
+                        <guest translate="label">
+                            <label>Guest Access Group</label>
+                            <comment>Default Access Groups for guests - customers who are not logged in</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_common/access_group</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </guest>
+                        <b2c_default translate="label">
+                            <label>B2C Access Group</label>
+                            <comment>Default Access Groups for B2C customers - Customers logged in with Default ERP Account</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_common/access_group</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_default>
+                        <customer_default translate="label">
+                            <label>Customer ERP Account Access Group</label>
+                            <comment>Default Access Group for Customer ERP Accounts</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_common/access_group</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </customer_default>
+                        <supplier_default translate="label">
+                            <label>Supplier ERP Account Access Group</label>
+                            <comment>Default Access Group for Supplier ERP Accounts</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_common/access_group</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </supplier_default>
+                    </fields>
+                </accessrights>
+            </groups>
+        </epicor_common>   
+        <catalog translate="label" module="epicor_common">
+            <groups>  
+                <tier_prices>
+                    <label>Tier Price Display</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <precision>
+                            <config_path>epicor_common/tier_prices/precision</config_path>
+                            <label>Tier Price Display Precision</label>
+                            <comment>Number of decimal places to display tier prices to</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </precision>
+                    </fields>
+                </tier_prices>
+                <navigation>
+                    <fields>
+                        <auto_hide>
+                            <config_path>epicor_common/catalog_navigation/auto_hide</config_path>
+                            <label>Auto-hide Categories with no products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>epicor_common/config_backend_catalog_autohide</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </auto_hide>
+                    </fields>
+                </navigation>
+            </groups>
+        </catalog>
+        <customer>
+            <groups>
+                <startup translate="label">
+                    <fields>
+                        <redirect_dashboard translate="label">
+                            <comment></comment>
+                        </redirect_dashboard>
+                        <landing_page translate="label">
+                            <config_path>epicor_common/login/landing_page</config_path>
+                            <label>Landing Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_common/config_source_loginredirect</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <redirect_dashboard>0</redirect_dashboard>
+                            </depends>
+                        </landing_page>
+                        <landing_cms_page translate="label">
+                            <config_path>epicor_common/login/landing_cms_page</config_path>
+                            <label>CMS Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_common/config_source_cmspages</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <landing_page>cms_page</landing_page>
+                            </depends>
+                        </landing_cms_page> 
+                    </fields>                    
+                </startup>
+                <dashboard_priority translate="label">
+                    <label>Dashboard Priority</label>
+                    <frontend_type>text</frontend_type>                   
+                    <sort_order>95</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <dashboard translate="label">
+                            <config_path>Epicor_Comm/dashboard_priority/dashboard</config_path>
+                            <label>Dashboard Priority</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_common/config_source_dashboardpriority</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dashboard> 
+                    </fields>      
+                </dashboard_priority> 
+            </groups>
+        </customer>
+    </sections>
+</config>

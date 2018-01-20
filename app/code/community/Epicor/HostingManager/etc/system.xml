@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<config>
+    
+    <sections>
+        <web>
+            <groups>
+                <unsecure translate="label">
+                    <fields>
+                        <base_url>
+                            <frontend_model>hostingmanager/adminhtml_system_config_field_textonly</frontend_model>
+                            <comment>Please set this using the Epicor Web Hosting Management pages</comment>
+                        </base_url>
+                    </fields>
+                </unsecure>
+                <secure translate="label">
+                    <fields>
+                        <base_url>
+                            <frontend_model>hostingmanager/adminhtml_system_config_field_textonly</frontend_model>
+                            <comment>Please set this using the Epicor Web Hosting Management pages</comment>
+                        </base_url>
+                    </fields>
+                </secure>
+            </groups>
+        </web>
+    </sections>
+</config>

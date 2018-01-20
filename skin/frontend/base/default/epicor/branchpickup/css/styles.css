@@ -1,0 +1,172 @@
+/**
+ * @category   Epicor
+ * @package    Epicor_Lists
+ * @author     Epicor Websales Team
+ */
+
+#window-overlay {
+    position:fixed;
+    background:rgba(0, 0, 0, 0.35);
+    height:100%;
+    left:0;
+    top:0;
+    width:100%;
+    z-index:990;
+}
+
+#selectbrancPickupWrapperWindow{
+    position:fixed;
+    width:750px;
+    height:90%;
+    left:50%;
+    top:50%;
+    margin:-250px 0 0 -325px;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:auto;
+    overflow-x:hidden;
+    
+}
+
+#selectbrancPickupWrapperWindow > div {
+    padding: 0 5px;
+    margin:0;
+}
+
+#selectbrancPickupWrapperWindow > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectbrancPickupWrapperWindow > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}
+
+#shopping-cart-table button:not(.button),  .form-button {
+    background: none;
+}
+
+form#discount-coupon-form .button2 {
+    background: none !important;
+}
+
+#branchpickup-address-search {
+    float: right;
+}
+#selectLocationSearchWrapperWindow{
+    position:fixed;
+    height:90%;
+    left:33%;
+    top:50%;
+    margin:-250px 0 0 -325px;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    
+}
+
+#selectLocationSearchWrapperWindow > div {
+    padding:5px;
+}
+/*
+#selectLocationSearchWrapperWindow > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectLocationSearchWrapperWindow > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}*/
+
+#search_iframe {
+    background: none !important;
+}
+#search_iframe {
+    padding:  0px none !important;
+}
+
+#cart-sidebar-branch .product-image {
+    border: 0 none;
+    float: left;
+    min-width: 50px;
+    padding-right: 14px;
+    padding-top: 12px;
+}
+
+#branchpictionactions  {
+    margin: 10px 0 0;
+}
+
+.branchmaincontainer {
+    width: 100%;
+}
+
+#cart-sidebar-branch li.odd {
+    background-color: transparent;
+    background-image: none;
+}
+
+#cart-sidebar-branch .product-details {
+    margin-left: 0px;
+    padding-bottom: 10px;
+    float:left;
+    text-align: left;
+}
+
+
+#cart-sidebar-branch  .product-details .product-name {
+    padding-top: 10px;
+    text-align: left;
+}
+#cart-sidebar-branch  .product-details .product-cart-sku {
+    padding-top: 10px;
+}
+
+#cart-sidebar-branch > li {
+    clear: both;
+}
+
+
+
+#branchpictionactions .block-subtitle {
+    font-weight: bold;
+    margin-bottom: 7px;
+    text-align: left;
+}
+
+#selectLocationEditWrapperWindow{
+    position:fixed;
+    width:802px;
+    height:90%;
+    left:50%;
+    top:50%;
+    margin:-250px 0 0 -325px;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    
+}
+
+#selectLocationEditWrapperWindow > div {
+    padding:5px;
+}
+
+#selectLocationEditWrapperWindow > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectLocationEditWrapperWindow > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}

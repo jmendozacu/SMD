@@ -1,0 +1,14 @@
+app/code/community/Blackbird/ContentManager	            app/code/community/Blackbird/ContentManager
+app/code/community/Blackbird/Core          	            app/code/community/Blackbird/Core
+app/design/adminhtml/default/default/layout/blackbird    app/design/adminhtml/default/default/layout/blackbird
+app/design/adminhtml/default/default/layout/bird      app/design/adminhtml/default/default/layout/bird
+app/design/adminhtml/default/default/template/blackbird  app/design/adminhtml/default/default/template/blackbird
+app/design/frontend/base/default/layout/blackbird        app/design/frontend/base/default/layout/blackbird
+app/design/frontend/base/default/template/contenttype app/design/frontend/base/default/template/contenttype
+app/etc/modules/Blackbird_ContentManager.xml	            app/etc/modules/Blackbird_ContentManager.xml
+app/etc/modules/Blackbird_Core.xml	                      app/etc/modules/Blackbird_Core.xml
+js/blackbird                                             js/blackbird
+skin/adminhtml/default/default/blackbird                 skin/adminhtml/default/default/blackbird
+skin/adminhtml/default/default/images/contenttype     skin/adminhtml/default/default/images/contenttype
+skin/frontend/base/default/css/blackbird                 skin/frontend/base/default/css/blackbird
+media/contenttype/flags                               media/contenttype/flags

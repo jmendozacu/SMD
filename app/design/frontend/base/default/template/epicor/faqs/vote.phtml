@@ -1,0 +1,10 @@
+<hr/>
+<div class="faq_vote_box">
+	<span class="faq_vote_summary"><?php echo $this->getMessageVote($this->faqId) ?></span>
+	<span class="faq_subtext">
+		<?php echo $this->__('Was this information useful?') ?>
+	</span>
+	<input type="hidden" class="faqId" value="<?php echo $this->faqId ?>" />
+	<a href="<?php echo Mage::getUrl('epicor_faqs/index/submitVote') ?>" class="faq_useful faq_vote"><?php echo $this->__('Yes') ?></a>
+	<a href="<?php echo Mage::getUrl('epicor_faqs/index/submitVote') ?>" class="faq_useless faq_vote"><?php echo $this->__('No') ?></a>
+</div>

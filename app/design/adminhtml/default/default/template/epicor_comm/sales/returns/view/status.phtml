@@ -1,0 +1,63 @@
+<?php
+/* @var $this Epicor_Comm_Block_Adminhtml_Sales_Returns_View_Tab_Status */
+$return = $this->getReturn();
+/* @var $return Epicor_Comm_Model_Customer_Return */
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo Mage::helper('epicor_comm')->__('ERP Sync Status'); ?></h4>
+    </div>
+    <fieldset>
+        <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><strong><?php echo Mage::helper('epicor_comm')->__('ERP Sync Status:') ?></strong></label></td>
+                <td class="value">
+                    <?php echo $this->getErpSyncStatus(); ?>
+                </td>
+            </tr>
+            <?php if ($return->getErpReturnsNumber() && !$return->getErpSyncAction() && $return->getErpSyncStatus() != 'E') : ?>
+                <tr>
+                    <td class="label"><label><strong><?php echo Mage::helper('epicor_comm')->__('Update:') ?></strong></label></td>
+                    <td class="value">
+                        <button type="button" class="scalable" onclick="updateReturn()" ><?php echo Mage::helper('epicor_comm')->__('Update from ERP') ?></button>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($return->getErpSyncStatus() == 'E') : ?>
+                <tr>
+                    <td class = "label"><label><strong><?php echo Mage::helper('epicor_comm')->__('Re-Send:'); ?></strong></label></td>
+                    <td class="value">
+                        <button type="button" class="scalable" onclick="resendReturn()" ><?php echo Mage::helper('epicor_comm')->__('Re-Send to ERP') ?></button>
+                    </td>
+
+                </tr>
+            <?php endif; ?>
+        </table>
+    </fieldset>
+</div>
+<?php if ($return->getLastErpStatus()) : ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4><?php echo Mage::helper('epicor_comm')->__('Last ERP Sync Response'); ?></h4>
+        </div>
+        <fieldset>
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><strong><?php echo Mage::helper('epicor_comm')->__('Status:') ?></strong></label></td>
+                    <td class="value">
+                        <?php echo $return->getLastErpStatus(); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label><strong><?php echo Mage::helper('epicor_comm')->__('Description:') ?></strong></label></td>
+                    <td class="value">
+                        <?php echo $return->getLastErpErrorDescription(); ?>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+<?php endif; ?>
+<input type="hidden" name="return_id" id="return_id" value="<?php echo $return->getId(); ?>" />
+<input type="hidden" name="update_url" id="update_url" value="<?php echo Mage::getUrl('*/*/update'); ?>" />
+<input type="hidden" name="resend_url" id="resend_url" value="<?php echo Mage::getUrl('*/*/resend'); ?>" />

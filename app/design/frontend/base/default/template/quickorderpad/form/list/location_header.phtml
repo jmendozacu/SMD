@@ -1,0 +1,11 @@
+<?php
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+$showLocations = $locHelper->isLocationsEnabled();
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+?>
+<?php if ($showLocations && !$allSourceLocations) : ?>
+    <th>
+        <?php echo $this->__('Location') ?>
+    </th>
+<?php endif; ?>

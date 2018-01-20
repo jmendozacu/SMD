@@ -1,0 +1,69 @@
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$order.getCustomerName()":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var order.increment_id":"Order Id",
+"var order.getCreatedAtFormated('long')":"Order Created At (datetime)",
+"var order.getBillingAddress().format('html')":"Billing Address",
+"var payment_html":"Payment Details",
+"var order.getShippingAddress().format('html')":"Shipping Address",
+"var order.getShippingDescription()":"Shipping Description",
+"layout handle=\"sales_email_order_items\" order=$order":"Order Items Grid",
+"var order.getEmailCustomerNote()":"Email Order Note"}
+@-->
+<!--@styles
+@-->
+
+{{var template config_path="design/email/header"}}
+{{var inlinecss file="email-inline.css"}}
+    <table>
+        <tr>
+            <td colspan="3" align="center">
+                <p><img src="{{var logo_url}}" alt="{{var logo_alt}}" /></p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">This enquiry has been assigned to you via the iLiv website.You will need to connect the<br/>customer directily to discuss/fullili the enquiry</td>
+        </tr>
+        <tr>
+            <th colspan="3"><p><b>Fabrics Requested</b></p></th>
+        </tr>
+        <tr>
+            <td colspan="3">{{var items}}</td>
+        </tr>
+        <tr>
+            <th colspan="3"><b>Customer Details</b><br/><hr/></th>
+        </tr>
+        <tr class="tfoot">
+            <th><b>Contact Details</b></th>
+            <th><b>Delivery Address</b></th>
+            <th><b>Retaile</b></th>
+        </tr>
+        <tr>
+            <td>
+                {{var order.getCustomerName()}}<br/>
+                {{var order.getCustomerEmail()}}<br/>
+                {{var order.getShippingAddress().getTelephone}}<br/>
+            </td>
+            <td>{{var delivery_address}}</td>
+            <td>{{var order.getRetailer()}}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="tfoot">
+            <th colspan="3"><b>About your samples request</b><br/><hr/></th>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">Your samples request will be sent directly to your home, and your chosen<br/> retailer will be in contact shortly.<br/><hr/></td>
+        </tr>
+        <tr class="tfoot">
+            <td colspan="3" align="center"><a href="www.i-liv.co.uk">www.i-liv.co.uk</a></td>
+        </tr>
+    </table>
+{{var template config_path="design/email/footer"}}

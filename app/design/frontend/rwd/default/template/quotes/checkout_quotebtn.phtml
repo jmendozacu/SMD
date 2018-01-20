@@ -1,0 +1,53 @@
+<?php 
+
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE BASE FILE TOO
+ * base/default/template/quotes/checkout_quotebtn.phtml
+ */
+
+
+
+
+
+
+$helper = $this->helper('quotes');
+/* @var $helper Epicor_Quotes_Helper_Data */
+
+$showButton = ($helper->isQuotesEnabledForCustomer()) ? true : false;
+
+if($showButton) :
+
+$quote = Mage::getSingleton('checkout/session')->getQuote(); ?>
+<?php if ($quote->getItemsCount() > 0 && !$quote->hasEpicorQuoteId()): ?>  
+    <?php $quote_url = Mage::getUrl('epicor_quotes/request', array('_secure' => true)); ?>
+    <button id="covert2quote" class="button2 btn-update" type="button" onclick="setLocation('<?php echo $quote_url; ?>');"><span><span><?php echo $this->__('Convert to Quotation'); ?></span></span></button>
+
+
+    <script type="text/javascript" language="javascript">
+                
+        var tfoot = $$('#shopping-cart-table tfoot td.last');
+        if(typeof(tfoot)=='object' && tfoot.length>0 && $('covert2quote')) {
+            //tfoot[0].appendChild('&nbsp;');
+            tfoot[0].insertBefore($('covert2quote'), tfoot[0].firstChild);
+        }
+    </script>
+<?php elseif ($quote->hasEpicorQuoteId()): ?>
+
+
+    <script type="text/javascript" language="javascript">
+                
+        $('shopping-cart-table').select('tfoot button:not(#empty_cart_button)').each(function(item){
+            item.remove();
+        });
+
+        $('shopping-cart-table').select(".remove-for-quotes").each(function(item){
+            item.remove();
+        });
+        
+        $('discount-coupon-form').hide();
+        $$('.crosssell').each(function(a){      // prevent crosssells showing when quote is in basket
+            a.hide();
+        })
+    </script>
+<?php endif; ?>
+<?php endif; ?>

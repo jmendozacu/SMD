@@ -1,0 +1,15 @@
+<?php
+$_product = Mage::registry('current_product');
+$productLocation = Mage::registry('current_location');
+
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+$showLocations = $locHelper->isLocationsEnabled();
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+$rowspan = Mage::registry('current_rowspan');
+?>
+<?php if ($showLocations && !$allSourceLocations) : ?>
+    <td rowspan="<?php echo $rowspan; ?>">
+        <?php echo ($productLocation) ? $productLocation->getName() : ''; ?> 
+    </td>
+<?php endif; ?>

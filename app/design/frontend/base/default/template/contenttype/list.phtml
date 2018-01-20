@@ -1,0 +1,66 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $collection = $this->getCollection();
+    $contentList = Mage::registry('current_contentlist');
+    $link = $this->getLink();
+?>
+<div class="contenttype-listing">
+    <?php if($collection->getSize()): ?>
+        <?php if(
+                ($contentList && ($contentList->getPagination() == 1 || $contentList->getPagination() == 3))
+                || ($this->getPagination() == 1 || $this->getPagination() == 2)
+            ): ?>
+            <?php echo $this->getPagerHtml(); ?>
+        <?php endif; ?>
+        <ul>
+            <?php foreach($collection as $content): ?>
+                <li>
+                    <?php if($link && $link['position'] == 'top'): ?>
+                        <a class="contenttype-listing-readmore" href="<?php echo $content->getUrl(); ?>"><?php echo $this->__($link['label']); ?></a>
+                    <?php endif; ?>
+                        
+                    <?php if(count($this->getAttributeToShow()) == 0): ?>
+                        <?php echo $content->render('title'); ?>
+                    <?php else: ?>
+                        <?php foreach($this->getAttributeToShow() as $attribute): ?>
+                            <?php echo $content->render($attribute['identifier'], $attribute['params']); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    
+                    <?php if($link && $link['position'] == 'bottom'): ?>
+                        <a class="contenttype-listing-readmore" href="<?php echo $content->getUrl(); ?>"><?php echo $this->__($link['label']); ?></a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php if(
+                ($contentList && ($contentList->getPagination() == 2 || $contentList->getPagination() == 3))
+                || ($this->getPagination() == 2 || $this->getPagination() == 3)
+                ): ?>
+            <?php echo $this->getPagerHtml(); ?>
+        <?php endif; ?>
+    <?php else: ?>
+        <?php echo $this->__('There is no contents yet for this section'); ?>
+    <?php endif; ?>
+</div>

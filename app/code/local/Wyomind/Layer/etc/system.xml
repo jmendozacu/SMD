@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <WYOMIND translate="label">
+            <label>WYOMIND</label>
+            <sort_order>1100</sort_order>
+        </WYOMIND>
+    </tabs>
+    <sections>
+        <layer translate="label" module="layer">
+            <label>Ajax Layer Pro</label>
+            <tab>WYOMIND</tab>
+            <sort_order>20</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                 <license translate="label">
+		<label>License</label>
+		<frontend_type>text</frontend_type>
+		<sort_order>1</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>
+		<fields>
+			<version translate="label comment">
+				<label>Extension version</label>
+				<frontend_type>text</frontend_type>
+				<frontend_model>Wyomind_Licensemanager_Block_Adminhtml_System_Config_Form_Field_Link</frontend_model>
+				<sort_order>0</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</version>
+			<activation_key translate="label comment">
+				<label>Activation key</label>
+				<comment>
+			<![CDATA[<span class="notice">Enter your activation key and click on `save config`.</span>]]>
+				</comment>
+				<frontend_type>text</frontend_type>
+				<sort_order>1</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</activation_key>
+		   
+			<activation_code translate="label comment">
+				<label>License code</label>
+				<comment><![CDATA[<span class="notice">Enter your license code <b>only if prompted<b>.</span>]]></comment>
+				<frontend_type>text</frontend_type>
+				<sort_order>3</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</activation_code>
+		</fields>
+</license>
+                
+                <general translate="label comment">
+                    <label>General Settings</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <meta_robots translate="label comment">
+                            <label>Meta Robots</label>
+                            <comment><![CDATA[Allows changing meta robots value when filtering. This is useful to avoid search engines indexing all pages containing filter parameters.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_design_robots</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meta_robots>
+                        <enable_ajax translate="label comment">
+                            <label>Enable AJAX Navigation</label>
+                            <comment><![CDATA[If enabled, the page will not be refreshed each time an option is clicked.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_ajax>
+                        <enable_auto_scroll translate="label comment">
+                            <label>Enable Auto Scroll</label>
+                            <comment><![CDATA[If enabled, the page will auto scroll to the top each time an option is clicked in AJAX mode.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><enable_ajax>1</enable_ajax></depends>
+                        </enable_auto_scroll>
+                        <enable_ajax_toolbar translate="label comment">
+                            <label>Enable AJAX Toolbar</label>
+                            <comment><![CDATA[If enabled, the page will not be refreshed each time a link in toolbar is clicked.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><enable_ajax>1</enable_ajax></depends>
+                        </enable_ajax_toolbar>
+                        <enable_seo translate="label comment">
+                            <label>Enable SEO Keywords</label>
+                            <comment><![CDATA[If enabled, the option ids present in URL will be replaced by the associated keywords (the keywords are automatically generated from attribute option labels).]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_seo>
+                        <replace_all_special_chars translate="label comment">
+                            <label>Replace All Special Chars</label>
+                            <comment><![CDATA[If enabled, all special chars will be replaced by a dash.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><enable_seo>1</enable_seo></depends>
+                        </replace_all_special_chars>
+                        <items_limit translate="label comment">
+                            <label>Items Limit</label>
+                            <comment><![CDATA[Option to limit the number of displayed items in layered navigation. Will add a Show More/Less link. 0 or empty means unlimited.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </items_limit>
+                    </fields>
+                </general>
+                <price_slider>
+                    <label>Price Slider Settings</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label comment">
+                            <label>Enable Price Slider</label>
+                            <comment><![CDATA[If enabled, default price ranges will be replaced by a slider for better user experience.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <enable_price_inputs translate="label comment">
+                            <label>Enable Price Inputs</label>
+                            <comment><![CDATA[If enabled, input fields will be added under the price slider.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><enable>1</enable></depends>
+                        </enable_price_inputs>
+                    </fields>
+                </price_slider>
+                <category_tree>
+                    <label>Category Tree Settings</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label comment">
+                            <label>Enable Category Tree</label>
+                            <comment><![CDATA[If enabled, default category navigation will be replaced by a tree.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <expand_tree translate="label comment">
+                            <label>Expand Tree</label>
+                            <comment><![CDATA[If enabled, category tree will be displayed entirely.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enable>1</enable>
+                            </depends>
+                        </expand_tree>
+                        <recursion_level translate="label comment">
+                            <label>Number of Levels Displayed</label>
+                            <comment><![CDATA[From 1 to 5 levels.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enable>1</enable>
+                                <expand_tree>1</expand_tree>
+                            </depends>
+                            <validate>validate-greater-than-zero validate-number</validate>
+                        </recursion_level>
+                        <show_products_count translate="label comment">
+                            <label>Show Products Count</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enable>1</enable>
+                            </depends>
+                        </show_products_count>
+                        <only_include_in_menu translate="label comment">
+                            <label>Include in Navigation Menu</label>
+                            <comment><![CDATA[If enabled, only categories included in menu will be displayed.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enable>1</enable>
+                            </depends>
+                        </only_include_in_menu>
+                        <show_empty_categories translate="label comment">
+                            <label>Show Empty Categories</label>
+                            <comment><![CDATA[If enabled, categories without products will be displayed.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enable>1</enable>
+                            </depends>
+                        </show_empty_categories>
+                    </fields>
+                </category_tree>
+                <attribute>
+                    <label>Attributes Settings</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <dropdown>
+                            <label>Dropdown Attributes</label>
+                            <comment><![CDATA[Selected attributes will be displayed as dropdowns.]]></comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>layer/system_config_source_filter</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </dropdown>
+                        <label>
+                            <label>Label Attributes</label>
+                            <comment><![CDATA[Selected attributes will be displayed as labels.]]></comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>layer/system_config_source_filter</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </label>
+                    </fields>
+                </attribute>
+                <filter_positioning>
+                    <label>Filter Positioning</label>
+                    <comment><![CDATA[<ul class="messages"><li class="notice-msg"><ul><li><span>Note that if a filter is not present in any of the following fields, it will be displayed in left column by default.</span></li></ul></li></ul>]]></comment>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <top translate="label comment">
+                            <label>Top Filters</label>
+                            <comment><![CDATA[Define which filters you want to display on top (horizontal navigation).]]></comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>layer/system_config_source_filter</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </top>
+                        <left translate="label comment">
+                            <label>Left Column Filters</label>
+                            <comment><![CDATA[Define which filters you want to display in left column.]]></comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>layer/system_config_source_filter</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </left>
+                        <right translate="label comment">
+                            <label>Right Column Filters</label>
+                            <comment><![CDATA[Define which filters you want to display in right column.]]></comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>layer/system_config_source_filter</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </right>
+                    </fields>
+                </filter_positioning>
+            </groups>
+        </layer>
+    </sections>
+</config>

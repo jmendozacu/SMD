@@ -1,0 +1,70 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $storeToRender = $this->getColumn()->getStoreToRender();
+    $content = Mage::helper('contentmanager')->getContentModel($storeToRender, $this->getRowId());
+    $translations = $this->getColumn()->getTranslation();
+?>
+<?php if(!$translations): ?>
+    <?php if($storeToRender == 0): ?>
+        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'contenttype/flags/world.png'; ?>" />
+    <?php else: ?>
+        <?php $flag = Mage::getModel('contentmanager/flag')->load($storeToRender); ?>
+        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'contenttype/flags/'.$flag->getValue(); ?>" />
+    <?php endif; ?>
+    <a href="<?php echo $this->getUrl('*/*/edit', array('store' => $storeToRender, 'ct_id' => $this->getRequest()->getParam('ct_id'), 'id' => $this->getRowId())); ?>">
+        <?php if(Mage::helper('contentmanager')->isEditAllowed($storeToRender, $this->getRequest()->getParam('ct_id'))): ?>
+            <?php echo Mage::helper('contentmanager')->__('Edit'); ?>
+        <?php else: ?>
+            <?php echo Mage::helper('contentmanager')->__('View'); ?>
+        <?php endif; ?>
+    </a>
+<?php endif; ?>
+    
+<?php
+    $stores = $this->helper('contentmanager')->getStores();
+    $countStores = $stores->getSize();
+    $contentResource = Mage::getSingleton('contentmanager/content')->getResource();
+?>
+<?php if($translations && count($translations) < $countStores): ?>
+    <?php $show = false; ?>
+    <div id="wrap_flag_<?php echo $this->getEntityId().$storeToRender; ?>" style="display: none;" class="nobr">
+        <a href="javascript:void(0);" onclick="$('wrap_flag_inner_<?php echo $this->getEntityId().$storeToRender; ?>').show(); $(this).hide();">+ <?php echo $this->__('Translate'); ?></a>
+        <div id="wrap_flag_inner_<?php echo $this->getEntityId().$storeToRender; ?>" style="display: none;">
+            <select id="select_flag_<?php echo $this->getEntityId().$storeToRender; ?>">
+                <?php foreach($stores as $store): ?>
+                    <?php if(!$contentResource->existsForStore($this->getEntityId(), $store->getId()) && $this->helper('contentmanager')->isEditAllowed($store->getId(), $this->getRequest()->getParam('ct_id'))): ?>
+                        <option value="<?php echo $this->getUrl('*/*/edit', array('store' => $store->getId(), 'ct_id' => $this->getRequest()->getParam('ct_id'), 'id' => $this->getRowId())); ?>"><?php echo $store->getName(); ?></option>
+                        <?php $show = true; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+            <?php if($show): ?>
+                <script type="text/javascript">
+                    $('wrap_flag_<?php echo $this->getEntityId().$storeToRender; ?>').show();
+                </script>
+            <?php endif; ?>
+            <button title="<?php echo Mage::helper('contentmanager')->__('Add'); ?>" type="button" class="scalable add" onclick="setLocation($('select_flag_<?php echo $this->getEntityId().$storeToRender; ?>').getValue());" style=""><span><span><span><?php echo Mage::helper('contentmanager')->__('Add'); ?></span></span></span></button>
+        </div>
+    </div>
+<?php endif; ?>

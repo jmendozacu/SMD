@@ -1,0 +1,3104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <epicor_comm_message_logging translate="label" module="epicor_comm">
+            <groups>     
+                <supplierconnect translate="label">
+                    <label>Supplier Connect</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPCC translate="label">
+                            <label>SPCC - Purchase Order Changes Confirm/Reject</label>
+                            <config_path>supplierconnect_enabled_messages/SPCC_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPCC>
+                        <SPCS translate="label">
+                            <label>SPCS - Purchase Order Changes Search</label>
+                            <config_path>supplierconnect_enabled_messages/SPCS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPCS>
+                        <SPLD translate="label">
+                            <label>SPLD - Parts Price List Detail Enquiry</label>
+                            <config_path>supplierconnect_enabled_messages/SPLD_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPLD>
+                        <SPLS translate="label">
+                            <label>SPLS - Parts Price List Search</label>
+                            <config_path>supplierconnect_enabled_messages/SPLS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPLS>
+                        <SPOC translate="label">
+                            <label>SPOC - Purchase Order Confirm/Reject</label>
+                            <config_path>supplierconnect_enabled_messages/SPOC_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOC>
+                        <SPOD translate="label">
+                            <label>SPOD - Purchase Order Detail Enquiry</label>
+                            <config_path>supplierconnect_enabled_messages/SPOD_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOD>
+                        <SPOS translate="label">
+                            <label>SPOS - Purchase Order Search</label>
+                            <config_path>supplierconnect_enabled_messages/SPOS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOS>
+                        <SPOU translate="label">
+                            <label>SPOU - Purchase Order Update</label>
+                            <config_path>supplierconnect_enabled_messages/SPOU_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOU>
+                        <SUID translate="label">
+                            <label>SUID - Invoice Detail Enquiry</label>
+                            <config_path>supplierconnect_enabled_messages/SUID_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUID>
+                        <SUIS translate="label">
+                            <label>SUIS - Invoice Search</label>
+                            <config_path>supplierconnect_enabled_messages/SUIS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUIS>
+                        <SUPS translate="label">
+                            <label>SUPS - Payment Search</label>
+                            <config_path>supplierconnect_enabled_messages/SUPS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUPS>
+                        <SURD translate="label">
+                            <label>SURD - RFQ Detail Enquiry</label>
+                            <config_path>supplierconnect_enabled_messages/SURD_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURD>
+                        <SURS translate="label">
+                            <label>SURS - RFQ Search</label>
+                            <config_path>supplierconnect_enabled_messages/SURS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURS>
+                        <SURU translate="label">
+                            <label>SURU - RFQ Update</label>
+                            <config_path>supplierconnect_enabled_messages/SURU_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURU>
+                        <SUSD translate="label">
+                            <label>SUSD - Account Summary</label>
+                            <config_path>supplierconnect_enabled_messages/SUSD_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUSD>
+                    </fields>
+                </supplierconnect>
+            </groups>
+        </epicor_comm_message_logging>
+        <supplierconnect_enabled_messages translate="label" module="supplierconnect">   
+            <label>Supplier Connect</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <erp_searching>
+                    <label>Searching</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <searching>
+                            <label>ERP Searching Enabled</label>
+                            <config_path>supplierconnect/erp_searching</config_path>
+                            <comment>If set to No, searching will be handled by magento</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </searching>
+                    </fields>
+                </erp_searching>
+                <SPLS_request translate="label">
+                    <label>SPLS	Supplier Parts Price List Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPLS_heading translate="label">
+                            <label>Supplier Parts Price List Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPLS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spls</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_spls_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPLS_request>
+                <SPLD_request translate="label">
+                    <label>SPLD	Supplier Parts Price List Detail Enquiry</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPLD_heading translate="label">
+                            <label>Supplier Parts Price List Detail Enquiry</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPLD_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spld</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPLD_request>
+                <SPOS_request translate="label">
+                    <label>SPOS	Supplier Purchase Order Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>35</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPOS_heading translate="label">
+                            <label>Supplier Purchase Order Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spos</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_spos_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <newpogrid_config>
+                            <label>New PO Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_spos_newpogrid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newpogrid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPOS_request>
+                <SPOC_request translate="label">
+                    <label>SPOC	Supplier Purchase Order Confirm/Reject</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>25</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPOC_heading translate="label">
+                            <label>Supplier Purchase Order Confirm/Reject</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOC_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spoc</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPOC_request>
+                <SPCS_request translate="label">
+                    <label>SPCS	Supplier Purchase Order Changes Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPCS_heading translate="label">
+                            <label>Supplier Purchase Order Changes Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPCS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spcs</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_spcs_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPCS_request>
+                <SPCC_request translate="label">
+                    <label>SPCC	Supplier Purchase Order Changes Confirm/Reject</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>5</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPCC_heading translate="label">
+                            <label>Supplier Purchase Order Changes Confirm/Reject</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPCC_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spcc</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPCC_request>
+                <SPOD_request translate="label">
+                    <label>SPOD	Supplier Purchase Order Detail Enquiry</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPOD_heading translate="label">
+                            <label>Supplier Purchase Order Detail Enquiry</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOD_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spod</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPOD_request>
+                <SPOU_request translate="label">
+                    <label>SPOU	Supplier Purchase Order Update</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SPOU_heading translate="label">
+                            <label>Supplier Purchase Order Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SPOU_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/spou</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SPOU_request>
+                <SURS_request translate="label">
+                    <label>SURS	Supplier RFQ Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>70</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SURS_heading translate="label">
+                            <label>Supplier RFQ Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/surs</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_surs_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SURS_request>
+                <SURD_request translate="label">
+                    <label>SURD	Supplier RFQ Detail Enquiry</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>65</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SURD_heading translate="label">
+                            <label>Supplier RFQ Detail Enquiry</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURD_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/surd</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SURD_request>
+                <SURU_request translate="label">
+                    <label>SURU	Supplier RFQ Price Break Update</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>75</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SURU_heading translate="label">
+                            <label>Supplier RFQ Price Break Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SURU_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/suru</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SURU_request>
+                <SUIS_request translate="label">
+                    <label>SUIS	Supplier Invoice Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>55</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SUIS_heading translate="label">
+                            <label>Supplier Invoice Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUIS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/suis</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_suis_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SUIS_request>
+                <SUID_request translate="label">
+                    <label>SUID	Supplier Invoice Detail Enquiry</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SUID_heading translate="label">
+                            <label>Supplier Invoice Detail Enquiry</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUID_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/suid</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SUID_request>
+                <SUPS_request translate="label">
+                    <label>SUPS	Supplier Payment Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SUPS_heading translate="label">
+                            <label>Supplier Payment Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUPS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/sups</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>supplierconnect/adminhtml_config_form_field_sups_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SUPS_request>
+                <SUSD_request translate="label">
+                    <label>SUSD	Supplier Account Summary</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>80</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <SUSD_heading translate="label">
+                            <label>Supplier Account Summary</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </SUSD_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <config_path>xml_message_timeouts/susd</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </SUSD_request>
+                <message_heading translate="label">
+                    <label>Upload Messages</label>
+                    <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                    <sort_order>130</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                </message_heading>
+                <SUCO_mapping translate="label">
+                    <label>SUCO Upload Supplier Connect Users </label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>45</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <suco_heading_settings translate="label">
+                            <label>Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>00</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </suco_heading_settings>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>   
+                        <send_emails translate="label">
+                            <label>Send Emails to New Contacts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_emails>
+                        <field_heading translate="label">
+                            <label>Overwritten on Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </field_heading>
+                        <contacts_update>
+                            <label>Contacts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_update>
+                        <contacts_contact_delete_update>
+                            <label>Contact Delete</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_delete_update>
+                        <contacts_contact_name_update>
+                            <label>Contact Name</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_name_update>
+                        <contacts_contact_function_update>
+                            <label>Contact Function</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_function_update>
+                        <contacts_contact_telephone_number_update>
+                            <label>Contact Telephone</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_telephone_number_update>
+                        <contacts_contact_mobile_number_update>
+                            <label>Contact Fax</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_mobile_number_update>
+                        <contacts_contact_fax_number_update>
+                            <label>Contact Fax</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_fax_number_update>
+                        <contacts_contact_email_update>
+                            <label>Contact Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </contacts_contact_email_update>
+                    </fields>
+                </SUCO_mapping>
+                <SUSP_mapping translate="label">
+                    <label>SUSP Upload Supplier Record </label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>85</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>   
+                    </fields>
+                </SUSP_mapping>
+            </groups>
+        </supplierconnect_enabled_messages>
+    </sections>
+</config>

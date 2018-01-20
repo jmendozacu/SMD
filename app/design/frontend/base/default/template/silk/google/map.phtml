@@ -1,0 +1,36 @@
+<div id="top-relaiter-search">
+    <form id="near-search-form" method="POST" onsubmit="return false;" action="<?php echo $this->getUrl('retailer/index/nearSearch') ?>">
+        <input type="text" id="addressInput" name="addressInput" aria-label="<?php echo $this->__("Search") ?>"/>
+        <!--<input id="search" type="button"  value="Search"/>-->
+    </form>
+</div>
+
+<div id="left">
+    <ul id="leftListContainer"><li><?php echo $this->__("No retailer near you") ?></li></ul>
+</div>
+
+<div id="map"></div>
+<script src="http://maps.googleapis.com/maps/api/js?&language=en&libraries=places&sensor=false&key=<?php echo Mage::getStoreConfig('google/map/api_key')?>"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    document.observe("dom:loaded", function() {
+        var params = window.location.hash.split('/');
+        googleRetailer.options.countryRestrict = {country: '<?php echo Mage::getStoreConfig('google/map/country')?>'};
+        googleRetailer.options.defaultCoordinate = {lat: <?php echo Mage::getStoreConfig('google/map/lat')?>, lng: <?php echo Mage::getStoreConfig('google/map/lng')?>};
+
+        if (params.length > 2) {
+            if (params[1] == 'search') {
+                // @TODO here need add auto click event
+                var keyWords = decodeURIComponent(params[2]);
+                document.getElementById(googleRetailer.options.searchBoxId).value=keyWords;
+                googleRetailer.init().createMap().searchNearByZip(keyWords).autocompleteAddress();
+//                    googleRetailer.init().createMap().autocompleteAddress(params[2]);
+                window.location.hash='#';
+            }
+        } else {
+            // initially init google map
+            googleRetailer.init().createMap().autocompleteAddress();
+        }
+    });
+</script>
+

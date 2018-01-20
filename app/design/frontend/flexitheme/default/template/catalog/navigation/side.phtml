@@ -1,0 +1,9 @@
+<?php $_menu = $this->renderCategoriesMenuHtml(0,'level-top') ?>
+<?php if($_menu): ?>
+<div class="block side-nav-block">
+    <h2><?php echo $this->__('Main Menu') ?></h2>
+    <ul class="fullsidenav">
+        <?php echo $_menu ?>
+    </ul>
+</div>
+<?php endif ?>

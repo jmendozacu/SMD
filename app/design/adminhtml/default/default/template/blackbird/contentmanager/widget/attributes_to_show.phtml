@@ -1,0 +1,217 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<tr>
+    <td class="label"><label><?php echo $this->__('Fields to show in your list'); ?></label></td>
+    <td class="value">
+        <input type="hidden" id="attributes_to_show_value" name="parameters[attributes_to_show]" value="<?php echo $this->getValue(); ?>" />
+        
+        <div id="cct-all-attribute-model-show" class="one-filter" style="display: none;">
+            <a href="http://black.bird.eu/documentation/content/create-list-of-contents#widget" target="_blank"><img src="<?php echo $this->getSkinUrl('images/fam_help.gif'); ?>" /></a>
+            
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Attribute'); ?></label>
+                <select onchange="refreshCctShow();" class="cct-all-attribute-select attribute" name="parameters_tmp[attributes_to_show][attribute][]">
+                    <?php
+                        $options = Mage::getResourceModel('contentmanager/eav_attribute')->getCollection()
+                                ->addFieldToFilter('entity_type_id', Mage::getModel('contentmanager/content')->getResource()->getTypeId());
+                        foreach($options as $option):
+                    ?>
+                    <option value="<?php echo $option->getAttributeCode(); ?>"><?php echo $option->getAttributeCode(); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Label'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show_label][]" class="label" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Label Type'); ?></label>
+                <select onchange="refreshCctShow();" class="cct-all-attribute-label label_type" name="parameters_tmp[attributes_to_show][label_type][]">
+                    <option value="0"><?php echo $this->__('Hide'); ?></option>
+                    <option value="1"><?php echo $this->__('Above'); ?></option>
+                    <option value="2"><?php echo $this->__('Below'); ?></option>
+                    <option value="3"><?php echo $this->__('Inline'); ?></option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Html Label Tag'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][html_label_tag][]" class="html_label_tag" value="div" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Html Tag'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][html_tag][]" class="html_tag" value="div" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Html Id'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][html_id][]" class="html_id" value="" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Html Classes'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][html_class][]" class="html_class" value="" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Has Link'); ?></label>
+                <select onchange="refreshCctShow();" class="cct-all-attribute-label has_link" name="parameters_tmp[attributes_to_show][has_link][]">
+                    <option value="0"><?php echo $this->__('No Link'); ?></option>
+                    <option value="1"><?php echo $this->__('Linked'); ?></option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Output Format'); ?></label>
+                <select onchange="refreshCctShow();" class="cct-all-attribute-label type" name="parameters_tmp[attributes_to_show][type][]">
+                    <option value="">Plain Text</option>
+                    <optgroup label="Checkbox">
+                        <option value="checkbox_list_values">checkbox_list_values</option>
+                        <option value="checkbox_list_titles">checkbox_list_titles</option>
+                        <option value="checkbox_comma_values">checkbox_comma_values</option>
+                        <option value="checkbox_comma_titles">checkbox_comma_titles</option>
+                    </optgroup>
+                    <optgroup label="Date">
+                        <option value="date_short">date_short</option>
+                        <option value="date_medium">date_medium</option>
+                        <option value="date_long">date_long</option>
+                    </optgroup>
+                    <optgroup label="Date time">
+                        <option value="date_time_short">date_time_short</option>
+                        <option value="date_time_medium">date_time_medium</option>
+                        <option value="date_time_long">date_time_long</option>
+                    </optgroup>
+                    <optgroup label="Drop down">
+                        <option value="drop_select_title">drop_select_title</option>
+                        <option value="drop_select_value">drop_select_value</option>
+                    </optgroup>
+                    <optgroup label="File">
+                        <option value="file_filename_without">file_filename_without</option>
+                        <option value="file_filename_with">file_filename_with</option>
+                        <option value="file_custom_label">file_custom_label</option>
+                    </optgroup>
+                    <optgroup label="Image">
+                        <option value="image_cropped">image_cropped</option>
+                        <option value="image_original">image_original</option>
+                    </optgroup>
+                    <optgroup label="Multiple select">
+                        <option value="multiple_list_values">multiple_list_values</option>
+                        <option value="multiple_list_titles">multiple_list_titles</option>
+                        <option value="multiple_comma_values">multiple_comma_values</option>
+                        <option value="multiple_comma_titles">multiple_comma_titles</option>
+                    </optgroup>
+                    <optgroup label="Product">
+                        <option value="product_all">product_all</option>
+                        <option value="product_name">product_name</option>
+                        <option value="product_name_image">product_name_image</option>
+                        <option value="product_name_image_price">product_name_image_price</option>
+                        <option value="product_name_price">product_name_price</option>
+                    </optgroup>
+                    <optgroup label="Category">
+                        <option value="category_name">category_name</option>
+                    </optgroup>
+                    <optgroup label="Radio">
+                        <option value="radio_select_title">radio_select_title</option>
+                        <option value="radio_select_value">radio_select_value</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Width'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][width][]" class="width" value="" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Height'); ?></label>
+                <input onkeyup="refreshCctShow();" onchange="refreshCctShow();" type="text" name="parameters_tmp[attributes_to_show][height][]" class="height" value="" />
+            </div>
+            <div class="input-box">
+                <label style=" width: 120px;display:inline-block;"><?php echo $this->__('Image Link'); ?></label>
+                <select onchange="refreshCctShow();" class="cct-all-attribute-label link" name="parameters_tmp[attributes_to_show][link][]">
+                    <option value="0"><?php echo $this->__('No Link'); ?></option>
+                    <option value="1"><?php echo $this->__('Link to original image'); ?></option>
+                </select>
+            </div>
+            
+            <button type="button" onclick="$(this).up(0).remove(); refreshCctShow();" class="back"><span><span><?php echo $this->__('Remove'); ?></span></span></button>
+        </div>        
+        
+        <div id="cct-one-attribute-show" class="cct-one-attribute-show">
+            
+        </div>
+        <button type="button" onclick="addNewShowLine(); refreshCctShow();" class="button"><span><span><?php echo $this->__('Add New Line'); ?></span></span></button>
+        <script type="text/javascript">
+            addNewShowLine = function ()
+            {
+                var new_line = $('cct-all-attribute-model-show');
+                var copy = Element.clone(new_line, true);
+                copy.show();
+                $('cct-one-attribute-show').appendChild(copy);
+            }
+            refreshCctShow = function() {
+                var value = '';
+                $$('#cct-one-attribute-show .one-filter').each(function(elem) {
+                    
+                    value += elem.getElementsBySelector('.attribute')[0].value;
+                    value += '||'+elem.getElementsBySelector('.label')[0].value;
+                    value += '||'+elem.getElementsBySelector('.label_type')[0].value;
+                    value += '||'+elem.getElementsBySelector('.html_label_tag')[0].value;
+                    value += '||'+elem.getElementsBySelector('.html_tag')[0].value;
+                    value += '||'+elem.getElementsBySelector('.html_id')[0].value;
+                    value += '||'+elem.getElementsBySelector('.html_class')[0].value;
+                    value += '||'+elem.getElementsBySelector('.has_link')[0].value;
+                    value += '||'+elem.getElementsBySelector('.type')[0].value;
+                    value += '||'+elem.getElementsBySelector('.width')[0].value;
+                    value += '||'+elem.getElementsBySelector('.height')[0].value;
+                    value += '||'+elem.getElementsBySelector('.link')[0].value;
+                    value += '##';
+                    
+                });
+                $('attributes_to_show_value').value = value;
+            }
+            
+            //INITIALIZE
+            var init_value_filter = $('attributes_to_show_value').value;
+            var lines_filter = init_value_filter.split('##');
+            for(var i = 0; i < lines_filter.length; i++)
+            {
+                var values_filter = lines_filter[i].split('||');
+                if(values_filter.length > 1)
+                {
+                    var new_line = $('cct-all-attribute-model-show');
+                    var copy = Element.clone(new_line, true);
+                    copy.show();
+
+                    copy.getElementsBySelector('.attribute')[0].value = values_filter[0];
+                    copy.getElementsBySelector('.label')[0].value = values_filter[1];
+                    copy.getElementsBySelector('.label_type')[0].value = values_filter[2];
+                    copy.getElementsBySelector('.html_label_tag')[0].value = values_filter[3];
+                    copy.getElementsBySelector('.html_tag')[0].value = values_filter[4];
+                    copy.getElementsBySelector('.html_id')[0].value = values_filter[5];
+                    copy.getElementsBySelector('.html_class')[0].value = values_filter[6];
+                    copy.getElementsBySelector('.has_link')[0].value = values_filter[7];
+                    copy.getElementsBySelector('.type')[0].value = values_filter[8];
+                    copy.getElementsBySelector('.width')[0].value = values_filter[9];
+                    copy.getElementsBySelector('.height')[0].value = values_filter[10];
+                    copy.getElementsBySelector('.link')[0].value = values_filter[11];
+
+                    $('cct-one-attribute-show').appendChild(copy);
+                }
+            }
+        </script>
+    </td>
+</tr>

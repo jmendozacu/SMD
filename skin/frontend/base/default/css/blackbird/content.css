@@ -1,0 +1,112 @@
+/*----DEFAULT COLUMNS STYLES FOR CONTENT TYPES----*/
+.ct-clear {
+    clear: both;
+}
+.ct-column-top {
+    margin-bottom: 1em;
+}
+.ct-column-bottom {
+    margin-top: 1em;
+}
+.ct-column-middle {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+.ct-column-main-left-50 {
+    width: 49%;
+    float: left;
+}
+.ct-column-main-right-50 {
+    width: 49%;
+    float: right;
+}
+.ct-column-main-left-25 {
+    width: 25%;
+    float: left;    
+}
+.ct-column-main-center-50 {
+    width: 48%;
+    margin: 0 1%;
+    float: left;    
+}
+.ct-column-main-right-25 {
+    width: 25%;
+    float: right;    
+}
+.ct-column-main-left-33 {
+    width: 32%;
+    float: left;    
+}
+.ct-column-main-center-33 {
+    width: 32%;
+    margin: 0 2%;
+    float: left;    
+}
+.ct-column-main-right-33 {
+    width: 32%;
+    float: right;    
+}
+.block-ct-filter-content {
+    padding: 5px 10px;
+}
+#contenttype-results-filter-list li a {
+    display: inline-block;
+    padding-left: 16px;
+    background: url(../../images/blackbird/acm/cb1.gif) no-repeat left center;
+}
+
+#contenttype-results-filter-list li.item-active a {
+    background: url(../../images/blackbird/acm/cb2.gif) no-repeat left center;
+}
+
+
+
+/*----DEFAULT COLUMNS STYLES FOR CONTENT LIST----*/
+.cl-clear {
+    clear: both;
+}
+.cl-column-top {
+    margin-bottom: 1em;
+}
+.cl-column-bottom {
+    margin-top: 1em;
+    border-bottom:1px solid;
+}
+.cl-column-middle {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+.cl-column-main-left-50 {
+    width: 49%;
+    float: left;
+}
+.cl-column-main-right-50 {
+    width: 49%;
+    float: right;
+}
+.cl-column-main-left-25 {
+    width: 25%;
+    float: left;    
+}
+.cl-column-main-center-50 {
+    width: 48%;
+    margin: 0 1%;
+    float: left;    
+}
+.cl-column-main-right-25 {
+    width: 25%;
+    float: right;    
+}
+.cl-column-main-left-33 {
+    width: 32%;
+    float: left;    
+}
+.cl-column-main-center-33 {
+    width: 32%;
+    margin: 0 2%;
+    float: left;    
+}
+.cl-column-main-right-33 {
+    width: 32%;
+    float: right;    
+}

@@ -1,0 +1,64 @@
+<script src="http://maps.googleapis.com/maps/api/js?&language=en&libraries=places&sensor=false&key=<?php echo Mage::getStoreConfig('google/map/api_key')?>"
+        type="text/javascript"></script>
+<form id="co-<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-form" action="<?php echo $this->getUrl('retailer/index/nearSearch/hasRadius/false') ?>">
+    <div id="checkout-<?php echo Silk_Retailer_Model_Retailer::STEP_NAME ?>-load">
+        <h5><?php echo $this->__('Retailer') ?></h5>
+        <div id="retailer-list"><img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading...') ?>" title="<?php echo $this->__('Loading...') ?>" class="v-middle" /></div>
+        <div class="buttons-set" id="<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-buttons-container">
+            <button type="button" class="button" onclick="shippingRetailer.save()"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span id="<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-please-wait" class="please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        </span>
+        </div>
+        <script type="text/javascript">
+//            setInterval('renderMap()', 1000);
+            renderMap();
+            function renderMap()
+            {
+                // ajax get current zip
+                var request = new Ajax.Request('/retailer/ajax/getpostcode', {
+                    method: 'get',
+                    onSuccess: function(response) {
+                        if (response.status == 200) {
+//                            console.log(response.responseJSON.zip);
+                            renderMapByZipCode(response.responseJSON.zip);
+                        } else {
+                            console.log('Error:');
+                        }
+                    },
+                    onFailure: function(){
+                        console.log('onFailure');
+                    },
+                });
+            }
+
+            function renderMapByZipCode(zipCode)
+            {
+                // initially init google map
+                googleRetailer.options.renderStyle = 'form';
+                googleRetailer.options.formId = 'co-<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-form';
+                googleRetailer.options.containerId = 'retailer-list';
+                googleRetailer.init().searchNearByZip(zipCode);
+//                console.log(zipCode);
+            }
+        </script>
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var shippingRetailer = new ShippingRetailerMethod('co-<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-form','<?php echo $this->getUrl('checkout/onepage/saveShippingRetailer') ?>');
+    var shippingRetailerForm = new VarienForm('co-<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>-form');
+
+    Checkout.prototype.setShippingRetailer = function() {
+        //this.nextStep();
+        this.gotoSection('shipping_method', true);
+        //this.accordion.openNextSection(true);
+    }
+
+    Checkout.prototype.setShipping = function() {
+        //this.nextStep();
+        this.gotoSection('<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?> ', true);
+        //this.accordion.openNextSection(true);
+    }
+    //]]>
+</script>

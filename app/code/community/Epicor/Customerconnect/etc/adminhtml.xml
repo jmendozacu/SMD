@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>               
+            <children>
+                <messaging>
+                    <children>
+                        <customerconnect>
+                            <title>Customer Connect</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/system_config/edit/section/customerconnect_enabled_messages/</action>
+                        </customerconnect>
+                    </children>
+                </messaging>
+                <mapping>
+                    <title>Mapping</title>
+                    <sort_order>20</sort_order>
+                    <children>
+                        <invoice>
+                            <title>Invoice</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/customerconnect_mapping_invoicestatus</action>
+                        </invoice>                        
+                        <rma>
+                            <title>Rma</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/customerconnect_mapping_rmastatus</action>
+                        </rma>                        
+                        <servicecall>
+                            <title>Service Call</title>
+                            <sort_order>70</sort_order>
+                            <action>adminhtml/customerconnect_mapping_servicecallstatus</action>
+                        </servicecall> 
+                        <erp_order_status>
+                            <title>Erp Order Status</title>
+                            <sort_order>80</sort_order>
+                            <action>adminhtml/customerconnect_mapping_erporderstatus</action>
+                        </erp_order_status>
+                        <erp_quote_status>
+                            <title>Erp Quote Status</title>
+                            <sort_order>90</sort_order>
+                            <action>adminhtml/customerconnect_mapping_erpquotestatus</action>
+                        </erp_quote_status>
+                        <reason_code>
+                            <title>Reason Code</title>
+                            <sort_order>100</sort_order>
+                            <action>adminhtml/customerconnect_mapping_reasoncode</action>
+                        </reason_code>
+                    </children>
+                </mapping>      
+            </children>
+        </epicor_common>
+    </menu>	
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common>
+                        <children>
+                            <messaging>
+                                <children>
+                                    <customerconnect>
+                                        <title>Customer Connect Menu</title>
+                                        <sort_order>10</sort_order>
+                                    </customerconnect>
+                                </children>    
+                            </messaging>                            
+                        </children>
+                    </epicor_common>                
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <customerconnect_enabled_messages module="customerconnect">
+                                        <title>Epicor Customer Connect Messages</title>
+                                    </customerconnect_enabled_messages>
+                                    <customerconnect module="customerconnect">
+                                        <title>Epicor Customer Connect General</title>
+                                    </customerconnect>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

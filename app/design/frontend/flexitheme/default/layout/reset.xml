@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <print>
+        <reference name="head">
+            
+            <!-- CSS -->
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/theme.css</name>
+                <params/>
+            </action>
+        </reference>
+    </print>
+    <default>
+        <reference name="head">
+
+            <!-- jQuery -->
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery.no-conflict.js</script>
+            </action>
+
+            <!-- jQuery plugins -->
+            <action method="addJs">
+                <script>flexitheme/jquery/plugins/jquery.cycle.min.js</script>
+            </action>
+			
+            <!-- Other JS scripts
+           	<action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action> -->
+            
+            <!-- CSS -->
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/theme.css</name>
+                <params/>
+            </action>
+
+        </reference>
+        
+        
+        <!-- Remove all default bits and bobs -->
+        <remove name="right.permanent.callout"/>
+        <remove name="left.permanent.callout"/>
+        <remove name="product.clone_prices"/>
+        <remove name="right.reports.product.viewed" />
+        <remove name="left.reports.product.viewed" />
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="catalog.leftnav" />
+        <remove name="right.reports.product.compared"/>
+        <remove name="wishlist_sidebar"/>
+        <remove name="cart_sidebar" />
+        <remove name="tags_popular"/>
+        <remove name="right.poll"/>
+        <remove name="paypal.partner.right.logo"/>
+        <remove name="reorder"/>
+        <remove name="sale.reorder.sidebar"/>
+        <remove name="left.newsletter"/>        
+        <remove name="left.permanent.callout"/>
+        <remove name="top.search"/>
+        <remove name="top.menu"/>
+        <remove name="right.customer.account.summary"/>
+        <remove name="epicor_comm.cart.quickadd"/>
+        <remove name="currency"/>
+        <remove name="right_currency"/>
+        <remove name="epicor_currency"/>
+        <remove name="store_language"/>
+        <remove name="epicor_comm.cart.masquerade"/>
+<!--        <reference name="left">
+            <block type="flexitheme/frontend_template_currency" name="epcor_currency" before="-" template="page/template/currency.phtml"/>
+        </reference>     -->
+    </default>
+    
+    
+    <catalog_product_view translate="label">
+        <reference name="product.info.upsell">
+            <action method="setColumnCount">
+                <columns>3</columns>
+            </action>
+            <action method="setItemLimit">
+                <type>upsell</type>
+                <limit>999</limit>
+            </action>
+        </reference>
+    </catalog_product_view>
+   
+</layout>
+          

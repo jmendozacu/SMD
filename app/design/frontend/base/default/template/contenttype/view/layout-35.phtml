@@ -1,0 +1,121 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $content = $this->getContent();
+    $content_type = Mage::getModel('contentmanager/contenttype')
+                        ->load($content->getCtId());
+            
+    $options = $content_type->getCustomContentTypeOptionsCollection();
+    $layoutItems = $this->getLayoutItems();
+?>
+<div class="ct-view ct-view-<?php echo $content_type->getIdentifier(); ?> ct-layout-35" id="ct-view-<?php echo $content->getId(); ?>">
+    
+    <div class="ct-column ct-column-top" id="ct-column-2">
+        <div class="inside">
+            <?php if(isset($layoutItems[2])) foreach($layoutItems[2] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    
+    <div class="ct-column ct-column-main ct-column-main-first ct-column-main-left-33" id="ct-column-1">
+        <div class="inside">
+            <?php if(isset($layoutItems[1])) foreach($layoutItems[1] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-column ct-column-main ct-column-main-first ct-column-main-center-33" id="ct-column-6">
+        <div class="inside">
+            <?php if(isset($layoutItems[6])) foreach($layoutItems[6] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-column ct-column-main ct-column-main-first ct-column-main-right-33" id="ct-column-8">
+        <div class="inside">
+            <?php if(isset($layoutItems[8])) foreach($layoutItems[8] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-clear"></div>
+    
+    <div class="ct-column ct-column-middle" id="ct-column-4">
+        <div class="inside">
+            <?php if(isset($layoutItems[4])) foreach($layoutItems[4] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    
+    <div class="ct-column ct-column-main ct-column-main-second ct-column-main-left-33" id="ct-column-5">
+        <div class="inside">
+            <?php if(isset($layoutItems[5])) foreach($layoutItems[5] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-column ct-column-main ct-column-main-second ct-column-main-center-33" id="ct-column-7">
+        <div class="inside">
+            <?php if(isset($layoutItems[7])) foreach($layoutItems[7] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-column ct-column-main ct-column-main-second ct-column-main-right-33" id="ct-column-9">
+        <div class="inside">
+            <?php if(isset($layoutItems[9])) foreach($layoutItems[9] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="ct-clear"></div>
+    
+    <div class="ct-column ct-column-bottom" id="ct-column-3">
+        <div class="inside">
+            <?php if(isset($layoutItems[3])) foreach($layoutItems[3] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,39 @@
+<?php
+/* @var $this Epicor_Comm_Block_Customer_Returns_Notes */
+$lengthLimitInUse = $this->noteTabLengthLimit(); 
+$noteTabRequired = $this->noteTabRequired();
+if($lengthLimitInUse && $noteTabRequired){
+    $maxLength = 'maxLength='.'"'.$lengthLimitInUse.'"'; 
+}
+?>
+
+<?php echo $this->getReturnBarHtml(); ?>
+<script type="text/javascript">
+//<![CDATA[
+    document.observe('dom:loaded', function (element) {
+        notes = new Notes('notes-return-form');       
+    });
+//]]>
+</script>
+<div>
+    <form id="notes-return-form" action="<?php echo $this->getUrl('epicor_comm/returns/saveNotes') ?>" method="post">
+        <fieldset>
+            <input type="hidden" name="return_id" value="<?php echo $this->getEncodedReturn(); ?>" />
+            <?php $this->getChild('formkey'); ?>
+            <?php if ($this->returnActionAllowed('Notes')) : ?>
+                <textarea id="note" name="return-note" cols="50" <?php echo $maxLength ?> rows="10"><?php echo $this->getNoteText(); ?></textarea>
+            <?php if($lengthLimitInUse): ?>    
+                <div id="truncated_message_line_notes"><?php echo "max ".$lengthLimitInUse." chars"; ?></div>
+            <?php endif; ?>
+            <?php else: ?>
+                <?php echo $this->getNoteText(); ?>
+            <?php endif; ?>
+        </fieldset>
+        <div id="notes-buttons-container" class="buttons-set">
+            <button class="button" title="<?php echo $this->__('Continue'); ?>" type="button" onclick="notes.save()" id="notes-submit"><span><span><?php echo $this->__('Continue'); ?></span></span></button>
+            <span style="display:none;" id="notes-please-wait" class="please-wait">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
+            </span>
+        </div>
+    </form>
+</div>

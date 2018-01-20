@@ -1,0 +1,446 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>   
+        <reference name="head">
+            
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>          
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-default-style.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-navigation.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-navigation.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-common.js</name>
+                <params/>
+            </action>             
+            <block type="core/html_calendar" name="calendar" template="page/js/calendar.phtml" />
+        </reference>
+        <reference name="left">
+            <block type="customer/account_navigation" name="supplier_connect_navigation" template="supplierconnect/navigation.phtml">
+                <action method="setTitle" translate="label" module="supplierconnect">
+                    <value>Supplier Connect</value>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Dashboard</name>
+                    <path>supplierconnect/account</path>
+                    <label>Dashboard</label>
+                </action>            
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>RFQs</name>
+                    <path>supplierconnect/rfq</path>
+                    <label>RFQs</label>
+                    <url_params></url_params>
+                    <msgtype>SURS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Parts</name>
+                    <path>supplierconnect/parts</path>
+                    <label>Parts</label>
+                    <url_params></url_params>
+                    <msgtype>SPLS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Invoices</name>
+                    <path>supplierconnect/invoices</path>
+                    <label>Invoices</label>
+                    <url_params></url_params>
+                    <msgtype>SUIS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Orders</name>
+                    <path>supplierconnect/orders</path>
+                    <label>Orders</label>
+                    <url_params></url_params>
+                    <msgtype>SPOS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Confirm New PO</name>
+                    <path>supplierconnect/orders/new</path>
+                    <label>Confirm New PO</label>
+                    <url_params></url_params>
+                    <msgtype>SPOS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Confirm PO Changes</name>
+                    <path>supplierconnect/orders/changes</path>
+                    <label>Confirm PO Changes</label>
+                    <url_params></url_params>
+                    <msgtype>SPCS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>Payments</name>
+                    <path>supplierconnect/payments</path>
+                    <label>Payments</label>
+                    <url_params></url_params>
+                    <msgtype>SUPS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>common_access_management</name>
+                    <path>supplierconnect/access_management/</path>
+                    <label>Permissions</label>
+                </action>
+                <action method="addLink" translate="label" module="supplierconnect">
+                    <name>change_supplier_password</name>
+                    <path>supplierconnect/password/</path>
+                    <label>Change Password</label>
+                </action>
+            </block>
+        </reference>
+    </customer_account>  
+    
+    <supplier_connect>
+        <reference name="head">
+            <action method="addJs">
+                <file>supplierconnect/supplierconnect.js?v=3</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/supplierconnect/css/style.css</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+        </reference>
+    </supplier_connect>
+    
+    <supplierconnect_account_index>
+        <label>Account Information</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Supplier Connect Dashboard</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="supplierconnect.dashboard.title" template="supplierconnect/customer/dashboard/title.phtml" />
+            <block type="supplierconnect/customer_account_address" name="account.address"/>
+            <block type="epicor_common/protected" name="protected_content">
+                <action method="addProtection">
+                    <name>account.rfqs</name>
+                    <access_right>
+                        <module>Epicor_Supplierconnect</module>
+                        <controller>Rfq</controller>
+                        <action>index</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>account.purchase.orders</name>
+                    <access_right>
+                        <module>Epicor_Supplierconnect</module>
+                        <controller>Orders</controller>
+                        <action>index</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <block type="supplierconnect/customer_account_rfqs" name="account.rfqs"/>
+                <block type="supplierconnect/customer_account_purchaseOrders" name="account.purchase.orders"/>
+            </block>
+        </reference>
+    </supplierconnect_account_index>  
+    
+    <supplierconnect_parts_index>
+        <label>Parts</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Parts</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="supplierconnect/customer_parts_list" name="account.parts"/>           
+        </reference>
+    </supplierconnect_parts_index>  
+    
+    <supplierconnect_parts_details>
+        <label>Supplier Connect Part Details</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Supplier Connect Part Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="orders.title" template="supplierconnect/customer/account/parts/title.phtml" />
+            <block type="supplierconnect/customer_parts_details_price" name="parts.price" />
+            <block type="supplierconnect/customer_parts_details_crossreference" name="parts.crossreference" />
+            <block type="supplierconnect/customer_parts_details_info" name="parts.info" />
+            <block type="supplierconnect/customer_parts_details_uom" name="parts.uom" />
+            <block type="supplierconnect/customer_parts_details_breaks" name="parts.breaks" />
+            <block type="supplierconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/supplierconnect/parts/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/supplierconnect/parts/</value>
+                </action>
+                <action method="setListType">
+                    <value>Parts</value>
+                </action>
+            </block>
+        </reference>
+    </supplierconnect_parts_details>
+    
+    <supplierconnect_invoices_index>
+        <label>Invoices</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Invoices</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="supplierconnect/customer_invoices_list" name="account.invoices"/>           
+        </reference>
+    </supplierconnect_invoices_index>  
+    <supplierconnect_invoices_details>
+        <label>Supplier Connect Invoice Details</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Supplier Connect Invoice Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="invoices.title" template="supplierconnect/customer/account/invoices/title.phtml" />
+            <block type="supplierconnect/customer_invoices_details_address" name="invoices.address" />
+            <block type="supplierconnect/customer_invoices_details_info" name="invoices.info" />
+            <block type="supplierconnect/customer_invoices_details_lines" name="invoices.lines">
+                <block type="supplierconnect/customer_invoices_details_totals" name="tfoot" />
+            </block>
+            <block type="supplierconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/supplierconnect/invoices/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/supplierconnect/invoices/</value>
+                </action>
+                <action method="setListType">
+                    <value>Invoices</value>
+                </action>
+            </block>    
+        </reference>
+    </supplierconnect_invoices_details>
+    
+    <supplierconnect_orders_index>
+        <label>Orders</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Orders</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="supplierconnect/customer_orders_list" name="account.orders"/>           
+        </reference>
+    </supplierconnect_orders_index>
+    <supplierconnect_orders_new>
+        <label>Confirm New Purchase Order</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Confirm New Purchase Order</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="orders.formopen" template="supplierconnect/customer/account/orders/new/formopen.phtml" />
+            <block type="supplierconnect/customer_orders_new" name="account.orders"/>    
+            <block type="core/template" name="orders.formclose" template="supplierconnect/customer/account/orders/new/formclose.phtml" />       
+        </reference>
+    </supplierconnect_orders_new>
+    <supplierconnect_orders_changes>
+        <label>Confirm Purchase Order Changes</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Confirm Purchase Order Changes</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="orders.formopen" template="supplierconnect/customer/account/orders/changes/formopen.phtml" />
+            <block type="supplierconnect/customer_orders_changes" name="account.orders"/>    
+            <block type="core/template" name="orders.formclose" template="supplierconnect/customer/account/orders/changes/formclose.phtml" />       
+        </reference>
+    </supplierconnect_orders_changes>
+    <supplierconnect_orders_details>
+        <label>Supplier Connect Order Details</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Supplier Connect Order Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="orders.formopen" template="supplierconnect/customer/account/orders/details/formopen.phtml" />
+            <block type="core/template" name="orders.title" template="supplierconnect/customer/account/orders/title.phtml" />
+            <block type="supplierconnect/customer_orders_details_vendor" name="orders.vendor" />
+            <block type="supplierconnect/customer_orders_details_shipping" name="orders.shipping" />
+            <block type="supplierconnect/customer_orders_details_info" name="orders.info" />
+            <block type="supplierconnect/customer_orders_details_comments" name="orders.comments" />
+            <block type="supplierconnect/customer_orders_details_lines" name="orders.lines">
+                <block type="supplierconnect/customer_orders_details_totals" name="tfoot" />
+            </block>
+            <block type="core/template" name="orders.formclose" template="supplierconnect/customer/account/orders/details/formclose.phtml" />
+            <block type="supplierconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/supplierconnect/orders/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/supplierconnect/orders/</value>
+                </action>
+                <action method="setListType">
+                    <value>Orders</value>
+                </action>
+            </block>
+        </reference>
+    </supplierconnect_orders_details>
+    
+    <supplierconnect_payments_index>
+        <label>Payments</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Payments</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="supplierconnect/customer_payments_list" name="account.payments"/>           
+        </reference>
+    </supplierconnect_payments_index> 
+    
+    
+    
+    <supplierconnect_rfq_index>
+        <label>RFQs</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>RFQs</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="supplierconnect/customer_rfqs_list" name="account.rfqs"/> 
+        </reference>
+    </supplierconnect_rfq_index>  
+    
+    <supplierconnect_rfq_details>
+        <label>RFQ Information</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>RFQ Information</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/quickadd.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/supplierconnect/js/rfq-details.js?v=6</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="core/template" name="rfqs.formopen" template="supplierconnect/customer/rfq/formopen.phtml" />
+            <block type="core/template" name="rfqs.title" template="supplierconnect/customer/rfq/title.phtml" />
+            <block type="supplierconnect/customer_rfqs_details_generalinfo" name="account.rfq.details.generalinfo"/>  
+            <block type="supplierconnect/customer_rfqs_details_lineinfo" name="account.rfq.details.lineinfo"/>  
+            <block type="supplierconnect/customer_rfqs_details_priceinfo" name="account.rfq.details.priceinfo"/>  
+            <block type="supplierconnect/customer_rfqs_details_crossreferenceparts" name="account.rfq.details.xref"/>           
+            <block type="supplierconnect/customer_rfqs_details_pricebreaks" name="account.rfq.pricebreaks"/>           
+            <block type="supplierconnect/customer_rfqs_details_supplierunitofmeasures" name="account.supplier.uom"/> 
+            <block type="core/template" name="rfqs.formclose" template="supplierconnect/customer/rfq/formclose.phtml" />
+            <block type="supplierconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/supplierconnect/rfq/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/supplierconnect/rfq/</value>
+                </action>
+                <action method="setListType">
+                    <value>Rfq</value>
+                </action>
+            </block>
+            <block type="core/template" name="supplier.loader" template="supplierconnect/loader.phtml" />
+        </reference>
+    </supplierconnect_rfq_details>  
+    
+    <supplierconnect_access_management_index> 
+        <update handle="epicor_common_access_management_index"/>
+    </supplierconnect_access_management_index>
+    <supplierconnect_access_management_editgroup> 
+        <update handle="epicor_common_access_management_editgroup"/>
+    </supplierconnect_access_management_editgroup>
+    <supplierconnect_password_index>
+         <label>Account Information</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="supplierconnect.password.update.title" template="supplierconnect/customer/account/passwordupdate/title.phtml" />
+            <block type="core/template" name="supplierconnect.password.update.formopen" template="supplierconnect/customer/account/passwordupdate/formopen.phtml" />       
+             <block type="core/template" name="supplierconnect.password.update" template="supplierconnect/customer/account/passwordupdate/update.phtml"/>    
+            <block type="core/template" name="supplierconnect.password.update.formclose" template="supplierconnect/customer/account/passwordupdate/formclose.phtml" />       
+        </reference> 
+    </supplierconnect_password_index>     
+</layout> 

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_reports_index>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="epicor_reports/adminhtml_reports" name="messaging.reports" template="epicor_reports/index.phtml">
+                <block type="epicor_reports/adminhtml_reports_filter" name="messaging.reports.filter" />
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/reports/js/raphael-min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/reports/js/g.raphael.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/reports/js/g.line.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/reports/js/g.bar.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/reports/js/charts.js</name>
+            </action>
+        </reference>
+    </adminhtml_reports_index>
+    <adminhtml_reports_graph>
+        <block type="epicor_reports/adminhtml_reports" name="root" template="epicor_reports/graph.phtml" />
+    </adminhtml_reports_graph>
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<layout version="0.0.0.1">
+        
+    <adminhtml_quotes_quotes_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quotes/css/style.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="quotes/adminhtml_quotes" name="quotes_list" />
+        </reference>
+    </adminhtml_quotes_quotes_index>
+    
+    <adminhtml_quotes_quotes_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/quotes/js/form.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quotes/css/style.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="quotes/adminhtml_quotes_edit" name="edit_wrapper" >
+                <block type="quotes/adminhtml_quotes_edit_form" group="quotes" name="quote_form" />    
+            </block>            
+            <block type="quotes/adminhtml_quotes_edit_quoteinfo" group="quotes" name="quote_info" template="quotes/edit/quoteinfo.phtml" />
+            <block type="quotes/adminhtml_quotes_edit_customerinfo" name="customer_info" template="quotes/edit/customerinfo.phtml" />
+
+            <block type="quotes/adminhtml_quotes_edit_productlines" name="product_lines" template="quotes/edit/productlines.phtml"  />
+
+            <block type="quotes/adminhtml_quotes_edit_commenthistory" name="comment_history" template="quotes/edit/commenthistory.phtml" />
+            
+        </reference>
+    </adminhtml_quotes_quotes_edit>
+    
+</layout>

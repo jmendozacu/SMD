@@ -1,0 +1,28 @@
+<?php
+$_product = Mage::registry('current_product');
+$loopProduct = Mage::registry('current_loop_product') ? : $_product;
+
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+$showPrice = $helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+
+//locations stuff
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+$showLocations = $locHelper->isLocationsEnabled();
+$productLocation = Mage::registry('current_location');
+?>
+<?php if ($showPrice) : ?>
+        <td class="price">
+            <?php if($loopProduct->getFinalPrice() == 0 && $loopProduct->getConfigurator()): ?>
+                <?php echo $this->__('Price on configuration'); ?>
+            <?php else:   ?>
+                <?php if($showLocations): ?>
+                <?php    echo  $productLocation ?  $this->helper('core')->currency($loopProduct->getFinalPrice(), true, true) : 'Product Not Available'; ?>
+                <?php else: ?>
+                <?php    echo $this->helper('core')->currency($loopProduct->getFinalPrice(), true, true) ?>
+                <?php endif;?>
+            <?php  endif;   ?>
+        </td>
+    
+<?php endif; ?>

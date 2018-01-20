@@ -1,0 +1,273 @@
+//
+// Magento
+//
+// NOTICE OF LICENSE
+//
+// This source file is subject to the Academic Free License (AFL 3.0)
+// that is bundled with this package in the file LICENSE_AFL.txt.
+// It is also available through the world-wide-web at this URL:
+// http://opensource.org/licenses/afl-3.0.php
+// If you did not receive a copy of the license and are unable to
+// obtain it through the world-wide-web, please send an email
+// to license@magento.com so we can send you a copy immediately.
+//
+// DISCLAIMER
+//
+// Do not edit or add to this file if you wish to upgrade Magento to newer
+// versions in the future. If you wish to customize Magento for your
+// needs please refer to http://www.magento.com for more information.
+//
+// @category    design
+// @package     rwd_default
+// @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+// @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+//
+
+/* ============================================ *
+ * Slideshow
+ * ============================================ */
+
+.slideshow-container {
+    border: 1px solid $c-module-border-light;
+    display: block;
+    margin: $gap 0;
+    position: relative;
+    width: 100%;
+
+    .slideshow {
+        border: 10px solid $c-white;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+
+        & > li {
+            display: block;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            // in case script does not load
+            &:first-child {
+                position: static;
+                z-index: 100;
+            }
+
+            img {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.slideshow-pager {
+    bottom: 0;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    top: auto;
+    width: 100%;
+    z-index: 115;
+
+    @include not-selectable;
+
+    span {
+        color: #ddd;
+        cursor: pointer;
+        display: inline-block;
+        font-family: arial;
+        height: 44px;
+        width: 44px;
+        $pager-size: 16px;
+
+        &:before {
+            border-radius: 1px;
+            background-color: $c-white;
+            content: '';
+            display: block;
+            height: $pager-size;
+            left: 50%;
+            margin-left: (-$pager-size/2);
+            margin-top: (-$pager-size/2);
+            position: relative;
+            top: 50%;
+            width: $pager-size;
+        }
+
+        &:hover:before {
+            background-color: $c-button-hover;
+        }
+
+        &.cycle-pager-active:before {
+            background-color: $c-button-active;
+        }
+    }
+
+    & > * {
+        cursor: pointer;
+    }
+}
+
+.slideshow-prev,
+.slideshow-next {
+    cursor: pointer;
+    height: 100%;
+    max-width: 80px;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 15%;
+    z-index: 110;
+
+    @include not-selectable();
+
+    &:before {
+        border-style: solid;
+        content: '';
+        display: block;
+        font-size: 0;
+        height: 0;
+        margin-top: -15px;
+        position: absolute;
+        top: 50%;
+        width: 0;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &.disabled {
+        @include opacity(0.5);
+        cursor: default;
+    }
+}
+
+.slideshow-prev {
+    left: 8px;
+
+    &:before {
+        border-width: 15px 15px 15px 0;
+        border-color: transparent $c-white transparent transparent;
+        left: 10px;
+        top: 50%;
+    }
+
+    &:hover:before {
+        border-color: transparent $c-button-hover transparent transparent;
+    }
+}
+
+.slideshow-next {
+    right: 8px;
+
+    &:before {
+        border-width: 15px 0 15px 15px;
+        border-color: transparent transparent transparent $c-white;
+        right: 10px;
+        top: 50%;
+    }
+
+    &:hover:before {
+        border-color: transparent transparent transparent $c-button-hover;
+    }
+}
+
+.cycle-caption {
+    bottom: 15px;
+    color: white;
+    position: absolute;
+    right: 15px;
+    z-index: 110;
+}
+
+.cycle-overlay {
+    background: black;
+    bottom: 0;
+    color: white;
+    font-family: tahoma, arial;
+    opacity: .5;
+    padding: 15px;
+    position: absolute;
+    width: 100%;
+    z-index: 120;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: 15px;
+  display: block;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+  z-index: 999;
+  li {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    padding: 0;
+    cursor: pointer;
+    button {
+      font-size: 0;
+      line-height: 0;
+      display: block;
+      width: 20px;
+      height: 20px;
+      padding: 5px;
+      cursor: pointer;
+      color: transparent;
+      border: 0;
+      outline: none;
+      background: transparent;
+      &:hover, &:focus {
+        outline: none;
+      }
+      &:hover:before, &:focus:before {
+        opacity: 1;
+      }
+      &:before {
+        font-family: 'slick';
+        font-size: 50px;
+        line-height: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        content: '•';
+        text-align: center;
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+    &.slick-active button:before {
+      color: transparent;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: #fff;
+    }
+  }
+}
+
+.gallery-wrapper {
+
+  .sub-banner-line {
+
+    height: 2px;
+    background-color: #DEDEDE;
+    width: 100%;
+    display: block;
+    max-width: 1370px;
+    margin: 15px auto;
+    padding: 0;
+
+  }
+
+}

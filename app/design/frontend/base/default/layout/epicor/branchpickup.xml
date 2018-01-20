@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/branchpickup/css/styles.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/lists/css/styles.css?v=1</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/branchpickup/js/branchpopup.js?v=1</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/branchpickup/js/locationpopup.js?v=1</name>
+                <params />
+            </action>
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+        </reference>
+    </default>
+    <hide_locations_filter_block>
+        <remove name="epicor_comm.locationpicker" />
+    </hide_locations_filter_block>
+    <default>
+        <reference name="top.links">
+            <action method="addLink" translate="label title">
+                <label>Branch Pickup Selection</label>
+                <url>branchpickup/pickup/select</url>
+                <title>Branch Pickup Selection</title>
+                <prepare>true</prepare>
+                <urlParams />
+                <position>91</position>
+            </action>
+        </reference>
+    </default>
+    <epicor_branchpickup_pickup_select>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-default-style.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-navigation.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-navigation.js</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/lists/css/styles.css?v=1</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-common.js</name>
+                <params />
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_branchpickup/pickup_select" name="pickup_select" as="pickup.select" />
+        </reference>
+    </epicor_branchpickup_pickup_select>
+    <epicor_branchpickup_pickup_selectgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_branchpickup/pickup_select" name="pickup_selectgrid"></block>
+        </block>
+    </epicor_branchpickup_pickup_selectgrid>
+    <epicor_branchpickup_pickup_pickupsearch>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-default-style.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-navigation.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-navigation.js</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/lists/css/styles.css?v=1</name>
+                <params />
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_branchpickup/pickupsearch_select" name="pickupsearch_select" as="pickupsearch.select" />
+        </reference>
+    </epicor_branchpickup_pickup_pickupsearch>
+    <epicor_branchpickup_pickup_pickupsearchgrid>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>          
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_branchpickup/pickupsearch_select" name="pickupsearch_selectgrid"></block>
+        </block>
+    </epicor_branchpickup_pickup_pickupsearchgrid>
+    <!--     <checkout_onepage_review><reference name="root"><action method="setTemplate" ifconfig="carriers/epicorbranchpickup/active"><template>branchpickup/onepage/review/info.phtml</template></action></reference></checkout_onepage_review> -->
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/branchpickup/css/styles.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/lists/css/styles.css?v=1</name>
+                <params />
+            </action>
+        </reference>
+        <reference name="checkout.onepage.shipping">
+            <block type="core/template" name="addextratabs" template="epicor/branchpickup/branchoptions.phtml" />
+        </reference>
+    </checkout_onepage_index>
+    <checkout_onepage_progress_shipping_method>
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="epicor/branchpickup/onepage/progress/shipping_method.phtml">
+            <action method="setInfoTemplate">
+                <method></method>
+                <template></template>
+            </action>
+        </block>
+    </checkout_onepage_progress_shipping_method>
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/branchpickup/css/styles.css</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params />
+            </action>
+        </reference>
+    </checkout_cart_index>
+    <epicor_branchpickup_pickup_location>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_branchpickup/location_edit" name="location_edit" template="epicor/branchpickup/editlocation.phtml"></block>
+        </block>
+    </epicor_branchpickup_pickup_location>
+</layout>

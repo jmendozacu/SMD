@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <modules>
+        <Interjar_ViewAllCategory>
+            <version>1.0.0</version>
+        </Interjar_ViewAllCategory>
+    </modules>
+    <global>
+        <helpers>
+            <viewallcategory>
+                <class>Interjar_ViewAllCategory_Helper</class>
+            </viewallcategory>
+        </helpers>
+        <resources>
+            <viewallcategory_setup>
+                <setup>
+                    <module>Interjar_ViewAllCategory</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </viewallcategory_setup>
+        </resources>
+    </global>
+</config>

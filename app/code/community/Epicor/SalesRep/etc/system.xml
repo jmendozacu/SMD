@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <epicor_comm_field_mapping translate="label" module="epicor_comm">
+            <label>Upload Messages</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>40</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <cusr_mapping translate="label">  
+                    <label>CUSR  Upload Customer Sales Reps</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>                          
+                    <fields>
+                        <message_heading translate="label">
+                            <label>The CUSR Message is Used to Upload Customer Sales Rep Accounts from the ERP System</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </message_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <override_heading translate="label">
+                            <label>Overwritten on Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </override_heading>
+                        <name_update translate="label">
+                            <label>Name</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </name_update>
+                        <erp_accounts_update translate="label">
+                            <label>ERP Accounts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </erp_accounts_update>
+                        <managers_update translate="label">
+                            <label>Hierarchy (Managers)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </managers_update>
+                    </fields>
+                </cusr_mapping>
+            </groups>
+        </epicor_comm_field_mapping>
+        <epicor_salesrep>
+            <label>Sales Reps</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>50000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Sales Reps Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <catalog_allowed>
+                            <label>Sales Reps Can Browse Catalog?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_salesrep/config_source_accountyesno</source_model>
+                            <comment>If yes, sales reps can access the catalog when not masquerading</comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </catalog_allowed>
+                    </fields>
+                </general>
+                <masquerade_search translate="label">
+                    <label>Masquerade Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <show_on_dashboard>
+                            <label>Show Search Grid on Dashboard by Default</label>
+                            <config_path>epicor_salesrep/general/masquerade_search_dashboard</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_on_dashboard>
+                        <botton>
+                            <label>Minimum options before Masquerade Search Button displayed</label>
+                            <config_path>epicor_salesrep/general/masquerade_search</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <show_on_dashboard>0</show_on_dashboard>
+                            </depends>
+                        </botton>
+                        <short_code translate="label">
+                            <label>Show Short Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </short_code>
+                        <account_number translate="label">
+                            <label>Show Account Number</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </account_number>
+                        <invoice_address translate="label">
+                            <label>Show Invoice Address</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_address>
+                        <default_shipping_address translate="label">
+                            <label>Show Default shipping Address</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_shipping_address>
+                    </fields>
+                </masquerade_search>
+                <checkout translate="label">
+                    <label>Checkout</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <choose_contact_enabled>
+                            <label>Enable ERP Contact Choice Step</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </choose_contact_enabled>
+                        <choose_contact_required>
+                            <label>Contact Choice Required</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>If yes, sales reps will have to choose a contact in order to continue</comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <choose_contact_enabled>1</choose_contact_enabled>
+                            </depends>
+                        </choose_contact_required>
+                    </fields>
+                </checkout>
+                <management translate="label">
+                    <label>Management</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <frontend_children_create>
+                            <label>Create Children Sales Rep Accounts in Frontend?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </frontend_children_create>
+                        <frontend_children_addexisting>
+                            <label>Add Existing Accounts as Children?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <frontend_children_create>1</frontend_children_create>
+                            </depends>
+                        </frontend_children_addexisting>
+                    </fields>
+                </management>
+            </groups>
+        </epicor_salesrep>
+        <epicor_common translate="label" module="epicor_common">
+            <groups>  
+                <accessrights>
+                    <fields>
+                        <salesrep_default translate="label">
+                            <label>Sales Rep Account Access Group</label>
+                            <comment>Default Access Group for Sales Reps ccounts</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_common/access_group</source_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </salesrep_default>
+                    </fields>
+                </accessrights>
+            </groups>
+        </epicor_common> 
+    </sections>
+</config>

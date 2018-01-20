@@ -1,0 +1,11 @@
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_related = $this->helper('epicor_comm/product')->processRelated($_product->getRelatedDocuments()); ?>
+<?php if (!empty($_related) && $_related != 'no') : ?>
+    <h2><?php echo $this->__('Related Documents'); ?></h2>
+    <ul class="related_documents">
+        <?php foreach ($_related as $relatedDoc) : ?>
+            <li class="<?php echo $relatedDoc['file_type']; ?>"><a target="_blank" href="<?php echo ($relatedDoc['is_external']) ? $relatedDoc['link'] : '/'.$relatedDoc['link']; ?>" title="<?php echo $relatedDoc['description']; ?>"><?php echo $relatedDoc['description'] ? : $relatedDoc['filename']; ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

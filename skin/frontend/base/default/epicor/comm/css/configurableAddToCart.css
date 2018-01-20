@@ -1,0 +1,46 @@
+/* 
+    Document   : checkout.css
+    Created on : 22-Mar-2013, 13:44:11
+    Author     : Paul.Ketelle
+    Description:
+        Style sheet for Verifone 3D-Secure popup window
+*/
+
+#ewaWrapper {
+    width:100px;
+    height:100px;
+    margin-top:-25px;
+    margin-left:-25px;
+    padding:5px;
+    position:fixed;
+    left:50%;
+    top:50%;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #666;
+    overflow:hidden;
+}
+
+
+#ewaWrapper a {
+    float:right;
+    display:inline;
+}
+#ewaWrapper .loading {
+    margin-top:34px;
+    text-align:center;
+}
+#ewaWrapper .loading img,
+#ewaWrapper .loading p {
+    display: block;
+    margin: 0 auto;
+}
+
+#ewaWrapper iframe {
+    width:800px;
+    height:471px;
+    display:block;
+    border:none;
+    margin-top:20px;
+    margin-left:-100000px;
+}

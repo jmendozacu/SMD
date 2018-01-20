@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <adminhtml_epicorupgrade_advanced_tar_index>
+        <reference name="content">
+            <block type="epicor_upgrade/adminhtml_advanced_tar" name="upgrade.advanced.tar" />
+        </reference>
+    </adminhtml_epicorupgrade_advanced_tar_index>
+    <adminhtml_epicorupgrade_advanced_magealllatest_index>
+        <reference name="content">
+            <block type="epicor_upgrade/adminhtml_advanced_magealllatest" name="upgrade.advanced.magealllatest" />
+        </reference>
+    </adminhtml_epicorupgrade_advanced_magealllatest_index>
+</layout>

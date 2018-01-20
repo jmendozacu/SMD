@@ -1,0 +1,49 @@
+<?php 
+    $_helper = Mage::helper('productfeed/google');
+    /* @var $_helper Epicor_ProductFeed_Helper_Data */
+    echo '<?xml version="1.0" ?>'."\n";
+?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+    <channel>
+        <title><?php echo $this->getFeedTitle() ?></title>
+        <link><?php echo Mage::getUrl(); ?></link>
+        <description><?php echo $this->getFeedDescription(); ?></description>
+        <lastBuildDate><?php echo date(DATE_RSS); ?></lastBuildDate>
+<?php foreach ($this->_products as $product): 
+     /* @var $product Mage_Catalog_Model_Product */
+    $this->_product = $product;
+    if ($this->validate()): ?>
+        <item>
+            <title><?php echo $_helper->xmlSafeString($product->getName()); ?></title>
+            <link><?php echo $this->getProductUrl(); ?></link>
+            <description><![CDATA[<?php echo $_helper->xmlSafeString($product->getDescription()); ?>]]></description>
+            <g:image_link><?php echo Mage::helper('catalog/image')->init($product, 'image')->keepFrame(false)->resize(256); ?></g:image_link>
+            <g:price><?php echo $this->getPrice(); ?> <?php echo $_helper->getCurrency(); ?></g:price>
+<?php if($this->_zeroPrice): ?>
+            <price_error>true</price_error>
+<?php endif; ?>
+            <g:condition><?php echo $product->getCondition(); ?></g:condition>
+            <g:id><?php echo $this->getProductId(); ?></g:id>
+            <g:shipping_weight><?php echo $this->getWeight(); ?> <?php echo $_helper->getWeightUnit(); ?></g:shipping_weight>
+            <g:google_product_category><?php echo $this->getProductCategory(); ?></g:google_product_category>
+<?php foreach($this->getProductPath() as $path) : ?>
+            <g:product_type><?php echo $path; ?></g:product_type>
+<?php endforeach;
+      if($_helper->showQuantity()): ?>
+            <g:quantity><?php echo $product->getQty(); ?></g:quantity>
+<?php endif; ?>
+            <g:availability><?php echo $this->getAvailability(); ?></g:availability>
+<?php if($product->getBrand()): ?>
+            <g:brand><?php echo $_helper->xmlSafeString($product->getBrand()); ?></g:brand>
+<?php endif;
+      if($product->getMpn()): ?>
+            <g:mpn><?php echo $_helper->xmlSafeString($product->getMpn()); ?></g:mpn>
+<?php endif;
+      if($product->getEan()): ?>
+            <g:ean><?php echo $_helper->xmlSafeString($product->getEan()); ?></g:ean>
+<?php endif; ?>
+        </item>
+<?php endif; 
+  endforeach; ?>
+    </channel>
+</rss>

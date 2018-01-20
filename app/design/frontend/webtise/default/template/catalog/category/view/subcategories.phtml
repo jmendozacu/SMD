@@ -1,0 +1,41 @@
+<?php
+    /** @var Mage_Catalog_Model_Category $category */
+    $category = Mage::registry("current_category");
+?>
+<?php if($category->getId()): ?>
+    <?php
+        $categories = $category->getCollection()
+            ->addAttributeToSelect(array('name', 'image'))
+            ->addAttributeToFilter('is_active', 1)
+            ->addAttributeToFilter('is_view_all_category', Mage_Eav_Model_Entity_Attribute_Source_Boolean::VALUE_NO)
+            ->addIdFilter($category->getChildren());
+
+        $viewAllCategories = $category->getCollection()
+            ->addAttributeToSelect(array('name', 'image'))
+            ->addAttributeToFilter('is_active', 1)
+            ->addAttributeToFilter('is_view_all_category', Mage_Eav_Model_Entity_Attribute_Source_Boolean::VALUE_YES)
+            ->addIdFilter($category->getChildren());
+    ?>
+    <div class="category-subcategories-top">
+        <div class="left">
+            <h2><?php echo $category->getName(); ?></h2>
+        </div>
+        <div class="right">
+            <?php foreach ($viewAllCategories as $viewAllCategory): ?>
+                <a class="button view-all-button" href="<?php echo $viewAllCategory->getUrl(); ?>"><?php echo $viewAllCategory->getName(); ?></a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <div class="category-products">
+        <ul class="catblocks">
+            <?php foreach ($categories as $category): ?>
+                <li>
+                    <a href="<?php echo $category->getUrl() ?>">
+                        <img src="<?php echo $category->getImageUrl() ?>" alt="<?php echo $this->htmlEscape($category->getName()) ?>" />
+                        <span><?php echo $category->getName() ?></span>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

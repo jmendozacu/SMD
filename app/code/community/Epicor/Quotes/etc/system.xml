@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <epicor_config>
+            <label>Epicor Configuration</label>
+            <sort_order>1</sort_order>
+        </epicor_config>
+    </tabs>
+    <sections>
+        <epicor_quotes>
+            <label>Quotes</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>29800</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Quotes Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <days_till_expired>
+                            <label>Quotes Expire in X Days</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </days_till_expired>
+                        <allow_customer_global>
+                            <label>Allow Customers Create ERP Account Wide Quotes?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow_customer_global>
+                        <prefix>
+                            <label>Quotes Reference Prefix</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </prefix>
+                    </fields>
+                </general>
+                <notes translate="label">
+                    <label>Notes</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <quote_note_type>
+                            <label>Quote Note Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>quotes/system_config_source_quotenotetypes</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </quote_note_type>
+                        <single_note_type>
+                            <label>Single Note Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>quotes/system_config_source_singlenotetypes</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <quote_note_type>single</quote_note_type>
+                            </depends>
+                        </single_note_type>
+                        <line_note_type>
+                            <label>Line Notes Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>quotes/system_config_source_linenotetypes</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </line_note_type>
+                    </fields>
+                </notes>
+                <email_alerts>
+                    <label>Email Alerts</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>  
+                        <heading_email_reminder translate="label">
+                            <label>Reminder Emails</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_email_reminder>
+                        <send_reminders>
+                            <label>Send Due to Expire Reminder Emails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>quotes/system_config_source_reminders</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_reminders>
+                        <days_to_send_reminders>
+                            <label>Send Frequency</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Send reminders 5 & 3 days before expiry enter<br>5,3]]>
+                            </comment>
+                            <depends>
+                                <send_reminders separator=",">admin,customer,both</send_reminders>
+                            </depends>
+                        </days_to_send_reminders>
+                        <reminder_email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_reminders separator=",">admin,customer,both</send_reminders>
+                            </depends>
+                        </reminder_email_template>
+                        <reminder_email_address>
+                            <label>Email Sender</label>
+                            <comment>Email address for Reminders</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_reminders separator=",">admin,customer,both</send_reminders>
+                            </depends>
+                        </reminder_email_address>                      
+                        <heading_email_update translate="label">
+                            <label>Admin Status Update Emails</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_email_update>                       
+                        <send_admin_update_emails>
+                            <label>Send Admin Status Update Emails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_admin_update_emails>
+                        <admin_update_email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_admin_update_emails>1</send_admin_update_emails>
+                            </depends>
+                        </admin_update_email_template>
+                        <admin_update_email_address>
+                            <label>Email Recipient</label>
+                            <comment>Email address for updates</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_admin_update_emails>1</send_admin_update_emails>
+                            </depends>
+                        </admin_update_email_address>
+                        <admin_states translate="label">
+                            <label>Notify Admin for Quote States</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>quotes/config_source_states</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <send_admin_update_emails>1</send_admin_update_emails>
+                            </depends>
+                        </admin_states>                      
+                        <customer_heading_email_update translate="label">
+                            <label>Customer Status Update Emails</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_heading_email_update>                       
+                        <send_customer_update_emails>
+                            <label>Send Customer Status Update Emails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_customer_update_emails>
+                        <customer_update_email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_customer_update_emails>1</send_customer_update_emails>
+                            </depends>
+                        </customer_update_email_template>
+                        <customer_update_email_address>
+                            <label>Email Sender</label>
+                            <comment>Email address for updates</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_customer_update_emails>1</send_customer_update_emails>
+                            </depends>
+                        </customer_update_email_address>
+                        <customer_states translate="label">
+                            <label>Notify Customer for Quote States</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>quotes/config_source_states</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <send_customer_update_emails>1</send_customer_update_emails>
+                            </depends>
+                        </customer_states>
+                        <admin_heading_email_note translate="label">
+                            <label>Note Added Admin Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </admin_heading_email_note>
+                        <send_admin_note_emails>
+                            <label>Send Note Added Emails to Admin</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_admin_note_emails>
+                        <admin_note_email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_admin_note_emails>1</send_admin_note_emails>
+                            </depends>
+                        </admin_note_email_template>
+                        <admin__note_email_address>
+                            <label>Email Recipient</label>
+                            <comment>Email address for updates</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_admin_note_emails>1</send_admin_note_emails>
+                            </depends>
+                        </admin__note_email_address>
+                        <customer_heading_email_note translate="label">
+                            <label>Note Added Customer Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_heading_email_note>
+                        <send_customer_note_emails>
+                            <label>Send Note Added Emails to Customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_customer_note_emails>
+                        <customer_note_email_template>
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_customer_note_emails>1</send_customer_note_emails>
+                            </depends>
+                        </customer_note_email_template>
+                        <customer_note_email_address>
+                            <label>Email Sender</label>
+                            <comment>Email address for updates</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <send_customer_note_emails>1</send_customer_note_emails>
+                            </depends>
+                        </customer_note_email_address>
+                    </fields>
+                </email_alerts>
+            </groups>
+        </epicor_quotes>
+    </sections>
+</config>

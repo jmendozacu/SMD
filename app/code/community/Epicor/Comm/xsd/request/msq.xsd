@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element type="nonEmptyString" name="accountNumber"/>
+                    <xs:element type="nonEmptyString" name="languageCode"/>
+                    <xs:element type="currencies" name="currencies"/>
+                    <xs:element type="addressAny" name="deliveryAddress"/>
+                    <xs:element name="parts">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="part" maxOccurs="unbounded" minOccurs="1">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="nonEmptyString" nillable="false" name="productCode"/>
+                                            <xs:element type="xs:string" name="unitOfMeasureCode"/>
+                                            <xs:element type="xs:int" name="quantity"/>
+                                            <xs:element type="attributes" name="attributes"/>
+                                        </xs:all>                               
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>  
+                            <xs:attribute type="yesNo" name="stockOnly" use="required" />
+                            <xs:attribute type="yesNo" name="includeQuantityBreaks" use="required"/>                             
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="parts">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="part" maxOccurs="unbounded" minOccurs="0">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="msgStatus" name="status"/>
+                                            <xs:element type="nonEmptyString" name="productCode"/>
+                                            <xs:element type="xs:string" name="unitOfMeasureCode"/>
+                                            <xs:element type="xs:float" name="freeStock"/>
+                                            <xs:element type="nullableFloat" name="minimumOrderQty" minOccurs="0"/>
+                                            <xs:element type="nullableFloat" name="maximumOrderQty" minOccurs="0"/>
+                                            <xs:element type="xs:string" name="leadTime" minOccurs="0"/>
+                                            <xs:element type="xs:string" name="leadTimeText" minOccurs="0"/>
+                                            <xs:element type="nullableDateTime" name="nextAvailableDate"/>
+                                            <xs:element name="currencies">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element type="productCurrency" name="currency" maxOccurs="unbounded" minOccurs="0"/>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:all>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="productCurrency">
+        <xs:complexContent>					
+            <xs:extension base="currencyWithPrice">
+                <xs:sequence>
+                    <xs:element type="xs:float" name="customerPrice"/>
+                    <xs:element type="discount" name="discount"/>
+                    <xs:element name="breaks">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="break" maxOccurs="unbounded" minOccurs="0">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element type="xs:float" name="quantity"/>
+                                            <xs:element type="xs:float" name="price"/>
+                                            <xs:element type="discount" name="discount"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

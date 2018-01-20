@@ -1,0 +1,7 @@
+<?php $rfq = Mage::registry('supplier_connect_rfq_details'); ?>
+<h1><?php echo $this->__('RFQ : %s', $rfq->getRfqNumber()); ?></h1>
+<?php if (Mage::registry('rfq_editable')) : ?>
+    <div class="a-right">    
+        <button id="rfq_save" class="scalable" type="submit">Save and Continue</button>
+    </div>
+<?php endif; ?>

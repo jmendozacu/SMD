@@ -1,0 +1,70 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $contentList = Mage::registry('current_contentlist');
+    $content_type = $contentList->getContenttype();
+    $collection = $this->getCollection();
+    $layoutItems = $this->getLayoutItems();
+    $_cmsHelper = Mage::helper('cms');
+    $_process = $_cmsHelper->getBlockTemplateProcessor();
+?>
+<div class="contenttype-listing cl-list cl-list-<?php echo $content_type->getIdentifier(); ?> cl-layout-20">
+     <?php if($collection->getSize()): ?>
+        <?php if ($contentList->getTextBefore()):?>
+            <div class="contenttype-listing-text-before"><?php echo $_process->filter($contentList->getTextBefore());?></div>
+        <?php endif; ?>
+        <?php if($contentList && ($contentList->getPagination() == 1 || $contentList->getPagination() == 3)): ?>
+            <?php echo $this->getPagerHtml(); ?>
+        <?php endif; ?>
+        <?php foreach($collection as $content): ?>
+    <div class="cl-column cl-column-main cl-column-main-left-50" id="cl-column-1">
+        <div class="inside">
+            <?php if(isset($layoutItems[1])) foreach($layoutItems[1] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="cl-column cl-column-main cl-column-main-right-50" id="cl-column-6">
+        <div class="inside">
+            <?php if(isset($layoutItems[6])) foreach($layoutItems[6] as $layoutItem): ?>
+            
+                <?php echo $content->render($layoutItem); ?>
+            
+            <?php endforeach; ?>            
+        </div>
+    </div>
+    <div class="cl-clear"></div>
+    
+        <?php endforeach; ?>
+        <?php if($contentList && ($contentList->getPagination() == 2 || $contentList->getPagination() == 3)): ?>
+            <?php echo $this->getPagerHtml(); ?>
+        <?php endif; ?>
+        <?php if ($contentList->getTextAfter()): ?>
+            <div class="contenttype-listing-text-after"><?php echo $_process->filter($contentList->getTextAfter()); ?></div>
+        <?php endif; ?>
+    <?php else: ?>
+        <?php echo $this->__('There is no contents yet for this section'); ?>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem" ifconfig="layer/general/enable_ajax">
+                <type>js</type><script>wyomind/layer/native.history.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type><script>js/wyomindlayer.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type><name>css/wyomind/layer.css</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="layer/catalog_layer_js" name="wyomind.layer.js" template="wyomind/layer/catalog/layer/js.phtml" />
+        </reference>
+    </default>
+    <catalog_category_layered>
+        <reference name="right">
+            <block type="layer/catalog_layer_view" name="wyomind.layer.right" before="-" template="catalog/layer/view.phtml">
+                <block type="core/text_list" name="catalog.rightnav.state.renderers" as="state_renderers" />
+            </block>
+        </reference>
+    </catalog_category_layered>
+    <catalogsearch_result_index>
+        <reference name="right">
+            <block type="layer/catalog_layer_view" name="wyomind.layer.right" before="-" template="catalog/layer/view.phtml">
+                <block type="core/text_list" name="catalog.rightnav.state.renderers" as="state_renderers" />
+            </block>
+        </reference>
+    </catalogsearch_result_index>
+</layout>

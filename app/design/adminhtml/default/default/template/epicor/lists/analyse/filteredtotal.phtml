@@ -1,0 +1,7 @@
+<div style="float:right"><b>Total Product available:</b> <span id="filterdtotal"></span></div>
+
+ <script>
+        document.observe('dom:loaded', function () {
+           $('filterdtotal').innerHTML = $$('#list_grid_table tr').last().getElementsByClassName('filteredrow')[0].value;
+        });
+    </script>

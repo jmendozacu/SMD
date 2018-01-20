@@ -1,0 +1,26 @@
+<?php 
+/**
+ * RFQ lines display container
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Linescontainer */
+?>
+<div class="box-info box-account col-full">
+    <div class="content-header">
+        <table cellspacing="0">
+            <tr>
+                <td><h3 class="icon-head head-customer-rfqs-details-lines"><?php echo $this->__('Lines') ?></h3></td>
+                <td class="form-buttons"></td>
+            </tr>
+        </table>
+    </div>
+    <?php echo $this->getChildHtml('rfqs.lineadd') ?>
+    <?php echo $this->getChildHtml('rfqs.linesearch') ?>
+    <div>
+        <?php echo $this->getChildHtml('rfqs.lines') ?>
+    </div>
+</div>

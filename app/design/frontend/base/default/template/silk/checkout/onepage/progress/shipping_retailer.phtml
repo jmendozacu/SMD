@@ -1,0 +1,17 @@
+<?php if ($this->getCheckout()->getStepData(Silk_Retailer_Model_Retailer::STEP_CODE, 'complete')): ?>
+    <?php $completeClass = $this->getCheckout()->getStepData(Silk_Retailer_Model_Retailer::STEP_CODE, 'complete') ? 'complete' : ''; ?>
+    <dt class="<?php echo $completeClass ?>">
+        <?php echo $this->__('Retailer') ?> <span class="changelink"><span class="separator">|</span> <a
+                href="#<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>"
+                onclick="checkout.changeSection('opc-<?php echo Silk_Retailer_Model_Retailer::STEP_CODE ?>');return false;"><?php echo $this->__('Change') ?></a></span>
+    </dt>
+    <dd class="<?php echo $completeClass ?>">
+        <?php if ($this->getCheckout()->getStepData(Silk_Retailer_Model_Retailer::STEP_CODE, 'complete')): ?>
+            <div id="retailer-info"><?php echo $this->getRetailerLabel() ?></div>
+        <?php endif; ?>
+    </dd>
+<?php else: ?>
+    <dt>
+        <?php echo $this->__('Retailer') ?>
+    </dt>
+<?php endif; ?>

@@ -1,0 +1,223 @@
+<?php 
+
+$quote = $this->getQuote(); 
+$quoteNotes = Mage::getStoreConfig('epicor_quotes/notes/quote_note_type');
+$lineNotes = Mage::getStoreConfig('epicor_quotes/notes/line_note_type');
+$colspan = ($lineNotes !== 'disabled') ? 7 : 6;
+$showUom = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart');
+$showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart_column');
+$duplicate = $this->getRequest()->getParam('req'); 
+$existingQuoteId = $this->getRequest()->getParam('id');
+$contractHelper = Mage::helper('epicor_lists/frontend_contract');
+/* @var $contractHelper Epicor_Lists_Helper_Frontend_Contract */
+
+$locHelper = Mage::helper('epicor_comm/locations');
+/* @var $locHelper Epicor_Comm_Helper_Locations */
+
+if($showUom && $showInColumn){
+    $colspan++;
+}
+
+if ($locHelper->showIn('quote_details') && $locHelper->showColumnIn('quote_details')) {
+    $colspan++;
+}
+?>
+ <?php if($duplicate): ?>
+      <form action="<?php echo $this->getUrl('quotes/manage/saveDuplicate') ?>" method="post">
+          <input type="hidden" name="id" id="original_quote_id" value ="<?php echo $existingQuoteId ?>" >
+ <?php endif ?>
+
+<div class="order-items order-details">
+    <h2 class="table-caption">
+        <?php echo $this->__('Quote Items'); ?>
+    </h2>
+    <table cellspacing="0" id="product-lines" class="data-table">
+        <colgroup>
+            <col>
+            <col width="200">
+            <?php if ($lineNotes !== 'disabled') : ?>
+                <col width="1">
+            <?php endif; ?>
+            <?php if ($showUom && $showInColumn) : ?>
+                <col width="1">
+            <?php endif; ?>
+            <?php if ($locHelper->showIn('quote_details') && $locHelper->showColumnIn('quote_details')) : ?>
+                <col width="1">
+            <?php endif; ?>
+                <?php if ($contractHelper->listsEnabled()): ?>
+                    <col width="1">
+            <?php endif; ?>            
+            <col width="1">
+            <col width="1">
+            <col width="1">
+            <col width="1">
+        </colgroup>
+        <thead>
+            <tr>
+                <th><?php echo $this->__('Product Name'); ?></th>
+                <?php if ($lineNotes !== 'disabled') : ?>
+                    <th><?php echo $this->__('Comment'); ?></th>
+                <?php endif; ?>
+                <?php if ($showUom && $showInColumn) : ?>
+                    <th><?php echo $this->__('Unit of Measure'); ?></th>
+                <?php endif; ?>
+                <?php if ($locHelper->showIn('quote_details') && $locHelper->showColumnIn('quote_details')) : ?>
+                    <th><?php echo $this->__('Location'); ?></th>
+                <?php endif; ?>
+                    <?php if ($contractHelper->listsEnabled()): ?>
+                        <th class="a-center"><?php echo $this->__('Contract Code'); ?></th>
+                <?php endif; ?>
+                <th class="a-center"><?php echo $this->__('Original<br />Quantity'); ?></th>
+                <th class="a-center"><?php echo $this->__('Original<br />Price'); ?></th>
+                <th><?php echo $this->__('Quantity'); ?></th>
+                <th><?php echo $this->__('Price'); ?></th>
+                <th class="a-center"><?php echo $this->__('Row<br />Price'); ?></th>
+            </tr>
+        </thead>
+        <?php
+        $class = 'odd';
+        foreach ($this->getProductLines()->getItems() as $product) :
+            /* @var $product Epicor_Quotes_Model_Quote_Product */
+            ?>
+            <tbody class="<?php echo $class; ?>">
+                <tr class="border" id="product-<?php echo $product->getId(); ?>">
+                    <td>
+                        <h3 class="product-name"><?php echo $product->getName(); ?></h3>
+                        <?php if ($_options = $product->getProductOptions()): ?>
+                            <dl class="item-options">
+                                <?php foreach ($_options as $_option) : ?>
+                                    <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                                    <dd<?php if (isset($_option['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_option['value'] ?>
+                                        <?php if (isset($_option['full_view'])): ?>
+                                            <div class="truncated_full_value">
+                                                <dl class="item-options">
+                                                    <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                                                    <dd><?php echo $_option['full_view'] ?></dd>
+                                                </dl>
+                                            </div>
+                                        <?php endif; ?>
+                                    </dd>
+                                <?php endforeach; ?>
+                            </dl>
+                        <?php endif; ?>
+                    </td>
+                    <?php if ($lineNotes !== 'disabled') : ?>
+                        <td>
+                            
+                            <?php if($duplicate): ?>
+                                 <input type="text" name="line_comment[<?php echo $product->getId() ?>]" value="<?php echo $product->getNote() ?>" id="commentline" />
+                            <?php else: ?>
+                                <?php echo $product->getNote(); ?>                                
+                            <?php endif; ?>
+                        </td>
+                    <?php endif; ?>
+                    <?php if ($showUom && $showInColumn) : ?>
+                        <td><?php echo $product->getProduct()->getPackSize(); ?></td>
+                    <?php endif; ?>
+                    <?php if ($locHelper->showIn('quote_details') && $locHelper->showColumnIn('quote_details')) : ?>
+                        <td><?php echo $locHelper->getLocationName($product->getLocationCode()); ?></td>
+                    <?php endif; ?>
+                            <?php if ($contractHelper->listsEnabled()): ?>
+                                <td ><?php echo $contractHelper->getContractTitle($product->getContractCode()); ?></td>
+                    <?php endif; ?>                         
+                    <td class="a-center">
+                        <?php echo $product->getOrigQty(); ?>
+                        <?php if ($showUom && !$showInColumn) : ?>
+                            <?php echo 'x '.$product->getProduct()->getPackSize(); ?>
+                        <?php endif; ?>
+                        <?php if ($locHelper->showIn('quote_details') && !$locHelper->showColumnIn('quote_details')) : ?>
+                            <br /><?php $this->_('From'); ?>: <?php echo $locHelper->getLocationName($product->getLocationCode()); ?>
+                        <?php endif; ?>
+                    </td>
+                  
+                    <td class="a-right"><?php echo $this->formatPrice($product->getOrigPrice()); ?></td>
+                    <td class="a-center">
+                        <?php if (!$quote->getShowPrices()) : ?>
+                            <?php echo $this->__('N/A'); ?>
+                        <?php else: ?>
+                            <?php echo $product->getNewQty(); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td class="a-center">
+                        <?php if (!$quote->getShowPrices()) : ?>
+                            <?php echo $this->__('N/A'); ?>
+                        <?php else: ?>
+                            <?php echo $this->formatPrice($product->getNewPrice()); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td class="a-right rowtotal">
+                        <?php if (!$quote->getShowPrices()) : ?>
+                            <?php echo $this->__('N/A'); ?>
+                        <?php else: ?>
+                            <?php echo $this->formatPrice($product->getNewQty() * $product->getNewPrice()); ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+
+            </tbody>
+            <?php
+            if ($class == 'odd') :
+                $class = 'even';
+            else :
+                $class = 'odd';
+            endif;
+        endforeach;
+        ?>
+        <tfoot>
+            <tr>
+                <td colspan="<?php echo $colspan; ?>" class="label a-right"><?php echo $this->__('Subtotal'); ?></td>
+                <td>
+                    <span class="price" id="subtotal">
+                        <?php if (!$quote->getShowPrices()) : ?>
+                            <?php echo $this->__('N/A'); ?>
+                        <?php else: ?>
+                            <?php echo $this->formatPrice($quote->getSubtotal()); ?>
+                        <?php endif; ?>
+                    </span>
+                </td>
+            </tr>
+    <?php  if(!Mage::helper('epicor_comm')->removeTaxLine($quote->getTaxTotal())):  ?>                      
+            <tr>
+                <td colspan="<?php echo $colspan; ?>" class="label a-right"><strong><?php echo $this->__('Grand Total (Excl. Tax)'); ?></strong></td>
+                <td class="emph">
+                    <strong>
+                        <span class="price" id="grandTotal">
+                            <?php if (!$quote->getShowPrices()) : ?>
+                                <?php echo $this->__('N/A'); ?>
+                            <?php else: ?>
+                                <?php echo $this->formatPrice($quote->getSubtotal()); ?>
+                            <?php endif; ?>
+                        </span>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="<?php echo $colspan; ?>" class="label a-right"><?php echo $this->__('Tax'); ?></td>
+                <td>
+                    <span class="price" id="taxTotal">
+                        <?php if (!$quote->getShowPrices()) : ?>
+                            <?php echo $this->__('N/A'); ?>
+                        <?php else: ?>
+                            <?php echo $this->formatPrice($quote->getTaxTotal()); ?>
+                        <?php endif; ?>
+                    </span>
+                </td>
+            </tr>
+    <?php endif ?>        
+            <tr>
+                <td colspan="<?php echo $colspan; ?>" class="label a-right"><strong><?php echo $this->__('Grand Total (Incl. Tax)'); ?></strong></td>
+                <td class="emph">
+                    <strong>
+                        <span class="price" id="grandTotal">
+                            <?php if (!$quote->getShowPrices()) : ?>
+                                <?php echo $this->__('N/A'); ?>
+                            <?php else: ?>
+                                <?php echo $this->formatPrice($quote->getGrandTotal()); ?>
+                            <?php endif; ?> 
+                        </span>
+                    </strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

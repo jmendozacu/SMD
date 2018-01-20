@@ -1,0 +1,51 @@
+<?php
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE RWD FILE TOO
+ * rwd/default/template/epicor_comm/cart/product/csvupload_quickorderpad.phtml
+ */
+
+/**
+ * Edit cart/csvupdate template
+ *
+ * @see Epicor_Comm_Block_Cart_Product_Csvupdate
+ */
+$itemsInCart = Mage::helper('checkout/cart')->getItemsCount();
+?>
+<form id="product_csv_import_form" action="<?php echo $this->getUrl('epicor_comm/cart/importProductCsv') ?>" 
+      method="post" enctype="multipart/form-data">
+    <div class="fieldset">
+        <h2 class="legend""><?php echo $this->__('Add to Cart by CSV'); ?></h2>
+        <ul class="form-list">
+            <li class="wide">
+                <label for="createCsvUploadFileLink"><?php echo $this->__('Click to create a new csv file'); ?></label>
+                <div class="input-box">
+                    <input id="createCsvUploadFileLink" onclick="location.href='<?php echo $this->getUrl('epicor_comm/data/generateCartCsv'); ?>'"  type="button" value="Create"></a> 
+                </div>
+            </li>
+            <li>
+                <label for="input-file"><?php echo $this->__('Click to select file'); ?></label>
+                <div class="input-box">
+                    <input id="input-file" type="file" name="import_product_csv_file" class="input-file required-entry"/>
+                </div>
+            </li>
+    <?php if (Mage::getSingleton('checkout/cart')->getItemsCount()): ?>                  
+            <li>
+                 <input type="checkbox" name="replace_cart" value="1" id="replace_cart" />
+                 <label for="replace_cart"><?php echo $this->__('Replace Current Cart Contents ') ?>&nbsp</label>
+            </li>
+    <?php endif;  ?>          
+    <?php  if(Mage::getSingleton('customer/session')->getConfigureProducts()): ?>       
+            <li>
+                 <input type="checkbox" name="remove_products_to_be_configured" value="1" id="remove_products_to_be_configured" />
+                 <label for="remove_products_to_be_configured"><?php echo $this->__('Remove Products Still to be Configured') ?>&nbsp</label>
+            </li>
+    <?php endif;  ?>  
+            <li>
+                <label for="input-box"><?php echo $this->__('Click to Upload Selected file') ?> </label>    
+                <div class="input-box">
+                  <input type="submit" value="<?php echo $this->__('Upload'); ?>" />
+                </div>                 
+            </li>
+        </ul>
+    </div>
+</form>

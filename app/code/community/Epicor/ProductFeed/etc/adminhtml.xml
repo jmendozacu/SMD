@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common>
+                        <children>
+                            <feed>
+                                <title>Product Feed</title>
+                                <sort_order>40</sort_order>
+                            </feed>
+                        </children>
+                    </epicor_common>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <epicor_productfeed>
+                                        <title>Epicor Prodcut Feed</title>
+                                    </epicor_productfeed>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>
+            <children>
+                <feed>
+                    <title>Product Feed</title>
+                    <sort_order>40</sort_order>
+                    <action>adminhtml/system_config/edit/section/epicor_productfeed</action>
+                </feed>
+            </children>               
+        </epicor_common>
+    </menu>	
+</config>

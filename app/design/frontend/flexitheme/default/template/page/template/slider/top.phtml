@@ -1,0 +1,31 @@
+<?php
+$_blockId = $this->getModelId(); 
+if(!empty($_blockId)) : ?>
+<div id="top_<?php echo $this->getJavaScriptId(); ?>" class="slider-container">
+<ul class="slider">
+<?php foreach($this->generateSlideContent('top') as $slide) : ?>
+    <li>
+        <?php echo $slide; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+<?php 
+if($this->getShowControls()): ?>
+<div class="controls"></div>
+<?php endif; ?>
+
+<script>
+    jQuery('#top_<?php echo $this->getJavaScriptId(); ?> .slider').cycle(
+        { 
+            fx:         '<?php echo $this->getTransitionType() ?>', 
+            speed:      <?php echo $this->getTransitionSpeed() ?>, 
+            timeout:    <?php echo $this->getSlideDuration() ?>, 
+            pause:      true,
+            random:     <?php echo $this->getRandomOrder() ?>,
+            pager:      <?php echo ($this->getShowControls())? '"#top_'.$this->getJavaScriptId().' .controls"' : 'null'; ?>,
+            sync:       true
+        }
+    );
+</script>
+</div><?php
+endif;

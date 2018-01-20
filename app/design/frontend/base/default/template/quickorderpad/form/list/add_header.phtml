@@ -1,0 +1,8 @@
+<?php
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+$showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+?>
+<?php if ($showAddToCart) : ?>
+    <th class="last"><?php echo $this->__('Qty') ?></th>
+<?php endif; ?>

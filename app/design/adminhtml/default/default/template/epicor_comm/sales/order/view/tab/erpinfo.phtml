@@ -1,0 +1,33 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->getTabTitle(); ?></h4>
+    </div>
+	<fieldset id="order_erp_status_form">
+		<table cellspacing="0" class="form-list">
+			<tr>
+				<td class="label"><label><?php echo Mage::helper('sales')->__('Order sent to Erp') ?></label></td>
+				<td class="value">
+					<select name="gor_sent" class="select" id="gor_sent" style="display:inline;">
+					<?php foreach ($this->getStatuses() as $_code=>$_label): ?>
+						<option value="<?php echo $_code ?>"<?php if($_code==$this->getOrder()->getGorSent()): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
+					<?php endforeach; ?>
+					</select>
+					<button type="button" class="scalable" onclick="submitAndReloadArea($('order_erp_status_form'), '<?php echo $this->getUrl('adminhtml/epicorcomm_sales_order/erpstatus', array('order_id'=> $this->getOrder()->getEntityId())); ?>')" >Save Changes</button>
+					<p class="note"><span>Changing this value could cause discrepancies within the erp and/or duplicate orders</span></p>
+				</td>
+			</tr>
+			<?php if($this->getOrder()->getGorSent() == 3 || $this->getManuallySet()) :?>
+			<tr>
+				<td class="label"><label><?php echo Mage::helper('sales')->__('Erp Order Message') ?></label></td>
+				<td class="value">
+					<strong><?php echo $this->getOrder()->getGorMessage() ?></strong>
+				</td>
+			</tr>
+			<?php endif; ?>
+			<tr>
+				<td class="label"><label><?php echo Mage::helper('sales')->__('Erp Order Number') ?></label></td>
+				<td class="value"><strong><?php echo $this->getErpOrderNumber() ?></strong></td>
+			</tr>
+		</table>
+    </fieldset>
+</div>

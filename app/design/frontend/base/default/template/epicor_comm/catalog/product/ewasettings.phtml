@@ -1,0 +1,7 @@
+<script  type="text/javascript">
+    document.observe('dom:loaded', function () {
+        ewaProduct.live = <?php echo Mage::getStoreConfigFlag('Epicor_Comm/ewa_options/debug') ? 'false' : 'true'; ?>;
+        ewaProduct.badUrlTimeout = <?php echo Mage::getStoreConfig('Epicor_Comm/ewa_options/badurltimeout') ?: 25000; ?>;
+        ewaProduct.ewaLoadTimeout = <?php echo Mage::getStoreConfig('Epicor_Comm/ewa_options/ewaloadtimeout') ?: 60000; ?>;
+    });
+</script>

@@ -1,0 +1,138 @@
+<?php
+/* @var $this Epicor_Comm_Block_Adminhtml_Customer_Erpaccount_Edit_Tab_Hierarchy */
+
+$erpAccount = $this->getErpCustomer();
+
+$parentOptions = $this->getParentOptions();
+$childOptions = $this->getChildOptions();
+$yesNoOptions =  Mage::getModel('epicor_comm/config_source_yesnonulloption')->toOptionArray();
+
+?>
+<div class="grid_display"><div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Masquerading') ?></h4>
+        </div>
+        <fieldset class="erp_infomation">
+            <table>
+                <tr>
+                    <td class="label"><strong><?php echo $this->__('Can Masquerade as a Child Account?') ?></strong></td>
+                    <td class="value">
+                        <select name="allow_masquerade" id="custom_address_allowed" class="select">
+                            <?php foreach ($yesNoOptions as $key => $value): ?>
+                                <option value="<?php echo $value['value'] ?>" <?php if ($erpAccount->getAllowMasquerade() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><strong><?php echo $this->__('Can Clear Basket on Masquerade?') ?></strong></td>
+                    <td>
+                        <select name="allow_masquerade_cart_clear" id="allow_masquerade_cart_clear" class="select">
+                            <?php foreach ($yesNoOptions as $key => $value): ?>
+                                <option value="<?php echo $value['value'] ?>" <?php if ($erpAccount->getAllowMasqueradeCartClear() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><strong><?php echo $this->__('Can Reprice Basket on Masquerade?') ?></strong></td>
+                    <td>
+                        <select name="allow_masquerade_cart_reprice" id="allow_masquerade_cart_reprice" class="select">
+                            <?php foreach ($yesNoOptions as $key => $value): ?>
+                                <option value="<?php echo $value['value'] ?>" <?php if ($erpAccount->getAllowMasqueradeCartReprice() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <?php echo $this->getParentsHtml(); ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Add Parent') ?></h4>
+        </div>
+        <fieldset class="erp_infomation">
+            <?php if (!empty($parentOptions)) : ?>
+
+                <table>
+                    <tr>
+                        <td class="label"><strong><?php echo $this->__('ERP Account') ?></strong></td>
+                        <td class="value">
+                            <input id="account_new_parent" type="hidden" value="customer" name="account_new_parent">
+                                    <input id="account_new_parent_customer_label" type="hidden" value="" name="customer_label">
+                                <input id="account_new_parent_customer_field" type="hidden" value="erpaccount_id" name="customer_field">
+                                <input id="account_new_parent_customer_url" type="hidden" value="<?php echo Mage::getUrl('adminhtml/epicorcomm_customer_erpaccount/listerpaccounts'); ?>" name="customer_url">
+                                        <input id="account_new_parent_account_id_customer" class="type_field" type="hidden" value="" name="newparent[account]">
+                                    <input id="account_new_parent_no_account" type="hidden" value="No Account Selected" name="account_type_no_label">
+                            <div id="ecc_account_selector">
+                                <span id="account_new_parent_label" class="erpaccount_label"><?php echo $this->__('No ERP Account Selected'); ?></span>
+                                <button class="form-button" id="account_new_parent_trig" onclick="accountSelector.openpopup('account_new_parent'); return false;">Select</button>
+                            </div>            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><strong><?php echo $this->__('Type') ?></strong></td>
+                        <td>
+                            <select name="newparent[type]">
+                                <?php foreach ($parentOptions as $typeCode => $type): ?>
+                                    <option value="<?php echo $typeCode; ?>"><?php echo $this->__($type); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            <?php else: ?>
+                <p><?php echo $this->__('No more Parents can be added to this ERP account'); ?></p>
+            <?php endif; ?>
+        </fieldset>
+    </div>
+    
+    <hr />
+
+    <?php echo $this->getChildrenHtml(); ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Add Child') ?></h4>
+        </div>
+        <fieldset class="erp_infomation">
+            <table>
+                <tr>
+                    <td class="label"><strong><?php echo $this->__('ERP Account') ?></strong></td>
+                    <td class="value">
+                        <input id="account_new_child" type="hidden" value="customer" name="account_new_child">
+                        <input id="account_new_child_customer_label" type="hidden" value="" name="customer_label">
+                        <input id="account_new_child_customer_field" type="hidden" value="erpaccount_id" name="customer_field">
+                            <input id="account_new_child_customer_url" type="hidden" value="<?php echo Mage::getUrl('adminhtml/epicorcomm_customer_erpaccount/listerpaccounts'); ?>" name="customer_url">
+                            <input id="account_new_child_account_id_customer" class="type_field" type="hidden" value="" name="newchild[account]">
+                            <input id="account_new_child_no_account" type="hidden" value="No Account Selected" name="account_type_no_label">
+                            <div id="ecc_account_selector">
+                                <span id="account_new_child_label" class="erpaccount_label"><?php echo $this->__('No ERP Account Selected'); ?></span>
+                                <button class="form-button" id="account_new_child_trig" onclick="accountSelector.openpopup('account_new_child'); return false;">Select</button>
+                            </div>   
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><strong><?php echo $this->__('Type') ?></strong></td>
+                    <td>
+                        <select name="newchild[type]">
+                            <?php foreach ($childOptions as $typeCode => $type): ?>
+                                <option value="<?php echo $typeCode; ?>"><?php echo $this->__($type); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+</div>    
+<style>
+    .erp_infomation td {
+        padding:5px 15px 5px 5px;
+    }
+    .erp_infomation td.label {
+        width: 200px;
+    }
+    .grid_display{clear:both;}
+</style>

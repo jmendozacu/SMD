@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <epicor_common module="epicor_common">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>               
+            <children>
+                <b2b>
+                    <title>Business 2 Business</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/system_config/edit/section/epicor_b2b/</action>
+                </b2b>
+            </children>
+        </epicor_common>
+    </menu>	
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common>
+                        <children>
+                            <b2b>
+                                <title>Epicor B2B Menu</title>
+                                <sort_order>10</sort_order>
+                            </b2b>
+                        </children>
+                    </epicor_common>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <epicor_b2b>
+                                        <title>Epicor B2B General</title>
+                                    </epicor_b2b>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element type="brands" name="brands"/>
+                    <xs:element type="nonEmptyString" name="productCode"/>
+                    <xs:element name="alternative">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="products">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="product" maxOccurs="unbounded" minOccurs="1">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element type="xs:string" name="productCode"/>
+                                                        <xs:element name="type">
+                                                            <xs:simpleType>
+                                                                <xs:restriction base="xs:string">
+                                                                    <xs:enumeration value="R"/>
+                                                                    <xs:enumeration value="X"/>
+                                                                    <xs:enumeration value="U"/>
+                                                                </xs:restriction>
+                                                            </xs:simpleType>
+                                                        </xs:element>
+                                                        <xs:element type="xs:string" name="weighting"/>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                            <xs:attribute type="yesNo" name="delete"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

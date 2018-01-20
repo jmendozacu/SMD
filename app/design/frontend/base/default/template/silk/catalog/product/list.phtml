@@ -1,0 +1,163 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+/* @var $this Mage_Catalog_Block_Product_List */
+?>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$retailerHp = $this->helper('silk_retailer');
+
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+
+// limit customer access to configurator button to correct licence
+
+$erpAccount = $helper->getErpAccountInfo();
+/* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
+if($erpAccount) {
+    if ($erpAccount->getAccountType() == Epicor_Comm_Model_Customer_Erpaccount::CUSTOMER_TYPE_B2B) {
+        $licenseTypes = array('Customer_Configurator');
+    } else {
+        $licenseTypes = array('Consumer_Configurator');
+    }
+} else {
+    $licenseTypes = array();
+}
+
+
+$showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+
+$showLocations = $locHelper->isLocationsEnabled();
+
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+
+$location = '';
+$this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
+
+Mage::register('list_mode', $this->getMode());
+?>
+<?php if (!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="category-products">
+        <?php echo $this->getToolbarHtml() ?>
+        <?php // List mode  ?>
+        <?php if ($this->getMode() != 'grid'): ?>
+            <?php $_iterator = 0; ?>
+            <ol class="products-list" id="products-list">
+                <?php foreach ($_productCollection as $_product):
+                    /* @var $product Epicor_Comm_Model_Product */
+                    $customerLocations = $_product->getCustomerLocations();
+                    $singleLocation = count($customerLocations) == 1;
+                    if ($singleLocation) {
+                        $location = array_pop($customerLocations);
+                        $_product->setToLocationPrices($location);
+                    }
+
+                    if (Mage::registry('current_product')) :
+                        Mage::unregister('current_product');
+                    endif;
+                    Mage::register('current_product', $_product);
+                    ?>
+                    <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
+                        <?php // Product Image ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(240); ?>" width="240" height="240" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                        <?php // Product description ?>
+                        <div class="product-shop">
+                            <div class="f-fix">
+                                <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a></h2>
+                                
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+        <?php else: ?>
+
+        <?php // Grid Mode      ?>
+
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = $this->getColumnCount(); ?>
+        <?php
+        $i = 0;
+        foreach ($_productCollection as $_product):
+        $customerLocations = $_product->getCustomerLocations();
+        $singleLocation = count($customerLocations) == 1;
+        if ($singleLocation) {
+            $location = array_pop($customerLocations);
+            $_product->setToLocationPrices($location);
+        }
+        if (Mage::registry('current_product')) :
+            Mage::unregister('current_product');
+        endif;
+        Mage::register('current_product', $_product); ?>
+        <?php if ($i++ % $_columnCount == 0): ?>
+            <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
+        <?php endif ?>
+            <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?><?php if ($showLocations): ?> locations-enabled<?php endif; ?>">
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(240); ?>" width="240" height="240" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                
+            </li>
+            <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
+            </ul>
+        <?php endif ?>
+        <?php endforeach ?>
+            <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+        <?php endif; ?>
+
+        <div class="toolbar-bottom">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    </div>
+<?php endif; ?>
+<div id="basket_box" style="display:none;">
+    <div class="basket_box">
+        <h1>&nbsp;</h1>
+        <div onclick="jQuery('#basket_box').css('display', 'none')" class="close">X</div>
+        <span><span class="curMetre"></span></span>
+    </div>
+</div>
+<script type="application/javascript">
+    function showRefusedPopup()
+    {
+        jQuery('#basket_box .curMetre').text('');
+        jQuery('#basket_box').css('display', 'block');
+    }
+</script>

@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category    Blackbird
+ * @package     Blackbird_ContentManager
+ * @copyright   Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author      Blackbird Team
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Blackbird_ContentManager>
+            <version>1.12.10</version>
+        </Blackbird_ContentManager>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <use>admin</use>
+                    <modules>
+                        <contentmanager before="Mage_Adminhtml">Blackbird_ContentManager_Adminhtml</contentmanager>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <contentmanager>
+                            <title>Content Manager</title>
+                            <children>
+                                <manage_contenttypes>
+                                    <title>Create/Manage Content Types</title>
+                                </manage_contenttypes>
+                                <manage_flag>
+                                    <title>Create/Manage Flags</title>
+                                </manage_flag>
+                                <manage_menu>
+                                    <title>Create/Manage Menus</title>
+                                </manage_menu>
+                                <manage_listing>
+                                    <title>Create/Manage Content List</title>
+                                </manage_listing>
+                            </children>
+                        </contentmanager>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <blackbird_contentmanager>
+                                            <title>Blackbird Content Manager Config</title>
+                                        </blackbird_contentmanager>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Blackbird_ContentManager>
+                    <files>
+                        <default>Blackbird_ContentManager.csv</default>
+                    </files>
+                </Blackbird_ContentManager>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <contentmanager>
+                    <file>blackbird/contentmanager.xml</file>
+                </contentmanager>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <global>
+        <models>
+            <contentmanager>
+                <class>Blackbird_ContentManager_Model</class>
+                <resourceModel>contentmanager_resource</resourceModel>
+            </contentmanager>
+            
+            <contentmanager_resource>
+                <class>Blackbird_ContentManager_Model_Resource</class>
+                <deprecatedNode>contentmanager_resource_eav_mysql4</deprecatedNode>
+                <entities>
+                    <contenttype>
+                        <table>blackbird_contenttype</table>
+                    </contenttype>
+                    <contenttype_option>
+                        <table>blackbird_contenttype_option</table>
+                    </contenttype_option>
+                    <contenttype_option_title>
+                        <table>blackbird_contenttype_option_title</table>
+                    </contenttype_option_title>
+                    <contenttype_option_type_title>
+                        <table>blackbird_contenttype_option_type_title</table>
+                    </contenttype_option_type_title>
+                    <contenttype_option_type_value>
+                        <table>blackbird_contenttype_option_type_value</table>
+                    </contenttype_option_type_value>
+                    <fieldset>
+                        <table>blackbird_contenttype_fieldset</table>
+                    </fieldset>
+                    <content>
+                        <table>blackbird_contenttype_entity</table>
+                    </content>
+                    <contenttype_entity_datetime>
+                        <table>blackbird_contenttype_entity_datetime</table>
+                    </contenttype_entity_datetime>
+                    <contenttype_entity_varchar>
+                        <table>blackbird_contenttype_entity_varchar</table>
+                    </contenttype_entity_varchar>
+                    <contenttype_entity_decimal>
+                        <table>blackbird_contenttype_entity_decimal</table>
+                    </contenttype_entity_decimal>
+                    <contenttype_entity_text>
+                        <table>blackbird_contenttype_entity_text</table>
+                    </contenttype_entity_text>
+                    <contenttype_entity_int>
+                        <table>blackbird_contenttype_entity_int</table>
+                    </contenttype_entity_int>
+                    <contenttype_entity_store>
+                        <table>blackbird_contenttype_entity_store</table>
+                    </contenttype_entity_store>
+                    <indexer_fulltext>
+                        <table>blackbird_contenttype_fulltext</table>
+                    </indexer_fulltext>
+                    <content_flat>
+                        <table>blackbird_contenttype_flat</table>
+                    </content_flat>
+                    <eav_attribute>
+                        <table>blackbird_contenttype_eav_attribute</table>
+                    </eav_attribute>
+                    <flag>
+                        <table>blackbird_contenttype_flag</table>
+                    </flag>
+                    <review>
+                        <table>blackbird_contenttype_review</table>
+                    </review>
+                    <contenttype_layout_group>
+                        <table>blackbird_contenttype_layout_group</table>
+                    </contenttype_layout_group>
+                    <contenttype_layout_field>
+                        <table>blackbird_contenttype_layout_field</table>
+                    </contenttype_layout_field>
+                    <contenttype_layout_block>
+                        <table>blackbird_contenttype_layout_block</table>
+                    </contenttype_layout_block>
+                    <contenttype_layout_review>
+                        <table>blackbird_contenttype_layout_review</table>
+                    </contenttype_layout_review>
+                    <menu>
+                        <table>blackbird_contenttype_menu</table>
+                    </menu>
+                    <menu_store>
+                        <table>blackbird_contenttype_menu_store</table>
+                    </menu_store>
+                    <menu_node>
+                        <table>blackbird_contenttype_menu_node</table>
+                    </menu_node>
+                    <contentlist>
+                        <table>blackbird_contenttype_list</table>
+                    </contentlist>
+                    <contentlist_layout_group>
+                        <table>blackbird_contenttype_list_layout_group</table>
+                    </contentlist_layout_group>
+                    <contentlist_layout_field>
+                        <table>blackbird_contenttype_list_layout_field</table>
+                    </contentlist_layout_field>
+                    <contentlist_layout_block>
+                        <table>blackbird_contenttype_list_layout_block</table>
+                    </contentlist_layout_block>
+                    <contentlist_store>
+                        <table>blackbird_contenttype_list_store</table>
+                    </contentlist_store>
+                </entities>
+            </contentmanager_resource>
+            
+            <admin>
+                <rewrite>
+                    <roles>Blackbird_ContentManager_Model_Admin_Roles</roles>
+                </rewrite>
+            </admin>
+
+            <admin_resource>
+                <rewrite>
+                    <acl>Blackbird_ContentManager_Model_Admin_Resource_Acl</acl>
+                </rewrite>
+            </admin_resource>
+            
+            <sitemap>
+                <rewrite>
+                    <sitemap>Blackbird_ContentManager_Model_Sitemap</sitemap>
+                </rewrite>
+            </sitemap>
+        </models>
+
+        <resources>
+            <contentmanager_setup>
+                <setup>
+                    <module>Blackbird_ContentManager</module>
+                    <class>Blackbird_ContentManager_Model_Resource_Setup</class>
+                </setup>
+            </contentmanager_setup>
+            
+            <contentmanager_write>
+                <connection>
+                    <use>default_write</use>
+                </connection>
+            </contentmanager_write>
+            
+            <contentmanager_read>
+                <connection>
+                    <use>default_read</use>
+                </connection>
+            </contentmanager_read>             
+        </resources>
+        
+        <blocks>
+            <contentmanager>
+                <class>Blackbird_ContentManager_Block</class>
+            </contentmanager>
+            <adminhtml>
+                <rewrite>
+                    <page_menu>Blackbird_ContentManager_Block_Adminhtml_Page_Menu</page_menu>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        
+        <helpers>
+            <contentmanager>
+                <class>Blackbird_ContentManager_Helper</class>
+            </contentmanager>
+        </helpers>
+        
+        <contentmanager>
+            <options>
+                    <custom>
+                        <groups>
+                            <text translate="label" module="adminhtml">
+                                <label>Text</label>
+                                <render>contentmanager/adminhtml_contenttype_edit_tab_options_type_text</render>
+                                <types>
+                                    <field translate="label" module="adminhtml">
+                                        <label>Field</label>
+                                    </field>
+                                    <area translate="label" module="adminhtml">
+                                        <label>Area</label>
+                                    </area>
+                                    <password translate="label" module="adminhtml">
+                                        <label>Password</label>
+                                    </password>
+                                    <int tranlsate="label" module="adminhtml">
+                                        <label>Integer</label>
+                                    </int>
+                                </types>
+                            </text>
+                            <file translate="label" module="adminhtml">
+                                <label>File</label>
+                                <render>contentmanager/adminhtml_contenttype_edit_tab_options_type_file</render>
+                                <types>
+                                    <file translate="label" module="adminhtml">
+                                        <label>File</label>
+                                    </file>
+                                    <image translate="label" module="adminhtml">
+                                        <label>Image</label>
+                                    </image>
+                                </types>
+                            </file>
+                            <select translate="label" module="adminhtml">
+                                <label>Select</label>
+                                <render>contentmanager/adminhtml_contenttype_edit_tab_options_type_select</render>
+                                <types>
+                                    <drop_down translate="label" module="adminhtml">
+                                        <label>Drop-down</label>
+                                    </drop_down>
+                                    <radio translate="label" module="adminhtml">
+                                        <label>Radio Buttons</label>
+                                    </radio>
+                                    <checkbox translate="label" module="adminhtml">
+                                        <label>Checkbox</label>
+                                    </checkbox>
+                                    <multiple translate="label" module="adminhtml">
+                                        <label>Multiple Select</label>
+                                    </multiple>
+                                </types>
+                            </select>
+                            <date translate="label" module="adminhtml">
+                                <label>Date</label>
+                                <render>contentmanager/adminhtml_contenttype_edit_tab_options_type_date</render>
+                                <types>
+                                    <date translate="label" module="adminhtml">
+                                        <label>Date</label>
+                                    </date>
+                                    <date_time translate="label" module="adminhtml">
+                                        <label>Date &amp; Time</label>
+                                    </date_time>
+                                </types>
+                            </date>
+                            <relation translate="label" module="adminhtml">
+                                <label>Relation</label>
+                                <render>contentmanager/adminhtml_contenttype_edit_tab_options_type_relation</render>
+                                <types>
+                                    <product translate="label" module="adminhtml">
+                                        <label>Product</label>
+                                    </product>
+                                    <category translate="label" module="adminhtml">
+                                        <label>Category</label>
+                                    </category>
+                                    <content translate="label" module="adminhtml">
+                                        <label>Content</label>
+                                    </content>
+                                    <attribute translate="label" module="adminhtml">
+                                        <label>Attribute</label>
+                                    </attribute>
+                                </types>
+                            </relation>
+                        </groups>
+                    </custom>
+                </options>
+                <content>
+                    <flat>
+                        <max_index_count>64</max_index_count>
+                        <attribute_nodes>
+                            <content_collection>frontend/content/collection/attributes</content_collection>
+                        </attribute_nodes>
+                        <add_filterable_attributes>0</add_filterable_attributes>
+                        <add_child_data>0</add_child_data>
+                        <flag>
+                            <model>contentmanager/content_flat_flag</model>
+                        </flag>
+                    </flat>
+                </content>
+            </contentmanager>
+            
+            <events>
+                <clean_catalog_images_cache_after>
+                    <observers>
+                        <blackbird_contentmanager_observer>
+                            <type>singleton</type>
+                            <class>contentmanager/observer</class>
+                            <method>cleanCache</method>
+                        </blackbird_contentmanager_observer>
+                    </observers>
+                </clean_catalog_images_cache_after>
+                <controller_front_init_routers>
+                    <observers>
+                        <blackbird_contentmanager_router>
+                            <type>singleton</type>
+                            <class>contentmanager/router</class>
+                            <method>initControllerRouters</method>
+                        </blackbird_contentmanager_router>
+                    </observers>
+                </controller_front_init_routers>
+                <controller_action_layout_load_before>
+                    <observers>
+                        <blackbird_contentmanager_search_layout>
+                            <class>contentmanager/observer_search</class>
+                            <method>beforeLoadLayout</method>
+                        </blackbird_contentmanager_search_layout>
+                    </observers>
+                </controller_action_layout_load_before>
+            </events>
+            
+            <index>
+                <indexer>
+                    <contentmanager_indexer>
+                        <model>contentmanager/indexer_fulltext</model>
+                    </contentmanager_indexer>
+                    <contentmanager_indexer_flat>
+                        <model>contentmanager/content_indexer_flat</model>
+                    </contentmanager_indexer_flat>
+                </indexer>
+            </index>
+            
+            <cache>
+                <types>
+                    <contentmanager_acl module="contentmanager" translate="label description">
+                        <label>Content Manager - ACL</label>
+                        <description>Permissions roles. User admin roles are cached for performance purposes</description>
+                        <tags>CONTENTMANAGER_ACL_CACHE</tags>
+                    </contentmanager_acl>
+                </types>
+            </cache>
+    </global>
+    
+    <frontend>
+        <routers>
+            <contentmanager>
+                <use>standard</use>
+                <args>
+                    <module>Blackbird_ContentManager</module>
+                    <frontName>contenttype</frontName>
+                </args>
+            </contentmanager>
+        </routers>
+        <layout>
+            <updates>
+                <contentmanager>
+                    <file>blackbird/contentmanager.xml</file>
+                </contentmanager>
+            </updates>
+        </layout>  
+        <translate>
+            <modules>
+                <Blackbird_ContentManager>
+                    <files>
+                        <default>Blackbird_ContentManager.csv</default>
+                    </files>
+                </Blackbird_ContentManager>
+            </modules>
+        </translate>
+        <content>
+            <collection>
+                <attributes>
+                    <ct_id />
+                    <title/>
+                    <url_key/>
+                    <status/>
+                    <created_at/>
+                    <updated_at/>
+                </attributes>
+            </collection>
+        </content>
+
+    </frontend>
+    
+</config>

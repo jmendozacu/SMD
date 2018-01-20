@@ -1,0 +1,8 @@
+<?php $_code = $this->getMethodCode() ?>
+<div>
+	<?php echo $this->getMethod()->getConfigData('message');?>
+    </br>
+        <?php if(Mage::getStoreConfigFlag('payment/pay/update_billing_address')){?>
+             <?php echo $this->getMethod()->getConfigData('message_update_billing');?>
+        <?php } ?>
+</div>

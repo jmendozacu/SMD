@@ -1,0 +1,23 @@
+.custom-xml-example {
+    background: #fffffe;
+    border: 2px solid #CDCDCD;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.xml-line {
+    display: block;
+}
+
+.xml-line.one {
+    margin-left: 20px;
+}
+
+.xml-line.two {
+    margin-left: 40px;
+}
+
+.xml-line.three {
+    margin-left: 60px;
+}

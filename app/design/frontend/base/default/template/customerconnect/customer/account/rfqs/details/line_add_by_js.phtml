@@ -1,0 +1,25 @@
+<?php
+/**
+ * RFQ Line add by js
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lineaddbyjs */
+?>
+<script type="text/javascript">
+    <?php if (Mage::registry('line_edit')) : ?>
+        <?php if (Mage::registry('double_parent')) : ?>
+            window.parent.parent.updateConfiguratorProductsByJson('<?php echo $this->getJson(); ?>');
+        <?php else: ?>
+            window.parent.updateConfiguratorProductsByJson('<?php echo $this->getJson(); ?>');
+        <?php endif; ?>
+    <?php else: ?>
+        <?php if (Mage::registry('double_parent')) : ?>
+            window.parent.parent.addLinesByJson('<?php echo $this->getJson(); ?>');
+        <?php else: ?>
+            window.parent.addLinesByJson('<?php echo $this->getJson(); ?>');
+        <?php endif; ?>
+    <?php endif; ?>
+</script>

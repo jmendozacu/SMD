@@ -1,0 +1,71 @@
+<?php
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE RWD FILE TOO
+ * rwd/default/template/epicor_comm/checkout/agreements.phtml
+ */
+
+/**
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011-2012 Sergey Storchay <r8@r8.com.ua>
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+$commentAllowed = Mage::getStoreConfig('')
+?>
+<form action="" id="checkout-agreements" onsubmit="return false;">
+    <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+    <div id="line_comment_holder" style="display:none"></div>
+    <?php if($this->isCommentAllowed()){ ?>
+    <div class="buttons-set">
+        <ul class="form-list">
+            <li>
+                <fieldset>
+                    <ul>
+                        <li class="wide">
+                            <label for="ordercomment-comment"><?php echo Mage::helper('epicor_comm')->__('Order Comment') ?></label>
+                            <div class="input-box">
+                                <textarea id="ordercomment-comment" class="input-text validation-passed" name="ordercomment[comment]" title="<?php echo $this->__('Order Comment') ?>" rows="5" cols="10"><?php echo $this->getAddressInstructions(); ?></textarea>
+                            </div>
+                        </li>
+                    </ul>
+                </fieldset>
+            </li>
+        </ul>
+    </div>
+    <?php } ?>
+
+    <?php if ($this->getAgreements()): ?>
+        <ol class="checkout-agreements">
+            <?php foreach ($this->getAgreements() as $_a): ?>
+            <li>
+                <div class="agreement-content"<?php echo ($_a->getContentHeight() ? ' style="height:' . $_a->getContentHeight() . '"' : '')?>>
+                    <?php if ($_a->getIsHtml()):?>
+                    <?php echo $_a->getContent() ?>
+                    <?php else:?>
+                    <?php echo nl2br($this->htmlEscape($_a->getContent())) ?>
+                    <?php endif; ?>
+                </div>
+                <p class="agree">
+                    <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->htmlEscape($_a->getCheckboxText()) ?>" class="checkbox" /><label for="agreement-<?php echo $_a->getId()?>"><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->htmlEscape($_a->getCheckboxText()) ?></label>
+                </p>
+            </li>
+            <?php endforeach ?>
+        </ol>
+    <?php endif; ?>
+</form>
+  <?php if ($this->limitTextArea()): ?>
+<script>
+    jQuery(function(){
+        jQuery('#ordercomment-comment').maxlength({
+            maxCharacters: <?php echo $this->getMaxCommentSize(); ?>, // Characters limit
+            statusClass: "max-len-feedback", // The class on the status div
+            statusText: "<?php echo Mage::helper('epicor_comm')->__('Chars Remaining'); ?>", // The status text
+        });
+    })
+</script>
+<?php endif; ?>

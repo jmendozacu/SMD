@@ -1,0 +1,132 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/* @var $this Epicor_SalesRep_Block_Account_Dashboard_ErpSelector */
+$helpers             = Mage::helper('epicor_branchpickup');
+/* @var $helper Epicor_BranchPickup_Helper_Data */
+$getSelected         = $helpers->getCustomerAllowedLocations();
+$selectedBranch      = $helpers->getSelectedBranch();
+$details             = $helpers->getPickupAddress($selectedBranch);
+$helperBranchPickup  = Mage::helper('epicor_branchpickup/branchpickup');
+/* @var $helper Epicor_BranchPickup_Helper_Branchpickup */
+$branchpickupEnabled = $helpers->isBranchPickupAvailable();
+$cartPopupurl        = Mage::getUrl('branchpickup/pickup/cartpopup', $helperBranchPickup->issecure());
+$selectbranch        = Mage::getUrl('branchpickup/pickup/selectbranchajax', $helperBranchPickup->issecure());
+$saveshippingbranch  = Mage::getUrl('branchpickup/pickup/savelocationquote', $helperBranchPickup->issecure());
+$branchSearchPopup   = Mage::getUrl('branchpickup/pickup/pickupsearchgrid', $helperBranchPickup->issecure());
+$firstName = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getFirstname();
+$lastName = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getLastname();
+$fname = $details['firstname'];
+$lname = $details['lastname'];
+$isLoggedIn          = Mage::helper('customer')->isLoggedIn();
+if (($branchpickupEnabled) && (count($getSelected) > 0)): 
+?><div class="box-info box-account col-1">
+    <div class="box-head">
+        <h2><?php //echo $this->getTitle(); ?></h2>
+    </div>
+        <ul class="form-list">
+            <li>
+
+    <div id="branchpickup-address-search-button">    
+        <button type="button" class="scalable button" id="branchpickup-address-search" onclick="LocationSearchSelector.openpopup('ecc_location_searchaddress','<?php echo $branchSearchPopup?>'); return false;">
+            <span>
+                <span>Search</span>
+            </span>
+        </button>
+    </div>  
+                <div class="input-box branch_pickup">
+                    <select name="branch_pickup" id="branch_pickup" class="required-entry validate-select" title="<?php echo $this->__('Select a Branch'); ?>" onchange="onchangeBranchPickup()">
+                        <option value="">Select Pickup Location</option>
+                        <?php foreach ($getSelected as $code => $branches): ?>
+                            <option <?php if ($code == $selectedBranch): ?>selected="selected" <?php endif; ?>value="<?php echo $code; ?>"><?php echo $branches->getName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div><span id="brancherrormsg" style="display: none;color:red;clear: both;">Please select a pickup location</span></div>
+                    <div><span id="branchvalidationrmsg" style="display: none;color:red;clear: both;">Please check the location values. Some Mandatory values are missing.</span></div>
+                    <input type="hidden" name="ajaxpickupbranchurl" id="ajaxpickupbranchurl" value="<?php echo Mage::getUrl('branchpickup/pickup/changepickuplocation',$helperBranchPickup->issecure()) ?>">
+                    <input type="hidden" name="selectedbranch" id="selectedbranch" value="<?php echo $selectedBranch ?>">
+                    <input type="hidden" name="cartpopupurl" id="cartpopupurl" value="<?php echo $cartPopupurl; ?>">
+                    <input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch; ?>">
+                    <input type="hidden" name="saveshippingbranch" id="saveshippingbranch" value="<?php echo $saveshippingbranch; ?>">
+                    <?php if($isLoggedIn): ?>
+                        <input type="hidden" name="bfirstname" id="bfirstname" value="<?php echo $fname; ?>">
+                        <input type="hidden" name="blastname" id="blastname" value="<?php echo $lname; ?>">
+                    <?php endif ?>
+                    <input type="hidden" name="bstreet1" id="bstreet1" value="<?php echo trim($details['street1']);?>">
+                    <input type="hidden" name="bstreet2" id="bstreet2" value="<?php echo trim($details['street2']);?>">
+                    <input type="hidden" name="bstreet3" id="bstreet3" value="<?php echo trim($details['street3']);?>">
+                    <input type="hidden" name="bcity" id="bcity"  value="<?php echo $details['city']; ?>">
+                    <input type="hidden" name="bregion"  id="bregion" value="<?php echo $details['region']; ?>">
+                    <input type="hidden" name="bregion_id"  id="bregion_id" value="<?php echo $details['region_id']; ?>">
+                    <input type="hidden" name="bcountry_id" id="bcountry_id" value="<?php echo $details['country_id']; ?>">
+                    <input type="hidden" name="bpostcode" id="bpostcode" value="<?php echo $details['postcode']; ?>">
+                    <input type="hidden" name="bemail"  id="bemail" value="<?php echo $details['email']; ?>">
+                    <input type="hidden" name="btelephone" id="btelephone" value="<?php echo $details['telephone']; ?>">
+                    <input type="hidden" name="bfax" id="bfax" value="<?php echo $details['fax']; ?>">
+                    <input type="hidden" name="bmobile_number" id="bmobile_number" value="<?php echo $details['mobile_number']; ?>">
+                    <input type="hidden" name="locationerror" id="locationerror" value="<?php echo Mage::getUrl('branchpickup/pickup/location',$helperBranchPickup->issecure()) ?>">                    
+                </div>
+  
+            </li>   
+          
+        </ul>
+    </div>
+<?php endif ?>
+<script type="text/javascript">
+//<![CDATA[
+    //skip shipping method when the user selected "Branch Pickup"
+    //hide "Branch Pickup" in Shipping method when the user didn't selected "Branch Pickup"
+    if (typeof cartPage.getSelectedValues === "function") { 
+        var selectedShipping = cartPage.getSelectedValues();
+        var shippingOpc = $('opc-shipping_method');
+        var labelMethod = $('label_epicor_branchpickup');
+        var optionMethod = $('method_epicor_branchpickup');
+        var shippingMethodOpc = cartPage.hasClass(shippingOpc, 'active');
+        if ((shippingMethodOpc) && (selectedShipping == "branchpickupshipping")) {
+            var removeDivs = cartPage.removeClass(shippingOpc, 'allow');
+            $('checkout-step-shipping_method').hide();
+            $('shipping-new-address-form').hide();
+            $('s_method_epicor_branchpickup_epicor_branchpickup').checked = true;
+            shippingMethod.save();
+            if (labelMethod) {
+                $(labelMethod).hide();
+                $(optionMethod).hide();
+            }              
+        } else if ((shippingMethodOpc) && (selectedShipping == "normalshipping")) {
+            $('checkout-step-shipping_method').show();
+            if ($('s_method_epicor_branchpickup_epicor_branchpickup')) {
+               $('s_method_epicor_branchpickup_epicor_branchpickup').checked=false;
+            }
+            if (labelMethod) {
+                $(labelMethod).hide();
+                $(optionMethod).hide();
+            }
+        }        
+    }
+
+//]]>    
+</script>

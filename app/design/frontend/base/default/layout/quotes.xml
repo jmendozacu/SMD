@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="content">
+            <block type="core/template" name="epicor.quote_btn" as="epicor.quote_btn" template="quotes/checkout_quotebtn.phtml"/>
+       </reference>    
+    </checkout_cart_index>
+    
+    
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="quotes">
+                <name>managequotes</name>
+                <path>quotes/manage/</path>
+                <label>My Quotes</label>
+            </action>
+        </reference>
+    </customer_account>
+    
+    <quotes_manage_index translate="label">
+        <label>Customer Quotes</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="quotes/managelist" name="quotes_managelist" template="quotes/manage/quotes.phtml" />
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quotes/css/style.css?v=1</name>
+                <params/>
+            </action>
+        </reference>
+    </quotes_manage_index>
+    
+    <quotes_manage_view translate="label">
+        <label>Customer Quote</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="quotes/view_quoteinfo" name="quote_info" template="quotes/manage/view/quoteinfo.phtml" />
+            <block type="quotes/view_productlines" name="quote_productliness" template="quotes/manage/view/productlines.phtml" />
+            <block type="quotes/view_commenthistory" name="quote_commentlines" template="quotes/manage/view/commenthistory.phtml" />
+            <block type="quotes/view_quoteinfo" name="customer.account.link.back" template="quotes/manage/view/back.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/quotes/js/managequote.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quotes/css/style.css?v=1</name>
+                <params/>
+            </action>
+        </reference>
+    </quotes_manage_view>
+    
+    <quotes_request_index>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quotes/css/style.css?v=1</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/cart" name="basket">
+                <action method="setCartTemplate">
+                    <value>quotes/request/basket.phtml</value>
+                </action>
+                <action method="setEmptyTemplate">
+                    <value>checkout/cart/noItems.phtml</value>
+                </action>
+                <action method="chooseTemplate"/>
+                <action method="addItemRender">
+                    <type>simple</type>
+                    <block>checkout/cart_item_renderer</block>
+                    <template>quotes/request/basketitem.phtml</template>
+                </action>
+                <action method="addItemRender">
+                    <type>grouped</type>
+                    <block>checkout/cart_item_renderer_grouped</block>
+                    <template>quotes/request/basketitem.phtml</template>
+                </action>
+                <action method="addItemRender">
+                    <type>configurable</type>
+                    <block>checkout/cart_item_renderer_configurable</block>
+                    <template>quotes/request/basketitem.phtml</template>
+                </action>
+                <action method="addItemRender">
+                    <type>bundle</type>
+                        <block>epicor_comm/checkout_cart_item_renderer_bundle</block>
+                    <template>quotes/request/basketitem.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </quotes_request_index>
+</layout>

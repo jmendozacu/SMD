@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:all>
+                    <xs:element type="nonEmptyString" name="productCode"/>
+                    <xs:element name="productGroups ">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element type="nonEmptyString" name="productGroups" maxOccurs="unbounded" minOccurs="0"/>
+                            </xs:sequence>    
+                            <xs:attribute name="appendOrReplace " use="required">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="A"/>
+                                        <xs:enumeration value="R"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:attribute>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

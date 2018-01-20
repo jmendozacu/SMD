@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<layout>
+
+    <default>
+
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/jquery-1.11.3.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/jquery-noconflict.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/slick.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/imagesloaded.pkgd.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/masonry.pkgd.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/gallery-filters.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/webtise/gallery.css</name></action>
+        </reference>
+
+        <reference name="content">
+
+            <block type="core/template" name="modal.holder" template="webtise/gallery/products/modal.phtml"/>
+
+        </reference>
+
+    </default>
+
+    <gallery_index_index>
+
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="gallery/products" name="gallery.products" as="gallery_products" template="webtise/gallery/products.phtml"/>
+        </reference>
+
+    </gallery_index_index>
+
+</layout>

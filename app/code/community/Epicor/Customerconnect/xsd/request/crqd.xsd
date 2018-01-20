@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+    
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element type="brand" name="brand"/>
+                    <xs:element type="nonEmptyString" name="accountNumber"/>
+                    <xs:element type="nonEmptyString" name="quoteNumber"/>
+                    <xs:element type="nonEmptyString" name="quoteSequence"/>
+                    <xs:element type="xs:string" name="languageCode"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody">
+                <xs:sequence>
+                    <xs:element name="quote">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="nonEmptyString" name="quoteNumber"/>
+                                <xs:element type="xs:dateTime" name="quoteDate"/>
+                                <xs:element type="xs:dateTime" name="requiredDate"/>
+                                <xs:element type="nonEmptyString" name="customerReference"/>
+                                <xs:element name="salesReps">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="salesRep" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="nullableInteger" name="number"/>
+                                                        <xs:element type="nonEmptyString" name="name"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="contacts">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="contact" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="nullableInteger" name="number"/>
+                                                        <xs:element type="nonEmptyString" name="name"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="deliveryMethod"/>
+                                <xs:element type="nonEmptyString" name="paymentTerms"/>
+                                <xs:element type="xs:string" name="fob"/>
+                                <xs:element type="xs:string" name="taxid"/>
+                                <xs:element type="nonEmptyString" name="currencyCode"/>
+                                <xs:element type="xs:float" name="goodsTotal"/>
+                                <xs:element name="discount">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="xs:string" name="description" minOccurs="0"/>
+                                            <xs:element type="nullableFloat" name="value"/>
+                                            <xs:element type="nullableFloat" name="percent" minOccurs="0"/>
+                                        </xs:all>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element type="nullableFloat" name="carriageAmount"/>
+                                <xs:element type="nullableFloat" name="taxAmount"/>
+                                <xs:element type="xs:float" name="grandTotal"/>
+                                <xs:element type="nonEmptyString" name="quoteStatus"/>
+                                <xs:element type="nonEmptyString" name="quoteEntered"/>
+                                <xs:element type="address" name="quoteAddress"/>
+                                <xs:element type="address" name="deliveryAddress"/>
+                                <xs:element name="lines">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="line" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="crqdProductCode" name="productCode" />
+                                                        <xs:element type="xs:string" name="groupSequence"/>
+                                                        <xs:element type="nonEmptyString" name="isKit"/>
+                                                        <xs:element type="nonEmptyString" name="unitOfMeasureDescription"/>
+                                                        <xs:element type="xs:float" name="quantity"/>
+                                                        <xs:element type="nonEmptyString" name="description"/>
+                                                        <xs:element type="xs:string" name="detail"/>
+                                                        <xs:element type="xs:float" name="price"/>
+                                                        <xs:element type="xs:float" name="lineValue"/>
+                                                        <xs:element type="xs:string" name="taxCode"/>
+                                                        <xs:element type="xs:string" name="additionalText"/>
+                                                        <xs:element type="nullableDateTime" name="requestDate"/>
+                                                        <xs:element name="attachments">
+                                                            <xs:complexType>
+                                                                <xs:sequence>
+                                                                    <xs:element name="attachment" maxOccurs="unbounded" minOccurs="0">
+                                                                        <xs:complexType>
+                                                                            <xs:all>
+                                                                                <xs:element type="xs:integer" name="attachmentNumber"/>
+                                                                                <xs:element type="nonEmptyString" name="description"/>
+                                                                                <xs:element type="xs:string" name="filename"/>
+                                                                                <xs:element type="xs:string" name="url"/>
+                                                                                <xs:element type="nonEmptyString" name="attachmentStatus"/>
+                                                                            </xs:all>
+                                                                        </xs:complexType>
+                                                                    </xs:element>
+                                                                </xs:sequence>
+                                                            </xs:complexType>
+                                                        </xs:element>
+                                                    </xs:all>
+                                                    <xs:attribute type="nonEmptyString" name="type" use="required"/>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:all>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="crqdProductCode">
+        <xs:simpleContent>
+            <xs:extension base="nonEmptyString">
+                <xs:attribute name="type" type="nonEmptyString"></xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

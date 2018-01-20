@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Epicor_Pay>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Epicor_B2b />
+            </depends>
+        </Epicor_Pay>
+    </modules>
+</config> 

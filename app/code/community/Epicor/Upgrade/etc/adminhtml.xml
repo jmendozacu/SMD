@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <epicor_common module="epicor_upgrade">
+            <title>Epicor</title>
+            <sort_order>71</sort_order>              
+            <children>
+                <advanced>
+                    <title>Advanced</title>
+                    <sort_order>200</sort_order>
+                    <children>
+                        <tar>
+                            <title>Check Tar File Patch</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorupgrade_advanced_tar</action>
+                        </tar>
+                        <magealllatest>
+                            <title>Check Mage All Latest File Patch</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/epicorupgrade_advanced_magealllatest</action>
+                        </magealllatest>
+                    </children>
+                </advanced>
+            </children>
+        </epicor_common>                    
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <epicor_common>
+                        <title>Epicor Common</title>
+                        <sort_order>10</sort_order>
+                        <children>
+                            <advanced>
+                                <title>Advanced</title>
+                                <children>
+                                    <tar>
+                                        <title>Tar File Patch</title>
+                                    </tar>
+                                </children>
+                            </advanced>
+                        </children> 
+                    </epicor_common>
+                </children>   
+            </admin>
+        </resources>          
+    </acl>                             
+</config>

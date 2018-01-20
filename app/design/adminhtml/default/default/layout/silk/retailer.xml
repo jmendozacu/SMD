@@ -1,0 +1,27 @@
+<layout>
+    <silk_retailer_adminhtml_retailers_index>
+        <reference name="content">
+            <block type="silk_retailer/adminhtml_retailers" as="silk_retailers" name="silk_retailers"/>
+        </reference>
+    </silk_retailer_adminhtml_retailers_index>
+    <silk_retailer_adminhtml_retailers_new>
+        <reference name="left">
+            <block type="silk_retailer/adminhtml_retailers_edit_tabs" name="silk_retailer_edit_tabs" >
+                <block type="silk_retailer/adminhtml_retailers_edit_tab_retailerinformation" name="silk_retailer_edit_tab" />
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="silk_retailer/adminhtml_retailers_edit" name="silk_retailer_edit" />
+        </reference>
+    </silk_retailer_adminhtml_retailers_new>
+    <silk_retailer_adminhtml_retailers_edit>
+        <reference name="left">
+            <block type="silk_retailer/adminhtml_retailers_edit_tabs" name="silk_retailer_edit_tabs" >
+                <block type="silk_retailer/adminhtml_retailers_edit_tab_retailerinformation" name="silk_retailer_edit_tab" />
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="silk_retailer/adminhtml_retailers_edit" name="silk_retailer_edit" />
+        </reference>
+    </silk_retailer_adminhtml_retailers_edit>
+</layout>

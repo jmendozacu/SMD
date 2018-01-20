@@ -1,0 +1,44 @@
+<?php
+/* @var $this Epicor_Comm_Block_Store_Switcher */
+
+$storeUrl = '';
+
+$rowCount = 0;
+$storesPerRow = Mage::getStoreConfig('Epicor_Comm/brands/stores_per_row') ? Mage::getStoreConfig('Epicor_Comm/brands/stores_per_row') : 3;
+?>
+<div id="header">
+    <h2><?php echo $this->__('You Must Select a Store To Continue'); ?></h2>
+</div> 
+<div class="store-switcher">
+    <?php
+    $stores = Mage::helper('epicor_comm')->getSelectableStores();
+    $storesLeft = count($stores);
+    $storesInRow = ($storesLeft < $storesPerRow) ? $storesLeft : $storesPerRow;
+    $rowWidth = floor(100 / $storesInRow);
+   
+    foreach ($stores as $_group):
+        /* @var $_group Mage_Core_Model_Store_Group */
+
+        $url = Mage::getUrl('epicor_comm/store/select', array('store' => $_group->getId()));
+        ?><div class="store" style="width:<?php echo $rowWidth; ?>%;">
+            <a class="brandimage_link_<?php echo $_group->getId(); ?> store_link" href="<?php echo $url; ?>"> 
+                <?php if ($_group->getBrandimage()) : ?>
+                    <img id="brandimage" src="<?php echo $this->getBrandImageUrl($_group->getBrandimage()); ?>" alt="<?php echo $_group->getName() ?>"/>
+                <?php endif; ?>                        
+                <p class="store_name"><?php echo $_group->getName() ?></p>
+            </a>
+            <?php $rowCount++; ?>
+        </div> 
+        <?php
+        $storesLeft--;
+        if ($rowCount == $storesPerRow && $storesLeft > 0) :
+            $storesInRow = ($storesLeft < $storesPerRow) ? $storesLeft : $storesPerRow;
+            $rowWidth = floor(100 / $storesInRow);
+            ?>
+            <div class="newline">
+                <?php $rowCount = 1; ?>
+            </div>
+        <?php endif; ?> 
+
+    <?php endforeach; ?>   
+</div>

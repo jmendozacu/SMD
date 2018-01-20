@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <epicor_config module="epicor_comm" translate="label">
+            <label>Epicor Configuration</label>
+            <sort_order>13</sort_order>
+        </epicor_config>
+    </tabs>
+    <sections>
+        <faqs>   
+            <label>Manage F.A.Q.'s</label>
+            <tab>epicor_config</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>11191</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <view translate="label">
+                    <label>Manage F.A.Q.'s</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <heading translate="label">
+                            <label>Edit Frequently Asked Questions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading>
+                        <enabled translate="label">
+                            <label>Enable/Disable F.A.Q. on Frontend</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <presentation>
+                            <label>Front-End Presentation</label>
+                            <comment>Choose the F.A.Q. front-end presentation</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_faqs/config_presentation</source_model>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </presentation>
+                        <sort>
+                            <label>Sort F.A.Q. by</label>
+                            <comment>The field by which the F.A.Q. are to be sorted</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_faqs/config_sort</source_model>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort>
+                        <show_keywords>
+                            <label>Show keywords</label>
+                            <comment>Display keywords on frontend page</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_keywords>
+                    </fields>
+                </view>
+            </groups>
+        </faqs>
+    </sections>
+</config>

@@ -1,0 +1,23 @@
+<?php /** @var Interjar_LayeredNavSearch_Block_Catalog_Category_View_Layered_Navigation_Search_Form $this */ ?>
+<dl class="layerednavsearch">
+    
+    	<dt>
+        	<label class="layerednavsearch-label"><?php echo $this->__('Name or Keyword'); ?></label>
+        </dt>
+        <dd>
+        	<form class="layerednavsearch-form" method="post">
+        		<input name="st" title="Search Term" class="layerednavsearch-search-term" value="<?php echo $this->escapeHtml($this->getCurrentSearchTerm()); ?>" />
+        		<button type="submit" class="button search-button"><span><i class="fa fa-search" aria-hidden="true"></i></span></button>
+        	</form>
+        	<?php if($this->getCurrentSearchTerm()) : ?>
+        		<a class="clear-search"><?php echo $this->__('Clear Search'); ?></a>
+        	<?php endif; ?>
+        </dd>
+    
+</dl>
+<script>
+	jQuery('.clear-search').click(function () {
+		jQuery('.layerednavsearch-search-term').val('');
+		jQuery('.layerednavsearch-form button').trigger('click');
+	});
+</script>

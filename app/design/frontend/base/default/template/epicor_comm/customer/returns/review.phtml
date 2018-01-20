@@ -1,0 +1,45 @@
+<?php
+/* @var $this Epicor_Comm_Block_Customer_Returns_Review */
+
+$return = $this->getReturn();
+
+if ($return) :
+    if ($this->getSuccess()) :
+        ?>
+        <?php echo $this->getReturnBarHtml(); ?>
+        <div>
+            <p><strong><?php echo $this->__('Thankyou for your return request'); ?></strong></p>
+            <?php if($this->getReturnType() == 'b2b') : ?>
+                <p><a href="<?php echo $this->getUrl('customerconnect/returns/') ?>"><?php echo $this->__('Returns list'); ?></a></p>
+            <?php elseif($this->getReturnType() == 'b2c'): ?>
+                <p><a href="<?php echo $this->getUrl('epicor_comm/returns/list') ?>"><?php echo $this->__('Returns list'); ?></a></p>
+            <?php endif; ?>
+        </div>
+        <?php
+    else:
+        ?>
+        <?php echo $this->getReturnBarHtml(); ?>
+        <div>
+            <p><strong><?php echo $this->__('Please review the details of your return before confirming'); ?></strong></p>
+            <?php echo $this->getLinesHtml(); ?>
+            <?php echo $this->getAttachmentsHtml(); ?>
+            <p><strong><?php echo $this->__('Notes'); ?>:</strong> <?php echo $this->escapeHtml($return->getNoteText()); ?></p>
+            <form id="review-return-form" action="<?php echo $this->getUrl('epicor_comm/returns/saveReview') ?>" method="post">
+                <input type="hidden" name="return_id" value="<?php echo $this->getEncodedReturn(); ?>" />
+                <div id="review-buttons-container" class="">
+                    <button class="button" title="<?php echo $this->__('Continue'); ?>" type="button" onclick="review.save()" id="review-submit"><span><span><?php echo $this->__('Confirm'); ?></span></span></button>
+                    <span style="display:none;" id="review-please-wait" class="please-wait">
+                        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            //<![CDATA[
+            review = new Review('review-return-form');
+            //]]>
+        </script>
+    <?php
+    endif;
+
+endif;

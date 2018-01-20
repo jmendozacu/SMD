@@ -1,0 +1,95 @@
+<?php
+/**
+ * Edit customer address template
+ *
+ * @see Epicor_Comm_Block_Customer_Account_Masquerade
+ */
+?>
+<?php if (!Mage::registry('masquerade_displayed') && $this->isAllowed()) : ?>
+    <div id="masquerade" class="block block-masquerade" >
+        <div class="block-title">
+            <strong><span><?php echo $this->getTitle(); ?></span></strong>
+        </div>
+        <div class="block-content">
+            <div class="empty">
+                <form action="<?php echo Mage::getUrl('epicor_comm/masquerade/masquerade'); ?>" method="post">   
+                    <ul class="quickadd-form-list">
+                        <?php if (!$this->isMasquerading()) : ?>
+                            <li class="wide">
+                                <?php $accounts = $this->getChildAccounts(); ?>
+                                <?php if (count($accounts) > 1) : ?>
+                                    <label for="sku" class="required"><em>*</em><?php echo $this->__('Masquerade As') ?></label>
+                                    <div class="input-box">
+                                        <select name="masquerade_as" id="masquerade_child_account">
+                                            <?php foreach ($accounts as $account): ?>
+                                                <option value="<?php echo $account->getId(); ?>"><?php echo $account->getName(); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                <?php else: ?>
+                                    <?php echo $this->__('Masquerade as:'); ?>
+                                    <?php $account = array_pop($accounts); ?>
+                                    <input type="hidden" name="masquerade_as" value="<?php echo $account->getId(); ?>">
+                                    <?php echo $account->getName(); ?>
+                                <?php endif; ?>
+
+                            </li>
+                        <?php else: ?>
+                            <li class="wide">
+                                <?php echo $this->__('Masquerading as: '), $this->getMasqueradeAccount()->getName(); ?>
+                            </li>
+                            <li class="wide">
+                                <input type="hidden" name="end_masquerade" value="1" />
+                                <?php echo $this->__('Revert back to main Account: '), $this->getActualAccount()->getName(); ?>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($this->showCartOptions()) : ?>
+                            <li class="wide">
+                                <?php $actions = $this->getCartActions(); ?>
+                                <?php if (count($actions) > 1) : ?>
+                                    <label for="cart_action" class="required"><em>*</em><?php echo $this->__('Cart Action') ?></label>
+                                    <div class="input-box">
+                                        <select name="cart_action" id="masquerade_cart_action">
+                                            <?php foreach ($actions as $val => $label): ?>
+                                                <option value="<?php echo $val; ?>"><?php echo $label; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                <?php else: ?>
+                                    <?php echo $this->__('Cart Action:'); ?>
+                                    <?php $keys = array_keys($actions); ?>
+                                    <?php $action = array_pop($keys); ?>
+                                    <?php $actionLabel = array_pop($actions); ?>
+                                    <input type="hidden" name="cart_action" value="<?php echo $action; ?>">
+                                    <?php echo $actionLabel; ?>
+                                <?php endif; ?>
+
+                            </li>
+                        <?php endif; ?>
+
+                    </ul>
+                    <div class="buttons-set actions">
+                        <input type="hidden" name="return_url" value="<?php echo $this->getReturnUrl(); ?>" />
+                        <?php if (!$this->isMasquerading()) : ?>
+                            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                            <button type="submit" title="<?php echo $this->__('Begin Masquerade') ?>" class="button" ><span><span><?php echo $this->__('Begin Masquerade') ?></span></span></button>
+                        <?php else: ?>
+                            <button type="submit" title="<?php echo $this->__('End Masquerade') ?>" class="button" ><span><span><?php echo $this->__('End Masquerade') ?></span></span></button>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   
+    <?php Mage::register('masquerade_displayed', true); ?>
+<?php endif; ?>
+<script type="text/javascript">
+    if ($("masquerade_search")) {
+        $("masquerade_search").observe('click', function() {     
+               $('window-overlay').insert('<iframe id="search_iframe" width="60%" height="90%" top="20%" src="" frameborder="0" allowfullscreen style="display:none"></iframe>');                                
+               $('search_iframe').src = '/comm/onepage/masqueradepopup';
+               $('search_iframe').show();
+               $('window-overlay').show();
+           });
+    }
+</script>

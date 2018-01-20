@@ -1,0 +1,12 @@
+<script>
+    var baseLogUrl = '<?php echo $this->getAdminLogUrl();?>';
+    function getMessageUrl(id){
+        return baseLogUrl+'id/'+id;
+    }
+    
+    function goToMessageUrl(id)
+    {
+        var url = getMessageUrl(id);
+        window.open(url);
+    }
+</script> 

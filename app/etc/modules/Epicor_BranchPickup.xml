@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <modules>
+      <Epicor_BranchPickup>
+         <active>true</active>
+         <codePool>community</codePool>
+         <depends>
+            <Epicor_Comm />
+            <Epicor_Common />
+            <Epicor_Lists />
+            <Mage_Shipping />
+         </depends>
+         <version>0.1.0</version>
+      </Epicor_BranchPickup>
+   </modules>
+</config>

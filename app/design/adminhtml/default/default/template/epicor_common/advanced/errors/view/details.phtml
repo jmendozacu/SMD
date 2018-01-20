@@ -1,0 +1,31 @@
+<?php
+/* @var $this Epicor_Common_Block_Adminhtml_Advanced_Syslog_View */
+?>
+<div class="entry-edit" >
+    <div class="entry-edit-head">
+        <h4>Log File Details</h4>
+    </div>
+    <fieldset id="order_erp_status_form">
+        <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('adminhtml')->__('File Name') ?></label></td>
+                <td class="value"><strong><?php echo $this->getFilename(); ?></strong></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('adminhtml')->__('Last Modified') ?></label></td>
+                <td class="value"><strong><?php echo $this->getFiledate(); ?></strong></td>
+            </tr>
+        </table>
+    </fieldset>
+    <div class="log_view">
+        <?php
+        $handle = fopen($this->getFilepath(), 'rb');
+        $buffer = '';
+        while (!feof($handle)) :
+            $buffer = fread($handle, 4096);
+            echo nl2br($buffer, true);
+        endwhile;
+        fclose($handle);
+        ?>
+    </div>
+</div>

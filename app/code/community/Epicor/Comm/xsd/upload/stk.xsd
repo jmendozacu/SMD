@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+    
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element name="product">
+                        <xs:complexType>
+                            <xs:all>
+                                <xs:element type="brands" name="brands"/>
+                                <xs:element type="nonEmptyString" name="productCode"/>
+                                <xs:element type="nonEmptyString" name="title"/>
+                                <xs:element type="xs:string" name="shortDescription"/>
+                                <xs:element type="xs:float" name="freeStock"/>
+                                <xs:element type="nullableFloat" name="minimumOrderQty"/>
+                                <xs:element type="nullableFloat" name="maximumOrderQty"/>
+                                <xs:element type="currenciesWithPrice" name="currencies"/>
+                                <xs:element type="xs:string" name="UOMSalesDescription"/>
+                                <xs:element type="productImages" name="images"/>
+                                <xs:element type="productDocs" name="relatedDocuments"/>
+                                <xs:element type="xs:string" name="taxCode" />
+                                <xs:element type="nullableFloat" name="weight"/>
+                                <xs:element name="leadTime">
+                                    <xs:complexType>
+                                        <xs:all>
+                                            <xs:element type="nullableInteger" name="days"/>
+                                            <xs:element type="xs:string" name="text"/>
+                                        </xs:all>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="productWeightingCode"/>
+                                <xs:element type="xs:string" name="description"/>
+                                <xs:element type="xs:string" name="supplierBrand"/>
+                                <xs:element type="xs:string" name="packSize"/>
+                                <xs:element type="xs:string" name="newProductCode" minOccurs="0" />
+                                <xs:element name="manufacturers">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="manufacturer" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="xs:string" name="name"/>
+                                                        <xs:element type="xs:string" name="productCode"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element type="stkattributes" name="attributes"/>
+                                <xs:element name="unitOfMeasures">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="unitOfMeasure" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="xs:string" name="description"/>
+                                                        <xs:element type="nonEmptyString" name="code"/>
+                                                        <xs:element type="nullableFloat" name="weight"/>
+                                                        <xs:element type="stkattributes" name="attributes"/>
+                                                        <xs:element type="currenciesWithPrice" name="currencies"/>
+                                                    </xs:all>
+                                                    <xs:attribute name="default" use="required" type="yesNo" />
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="explodedParts">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="explodedPart" maxOccurs="unbounded" minOccurs="0">
+                                                <xs:complexType>
+                                                    <xs:all>
+                                                        <xs:element type="nonEmptyString" name="productCode"/>
+                                                        <xs:element type="xs:string" name="unitOfMeasureCode"/>
+                                                        <xs:element type="xs:float" name="quantity"/>
+                                                        <xs:element type="xs:string" name="description"/>
+                                                    </xs:all>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:all>
+                            <xs:attribute name="google" use="required" type="yesNo" />
+                            <xs:attribute name="delete" use="required" type="yesNo" />
+                            <xs:attribute name="type" use="required">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="S|E|C" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:attribute>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

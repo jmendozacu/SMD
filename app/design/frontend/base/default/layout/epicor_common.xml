@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="core/text" name="ie_compatability">
+                <action method="setText" ifconfig="Epicor_Comm/ie_compatability/edge">
+                    <text><![CDATA[<meta http-equiv="X-UA-Compatible" content="IE=edge" />]]></text>
+                </action>
+            </block>
+            <block type="core/text" name="skype_prevention">
+                <action method="setText">
+                    <text><![CDATA[<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />]]></text>
+                </action>
+            </block>
+            <action method="addjs">
+                <name>epicor/common/common.js</name>
+                <params />
+            </action>
+        </reference>
+    </default>
+    <customer_account_dashboard>
+        <update handle="customer_account_index" />
+    </customer_account_dashboard>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="epicor_common">
+                <name>account</name>
+                <path>customer/account/dashboard</path>
+                <label>Account Dashboard</label>
+            </action>
+        </reference>
+    </customer_account>
+    <sales_order_view>
+        <reference name="order_items">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="sales.order.info">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/info.phtml</template>
+            </action>
+        </reference>
+        <reference name="order_totals">
+            <action method="setLabelProperties">
+                <value>colspan="6" class="a-right"</value>
+            </action>
+        </reference>
+    </sales_order_view>
+    <sales_order_invoice>
+        <reference name="invoice_items">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/invoice/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_invoice>
+    <sales_order_shipment>
+        <reference name="shipment_items">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/shipment/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_shipment>
+    <epicor_common_access_management_index>
+        <label>Access Groups</label>
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Access Groups</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_common/access_management_groups_list" name="groupslist" />
+        </reference>
+    </epicor_common_access_management_index>
+    <epicor_common_access_management_editgroup>
+        <label>Access Groups</label>
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Access Group Edit</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/access-management.js</name>
+                <params />
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="groups.formopen" template="epicor_common/access/management/groups/details/formopen.phtml" />
+            <block type="core/template" name="groups.title" template="epicor_common/access/management/groups/details/title.phtml" />
+            <block type="epicor_common/access_management_groups_details_info" name="groupname" />
+            <block type="epicor_common/access_management_groups_details_rights" name="groupslist" />
+            <block type="epicor_common/access_management_groups_details_contacts" name="contactlist" />
+            <block type="core/template" name="groups.formclose" template="epicor_common/access/management/groups/details/formclose.phtml" />
+        </reference>
+    </epicor_common_access_management_editgroup>
+    <!--   <customer_account_error>
+        <label>Error Information</label>
+        <update handle="customer_account"/>
+        <update handle="supplier_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>Error Information</title>
+            </action>
+        </reference>  
+    </customer_account_error>                -->
+    <sales_email_order_items>
+        <reference name="items">
+            <action method="setTemplate">
+                <template>epicor_common/email/order/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_email_items_order_default</block>
+                <template>epicor_common/email/order/items/order/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_email_items_order_grouped</block>
+                <template>epicor_common/email/order/items/order/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="order_totals">
+            <action method="setLabelProperties">
+                <value>colspan="4" align="right"</value>
+            </action>
+        </reference>
+    </sales_email_order_items>
+    <sales_email_order_invoice_items>
+        <reference name="items">
+            <action method="setTemplate">
+                <template>epicor_common/email/order/invoice/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_email_items_default</block>
+                <template>epicor_common/email/order/items/invoice/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_email_items_order_grouped</block>
+                <template>epicor_common/email/order/items/invoice/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="invoice_totals">
+            <action method="setLabelProperties">
+                <value>colspan="4" align="right"</value>
+            </action>
+        </reference>
+    </sales_email_order_invoice_items>
+    <sales_email_order_shipment_items>
+        <reference name="items">
+            <action method="setTemplate">
+                <template>epicor_common/email/order/shipment/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_email_items_default</block>
+                <template>epicor_common/email/order/items/shipment/default.phtml</template>
+            </action>
+        </reference>
+    </sales_email_order_shipment_items>
+    <sales_email_order_creditmemo_items>
+        <reference name="items">
+            <action method="setTemplate">
+                <template>epicor_common/email/order/creditmemo/items.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_email_items_default</block>
+                <template>epicor_common/email/order/items/creditmemo/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_email_items_order_grouped</block>
+                <template>epicor_common/email/order/items/creditmemo/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="creditmemo_totals">
+            <action method="setLabelProperties">
+                <value>colspan="4" align="right"</value>
+            </action>
+        </reference>
+    </sales_email_order_creditmemo_items>
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/print.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_grouped</block>
+                <template>epicor_common/sales/order/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="order_totals">
+            <action method="setLabelProperties">
+                <value>colspan="6" align="right"</value>
+            </action>
+        </reference>
+    </sales_order_print>
+    <sales_order_printinvoice>
+        <reference name="sales.order.print.invoice">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/invoice/print.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/invoice/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printinvoice>
+    <sales_order_printshipment>
+        <reference name="sales.order.print.shipment">
+            <action method="setTemplate">
+                <template>epicor_common/sales/order/shipment/print.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>epicor_common/sales/order/shipment/items/renderer/default.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printshipment>    
+</layout>

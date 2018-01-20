@@ -1,0 +1,59 @@
+<div class="page-title">
+    <h1><?php echo $this->helper('quotes')->__('Manage My Quotes') ?></h1>
+</div>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th><?php echo $this->helper('quotes')->__('Quote Id') ?></th>
+            <th><?php echo $this->helper('quotes')->__('Created On') ?></th>
+            <th><?php echo $this->helper('quotes')->__('Expires') ?></th>
+            <th><?php echo $this->helper('quotes')->__('Status') ?></th>
+            <th><?php echo $this->helper('quotes')->__('Actions') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <?php if($this->getCustomerQuotes()->getSize() == 0): ?>
+        <tr>
+            <td colspan="4" class="a-center"><?php echo $this->helper('quotes')->__('You have no quotes.') ?></td>
+        </tr>
+    <?php endif; ?>
+
+    <?php
+    	foreach ($this->getCustomerQuotes() as $quote):
+    ?>
+        <tr>
+            <td v-align="center">
+            	<span><?php echo $quote->getId(); ?></span>
+            </td>
+            <td>
+            	<span><?php echo $this->helper('quotes')->getLocalDate($quote->getCreatedAt()); ?></span>
+            </td>
+            <td>
+            	<span><?php echo $this->helper('quotes')->getHumanExpires($quote); ?></span>
+            </td>
+            <td>
+            	<span><?php echo $quote->getStatus(); ?></span>
+            </td>
+            <td>
+            	<a href="<?php echo $this->getViewUrl($quote->getId()) ?>">
+                    <?php echo $this->helper('quotes')->__('View') ?>
+                </a>
+                <?php if($quote->isActive()): ?>
+                <span class="link-spacer">|</span>
+            	<a href="<?php echo $this->getRejectUrl($quote->getId()) ?>">
+                    <?php echo $this->helper('quotes')->__('Reject') ?>
+                </a>
+                <?php endif; ?>
+                <span class="link-spacer">|</span>
+            	<a href="<?php echo $this->getDuplicateUrl($quote->getId()) ?>">
+                    <?php echo $this->helper('quotes')->__('Duplicate') ?>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>

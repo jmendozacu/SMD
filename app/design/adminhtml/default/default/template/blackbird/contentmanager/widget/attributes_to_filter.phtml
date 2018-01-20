@@ -1,0 +1,110 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<tr>
+    <td class="label"><label><?php echo $this->__('Fields to filter by'); ?></label></td>
+    <td class="value">
+        <input type="hidden" id="attributes_to_filter_value" name="parameters[attributes_to_filter]" value="<?php echo $this->getValue(); ?>" />
+        
+        <div id="cct-all-attribute-model" class="one-filter" style="display: none;">
+            <a href="http://www.magentocommerce.com/wiki/1_-_installation_and_configuration/using_collections_in_magento" target="_blank"><img src="<?php echo $this->getSkinUrl('images/fam_help.gif'); ?>" /></a>
+            <select onchange="refreshCctFilter();" class="cct-all-attribute-select attribute" name="parameters_tmp[attributes_to_filter][attribute][]">
+                <?php
+                    $options = Mage::getResourceModel('contentmanager/eav_attribute')->getCollection()
+                            ->addFieldToFilter('entity_type_id', Mage::getModel('contentmanager/content')->getResource()->getTypeId());
+                    foreach($options as $option):
+                ?>
+                <option value="<?php echo $option->getAttributeCode(); ?>"><?php echo $option->getAttributeCode(); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select onchange="refreshCctFilter();" class="cct-all-attribute-condition condition" name="parameters_tmp[attributes_to_filter][condition][]">
+                <option value="eq">eq - Equal =</option>
+                <option value="neq">neq - Not Equal !=</option>
+                <option value="like">like - LIKE</option>
+                <option value="nlike">nlike - NOT LIKE</option>
+                <option value="in">in - IN (...)</option>
+                <option value="nin">nin - NOT IN (...)</option>
+                <option value="is">is - IS</option>
+                <option value="notnull">notnull - IS NOT NULL</option>
+                <option value="null">null - IS NULL</option>
+                <option value="moreq">moreq - More or Equal >=</option>
+                <option value="gt">gt - Greater To ></option>
+                <option value="lt">lt - Lower To <</option>
+                <option value="gteq">gteq - Greater or Equal >=</option>
+                <option value="lteq">lteq - Lower or Equal <=</option>
+                <option value="finset">finset - FIND_IN_SET()</option>
+                <option value="from">from - for use with dates >=</option>
+                <option value="to">to - for uses with dates <=</option>
+                <option value="date">optional flag for use with from/to</option>
+                <option value="datetime">optional flag for use with from/to</option>
+            </select>
+            <input onchange="refreshCctFilter();" onkeyup="refreshCctFilter();" type="text" class="value" name="parameters_tmp[attributes_to_filter][value][]" />
+            <button type="button" onclick="$(this).up(0).remove();  refreshCctFilter();" class="back"><span><span><?php echo $this->__('Remove'); ?></span></span></button>
+        </div>        
+        
+        <div id="cct-one-attribute-filter" class="cct-one-attribute-filter">
+            
+        </div>
+        <button type="button" onclick="addNewFilterLine(); refreshCctFilter();" class="button"><span><span><?php echo $this->__('Add New Line'); ?></span></span></button>
+        <script type="text/javascript">
+            addNewFilterLine = function ()
+            {
+                var new_line = $('cct-all-attribute-model');
+                var copy = Element.clone(new_line, true);
+                copy.show();
+                $('cct-one-attribute-filter').appendChild(copy);
+            }
+            refreshCctFilter = function() {
+                var value = '';
+                $$('#cct-one-attribute-filter .one-filter').each(function(elem) {
+                    
+                    value += elem.getElementsBySelector('.attribute')[0].value;
+                    value += '||'+elem.getElementsBySelector('.condition')[0].value;
+                    value += '||'+elem.getElementsBySelector('.value')[0].value;
+                    value += '##';
+                    
+                });
+                $('attributes_to_filter_value').value = value;
+            }
+            
+            //INITIALIZE
+            var init_value_filter = $('attributes_to_filter_value').value;
+            var lines_filter = init_value_filter.split('##');
+            for(var i = 0; i < lines_filter.length; i++)
+            {
+                var values_filter = lines_filter[i].split('||');
+                if(values_filter.length > 1)
+                {
+                    var new_line = $('cct-all-attribute-model');
+                    var copy = Element.clone(new_line, true);
+                    copy.show();
+
+                    copy.getElementsBySelector('.attribute')[0].value = values_filter[0];
+                    copy.getElementsBySelector('.condition')[0].value = values_filter[1];
+                    copy.getElementsBySelector('.value')[0].value = values_filter[2];
+
+                    $('cct-one-attribute-filter').appendChild(copy);
+                }
+            }
+        </script>
+    </td>
+</tr>

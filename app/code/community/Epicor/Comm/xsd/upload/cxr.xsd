@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../../../Common/xsd/message.xsd"/>
+	
+    <xs:complexType name="requestMsg">
+        <xs:complexContent>					
+            <xs:extension base="requestBody">
+                <xs:sequence>
+                    <xs:element name="exchange">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="exchangeRates">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="exchangeRate" maxOccurs="unbounded" minOccurs="1">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element type="xs:string" name="fromCurrency"/>
+                                                        <xs:element type="xs:string" name="toCurrency"/>
+                                                        <xs:element type="xs:float" name="rate"/>
+                                                    </xs:sequence>
+                                                    <xs:attribute type="yesNo" name="delete"/>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

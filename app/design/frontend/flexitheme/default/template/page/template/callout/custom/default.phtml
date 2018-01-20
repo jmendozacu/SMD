@@ -1,0 +1,20 @@
+<?php 
+$_blockId = $this->getModelId(); 
+if(!empty($_blockId)) :
+    $_title = $this->getTitle();
+    if (empty($_title)): ?>
+        <div class="callout">
+    <?php else : ?>
+        <div class="callout block">
+            <div class="block-title">
+                <strong><span><?php echo $this->getTitle(); ?></span></strong>
+            </div>
+            <div class="block-content">
+     <?php endif; ?>
+        <?php echo $this->getHtml(); ?>
+    </div>
+
+    <?php if (!empty($_title)): ?>
+        </div>
+    <?php endif; ?>
+<?php endif; 

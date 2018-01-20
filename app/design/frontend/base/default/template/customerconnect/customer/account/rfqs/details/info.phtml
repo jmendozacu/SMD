@@ -1,0 +1,58 @@
+<?php
+/**
+ * RFQ info
+ * 
+ * @category   Epicor
+ * @package    Epicor_Customerconnect
+ * @author     Epicor Websales Team
+ */
+
+/* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Info */
+
+$rfq = Mage::registry('customer_connect_rfq_details');
+/* @var $rfq Epicor_Common_Model_Xmlvarien */
+$rfqDate = $this->getQuoteDate();
+$editable = Mage::registry('rfqs_editable');
+$ptEdit = false;
+?>
+<div class = "box-info box-account col-1">
+    <div class = "box-head">
+        <h2><?php echo $this->getTitle(); ?></h2>
+    </div>
+    <ul class="info-list">
+        <li id="rfq_quote_date">
+            <span class="label"><?php echo $this->__('Quote Date'); ?>:</span>
+            <?php echo $rfqDate; ?>
+            <input type="hidden" id="quote_date" name="quote_date" value="<?php echo $rfq->getQuoteDate(); ?>"/>
+        </li>
+        <li id="rfq_taxid">
+            <span class="label"><?php echo $this->__('Tax ID'); ?>:</span>
+            <?php echo $rfq->getTaxid(); ?>
+            <input type="hidden" id="taxid" name="taxid" value="<?php echo $rfq->getTaxid(); ?>"/>
+        </li>
+        
+        <li id="rfq_status">
+            <span class="label"><?php echo $this->__('Status'); ?>:</span>
+            <?php echo $this->getQuoteStatus(); ?>
+            <input type="hidden" id="quote_status" name="quote_status" value="<?php echo $rfq->getQuoteStatus(); ?>"/>
+        </li>
+        <li id="rfq_payment_terms">
+            <label for=""><span class="label"><?php echo $this->__('Payment Terms'); ?>:</span></label>
+            <?php if ($editable && $ptEdit) : ?>
+                <input type="text" id="payment_terms" name="payment_terms" value="<?php echo $rfq->getPaymentTerms(); ?>"/>
+            <?php else: ?>
+                <?php echo $rfq->getPaymentTerms(); ?>
+            <?php endif; ?>
+        </li>
+        <li id="rfq_fob">
+            <span class="label"><?php echo $this->__('FOB'); ?>:</span>
+            <?php echo $rfq->getFob(); ?>
+            <input type="hidden" id="fob" name="fob" value="<?php echo $rfq->getFob(); ?>"/>
+        </li>
+        <li id="rfq_fob">
+            <span class="label"><?php echo $this->__('Delivery Method'); ?>:</span>
+            <?php echo $rfq->getDeliveryMethod(); ?>
+            <input type="hidden" id="delivery_method" name="delivery_method" value="<?php echo $rfq->getDeliveryMethod(); ?>"/>
+        </li>       
+    </ul>
+</div>

@@ -1,0 +1,53 @@
+<?php
+$_product = Mage::registry('current_product');
+$loopProduct = Mage::registry('current_loop_product') ? : $_product;
+
+
+$locationData = Mage::registry('current_location');
+
+$showStockLevelDisplay = $this->showStockLevelDisplay();
+
+//locations stuff
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+$showLocations = $locHelper->isLocationsEnabled();
+$productLocation = Mage::registry('current_location');
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+
+?>
+
+    <?php if ($showStockLevelDisplay) : ?>
+        <?php if (!$showLocations || ($showLocations && $productLocation != '')) : ?>
+        <td class="stock">
+            <?php switch ($loopProduct->getStockType()):
+                case 'bool': ?>
+                    <?php if ($loopProduct->isAvailable()): ?>
+                        <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                    <?php break; ?> 
+
+                <?php case 'range': ?>
+                    <?php $_img = $loopProduct->getStockRange(); ?>
+                    <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />   
+
+                    <?php break; ?> 
+
+                <?php case 'level': ?>
+                            <p class="availability in-stock"><span><?php echo (float) $loopProduct->getStockLevel() ?></span></p>
+                    
+                    <?php break; ?>
+
+                <?php default: ?>
+                    <p class="availability "><span><?php echo $this->__(' - '); ?></span></p>
+                    <?php break; ?>      
+
+            <?php endswitch; ?>
+        </td>
+        <?php else: ?>
+             <td class="stock">
+                <p class="availability not-available"><span><?php echo $this->__('') ?></span></p>
+             </td> 
+        <?php endif; ?>
+    <?php endif; ?>

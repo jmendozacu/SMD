@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        
+        <reference name="head">
+
+            <!-- JavaScript -->
+            <!--
+            <action method="addJs">
+                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
+            </action>
+            -->
+            <!-- CSS -->
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/quickorderpad/css/quickorderpad.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/add-all-to-basket.js</name>
+                <params/>
+            </action> 
+
+        </reference>
+        
+        
+        <reference name="top.links">
+            <action method="addLink" translate="label title">
+                <label>Quick Order Pad</label>
+                <url helper="quickorderpad/getQuickorderpadUrl" />
+                <title>Quick Order Pad</title>
+                <prepare/>
+                <urlParams/>
+                <position>15</position>
+            </action>
+        </reference>
+
+    </default>
+    <quickorderpad_form_index translate="label">
+        <label>Quick Order Pad Basket</label>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/quickorderpad.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+               <type>skin_css</type>
+               <name>epicor/lists/css/cart/contractselect.css</name>
+               <params />
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            
+            <block type="quickorderpad/form_wrapper" name="quickorderpad_wrapper" template="quickorderpad/form/wrapper.phtml">
+                <block type="epicor_comm/cart_product_csvupload" name="csvupload" before="search" template="epicor_comm/cart/product/csvupload_quickorderpad.phtml" />
+                <block type="quickorderpad/form_search" name="search" template="quickorderpad/form/search.phtml">
+                    <block type="epicor_lists/quickorderpad_list_selector" name="list.selector" template="epicor/lists/quickorderpad/list/selector.phtml"/>
+                </block>
+                <block type="checkout/cart_sidebar" name="cart.sidebar" as="cart_sidebar" template="checkout/cart/sidebar.phtml">
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>checkout/cart_item_renderer_grouped</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>checkout/cart_item_renderer_configurable</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                </block>
+                <block type="quickorderpad/cart" name="basket">
+                    <action method="setCartTemplate">
+                        <value>quickorderpad/form/basket.phtml</value>
+                    </action>
+                    <action method="setEmptyTemplate">
+                        <value>quickorderpad/form/no_items.phtml</value>
+                    </action>
+                    <action method="chooseTemplate"/>
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>epicor_comm/checkout_cart_item_renderer</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>checkout/cart_item_renderer_grouped</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>checkout/cart_item_renderer_configurable</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>bundle</type>
+                        <block>epicor_comm/checkout_cart_item_renderer_bundle</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+
+                    <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
+                        <label>Payment Methods Before Checkout Button</label>
+                        <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                    </block>
+
+                    <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+                        <label>Shopping Cart Form Before</label>
+                    </block>
+
+                    <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
+                        <label>Payment Methods After Checkout Button</label>
+                        <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                    </block>
+
+                    <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="epicor_comm/checkout/cart/totals.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </quickorderpad_form_index>
+    
+    <quickorderpad_form_results translate="label">
+        <label>Quick Order Pad Basket</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/quickorderpad.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+               <type>skin_css</type>
+               <name>epicor/lists/css/cart/contractselect.css</name>
+               <params />
+            </action>
+        </reference>
+        
+        <reference name="content">
+            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="quickorderpad/form/blank.phtml"/>
+            <block type="quickorderpad/form_wrapper" name="quickorderpad_wrapper" template="quickorderpad/form/wrapper.phtml">
+                <block type="epicor_comm/cart_product_csvupload" name="csvupload" before="search" template="epicor_comm/cart/product/csvupload_quickorderpad.phtml" />
+                <block type="quickorderpad/form_search" name="search" template="quickorderpad/form/search.phtml">
+                    <block type="epicor_lists/quickorderpad_list_selector" name="list.selector" template="epicor/lists/quickorderpad/list/selector.phtml"/>
+                </block>
+                <block type="quickorderpad/catalogsearch_result" name="search.result" template="quickorderpad/form/result.phtml">
+                    <block type="quickorderpad/catalog_product_list" name="search_result_list" as="search_result_list" template="quickorderpad/form/list-loc.phtml">
+                        <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                            <block type="page/html_pager" name="product_list_toolbar_pager-orig"/>
+                            <block type="quickorderpad/catalog_product_list_sortby" name="product_list_toolbar_pager" template="quickorderpad/form/list/sortby.phtml" />
+                            <action method="disableViewSwitcher" />
+                            <action method="disableExpanded" />
+                        </block>
+                        <action method="setToolbarBlockName">
+                            <name>product_list_toolbar</name>
+                        </action>
+                        
+                        <block type="epicor_comm/catalog_product_list_configurableaddtocart" name="epicor_comm.configurableaddtocartlist" as="configurableaddtocartlist" template="epicor_comm/catalog/product/list/configurableaddtocartlist.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.image_header" as="image_header" template="quickorderpad/form/list/image_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.product_header" as="product_header" template="quickorderpad/form/list/product_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.uom_header" as="uom_header" template="quickorderpad/form/list/uom_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.location_header" as="location_header" template="quickorderpad/form/list/location_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.stock_header" as="stock_header" template="quickorderpad/form/list/stock_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.price_header" as="price_header" template="quickorderpad/form/list/price_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.add_header" as="add_header" template="quickorderpad/form/list/add_header.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.image_row" as="image_row" template="quickorderpad/form/list/image_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.product_row" as="product_row" template="quickorderpad/form/list/product_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.uom_row" as="uom_row" template="quickorderpad/form/list/uom_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.location_row" as="location_row" template="quickorderpad/form/list/location_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.stock_row" as="stock_row" template="quickorderpad/form/list/stock_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.price_row" as="price_row" template="quickorderpad/form/list/price_row.phtml" />
+                        <block type="quickorderpad/catalog_product_list_child" name="epicor_qop.add_row" as="add_row" template="quickorderpad/form/list/add_row.phtml" />
+                    </block>
+                    <action method="setListOrders"/>
+                    <action method="setListCollection"/>
+                </block>
+                <block type="checkout/cart_sidebar" name="cart.sidebar" template="checkout/cart/sidebar.phtml">
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>checkout/cart_item_renderer_grouped</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>checkout/cart_item_renderer_configurable</block>
+                        <template>checkout/cart/sidebar/default.phtml</template>
+                    </action>
+                </block>
+                <block type="quickorderpad/cart" name="basket">    
+                    <action method="setCartTemplate">
+                        <value>quickorderpad/form/basket.phtml</value>
+                    </action>
+                    <action method="setEmptyTemplate">
+                        <value>quickorderpad/form/no_items.phtml</value>
+                    </action>
+                    <action method="chooseTemplate"/>
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>checkout/cart_item_renderer_grouped</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>checkout/cart_item_renderer_configurable</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>bundle</type>
+                        <block>epicor_comm/checkout_cart_item_renderer_bundle</block>
+                        <template>quickorderpad/form/basketitem.phtml</template>
+                    </action>
+
+                    <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
+                        <label>Payment Methods Before Checkout Button</label>
+                        <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                    </block>
+
+                    <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+                        <label>Shopping Cart Form Before</label>
+                    </block>
+
+                    <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
+                        <label>Payment Methods After Checkout Button</label>
+                        <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                    </block>
+
+                    <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="epicor_comm/checkout/cart/totals.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </quickorderpad_form_results>
+</layout>

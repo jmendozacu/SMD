@@ -1,0 +1,16 @@
+.advi-menu-main {
+    background: url("http://black.bird.eu/images/distant/blackbird-menu.png") no-repeat left center !important;
+    padding: 0 !important;
+    padding-left: 24px !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+}
+
+.advi-menu-admin {
+    background: url("http://black.bird.eu/images/distant/blackbird-system.png") no-repeat left center !important;
+    padding: 0 !important;
+    padding-left: 24px !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    color: green;
+}

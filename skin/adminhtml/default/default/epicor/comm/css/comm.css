@@ -1,0 +1,14 @@
+/* 
+    Created on : 05-Mar-2014, 14:46:22
+    Author     : gareth.james
+*/
+
+
+#edit_form #syn_stores option,
+#edit_form #store option {
+    padding-left:15px;
+}
+#edit_form #syn_stores optgroup,
+#edit_form #store optgroup {
+    padding-left:30px;
+}

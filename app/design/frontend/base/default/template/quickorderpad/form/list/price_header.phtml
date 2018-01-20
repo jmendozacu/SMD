@@ -1,0 +1,8 @@
+<?php
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+$showPrice = $helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+?>
+<?php if ($showPrice) : ?>
+    <th><?php echo $this->__('Price') ?></th>
+<?php endif; ?>

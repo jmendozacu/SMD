@@ -1,0 +1,71 @@
+<?php
+/* @var $this Epicor_Comm_Block_Customer_Returns_List */
+
+$customerReturns = $this->getReturns();
+
+$helper = Mage::helper('customerconnect/messaging');
+/* @var $helper Epicor_Customerconnect_Helper_Messaging */
+
+
+$accessHelper = Mage::helper('epicor_common/access');
+/* @var $accessHelper Epicor_Common_Helper_Access */
+
+$returnHelper = Mage::helper('epicor_comm/returns');
+/* @var $returnHelper Epicor_Comm_Helper_Returns */
+
+$allowed = $returnHelper->checkConfigFlag('allow_create');
+
+?>
+<div class="page-title">
+    <h1><?php echo $this->helper('epicor_comm')->__('My Returns') ?></h1>
+</div>
+<?php if ($allowed && $accessHelper->customerHasAccess('Epicor_Comm', 'Returns', 'index', '', 'Access')): ?>
+<p><button style="" onclick="setLocation('<?php echo Mage::getUrl('epicor_comm/returns/') ?>')" class="scalable save" type="button" title="<?php echo $this->__('New Return'); ?>"><span><span><span><?php echo $this->__('New Return'); ?></span></span></span></button></p>
+<?php endif; ?>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th><?php echo $this->helper('epicor_comm')->__('Customer Reference') ?></th>
+            <th><?php echo $this->helper('epicor_comm')->__('Return No.') ?></th>
+            <th><?php echo $this->helper('epicor_comm')->__('RMA Date') ?></th>
+            <th><?php echo $this->helper('epicor_comm')->__('Returns Status') ?></th>
+            <th><?php echo $this->helper('epicor_comm')->__('RMA Case Number') ?></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php if (count($customerReturns) == 0): ?>
+            <tr>
+                <td colspan="6" class="a-center"><?php echo $this->helper('epicor_comm')->__('You have no Returns') ?></td>
+            </tr>
+        <?php else: ?>
+            <?php
+            foreach ($customerReturns as $return):
+                ?>
+                <tr>
+                    <td>
+                        <span><?php echo $this->htmlEscape($return->getCustomerReference()); ?></span>
+                    </td>
+                    <td>
+                        <span><?php echo $return->getErpReturnsNumber(); ?></span>
+                    </td>            
+                    <td>
+                        <span><?php echo $return->getRmaDate(); ?></span>
+                    </td>            
+                    <td>
+                        <span><?php echo $return->getStatusDisplay(); ?></span>
+                    </td>            
+                    <td>
+                        <span><?php echo $return->getRmaCaseNumber(); ?></span>
+                    </td>            
+                    <td>
+                        <a href="<?php echo $this->getViewUrl($return) ?>">
+                            <?php echo $this->helper('epicor_comm')->__('View') ?>
+                        </a>               
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>

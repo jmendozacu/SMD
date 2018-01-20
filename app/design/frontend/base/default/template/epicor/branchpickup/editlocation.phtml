@@ -1,0 +1,134 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/* @var $this Epicor_SalesRep_Block_Account_Dashboard_ErpSelector */
+$helpers = Mage::helper('epicor_branchpickup');
+/* @var $helper Epicor_BranchPickup_Helper_Data */
+$selectedBranch = $helpers->getSelectedBranch();
+$details        = $helpers->getPickupAddress($selectedBranch);
+$helperBranchPickup = Mage::helper('epicor_branchpickup/branchpickup');
+$selectbranch      = Mage::getUrl('branchpickup/pickup/selectbranchajax', $helperBranchPickup->issecure());
+$savelocation   = Mage::getUrl('branchpickup/pickup/savelocation', $helperBranchPickup->issecure());
+$checkFields = $this->showEmptyFields();
+?>
+<div class="entry-edit">
+		<form  id="form-validate" method="post" name="form-validate">
+			<div id="form_tabs_form_details_content" style="">
+				<div class="entry-edit">
+					<div class="entry-edit-head">
+						<h4 class="icon-head head-edit-form fieldset-legend"><span id="branchvalidationrmsg" style="color: red; clear: both;">Please Fill the Mandatory values</span></h4>
+                                                <div class="form-buttons" style="float:right;"><input type="button" class="button" id="closeLocationEditButton" value="Close" onclick="LocationEditSelector.closepopup();" /></div>
+					</div>
+					<div class="fieldset" id="details">
+						<div class="hor-scroll">
+							<ul class="form-list">
+									<?php if($checkFields['address1']) { ?>
+									<li class="fields">
+										<div class="fields"><label for="address1">Address Line 1</label></div>
+										<div class="input-box"><input class=" input-text  required-entry" id="address1" name="address1" type="text" value="<?php echo $details['street1'] ?>"></div>
+									</li>
+									<?php  } ?>
+									<?php if($checkFields['city']) { ?>
+									<li class="fields">
+										<div class="fields"><label for="city">City</label></div>
+										<div class="input-box"><input class=" input-text  <?php echo Mage::helper('customer/address')->getAttributeValidationClass('city') ?>" id="city" name="city" type="text" value="<?php echo $details['city'] ?>"></div>
+									</li>
+									<?php  } ?>
+
+									<?php if($checkFields['country_id']) { ?>
+									<li class="fields">
+										<div class="fields"><label for="county_code">State/Province</label></div>
+										<div class="input-box">
+
+		                                <select id="county_id" name="county_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+		                                    <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+		                                </select>										
+									    <?php
+									    $state = Mage::getModel('adminhtml/system_config_source_country')->toOptionArray();
+									    ?>		
+		                                <script type="text/javascript">
+		                                //<![CDATA[
+		                                    $('county_id').setAttribute('defaultValue',  "<?php echo $details['region_id'] ?>");
+		                                //]]>
+		                                </script>
+                              		   <input type="text" id="region" name="region" value="<?php echo $details['region'] ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text  <?php echo Mage::helper('customer/address')->getAttributeValidationClass('region') ?>"  style="display:none;" />
+										</div>
+									</li>
+									<li class="fields">
+										<div class="fields"><label for="country">Country</label></div>
+										<div class="input-box">
+										<?php $_countries = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false) ?>  
+										    <?php if (count($_countries) > 0): ?>  
+										    <select name="country" id="country" class=" input-text  required-entry">  
+										    <option value="">– Please Select –</option>  
+										    <?php foreach($_countries as $_country): ?>  
+										    <option value="<?php echo $_country['value'] ?>" <?php if($details['country_id'] ==$_country['value']) { ?> selected="selected" <?php  } ?>>  
+										    <?php echo $_country['label'] ?>  
+										    </option>  
+										    <?php endforeach; ?>  
+										    </select>  
+										    <?php endif; ?>
+										</div>
+									</li>
+									<?php  } ?>
+									<?php if($checkFields['postcode']) { ?>
+									<li class="fields">
+										<div class="fields"><label for="postcode">Zip/Postal Code</label></div>
+										<div class="input-box"><input class=" input-text  <?php echo Mage::helper('customer/address')->getAttributeValidationClass('postcode') ?>" id="postcode" name="postcode" type="text" value="<?php echo $details['postcode'] ?>"></div>
+									</li>
+									<?php  } ?>
+									<?php if($checkFields['telephone_number']) { ?>
+									<li class="fields">
+										<div class="fields"><label for="telephone_number">Telephone Number</label></div>
+										<div class="input-box"><input class=" input-text  required-entry" id="telephone_number" name="telephone_number" type="text" value="<?php echo $details['telephone'] ?>"></div>
+									</li>
+									<?php  } ?>
+									<input  id="locationid" name="locationid" type="hidden" value="<?php echo $details['locationid'] ?>">
+									<input  id="locationcode" name="locationcode" type="hidden" value="<?php echo $selectedBranch ?>">
+									<input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch ?>">
+									<input type="hidden" name="savelocation" id="savelocation" value="<?php echo $savelocation ?>">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--Button & Link-->
+			<div class="buttons-set">
+			    <input type="button" class="button" id="locationEditButton" value="Submit" />
+			</div>			
+		</form>
+</div>
+ <script>
+        var dataForm = new VarienForm('form-validate', true);
+        dataForm.validator.validate();
+        <?php if($checkFields['country_id']) { ?>
+        new RegionUpdater('country', 'region', 'county_id', <?php echo Mage::helper('directory')->getRegionJson() ?>);
+        <?php } ?>
+		$("locationEditButton").observe('click', function() {
+		     LocationEditSelector.locationeditsubmit();
+		});       
+</script>

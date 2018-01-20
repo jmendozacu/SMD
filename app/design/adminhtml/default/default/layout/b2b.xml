@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <adminhtml_customer_group_new>
+        <reference name="erp_customer_group">
+            <action method="setTemplate">
+                <template>b2b/customer/group/edit/erpinfo.phtml</template>
+            </action>        
+        </reference>
+    </adminhtml_customer_group_new>
+    <adminhtml_epicorcommon_access_admin_index>
+        <reference name="access_admin_tabs">
+            <action method="addTab">
+                <name>portal_excluded_elements</name>
+                <block>b2b/adminhtml_access_admin_tab_portalexcludedelements</block>
+            </action>
+        </reference>  
+    </adminhtml_epicorcommon_access_admin_index>
+    <adminhtml_b2b_access_admin_portalexcludedelements>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="b2b/adminhtml_access_admin_tab_portalexcludedelements" name="portalelements.grid" ></block>
+            <block type="adminhtml/widget_grid_serializer" name="portalexcludedelements_grid_serializer">
+                <reference name="portalexcludedelements_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>portalelements.grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[portalelements]</hidden_input_name>
+                        <reload_param_name>portalelements</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+               </reference>
+            </block>
+        </block>
+    </adminhtml_b2b_access_admin_portalexcludedelements>
+    <adminhtml_b2b_access_admin_portalexcludedelementsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="b2b/adminhtml_access_admin_tab_portalexcludedelements" name="portalelements.grid" ></block>
+        </block>
+    </adminhtml_b2b_access_admin_portalexcludedelementsgrid>
+</layout>

@@ -1,0 +1,42 @@
+<?php
+/**
+ * Edit customer address template
+ *
+ * @see Epicor_Comm_Block_Customer_Locationpicker
+ * 
+ *
+ */
+/* @var $this Epicor_Comm_Block_Customer_Locationpicker */
+?> 
+<?php if ($this->isAllowed()) : ?>
+    <div class="block locations_filter_block" >
+        <div class="block-title">
+            <strong><span><?php echo $this->getTitle(); ?></span></strong>
+        </div>
+        <div class="block-content">
+            <div class="empty">
+                <form action="<?php echo $this->getFormUrl(); ?>" method="post">   
+                    <ul class="locations_filter_list">
+                        <li class="wide">
+                            <label for="locations_filter" ><?php echo $this->__('Locations') ?></label>
+                            <div class="input-box">
+                                <select name="locations_filter[]" id="locations_filter" <?php if($this->canChooseMultipleLocations()):?>multiple="true"<?php endif; ?>>
+                                    <?php foreach ($this->getCustomerAllowedLocations() as $code => $location): ?>
+                                        <option value="<?php echo $code; ?>" <?php if($this->isLocationSelected($code)):?>selected="selected"<?php endif; ?>><?php echo $location->getName(); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <?php if($this->canChooseMultipleLocations()):?>
+                            <p class="note sml-text"><?php echo $this->__('Choose one or more locations to filter by.') ?></p>    
+                            <?php endif; ?>
+                        </li>
+                    </ul>
+                    <div class="buttons-set actions">
+                        <input type="hidden" name="return_url" value="<?php echo $this->getReturnUrl(); ?>" />
+                        <button type="submit" title="<?php echo $this->__('Filter Locations') ?>" class="button" ><span><span><?php echo $this->__('Filter Locations') ?></span></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   
+<?php endif; ?>

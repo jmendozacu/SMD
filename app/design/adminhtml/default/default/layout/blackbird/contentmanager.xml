@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category    Blackbird
+ * @package     Blackbird_ContentManager
+ * @copyright   Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author      Blackbird Team
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version     1.6.2
+ */
+ -->
+
+<layout>
+    <adminhtml_contenttype_options>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="contentmanager/adminhtml_contenttype_edit_tab_options" name="admin.contenttype.options"/>
+        </block>
+    </adminhtml_contenttype_options>
+    
+    <adminhtml_contenttype_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-product-chooser.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-1.10.2.min.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.draggable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.droppable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.sortable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-layout.js</name><params>acm</params></action>
+            <action method="addItem"><type>skin_css</type><name>blackbird/contenttype.css</name></action>
+        </reference>
+    </adminhtml_contenttype_edit>
+    
+    <adminhtml_contenttype_content_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="setCanLoadTinyMce"><value>true</value></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-1.10.2.min.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.draggable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.droppable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery.Jcrop.min.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-product-chooser.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/crop.js</name><params>acm</params></action>
+            <action method="addItem"><type>skin_css</type><name>blackbird/contenttype.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>blackbird/crop.css</name></action>
+        </reference>
+        <reference name="left">
+            <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher" template="blackbird/contentmanager/store/switcher.phtml">
+                <action method="setUseConfirm"><params>1</params></action>
+            </block>
+        </reference>
+    </adminhtml_contenttype_content_edit>
+    <adminhtml_contenttype_listing_edit>
+         <update handle="editor"/>
+    </adminhtml_contenttype_listing_edit>
+    
+    <adminhtml_contenttype_content_index>
+        <reference name="content">
+            <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher" template="blackbird/contentmanager/store/switcher-grid.phtml">
+                <action method="setUseConfirm"><params>0</params></action>
+            </block>
+        </reference>
+    </adminhtml_contenttype_content_index>
+    
+    <adminhtml_contenttype_flag_index>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-1.10.2.min.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype.js</name></action>
+        </reference>
+    </adminhtml_contenttype_flag_index>
+    
+    <adminhtml_contenttype_menu_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-product-chooser.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-1.10.2.min.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.draggable.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.droppable.js</name></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-menu.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>blackbird/contenttype.css</name></action>
+        </reference>
+    </adminhtml_contenttype_menu_edit>
+    
+    <adminhtml_contenttype_listing_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-product-chooser.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-1.10.2.min.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.draggable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.droppable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/jquery-ui.sortable.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype.js</name><params>acm</params></action>
+            <action method="addItem"><type>js</type><name>blackbird/contentmanager/contenttype-layout.js</name><params>acm</params></action>
+           <action method="addItem"><type>skin_css</type><name>blackbird/contenttype.css</name></action>
+        </reference>
+    </adminhtml_contenttype_listing_edit>
+    
+</layout>

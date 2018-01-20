@@ -1,0 +1,308 @@
+/* 
+    Document   : quickorderpad.css
+    Created on : 16-Jan-2013, 15:06:34
+    Author     : Paul.Ketelle
+    Description:
+        Purpose of the stylesheet follows.
+*/
+@media only screen and (min-width: 771px) {
+    .csvincluded .sidebar {
+        width:48%;
+        float:left;
+        margin:5px;
+    }
+
+    .csvincluded form .fieldset {
+        min-height:105px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .qop-list .stock,
+    .qop-list .price,
+    .qop-list .action {
+        text-align:left;
+    }
+    
+    .qop-list.cart-table .product-cart-info, 
+    .qop-list.cart-table td[data-rwd-label] {
+        float: left;
+        width: 65%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    .qop-list.cart-table .uomrow .product-cart-info {
+        float: left;
+        width: 100%;
+        clear:both;
+    }
+    
+    .qop-list.cart-table .uomrow .action {
+        float: right;
+        padding: 0;
+        width: 35%;
+        position:relative;
+        top:-30px;
+    }
+    
+    .qop-list.cart-table .uomrow ,
+    .qop-list.cart-table .uomitem:not(.lastuomitem) {
+        border-bottom: 0;
+    }
+
+    #qop-basket-content .cart-table .cart-footer-actions {
+        text-align:center;
+    }
+
+    #qop-basket-content .cart-table .cart-footer-actions button {
+        display:block;
+        float:right;
+        clear:both;
+    }
+    
+}
+
+#qop-basket, .qop-productlist {
+    padding:5px;
+    margin-top:5px;
+}
+
+#qop-basket .clearer {
+    clear:both;
+}
+
+@media only screen and (min-width: 601px) {
+    .qop-list .stock,
+    .qop-list .price,
+    .qop-list .action {
+        text-align:center;
+    }
+}
+
+.qop-productlist {
+    clear:left;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+    padding:10px 10px 45px;
+}
+
+.qop-productlist.thinner {
+    float:left;
+    margin-right: 15px;
+    width: 73%;
+}
+
+.category-products .cart-table {
+    clear:both;
+    float:none;
+    width: 100%;
+}
+
+.qop-list li {
+    padding:5px;
+    border-top:1px solid #ccc;
+    overflow:hidden;
+    position:relative;
+}
+
+.qop-list li .product-image, .qop-list li .product-shop {
+    float:left;
+    display:inline;
+}
+
+.qop-list li .product-image {
+    margin-right:5px;
+    border:1px solid #ccc;
+
+
+    //display: none;
+}
+
+.qop-list li .product-shop {
+    width:340px;
+
+
+    width:420px;
+}
+
+.qop-list li .addtobasketform {
+    position:absolute;
+    bottom:5px;
+    right:5px;
+}
+
+.qop-list .btn-qop, .qop-list .btn-qop:hover {
+    /* background: none;*/
+    width:auto;
+    padding-left:5px;
+    padding-right:5px;
+}
+.qop-list .btn-qop span, .qop-list .btn-qop:hover span {
+    /*color:#666;*/
+}
+
+.qop-list .btn-qop:hover span {
+    text-decoration: underline;
+}
+
+.qop-list .skus li {
+    border:none;
+    padding:0;
+}
+
+.qop-list th, .qop-list td {
+    border-right:1px solid #ccc;
+    padding:2px;
+}
+
+.qop-productlist .note-msg,
+.qop-basket .cart-empty {
+    padding-left:10px;
+}
+.qop-list td {
+    border-top:1px solid #ccc;
+}
+
+.qop-list tr.grouped td.image,
+.qop-list tr.grouped td.productname {
+    border-bottom: 0;
+    border-top: 0;
+}
+
+.qop-list tr.groupedfirst td.image,
+.qop-list tr.groupedfirst td.productname {
+    border-bottom: 0;
+}
+
+.qop-list tr.groupedlast td.image,
+.qop-list tr.groupedlast td.productname {
+    border-top: 0;
+}
+
+.qop-list .last {
+    border-right:none;
+}
+
+
+.qop-list .action  {
+    white-space: nowrap;
+}
+
+.qop-list .action label {
+    display:block;
+}
+
+.qop-list .image {
+    //display:none;
+}
+
+.qop-list p.availability {
+    display:inline;
+}
+
+.qop-clear {
+    clear:both;
+}   
+
+#qop-basket {
+    border:1px solid #bbb;
+}
+
+#qop-basket .data-table,
+#qop-basket .cart-collaterals .totals {
+    border:none;
+}
+
+#qop-basket.pinned {
+
+    background:#fff;
+    position:fixed;
+    bottom:0px;
+    z-index: 10;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
+}
+
+#qop-basket.pinned #qop-expand{
+    display:block;
+}
+
+#qop-basket #qop-expand {
+    display:none;
+    float:left;
+    position:absolute;
+    left:49%;
+    top:10px;
+    background-image:  url('images/expand.png');
+    background-repeat:no-repeat;
+    padding: 9px;
+    width: 15px;
+}
+
+#qop-basket #qop-expand span {
+    display:none;
+}
+
+#qop-basket.expanded #qop-expand {
+    background-position: 1px -35px;
+}
+
+#qop-basket.collapsed #qop-expand {
+    background-position: 1px 2px;
+
+}
+#qop-basket  #qop-basket-content {
+    padding: 0 10px;
+}
+
+#qop-basket.collapsed #qop-cart {
+    display:none;
+}
+
+#qop-basket #qop-cart-bar {
+    position:relative;
+}
+
+#qop-basket #qop-cart-bar h1{
+    float:left;
+}
+
+#add_all_to_basket {
+    float: right;
+    margin-top:10px;
+}
+
+#clear_configure_basket {
+    float: right;
+    margin-top:10px;
+    margin-right:10px;
+}
+
+#qop-basket #qop-pin {
+    float:right;
+    height: 11px;
+    width: 20px;
+    background: #fff url('images/pin.png') no-repeat;
+    border:0;
+    margin-top: 13px;
+    margin-right: 13px;
+    cursor: pointer;
+}
+
+#qop-basket #qop-pin span {
+    display:none;
+}
+
+#qop-basket.pinned #qop-pin {
+    width:16px;
+    height:16px;
+    background-image: url('images/unpin.png');
+}
+
+.qop-productlist .configurable_addtocart .add-to-cart button.button {float:none;}
+
+.qop-summary{float:left; width:200px;}
+
+.quickadd-form-list li input[type="radio"] { -webkit-appearance: radio; }

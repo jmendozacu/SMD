@@ -1,0 +1,61 @@
+<?php
+$chartOptions = $this->getChartOptions();
+$results = $this->chartResults($chartOptions);
+if (sizeof($results) > 0):
+    $labels = $this->xAxisLabels($chartOptions, $results);
+
+    if ($this->isChartMinMaxAverage($chartOptions)) {
+        $results = $this->flipResults($results, $labels, $chartOptions);
+    }
+
+    ?>
+    <table id="chart_data">
+        <?php //if($this->isChartSpeed($chartOptions)): ?>
+        <thead>
+            <tr>
+                <?php foreach ($results as $legend): ?>
+                    <th><?php echo ($this->isChartMinMaxAverage($chartOptions) ? $legend['message_statistic'] . ', ' : '') . $legend['message_type'] . ', ' . $legend['message_status'] ?></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <?php //endif; ?>
+        <tfoot>
+            <tr>
+                <?php foreach ($labels as $label): ?>
+                    <th><?php echo $label ?></th>
+                <?php endforeach; ?>
+            </tr>
+        </tfoot>
+        <tbody>
+            <?php foreach ($results as $result): ?>
+                <tr>
+                    <?php foreach ($labels as $label): 
+                        $result[$label] = isset($result[$label]) ? $result[$label] : 0; ?>
+                        <td>
+                            <label class="chart_data"><?php echo $result[$label] ?></label>
+                            <?php if ($this->isChartSpeed($chartOptions)): ?>
+                                <label class="chart_label"><?php
+                                    echo sprintf($this->__('%s messages.'), $result[$label]) . "\n" . $label . "\n" . $this->__('Type') . ': ' . $result['message_type'] . ', ' . $this->__('Status') . ': ' . $result['message_status']
+                                    ?></label>
+                            <?php endif;
+                            if ($this->isChartMinMaxAverage($chartOptions)): ?>
+                                <label class="chart_label"><?php
+                                    echo sprintf($this->__('%s milliseconds.'), $result[$label]) . "\n" . $label . "\n" . $result['message_statistic'] . ', ' . $this->__('Type') . ': ' . $result['message_type'] . ', ' . $this->__('Status') . ': ' . $result['message_status']
+                                    ?></label>
+                                <?php endif;
+                                if ($this->isChartPerformance($chartOptions)): ?>
+                                <label class="chart_label"><?php
+                                echo sprintf($this->__('%s milliseconds.'), $result[$label]);
+                                        
+                                ?></label>
+                        <?php endif ?>
+                        </td>
+                <?php endforeach ?>
+                </tr>
+    <?php endforeach ?>
+        </tbody>
+    </table>
+    <div id="holder" style="margin: 0 auto;"></div>
+<?php else: ?>
+    <h1><?php echo $this->__('No data to display') ?></h1>
+<?php endif ?>

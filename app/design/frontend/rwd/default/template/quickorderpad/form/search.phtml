@@ -1,0 +1,39 @@
+<?php
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE BASE FILE TOO
+ * base/default/template/quickorderpad/form/search.phtml
+ */
+?>
+<div class="sidebar">
+    <div class="block">
+        <div class="block-title">
+            <strong>
+                <span><?php echo $this->__('Product Search'); ?></span>
+            </strong>
+        </div>
+        <div class="block-content">
+            <form method="get" action="<?php echo $this->getSearchUrl(); ?>">
+                <div class="fieldset">
+                    <ul class="form-list">
+                        <li>
+                            <label for="q"><?php echo $this->__('Keyword / SKU Search'); ?></label>
+                            <div class="input-box">
+                                <input class="input-text" type="text" id="q" name="q" value="<?php echo $this->getQuery(); ?>" />
+                            </div>
+                        </li>
+                        <?php if($this->showOnlyInStockTickbox()): ?>
+                            <li>
+                                <label for="instock"><?php echo $this->__('Show In Stock Products Only'); ?></label>
+                                <input type="checkbox" id="instock" name="instock" value="1" <?php echo $this->getInstock() ? 'checked' : ''; ?> />
+                            </li>
+                        <?php endif; ?>
+                        <li>
+                            <input type="submit" value="<?php echo $this->__('Search'); ?>" />
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php echo $this->getChildHtml('list.selector'); ?>
+</div>

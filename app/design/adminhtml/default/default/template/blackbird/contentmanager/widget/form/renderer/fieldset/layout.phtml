@@ -1,0 +1,169 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+$CustomContentTypeModel = Mage::registry('current_contenttype');
+
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
+    <td class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td>
+        <?php
+            if($this->getRequest()->getParam('ct_id')):
+        ?>
+        <select name="<?php echo $_element->getName() ?>" id="<?php echo $_element->getName() ?>">
+            <option <?php if($_element->getEscapedValue() == 0): ?>selected="selected"<?php endif; ?> value="0"><?php echo $this->__('Custom (using customized .phtml template file, for experimented user only)'); ?></option>
+            <optgroup label="<?php echo $this->__('1 column'); ?>">
+                <option <?php if($_element->getEscapedValue() == 10): ?>selected="selected"<?php endif; ?> value="10"><?php echo $this->__('1 simple column'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 11): ?>selected="selected"<?php endif; ?> value="11"><?php echo $this->__('1 column with top and bottom areas'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 12): ?>selected="selected"<?php endif; ?> value="12"><?php echo $this->__('1 column separated by a middle area, with top and bottom areas'); ?></option>
+            </optgroup>
+            <optgroup label="<?php echo $this->__('2 columns'); ?>">
+                <option <?php if($_element->getEscapedValue() == 20): ?>selected="selected"<?php endif; ?> value="20"><?php echo $this->__('2 simple columns'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 21): ?>selected="selected"<?php endif; ?> value="21"><?php echo $this->__('2 simple columns with top and bottom areas'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 22): ?>selected="selected"<?php endif; ?> value="22"><?php echo $this->__('2 columns separated by a middle area, with top and bottom areas'); ?></option>
+            </optgroup>
+            <optgroup label="<?php echo $this->__('3 columns'); ?>">
+                <option <?php if($_element->getEscapedValue() == 30): ?>selected="selected"<?php endif; ?> value="30"><?php echo $this->__('3 simple columns (25% | 50% | 25%)'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 31): ?>selected="selected"<?php endif; ?> value="31"><?php echo $this->__('3 simple columns (33% | 33% | 33%)'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 32): ?>selected="selected"<?php endif; ?> value="32"><?php echo $this->__('3 simple columns with top and bottom areas (25% | 50% | 25%)'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 33): ?>selected="selected"<?php endif; ?> value="33"><?php echo $this->__('3 simple columns with top and bottom areas (33% | 33% | 33%)'); ?></option>
+                <option <?php if($_element->getEscapedValue() == 34): ?>selected="selected"<?php endif; ?> value="34"><?php echo $this->__('3 columns separated by a middle area, with top and bottom areas (25% | 50% | 25%)'); ?></option>                
+                <option <?php if($_element->getEscapedValue() == 35): ?>selected="selected"<?php endif; ?> value="35"><?php echo $this->__('3 columns separated by a middle area, with top and bottom areas (33% | 33% | 33%)'); ?></option>                
+            </optgroup>
+        </select>
+        
+        <?php echo $_element->getAfterElementHtml() ?>
+        
+        <?php if ($_note): ?>
+            <p class="note<?php echo $_class ? " {$_class}-note" : ''?>" id="note_<?php echo $_element->getId()?>"><span><?php echo $_note ?></span></p>
+        <?php endif ?>
+        <img id="layout_img" src="<?php echo $this->getSkinUrl('images/contenttype/layout/layout_'.(($_element->getEscapedValue())?$_element->getEscapedValue():0).'.png'); ?>" alt="" />
+        <div id="layout_phtml" <?php if($_element->getEscapedValue() != 0): ?>style="display: none;"<?php endif; ?>>
+            <?php echo $this->__('You are using customizable .phtml template file for your layout.'); ?><br/>
+            <?php echo $this->__('The extension let you override the default view.phtml file by one of the following file name.'); ?><br/><br/>
+            <?php echo $this->__('Available files names are listed bellow :'); ?>
+            <ul>
+                <li>template/contenttype/view.phtml</li>
+                <li>template/contenttype/view-<?php echo $CustomContentTypeModel->getIdentifier(); ?>.phtml</li>
+                <li>template/contenttype/view-ID.phtml <small>(replace ID by your content ID)</small></li>
+            </ul>
+        </div>
+        
+        <!--COLUMN 1-->
+        <div class="layout_columns" id="layout_10">
+            <div class="column-dropable column-main" id="col1"></div>
+        </div>
+        <div class="layout_columns" id="layout_11">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main" id="col1"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <div class="layout_columns" id="layout_12">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main-half" id="col1"></div>
+            <div class="column-dropable column-middle" id="col4"></div>
+            <div class="column-dropable column-main-half" id="col5"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <!--COLUMN 2-->
+        <div class="layout_columns" id="layout_20">
+            <div class="column-dropable column-main column-50" id="col1"></div>
+            <div class="column-dropable column-main column-50 f-right" id="col6"></div>
+        </div>
+        <div class="layout_columns" id="layout_21">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main column-50" id="col1"></div>
+            <div class="column-dropable column-main column-50 f-right" id="col6"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <div class="layout_columns" id="layout_22">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main-half column-50" id="col1"></div>
+            <div class="column-dropable column-main-half column-50 f-right" id="col6"></div>
+            <div class="column-dropable column-middle" id="col4"></div>
+            <div class="column-dropable column-main-half column-50" id="col5"></div>
+            <div class="column-dropable column-main-half column-50 f-right" id="col7"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <!--COLUMN 3 25/50/25-->
+        <div class="layout_columns" id="layout_30">
+            <div class="column-dropable column-main column-25" id="col1"></div>
+            <div class="column-dropable column-main column-50-mid" id="col6"></div>
+            <div class="column-dropable column-main column-25" id="col8"></div>
+        </div>
+        <div class="layout_columns" id="layout_32">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main column-25" id="col1"></div>
+            <div class="column-dropable column-main column-50-mid" id="col6"></div>
+            <div class="column-dropable column-main column-25" id="col8"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <div class="layout_columns" id="layout_34">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main-half column-25" id="col1"></div>
+            <div class="column-dropable column-main-half column-50-mid" id="col6"></div>
+            <div class="column-dropable column-main-half column-25" id="col8"></div>
+            <div class="column-dropable column-middle" id="col4"></div>
+            <div class="column-dropable column-main-half column-25" id="col5"></div>
+            <div class="column-dropable column-main-half column-50-mid" id="col7"></div>
+            <div class="column-dropable column-main-half column-25" id="col9"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <!--COLUMN 3 33/33/33-->
+        <div class="layout_columns" id="layout_31">
+            <div class="column-dropable column-main column-33" id="col1"></div>
+            <div class="column-dropable column-main column-33-mid" id="col6"></div>
+            <div class="column-dropable column-main column-33" id="col8"></div>
+        </div>
+        <div class="layout_columns" id="layout_33">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main column-33" id="col1"></div>
+            <div class="column-dropable column-main column-33-mid" id="col6"></div>
+            <div class="column-dropable column-main column-33" id="col8"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <div class="layout_columns" id="layout_35">
+            <div class="column-dropable column-top" id="col2"></div>
+            <div class="column-dropable column-main-half column-33" id="col1"></div>
+            <div class="column-dropable column-main-half column-33-mid" id="col6"></div>
+            <div class="column-dropable column-main-half column-33" id="col8"></div>
+            <div class="column-dropable column-middle" id="col4"></div>
+            <div class="column-dropable column-main-half column-33" id="col5"></div>
+            <div class="column-dropable column-main-half column-33-mid" id="col7"></div>
+            <div class="column-dropable column-main-half column-33" id="col9"></div>
+            <div class="column-dropable column-bottom" id="col3"></div>
+        </div>
+        <?php else: ?>
+            <p><?php echo $this->__('Please save content type before managing your layout.'); ?>
+            <select style="display: none;" name="<?php echo $_element->getName() ?>" id="<?php echo $_element->getName() ?>">
+                <option value="0"></option>
+            </select>
+        <?php endif; ?>
+    </td>
+</tr>
+<?php endif; ?>

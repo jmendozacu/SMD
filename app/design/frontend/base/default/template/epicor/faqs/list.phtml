@@ -1,0 +1,43 @@
+<div class="input-box faq_search_box">
+    <label for="search_faq"><?php echo $this->__('Search') ?></label>
+    <input type="text" name="sku" value="" title="<?php echo $this->__('Search') ?>" id="search_faq" class="input-text" />
+</div>
+<?php if ($this->isIndexedView()) : ?>
+    <div class="faqs_index_view" >
+        <ol>
+            <?php $i = 0;
+            foreach ($this->getCollection() as $faqsItem): $i++;
+                ?>
+                <li class="faqitem-<?php echo $faqsItem->getId(); ?>"><h3 class="faq_link">
+                        <a href="<?php echo '#question-' . $faqsItem->getId(); ?>"><?php echo $i.'. '.$this->escapeHtml($faqsItem->getQuestion()) ?></a>
+                    </h3></li>
+    <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php endif; ?>
+<div id="accordion">
+    <?php $i = 0;
+    foreach ($this->getCollection() as $faqsItem): $i++;
+        ?>
+        <h3 id="question-<?php echo $faqsItem->getId(); ?>" class="faq_question faqitem-<?php echo $faqsItem->getId(); ?>" rel="<?php echo $faqsItem->getId(); ?>"><?php echo $i . '. ' . $faqsItem->getQuestion() ?></h3>
+        <div id="answer-<?php echo $faqsItem->getId(); ?>" class="faq_answer faqitem-<?php echo $faqsItem->getId(); ?>" rel="<?php echo $faqsItem->getId(); ?>">
+
+                <?php echo $faqsItem->getAnswer() ?>
+                <?php if ($this->isCustomerRegistered()): ?>
+                <div class="faq_vote_div">
+                <?php $this->getChild('faqs_vote')->setFaqId($faqsItem->getId());
+                echo $this->getChildHtml('faqs_vote', false);
+                ?>
+                </div>
+            <?php endif; ?>
+            <?php
+            if (Mage::getStoreConfig('faqs/view/show_keywords')) {
+                $keywords = $faqsItem->getKeywords();
+                echo $keywords != '' ? $this->__('Keywords') . ': ' . $keywords . '' : '';
+            }
+            ?>
+            <p class="a-top"><a href="#top">Back to Top</a></p>
+            <div class="clear"></div>
+        </div>
+<?php endforeach; ?>
+</div>

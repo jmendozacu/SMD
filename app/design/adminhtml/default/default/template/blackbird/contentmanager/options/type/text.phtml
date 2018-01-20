@@ -1,0 +1,43 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+OptionTemplateText = '<table class="border no-password" cellpadding="0" cellspacing="0">'+
+        '<tr class="headings">'+
+            '<th width="50" class="no-textarea"><?php echo Mage::helper('catalog')->__('Max. characters') ?> </th>'+
+            '<th class="type-last last"><?php echo Mage::helper('catalog')->__('Default value') ?> </th>'+
+            '<th class="type-last last textareaonly"><?php echo Mage::helper('catalog')->__('WYSIWYG Editor') ?> </th>'+
+        '</tr>'+
+        '<tr>'+
+            '<td class="no-textarea"><input type="text" class="input-text validate-zero-or-greater" name="contenttype[options][{{option_id}}][max_characters]" value="{{max_characters}}"></td>'+
+            '<td class="value"><input type="text" class="input-text" name="contenttype[options][{{option_id}}][default_value]" value="{{default_value}}"></td>'+
+            '<td class="value textareaonly"><input type="checkbox" name="contenttype[options][{{option_id}}][wysiwyg_editor]" id="wysiwyg_editor_{{option_id}}" value="1"> <label for="wysiwyg_editor_{{option_id}}"><?php echo Mage::helper('catalog')->__('Use WYSIWYG Editor') ?></label></td>'+
+        '</tr>'+
+    '</table>'+
+    '<p class="note no-password no-textarea"><span><?php echo $this->__('Keep max characters field <strong>empty</strong> or to <strong>0</strong> for no limitation.'); ?></span></p>';
+
+if ($('option_panel_type_text')) {
+    $('option_panel_type_text').remove();
+}
+//]]>
+</script>

@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTabAfter">
+                <name>customer_edit_tab_lists</name>
+                <block>epicor_lists/adminhtml_customer_edit_tab_lists</block>
+                <after>tags</after>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+    
+    <adminhtml_epicorlists_list_index>
+        <reference name="content">
+            <block type="epicor_lists/adminhtml_list" name="list" />
+        </reference>
+    </adminhtml_epicorlists_list_index>
+
+    <adminhtml_epicorlists_list_edit>
+        <reference name="head" >
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/edit.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/childrenGrid.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/erpaccounts.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/restrictions.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/contractfields.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/brands.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/addresses.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/products.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/product_conditions.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/customers.js</name>
+                <params/>
+            </action>
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadRulesJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_lists/adminhtml_list_edit" name="list"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_lists/adminhtml_list_edit_tabs" name="list_tabs"></block>
+        </reference>        
+    </adminhtml_epicorlists_list_edit>
+
+    <adminhtml_epicorlists_list_labels>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_labels" name="labels_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_labels>
+
+    <adminhtml_epicorlists_list_erpaccounts>
+        <reference name="head" >
+        </reference>
+        <block type="epicor_comm/adminhtml_container" name="product_locations_wrapper">  
+            <block type="core/text_list" name="root" output="toHtml">
+                <block type="epicor_lists/adminhtml_list_edit_tab_erpaccounts_form" name="customer_sku_form"></block>
+                <block type="epicor_lists/adminhtml_list_edit_tab_erpaccounts" name="erpaccounts_grid"></block>
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>erpaccounts_grid</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[erpaccounts]</hidden_input_name>
+                            <reload_param_name>erpaccounts</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action>
+                    </reference>
+                </block>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_erpaccounts>
+    <adminhtml_epicorlists_list_erpaccountsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_erpaccounts" name="erpaccounts_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_erpaccountsgrid>
+    
+    
+    
+    <adminhtml_epicorlists_list_restrictions>
+            
+        <block type="core/text_list" name="root" output="toHtml">
+<!--            <block type="epicor_lists/adminhtml_list_edit_tab_restrictions_types" name="restrictions_type"></block>-->
+<block type="epicor_lists/adminhtml_list_edit_tab_restrictions_types" name="restrictions_type" template="epicor/lists/restrictions/type.phtml"></block>
+
+<!--            <block type="epicor_lists/adminhtml_list_edit_tab_restrictions_addresses" name="restrictions_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>restrictions_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[restricted_addresses]</hidden_input_name>
+                        <reload_param_name>restricted_addresses</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>-->
+        </block>
+    </adminhtml_epicorlists_list_restrictions>
+    <adminhtml_epicorlists_list_restrictionsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_restrictions_addresses" name="restrictions_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_restrictionsgrid>
+    
+    
+    <adminhtml_epicorlists_list_addgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_restrictions_addresses" name="restrictions_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>restrictions_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[restricted_addresses]</hidden_input_name>
+                        <reload_param_name>restricted_addresses</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_addgrid>
+    
+    <adminhtml_epicorlists_list_brands>
+        <reference name="head" >
+        </reference>
+        <block type="epicor_comm/adminhtml_container" name="product_locations_wrapper">
+            <block type="core/text_list" name="root" output="toHtml">
+                <block type="epicor_lists/adminhtml_list_edit_tab_brands_form" name="customer_sku_form"></block>
+                <block type="epicor_lists/adminhtml_list_edit_tab_brands" name="brands_grid"></block>
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>brands_grid</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[brands]</hidden_input_name>
+                            <reload_param_name>brands</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action>
+                    </reference>
+                </block>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_brands>
+    <adminhtml_epicorlists_list_brandsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_brands" name="brands_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_brandsgrid>
+    
+    <adminhtml_epicorlists_customer_lists>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_customer_edit_contracts_form" name="customer_contracts_form"></block>
+            <block type="epicor_lists/adminhtml_customer_edit_tab_lists" name="customer_lists_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>customer_lists_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[lists]</hidden_input_name>
+                        <reload_param_name>lists</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_customer_lists>
+    <adminhtml_epicorlists_customer_listsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_customer_edit_tab_lists" name="customer_lists_grid"></block>
+        </block>
+    </adminhtml_epicorlists_customer_listsgrid>
+    
+    <adminhtml_epicorlists_list_websites>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_websites" name="websites_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>websites_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[websites]</hidden_input_name>
+                        <reload_param_name>websites</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_websites>
+    <adminhtml_epicorlists_list_websitesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_websites" name="websites_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_websitesgrid>
+
+    <adminhtml_epicorlists_list_stores>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_stores" name="stores_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>stores_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[stores]</hidden_input_name>
+                        <reload_param_name>stores</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_stores>
+    <adminhtml_epicorlists_list_storesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_stores" name="stores_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_storesgrid>
+
+    <adminhtml_epicorlists_list_customers>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_customers" name="customers_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>customers_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[customers]</hidden_input_name>
+                        <reload_param_name>customers</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_customers>
+    <adminhtml_epicorlists_list_customersgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_customers" name="customers_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_customersgrid>
+
+    <adminhtml_epicorlists_list_products>
+        <block type="epicor_comm/adminhtml_container" name="product_locations_wrapper">
+            <block type="core/text_list" name="root" output="toHtml">
+                <block type="epicor_lists/adminhtml_list_edit_tab_products_import" name="products_import_form"></block>
+                <block type="epicor_lists/adminhtml_list_edit_tab_products" name="products_grid"></block>
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>products_grid</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[products]</hidden_input_name>
+                            <reload_param_name>products</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action>
+                    </reference>
+                </block>
+                <block type="epicor_lists/adminhtml_list_edit_tab_products_form" name="product_tab_form" before="products_grid"></block>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_products>
+    <adminhtml_epicorlists_list_productsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_products" name="products_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_productsgrid>
+
+    <adminhtml_epicorlists_list_addresses>
+        <block type="epicor_comm/adminhtml_container" name="list_addresses_wrapper">
+            <block type="core/text_list" name="root" output="toHtml">
+                <block type="epicor_lists/adminhtml_list_edit_tab_addresses_form" name="addresses_form"></block>
+                <block type="epicor_lists/adminhtml_list_edit_tab_addresses" name="addresses_grid"></block>
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>addresses_grid</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[addresses]</hidden_input_name>
+                            <reload_param_name>addresses</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action>
+                    </reference>
+                </block>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_addresses>
+    <adminhtml_epicorlists_list_addressesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_addresses" name="addresses_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_addressesgrid>
+
+    <adminhtml_epicorlists_list_messagelog>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_messagelog" name="messagelog_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>messagelog_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[messagelog]</hidden_input_name>
+                        <reload_param_name>messagelog</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorlists_list_messagelog>
+    <adminhtml_epicorlists_list_messageloggrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_messagelog" name="messagelog_grid"></block>
+        </block>
+    </adminhtml_epicorlists_list_messageloggrid>
+    
+    <adminhtml_epicorlists_list_addbycsv>
+        <reference name="content">
+            <block type="epicor_lists/adminhtml_list_csvupload" name="csvupload" />
+        </reference>
+    </adminhtml_epicorlists_list_addbycsv>
+    <adminhtml_epicorcomm_customer_erpaccount_edit>   
+        <reference name="lists">
+            <block type="epicor_lists/adminhtml_list_edit_tab_erpaccounts_edit_contracts_form" name="erp_customer_list_contracts" />
+        </reference>       
+    </adminhtml_epicorcomm_customer_erpaccount_edit>
+    
+    <adminhtml_epicorlists_analyse_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>epicor/comm/editErpAccount/productsList.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_lists/adminhtml_list_analyse" name="form" />
+        </reference>
+    </adminhtml_epicorlists_analyse_index>
+    <adminhtml_epicorlists_analyse_analyse>
+        <reference name="head">
+            <action method="addJs">
+                <script>epicor/comm/editErpAccount/productsList.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/analyse.js</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_lists/adminhtml_list_analyse" name="form" />
+            <block type="epicor_lists/adminhtml_list_analyse" name="filteredtotal"  template="epicor/lists/analyse/filteredtotal.phtml"></block>
+            <block type="epicor_lists/adminhtml_list_analyse_list_grid" name="list" />
+        </reference>
+    </adminhtml_epicorlists_analyse_analyse>
+
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Webtise_Customhandles>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Webtise_Customhandles>
+    </modules>
+</config>

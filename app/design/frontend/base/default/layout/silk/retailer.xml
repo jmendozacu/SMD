@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <!-- CHECKOUT PAGE REFERENCT -->
+    <checkout_onepage_index>
+        <reference name="head">
+            <!--<action method="addItem">-->
+                <!--<type>skin_js</type>-->
+                <!--<name>js/checkout/shipping_retailer.js</name>-->
+                <!--<params/>-->
+            <!--</action>-->
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/retailer.js</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="checkout.onepage">
+            <action method="setTemplate">
+                <template>silk/checkout/onepage.phtml</template>
+            </action>
+            <block type="silk_retailer/checkout_onepage_shipping_retailer" name="checkout.onepage.shipping.retailer" after="shipping" as="shipping_retailer" template="silk/checkout/onepage/shipping_retailer.phtml">
+                <!--<block type="checkout/onepage_shipping_dates" name="checkout.onepage.shipping.dates.available.dates" as="shipping_dates.available_dates" template="epicor_comm/checkout/onepage/shipping_dates/available_dates.phtml" />-->
+            </block>
+        </reference>
+        <reference name="checkout.progress">
+            <action method="setTemplate">
+                <template>silk/checkout/onepage/progress.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_shipping_retailer>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="silk_retailer/checkout_onepage_shipping_retailer" name="root" output="toHtml" template="silk/checkout/onepage/shipping_retailer.phtml"/>
+    </checkout_onepage_shipping_retailer>
+
+    <!-- Individual blocks for Progress steps begins -->
+    <checkout_onepage_progress_shipping_retailer>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="silk/checkout/onepage/progress/shipping_retailer.phtml">
+            <action method="setInfoTemplate">
+                <method></method>
+                <template></template>
+            </action>
+        </block>
+    </checkout_onepage_progress_shipping_retailer>
+
+    <!-- RETAILER PAGE SEARCH RESULT PAGE -->
+    <silk_retailer_index_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/retailer.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/retailer.js</name>
+                <params/>
+            </action>
+        </reference>
+        <update handle="page_one_column" />
+        <reference name="content">
+            <block type="core/template" name="google_map" template="silk/google/map.phtml" />
+        </reference>
+    </silk_retailer_index_index>
+
+    <!-- WISHLIST INDEXS -->
+    <wishlist_index_index>
+        <reference name="customer.wishlist">
+            <action method="setTemplate">
+                <template>silk/wishlist/view.phtml</template>
+            </action>
+        </reference>
+    </wishlist_index_index>
+
+    <!-- CATALOG PRODUCT VIEW PAGE TEMPLATE-->
+    <catalog_product_view>
+        <reference name="product.info" >
+            <action method="setTemplate">
+                <template>silk/retailer/catalog/product/view.phtml</template>
+            </action>
+        </reference>
+    </catalog_product_view>
+
+    <silk_retailer_ajax_refreshminicart>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>silk/page/empty.phtml</template>
+            </action>
+        </reference>
+        <remove name="header" />
+        <remove name="footer"/>
+        <remove name="left"/>
+        <remove name="right" />
+        <reference name="content">
+            <block type="checkout/cart_minicart" name="minicart_head" template="checkout/cart/minicart.phtml" before="-">
+                <block type="checkout/cart_sidebar" name="minicart_content" template="checkout/cart/minicart/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/minicart/default.phtml</template></action>
+
+                    <block type="core/text_list" name="cart_sidebar.cart_promotion" as="cart_promotion" translate="label" module="checkout">
+                        <label>Mini-cart promotion block</label>
+                    </block>
+                    <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                        <label>Shopping Cart Sidebar Extra Actions</label>
+                    </block>
+                </block>
+            </block>
+        </reference>
+
+    </silk_retailer_ajax_refreshminicart>
+
+    <catalog_category_default>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>silk/catalog/product/list.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>silk/catalog/product/list.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_category_view>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>silk/catalog/product/list.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/retailer.css</name>
+                <params/>
+            </action>
+        </reference>
+    </catalog_product_view>
+</layout>

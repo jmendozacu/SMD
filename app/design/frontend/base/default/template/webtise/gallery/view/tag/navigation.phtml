@@ -1,0 +1,38 @@
+<?php
+    $_categories = $this->getTagCategories();
+?>
+<?php if($_categories && $_categories->getSize() > 0): ?>
+    <div class="tag-navigation block-cms-menu">
+        <div class="block-title">
+            <strong><span><?php echo $this->__('Filter By') ?></span></strong>
+        </div>
+        <div class="selected-tags no-display" id="selectedTags">
+            <h3><?php echo $this->__('Chosen Filters') ?>: </h3>
+            <?php foreach($_categories as $category): ?>
+                <div class="selected-tag-category no-display" id="selectedCategory<?php echo $category->getId(); ?>">
+                    <h3><?php echo $category->getTitle(); ?></h3>
+                </div>
+            <?php endforeach; ?>
+            <p class="reset-link" id="resetLink"><?php echo $this->__('Reset Filters') ?></p>
+        </div>
+        <?php foreach($_categories as $category): ?>
+            <?php $_tags = $this->getCategoryTags($category); ?>
+            <?php if($_tags && $_tags->getSize()): ?>
+                <div class="tag-category" id="tagCategory<?php echo $category->getId(); ?>">
+                    <h3 class="tag-category-title"><?php echo $category->getTitle(); ?></h3>
+                    <ul class="tag-links <?php if($this->isSwatchCategory($category)): ?>swatch<?php endif; ?>">
+                        <?php foreach($_tags as $tag): ?>
+                            <li>
+                                <?php if($this->isSwatchCategory($category)): ?>
+                                    <img class="tag-link swatch" data-category="<?php echo $category->getId(); ?>" src="<?php echo $this->getSwatchImg($tag); ?>" data-tag-title="<?php echo $tag->getTitle(); ?>" data-tag-id="<?php echo $tag->getId() ?>" data-swatch="true" data-swatch-url="<?php echo $this->getSwatchImg($tag); ?>" alt="<?php echo $tag->getTitle(); ?>" width="40" height="40" />
+                                <?php else: ?>
+                                    <p class="tag-link" data-category="<?php echo $category->getId(); ?>" data-tag-title="<?php echo $tag->getTitle(); ?>" data-tag-id="<?php echo $tag->getId() ?>" title="<?php echo $tag->getTitle(); ?>"><?php echo $tag->getTitle(); ?></p>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

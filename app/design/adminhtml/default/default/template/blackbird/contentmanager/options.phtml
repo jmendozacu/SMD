@@ -1,0 +1,233 @@
+<?php
+/**
+ * Blackbird ContentManager Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@bird.eu so we can send you a copy immediately.
+ *
+ * @category	Blackbird
+ * @package		Blackbird_ContentManager
+ * @copyright	Copyright (c) 2014 Blackbird Content Manager (http://black.bird.eu)
+ * @author		Blackbird Team
+ * @license		http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version		1.6.2
+ */
+?>
+<?php
+    $CustomContentTypeModel = Mage::registry('current_contenttype');
+?>
+<div class="entry-edit custom-options contenttype-custom-options">
+    
+    <?php
+        if($this->getRequest()->getParam('ct_id')):
+    ?>
+        
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Page title'); ?></h4>
+            <div class="form-buttons"></div>
+        </div>    
+        <div class="fieldset " id="contenttype_title">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <tbody>
+                        <tr>
+                            <td class="label"><label for="page_title"><?php echo $this->__('Default title value'); ?></label></td>
+                            <td class="value">
+                                <input id="meta_title" name="page_title" type="text" class=" input-text" value="<?php echo $CustomContentTypeModel->getPageTitle(); ?>" />
+                                <p class="note" id="note_meta_title"><span><?php echo $this->__('You can use replacement pattern.<br>Example: <strong>{{firstname}} - {{lastname}}</strong> will be automatically replaced by the field value of the content (field with the identifier "firstname" and "lastname").<br>Use plain text value of a field, type <strong>{{firstname|plain}}</strong>'); ?></span></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+
+        <div class="content-header"><button style="" onclick="contenttypeAddFieldset('<?php echo Mage::helper('contentmanager')->__('General') ?>', 0);" class="scalable add" type="button" title="<?php echo $this->__('Add fieldset'); ?>" id="add_fieldset"><span><span><span><?php echo $this->__('Add fieldset'); ?></span></span></span></button></div>
+        <div class="clearer"></div>
+        
+        <!--HTML USED TO CREATE FIELDSET, GRABBED IN JS TO FILL THE EDIT FORM-->
+        <div id="layout-fieldset" class="contenttype-layout" style="display: none;">
+
+            <div class="contenttype-fieldset contenttype-fieldset-{{id}}" id="fieldset_{{id}}_{{random}}">
+                <div class="entry-edit-head">
+                    <span class="contenttype-handle">&nbsp;</span>
+                    <h4>{{title}}</h4>
+                    <div class="right"><button style="" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this fieldset with all his fields?'); ?>')) contenttypeDeleteFieldset('{{id}}_{{random}}');" class="scalable delete" type="button" title="<?php echo $this->__('Delete fieldset'); ?>"><span><span><span><?php echo $this->__('Delete fieldset'); ?></span></span></span></button></div>
+                </div>
+
+                <div class="fieldset">
+
+                    <div class="entry-edit">
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label><?php echo Mage::helper('contentmanager')->__('Fieldset title') ?> <span class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input name="fieldset[name][]" type="text" class="fieldset-name input-text required-entry" value="{{title}}" />
+                                        <input name="fieldset[id][]" class="fieldset-id" type="hidden" value="{{id}}" />
+                                        <input name="fieldset[random][]" class="fieldset-random" type="hidden" value="{{random}}" />
+                                        <input name="fieldset[order][]" class="fieldset-order" type="hidden" value="0" />
+                                        <input name="fieldset[delete][]" class="fieldset-delete" type="hidden" value="0" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fields-container"></div>
+                    
+                    <div class=""><button style="" onclick="contenttypeAddField('{{random}}', '<?php $json = new Varien_Object(array()); echo $json->toJson(); ?>', '{{id}}');" class="scalable add add_field" type="button" title="<?php echo $this->__('Add field'); ?>"><span><span><span><?php echo $this->__('Add field'); ?></span></span></span></button></div>                    
+                </div>
+            </div>
+        </div>
+        
+        <!--HTML USED TO CREATE FIELD, GRABBED IN JS TO FILL THE EDIT FORM-->
+        <div id="layout-field" class="contenttype-layout" style="display: none;">
+
+            <div class="option-box" id="option_{{id}}">
+                <input type="hidden" id="contenttype_option_{{id}}_is_delete" name="contenttype[options][{{id}}][is_delete]" value="" />
+                <input type="hidden" id="contenttype_option_{{id}}_id" name="contenttype[options][{{id}}][id]" value="{{id}}" />
+                <input type="hidden" id="contenttype_option_{{id}}_previous_group" name="contenttype[options][{{id}}][previous_group]" value="" />
+                <input type="hidden" id="contenttype_option_{{id}}_option_id" name="contenttype[options][{{id}}][option_id]" value="{{option_id}}" />
+                <input type="hidden" id="contenttype_option_{{id}}_sort_order" name="contenttype[options][{{id}}][sort_order]" value="{{sort_order}}" class="sort_order" />
+                <input type="hidden" id="contenttype_option_{{id}}_fieldset_id" name="contenttype[options][{{id}}][fieldset_id]" value="{{fieldset_id}}" class="fieldset_id" />
+                <input type="hidden" id="contenttype_option_{{id}}_fieldset_random" name="contenttype[options][{{id}}][fieldset_random]" value="{{fieldset_random}}" class="fieldset_random" />
+                
+                <span class="contenttype-handle-field">&nbsp;</span>
+                
+                <button style="" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this field?'); ?>')) contenttypeDeleteField('{{id}}');" class="f-right scalable delete" type="button" title="<?php echo $this->__('Delete field'); ?>"><span><span><span><?php echo $this->__('Delete field'); ?></span></span></span></button>                
+                
+                <ul class="tabs-horiz" id="contenttype_field_tabs_{{id}}">
+                    <li>
+                        <a href="#" id="contenttype_option_{{id}}_fields_tabs_general" title="<?php echo Mage::helper('contentmanager')->__('General Information') ?>" class="tab-item-link">
+                            <span><?php echo Mage::helper('contentmanager')->__('General Information') ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="contenttype_option_{{id}}_fields_tabs_extra" title="<?php echo Mage::helper('contentmanager')->__('Extra') ?>" class="tab-item-link">
+                            <span><?php echo Mage::helper('contentmanager')->__('Extra') ?></span>
+                        </a>
+                    </li>
+                    <?php if($this->getContentType()->getSearchEnabled()): ?>
+                    <li>
+                        <a href="#" id="contenttype_option_{{id}}_fields_tabs_search" title="<?php echo Mage::helper('contentmanager')->__('Search') ?>" class="tab-item-link">
+                            <span><?php echo Mage::helper('contentmanager')->__('Search') ?></span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+                
+                <div id="contenttype_tab_content_{{id}}">
+                    <div id="contenttype_option_{{id}}_fields_tabs_general_content">
+                        <table id="contenttype_option_{{id}}" class="option-header" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="opt-title"><?php echo Mage::helper('contentmanager')->__('Title') ?> <span class="required">*</span></th>
+                                    <th class="opt-title"><?php echo Mage::helper('contentmanager')->__('Identifier') ?> <span class="required">*</span></th>
+                                    <th class="opt-type"><?php echo Mage::helper('contentmanager')->__('Input Type') ?> <span class="required">*</span></th>
+                                    <th class="opt-req"><?php echo $this->jsQuoteEscape(Mage::helper('contentmanager')->__('Is Required')) ?></th>
+                                    <th class="opt-show"><?php echo $this->jsQuoteEscape(Mage::helper('contentmanager')->__('Show in grid')) ?></th>
+                                    <th class="opt-note"><?php echo $this->jsQuoteEscape(Mage::helper('contentmanager')->__('Note')) ?></th>
+                                    <th class="a-right">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td><input type="text" class="required-entry input-text" onkeyup="checkCtTitle(this);" id="contenttype_option_{{id}}_title" name="contenttype[options][{{id}}][title]" value="{{title}}"></td>
+                                <td><input type="text" class="required-entry input-text ct-identifier" onkeyup="checkCtIdentifier(this);" maxlength="24" id="contenttype_option_{{id}}_identifier" name="contenttype[options][{{id}}][identifier]" value="{{identifier}}"></td>
+                                <td><?php echo $this->getTypeSelectHtml() ?></td>
+                                <td class="opt-req"><?php echo $this->getRequireSelectHtml() ?></td>
+                                <td class="opt-req"><?php echo $this->getShowInGridSelectHtml() ?></td>
+                                <td><input type="text" class="input-text" id="contenttype_option_{{id}}_note" name="contenttype[options][{{id}}][note]" value="{{note}}"></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="contenttype_option_{{id}}_fields_tabs_extra_content" style="display: none;"></div>
+
+                    <div id="contenttype_option_{{id}}_fields_tabs_search_content" style="display: none;">
+                        <table id="contenttype_option_{{id}}" class="option-header form-list" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="opt-title"><?php echo Mage::helper('contentmanager')->__('Is Searchable') ?></th>
+                                    <th class="opt-title"><?php echo Mage::helper('contentmanager')->__("Weight") ?></th>
+                                    <th class="a-right">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td width="200">
+                                    <select id="contenttype_option_{{id}}_is_searchable" name="contenttype[options][{{id}}][is_searchable]" class=" select">
+                                        <option value="0"><?php echo Mage::helper('contentmanager')->__("No"); ?></option>
+                                        <option value="1"><?php echo Mage::helper('contentmanager')->__("Yes"); ?></option>
+                                    </select>
+                                <td width="300">
+                                    <select id="contenttype_option_{{id}}_search_attribute_weight" name="contenttype[options][{{id}}][search_attribute_weight]" class=" select">
+                                        <?php for($i = 1; $i <= 100; $i++): ?>
+                                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                        <?php endfor; ?>
+                                    </select>                                    
+                                    <p class="note"><?php echo Mage::helper('contentmanager')->__('Use weight to determine how important is a field for the search system.<br/>e.g.: Title is 5 time more important than description.') ?><span></span></p>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>                        
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <!--JS USED TO CREATE EXTRA SPECIFIC FIELDS BY INPUT TYPE-->
+        <?php echo $this->getTemplatesHtml(); ?>
+                
+        
+        <!--LOAD EXISTING FIELDSET-->
+        <script type="text/javascript">
+            <?php
+                $fieldsets = $this->getFieldsets();
+                foreach($fieldsets as $fieldset)
+                {
+                    echo 'contenttypeAddFieldset(\''.addslashes($fieldset->getTitle()).'\', '.$fieldset->getFieldsetId().');';
+                }
+            ?>
+        </script>
+        
+        <!--LOAD EXISTING FIELDS-->
+        <?php $optionValues = $this->getOptionValues(); ?>
+        <script type="text/javascript">
+            <?php foreach ($optionValues as $_value): ?>
+                contenttypeAddFieldWithJson(<?php echo $_value->toJson() ?>);
+                contenttypeAddDataToValues(<?php echo $_value->toJson() ?>);
+            <?php endforeach; ?>
+        </script>
+        
+        <!--INIT DRAG AND DROP-->
+        <script type="text/javascript">
+            contenttypeInitDragAndDrop();
+        </script>
+        
+        
+    <?php else: ?>
+        <p><?php echo $this->__('Please save content type before adding fields.'); ?>
+    <?php endif; ?>
+    
+</div>
+
+<?php if($this->getRequest()->getParam('ct_id')): ?>
+<div class="content-header" style="border: 0; border-top: 4px solid #dfdfdf; padding-top: .25em; margin-top: 18px;"><button style="" onclick="contenttypeAddFieldset('<?php echo Mage::helper('contentmanager')->__('General') ?>', 0);" class="scalable add" type="button" title="<?php echo $this->__('Add fieldset'); ?>" id="add_fieldset"><span><span><span><?php echo $this->__('Add fieldset'); ?></span></span></span></button></div>
+<div class="clearer"></div>
+<?php endif; ?>
+
+<div><input type="hidden" name="affect_contenttype_custom_options" value="1" /></div>
+
+<script type="text/javascript">
+// re-bind form elements onchange
+varienWindowOnload(true);
+</script>

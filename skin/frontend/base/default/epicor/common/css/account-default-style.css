@@ -1,0 +1,244 @@
+/* 
+    Document   : style
+    Created on : 09-Sep-2013, 10:51:16
+    Author     : Paul.Ketelle
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.col-1,
+.col-full {
+    clear:both;
+}
+
+.col2-set .col-1, 
+.col2-set .col-2 
+{
+    width:45%;
+}
+
+.col2-set .col-full {
+    clear:both;
+}
+
+.vcard span, .vcard dd {
+    display:block;
+}
+
+.vcard dt.sec {
+    float:left;
+}
+
+.box-info .info-list li {
+    margin-top:3px;
+    clear:both;
+}
+
+.grid input[type="text"],
+.grid select {
+    padding:2px;
+    width:96%;
+}
+
+.box-info .info-list input {
+    padding:2px;
+    width:50%;
+}
+
+.box-info .info-list select {
+    width:51%;
+}
+
+.box-info .info-list span.label {
+    width:120px;
+    padding-right:5px;
+    text-align:right;
+    font-weight:bold;
+    display:inline-block;
+    float: left;
+}
+
+.box-info .info-list span.value {
+    display: block;
+    float: left;
+    width: 150px;
+}
+
+.box-info .info-list-extra span.value {
+    display: block;
+    height:100px;
+    overflow:auto;
+    border: 1px solid #D9DDE3;
+    text-align:left;
+    padding:5px;
+}
+
+.box-info.col-2 .info-list.col-count-2 span.value {
+     width: 90px;
+}
+
+.box-info.col-2 .info-list.col-count-2 span.label {
+     width: 100px;
+}
+
+.box-info.col-full .info-list.col-count-2 span.label {
+     width: 200px;
+}
+
+.box-info .info-list-extra {
+    clear: both;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.box-info .info-list-extra span.label {
+    display:block;
+    font-weight:bold;
+}
+
+.box-info .info-list.col-count-1 span.label {
+    width:50%;
+}
+.box-info .info-list li {
+    width: 100%;
+}
+
+.box-info .info-list.col-count-2 li,
+.box-info .info-list.col-count-3 li {
+    display: inline-block;
+}
+
+.box-info ul.col-count-3 {
+    column-count: 3;
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+}
+
+.box-info ul.col-count-2 {
+    column-count: 2;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+}
+
+.box-info .double-list li {
+    width:50%;
+    float:left;
+}
+
+.box-info .triple-list li {
+    width:33.333%;
+    float:left;
+}
+
+.box-info .quad-list li {
+    width:25%;
+    float:left;
+}
+
+.grid table tfoot.totals td {
+    border-width: 0 1px 0 0;
+}
+
+.grid table tfoot.totals tr.grand_total td {
+    font-weight: bold;
+}
+
+#window-overlay #window-overlay-content {
+    max-width:500px;
+    margin: 0 auto;
+    text-align:left;
+    position:fixed;
+    padding:5px;
+    position:fixed;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #666;
+    overflow:hidden;
+}
+
+#window-overlay h2 {
+    margin-bottom:0;
+}
+
+#window-overlay .formfields {
+    overflow: auto;
+    position:relative;
+    margin-top:12px;
+    margin-bottom:0;
+    padding-right: 20px;
+    clear: both;
+}
+
+#window-overlay-close {
+    position:absolute;
+    top:10px;
+    right:10px;
+    z-index: 100;
+}
+
+#window-overlay li {
+    margin-top:5px;
+}
+
+
+#window-overlay .box-account {
+    margin:0;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+#window-overlay .buttonbar {
+    text-align:right;
+    margin-top:10px;
+}
+
+input:disabled,
+textarea:disabled
+{
+    border: 1px solid #ddd;
+    background:#fefefe;
+    color:#aaa;
+} 
+
+.content-header {
+    clear:both;
+}
+#loading-mask {
+    z-index:2000;
+}
+
+.box-form label {
+    width:120px;
+    padding-right:15px;
+    margin-top:5px;
+    text-align:right;
+    font-weight:bold;
+    display:inline-block;
+}
+
+thead .expand-content,
+tbody .expand-content {
+    display:none;
+}
+
+
+.expand-table tr {
+    background-color:#fff;
+}
+
+.expand-table tr.even,
+tr.even .expand-table tr {
+    background-color: #f6f6f6;
+}
+
+tr.even .expand-table tr.even {
+    background-color:#fff;
+}
+
+.expand-table thead tr.headings {
+    background:url("../../common/css/images/sort_row_bg.gif") repeat-x scroll 0 50% transparent;
+}
+
+.list-link {
+    float:right;
+}

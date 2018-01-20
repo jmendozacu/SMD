@@ -1,0 +1,734 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <adminhtml_sales_order_view>
+        <reference name="head" >
+            <action method="addItem">
+                <type>js_css</type>
+                <name>epicor/comm/addProduct/addProduct.css</name>
+            </action>
+            <action method="addJs">
+                <script>epicor/comm/addProduct/orderView.js</script>
+            </action>
+            <action method="addJs">
+                <script>epicor/comm/addProduct/searchGrid.js</script>
+            </action>
+        </reference>
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>order_design_details</name>
+                <block>epicor_comm/adminhtml_sales_order_view_tab_erpinfo</block>
+            </action>
+            <action method="addTab">
+                <name>order_design_log</name>
+                <block>epicor_comm/adminhtml_sales_order_view_tab_log</block>
+            </action>
+            <reference name="order_items">
+                <action method="addItemRender">
+                    <type>default</type>
+                    <block>adminhtml/sales_order_view_items_renderer_default</block>
+                    <template>epicor_comm/sales/order/view/items/renderer/default.phtml</template>
+                </action>
+            </reference>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_sales_order_view_addproduct" name="addProduct" template="epicor_comm/sales/order/view/addProduct.phtml" />
+        </reference>
+    </adminhtml_sales_order_view>
+    
+    <epicor_comm_sales_order_addproduct>
+        <block type="epicor_comm/adminhtml_sales_order_view_addproducts_search" name="root" /> 
+    </epicor_comm_sales_order_addproduct>
+     
+    <adminhtml_catalog_product_edit>
+        <reference name="head" >
+            <action method="addJs">
+                <script>epicor/comm/editProduct/syncImages.js</script>
+            </action>
+            <action method="addJs">
+                <script>epicor/comm/editProduct/locations.js</script>
+            </action>
+            <action method="addJs">
+                <script>epicor/common/unserialize.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block name="ftp_sync" type="epicor_comm/adminhtml_catalog_product_edit_sync" template = 'epicor_comm/catalog/product/edit/sync.phtml' ></block>
+        </reference>
+        <reference name="product_tabs">
+            <block type="epicor_common/adminhtml_widget_tab_wrapper" name="product_locations_wrapper">
+                <action method="setLabel">
+                    <label>Locations</label>
+                </action>
+                <action method="setTitle">
+                    <title>Locations</title>
+                </action>
+ 
+                <block type="epicor_comm/adminhtml_catalog_product_edit_tab_locations_form" name="locations_form"></block>
+                <block type="core/text" name="product_locations_js">
+                    <action method="setText">
+                        <text><![CDATA[
+                                <script type="text/javascript">
+                                    var productLocations = new Epicor_Locations.productLocations('locations_form','product_locations_table','product_locations');
+                                </script>]]>
+                        </text>
+                    </action>
+                </block>
+                <block type="epicor_comm/adminhtml_catalog_product_edit_tab_locations" name="locations"></block>
+            </block>
+            <action method="addTab">
+                <name>product_customersku</name>
+                <block>epicor_comm/adminhtml_catalog_product_edit_tab_customersku</block>
+            </action>
+            <action method="addTab">
+                <name>product_locations</name>
+                <block>product_locations_wrapper</block>
+            </action>
+            <action method="addTab">
+                <name>product_message_log</name>
+                <block>epicor_comm/adminhtml_catalog_product_edit_tab_log</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_edit>
+    <adminhtml_epicorcomm_catalog_product_logsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_catalog_product_edit_tab_log" name="log"></block>
+        </block>
+    </adminhtml_epicorcomm_catalog_product_logsgrid>
+    <adminhtml_epicorcomm_catalog_product_locationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_catalog_product_edit_tab_locations" name="locations"></block>
+        </block>
+    </adminhtml_epicorcomm_catalog_product_locationsgrid>
+    <adminhtml_epicorcomm_catalog_product_skugrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_catalog_product_edit_tab_customersku" name="sku"></block>
+        </block>
+    </adminhtml_epicorcomm_catalog_product_skugrid>
+    <adminhtml_epicorcomm_customer_erpaccount_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_customer_erpaccount" name="erpaccount" />
+        </reference>
+    </adminhtml_epicorcomm_customer_erpaccount_index>
+    <adminhtml_epicorcomm_customer_erpaccount_new>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/comm.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_new" name="erp_customer_new"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_new_tabs" name="erp_customer_new_tabs"></block>
+        </reference>  
+    </adminhtml_epicorcomm_customer_erpaccount_new>
+    <adminhtml_epicorcomm_customer_erpaccount_edit>
+        <reference name="head">
+            <action method="addJs">
+                <script>epicor/comm/editErpAccount/customerSku.js</script>
+            </action>
+            <action method="addJs">
+                <script>epicor/comm/editErpAccount/productsList.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit" name="erp_customer"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tabs" name="erp_customer_tabs"></block>
+        </reference>
+    </adminhtml_epicorcomm_customer_erpaccount_edit>
+    <adminhtml_epicorcomm_customer_erpaccount_customers>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_customers" name="erp_customer_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_customer_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[customers]</hidden_input_name>
+                        <reload_param_name>customers</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_customers>
+    <adminhtml_epicorcomm_customer_erpaccount_customersgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_customers" name="erp_customer_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_customersgrid>
+    
+     <adminhtml_epicorcomm_customer_erpaccount_mastershopper>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_mastershopper" name="erp_mastershopper_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_mastershopper_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[ecc_master_shopper]</hidden_input_name>
+                        <reload_param_name>ecc_master_shopper</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_mastershopper>
+    <adminhtml_epicorcomm_customer_erpaccount_mastershoppergrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_mastershopper" name="erp_mastershopper_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_mastershoppergrid>
+     
+    <adminhtml_epicorcomm_customer_erpaccount_lists>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_lists/adminhtml_list_edit_tab_erpaccounts_edit_contracts_form" name="erp_contracts_form"></block>
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_lists" name="erp_lists_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_lists_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[lists]</hidden_input_name>
+                        <reload_param_name>lists</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_lists>
+    <adminhtml_epicorcomm_customer_erpaccount_listsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_lists" name="erp_lists_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_listsgrid>
+    
+    <adminhtml_epicorcomm_customer_erpaccount_stores>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_stores" name="stores_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>stores_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[stores]</hidden_input_name>
+                        <reload_param_name>stores</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_stores>
+    <adminhtml_epicorcomm_customer_erpaccount_storesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_stores" name="stores_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_storesgrid>
+    <adminhtml_epicorcomm_customer_erpaccount_salesreps>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_salesreps" name="salesreps_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>salesreps_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[salesreps]</hidden_input_name>
+                        <reload_param_name>salesreps</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_salesreps>
+    <adminhtml_epicorcomm_customer_erpaccount_salesrepsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_salesreps" name="salesreps_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_salesrepsgrid>
+    <adminhtml_epicorcomm_customer_erpaccount_logsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_log" name="log"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_logsgrid>
+    <adminhtml_epicorcomm_customer_erpaccount_skutab>
+        <block type="epicor_common/adminhtml_container" name="product_locations_wrapper">
+            <block type="core/text_list" name="root" output="toHtml">
+                <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_form" name="customer_sku_form"></block>
+                <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku" name="customer_sku_grid"></block>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_skutab>
+    <adminhtml_epicorcomm_customer_erpaccount_skugrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku" name="customer_sku_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_skugrid>
+    <adminhtml_epicorcomm_customer_erpaccount_locations>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_locations" name="erp_locations_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_locations_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[locations]</hidden_input_name>
+                        <reload_param_name>locations</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_locations>
+    <adminhtml_epicorcomm_customer_erpaccount_locationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_locations" name="erp_locations_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_locationsgrid>
+    <adminhtml_epicorcomm_message_log_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_message_log" name="log" />
+        </reference>
+    </adminhtml_epicorcomm_message_log_index>
+    <adminhtml_epicorcomm_message_log_view>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_message_log_view" name="erp_header" after="group" />
+            <block type="epicor_comm/adminhtml_message_log_view_log" name="log_view_details" template="epicor_comm/message/log/view/details.phtml"/>
+            <block type="epicor_comm/adminhtml_message_log_view_log" name="log_view_timing" template="epicor_comm/message/log/view/timing.phtml"/>
+            <block type="epicor_comm/adminhtml_message_log_view_log" name="log_view_status" template="epicor_comm/message/log/view/status.phtml"/>             
+            <block type="epicor_comm/adminhtml_message_log_view_log" name="log_view_xml" template="epicor_comm/message/log/view/xml.phtml"/>
+        </reference>
+    </adminhtml_epicorcomm_message_log_view>
+    <adminhtml_epicorcomm_message_syn_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/comm.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_message_syn_send" name="commsyn" />
+        </reference>
+    </adminhtml_epicorcomm_message_syn_index>
+    
+    <adminhtml_epicorcomm_message_syn_log>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_message_syn_log" name="synlog" />
+        </reference>
+    </adminhtml_epicorcomm_message_syn_log>
+    <adminhtml_epicorcomm_message_xmlupload_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_message_xmlupload" name="xmlupload" />
+        </reference>
+    </adminhtml_epicorcomm_message_xmlupload_index>
+    <adminhtml_epicorcomm_message_xmlupload_upload>
+        <update handle="adminhtml_epicorcomm_message_xmlupload_index" />
+    </adminhtml_epicorcomm_message_xmlupload_upload>
+    <adminhtml_epicorcomm_mapping_country_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_country" name="countrymapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_country_index>
+    <adminhtml_epicorcomm_mapping_country_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_country_edit" name="countrymapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_country_edit>
+    <adminhtml_epicorcomm_mapping_orderstatus_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_orderstatus" name="orderstatusmapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_orderstatus_index>
+    <adminhtml_epicorcomm_mapping_orderstatus_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_orderstatus_edit" name="orderstatusmapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_orderstatus_edit>
+    <adminhtml_epicorcomm_mapping_payment_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_payment" name="paymentmapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_payment_index>
+    <adminhtml_epicorcomm_mapping_payment_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_payment_edit" name="paymentmapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_payment_edit>
+    <adminhtml_epicorcomm_mapping_currency_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_currency" name="currencymapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_currency_index>
+    <adminhtml_epicorcomm_mapping_currency_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_currency_edit" name="currencymapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_currency_edit>
+    <adminhtml_epicorcomm_mapping_cardtype_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_cardtype" name="cardtypemapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_cardtype_index>
+    <adminhtml_epicorcomm_mapping_cardtype_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_cardtype_edit" name="cardtypemapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_cardtype_edit>
+    <adminhtml_epicorcomm_mapping_shippingmethods_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_shippingmethods" name="shippingmethodsmapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_shippingmethods_index>
+    <adminhtml_epicorcomm_mapping_shippingmethods_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_shippingmethods_edit" name="shippingmethodsmapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_shippingmethods_edit>   
+    <adminhtml_epicorcomm_mapping_remotelinks_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_remotelinks" name="remotelinksmapping" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_remotelinks_index> 
+    <adminhtml_epicorcomm_mapping_remotelinks_edit>
+        <reference name="head">             
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/remotelinks.js</name>
+                <params/> 
+            </action>   
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/remotelinks.css</name>
+                <params/>
+            </action>        
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadTinyMce">
+                <flag>1</flag>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/variables.js</script>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/wysiwyg/widget.js</script>
+            </action>
+            <action method="addJs">
+                <script>lib/flex.js</script>
+            </action>
+            <action method="addJs">
+                <script>lib/FABridge.js</script>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/flexuploader.js</script>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/browser.js</script>
+            </action>
+            <action method="addJs">
+                <script>prototype/window.js</script>
+            </action>
+            <action method="addJs">
+                <script>prototype/prototype.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>lib/prototype/windows/themes/magento.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_remotelinks_edit" name="remotelinksmapping_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_remotelinks_edit> 
+    <default>
+        <reference name="erp_customer_group">
+            <action method="setTemplate">
+                <template>b2b/customer/group/edit/erpinfo.phtml</template>
+            </action>        
+        </reference>
+        <reference name="notification_toolbar">
+            <action method="setTemplate">
+                <template>epicor_comm/notification/toolbar.phtml</template>
+            </action>   
+        </reference>
+    </default>
+    
+    <adminhtml_epicorcomm_customer_erpaccount_listerpaccounts>
+        <block type="epicor_comm/adminhtml_customer_erpaccount_attribute" name="root" /> 
+    </adminhtml_epicorcomm_customer_erpaccount_listerpaccounts>
+    
+    <adminhtml_epicorcomm_customer_erpaccount_listskuproducts>
+        <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_products_list" name="root" /> 
+    </adminhtml_epicorcomm_customer_erpaccount_listskuproducts>
+    
+    <adminhtml_catalog_product_attribute_edit>
+        <reference name="js">
+            <block type="adminhtml/template" name="attribute_edit_js" template="catalog/product/attribute/js.phtml"></block>
+        </reference>
+        <reference name="attribute_edit_js">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/attribute/js.phtml</template>
+            </action>        
+        </reference>
+    </adminhtml_catalog_product_attribute_edit>
+    
+    <adminhtml_epicorcomm_advanced_entityreg_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_advanced_entity_register" name="entity_register" />
+        </reference>
+    </adminhtml_epicorcomm_advanced_entityreg_index>
+    <adminhtml_notification_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_notification_url" name="notification.url" template="epicor_comm/notification/url.phtml"></block>
+        </reference>
+    </adminhtml_notification_index>     
+    
+    
+    
+    <adminhtml_epicorcomm_returns_index>
+        <reference name="head"></reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_sales_returns" name="returns_list" />
+        </reference>
+    </adminhtml_epicorcomm_returns_index>
+    
+    <adminhtml_epicorcomm_returns_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/comm.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/returns.js</name>
+                <params/>
+            </action>
+        </reference>
+        
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_sales_returns_view" name="erp_returns"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_comm/adminhtml_sales_returns_view_tabs" name="erp_returns_tabs"></block>
+        </reference>  
+    </adminhtml_epicorcomm_returns_view>
+    
+    <adminhtml_epicorcomm_customer_addresses>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/customer_edit_tab_addresses" name="admin.customer.view.addresses">
+                <action method="initForm"></action>
+                <action method="setTemplate">
+                    <template>epicor_comm/customer/tab/addresses.phtml</template>
+                </action>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_addresses>
+    
+    
+    
+    <adminhtml_epicorcomm_locations_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_locations_list" name="locations_list" />
+        </reference>
+    </adminhtml_epicorcomm_locations_index>
+    
+    <adminhtml_epicorcomm_locations_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/locations.css</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <script>epicor/common/unserialize.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_locations_edit" name="locations"></block>
+        </reference>
+        <reference name="left">
+            <block type="epicor_comm/adminhtml_locations_edit_tabs" name="locations_tabs"></block>
+        </reference>  
+    </adminhtml_epicorcomm_locations_edit>
+    
+    <adminhtml_epicorcomm_locations_stores>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_stores" name="stores_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>stores_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[stores]</hidden_input_name>
+                        <reload_param_name>stores</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_stores>
+    <adminhtml_epicorcomm_locations_storesgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_stores" name="stores_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_storesgrid>
+    
+    <adminhtml_epicorcomm_locations_customers>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_customers" name="customers_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>customers_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[customers]</hidden_input_name>
+                        <reload_param_name>customers</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_customers>
+    <adminhtml_epicorcomm_locations_customersgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_customers" name="customers_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_customersgrid>
+    
+    <adminhtml_epicorcomm_locations_erpaccounts>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_erpaccounts" name="erpaccounts_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erpaccounts_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[erpaccounts]</hidden_input_name>
+                        <reload_param_name>erpaccounts</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_erpaccounts>
+    <adminhtml_epicorcomm_locations_erpaccountsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_erpaccounts" name="erpaccounts_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_erpaccountsgrid>
+    <adminhtml_epicorcomm_locations_products>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_products" name="products_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>products_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[products]</hidden_input_name>
+                        <reload_param_name>products</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_products>
+    <adminhtml_epicorcomm_locations_productsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_products" name="products_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_productsgrid>
+    
+    <adminhtml_epicorcomm_locations_loggrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_log" name="log_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_loggrid>
+    <adminhtml_customer_edit>
+        <reference name="head" >
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/customer/locations.js</name>
+                <params/>
+            </action>
+            <action method="addItem" ifconfig="epicor_comm_field_mapping/cus_mapping/customer_use_multiple_customer_groups">
+                <type>skin_js</type>
+                <name>epicor/comm/js/customer/edit.js</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="customer_edit_tabs">
+            <block type="epicor_comm/adminhtml_customer_edit_tab_locations_wrapper" name="customer_locations_wrapper">
+                <action method="setLabel">
+                    <label>Locations</label>
+                </action>
+                <action method="setTitle">
+                    <title>Locations</title>
+                </action>
+                <block type="epicor_comm/adminhtml_customer_edit_tab_locations_form" name="locations_form"></block>
+                <block type="epicor_comm/adminhtml_customer_edit_tab_locations" name="locations_grid"></block>
+                <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                    <reference name="grid_serializer">
+                        <action method="initSerializerBlock">
+                            <grid_block_name>locations_grid</grid_block_name>
+                            <data_callback>getSelected</data_callback>
+                            <hidden_input_name>links[locations]</hidden_input_name>
+                            <reload_param_name>locations</reload_param_name>
+                        </action>
+                        <action method="addColumnInputName">
+                            <input_name>row_id</input_name>
+                        </action> 
+                    </reference>
+                </block>
+            </block>
+            <action method="addTabAfter">
+                <name>customer_edit_tab_locations</name>
+                <block>customer_locations_wrapper</block>
+                <after>tags</after>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+    <adminhtml_epicorcomm_customer_locationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_edit_tab_locations" name="locations_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_locationsgrid>
+    
+    <adminhtml_catalog_category_edit>
+        <reference name="head" >
+            <action method="addJs">
+                <script>epicor/comm/editCategory/syncImages.js</script>
+            </action>
+        </reference>
+        <reference name="category">
+            <block name="ftp_sync" type="epicor_comm/adminhtml_catalog_category_edit_sync" template="epicor_comm/catalog/product/edit/sync.phtml"></block>
+        </reference>
+    </adminhtml_catalog_category_edit>
+</layout>
