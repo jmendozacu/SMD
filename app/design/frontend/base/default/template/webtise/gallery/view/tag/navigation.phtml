@@ -2,10 +2,8 @@
     $_categories = $this->getTagCategories();
 ?>
 <?php if($_categories && $_categories->getSize() > 0): ?>
-    <div class="tag-navigation block-cms-menu">
-        <div class="block-title">
-            <strong><span><?php echo $this->__('Filter By') ?></span></strong>
-        </div>
+    <div class="tag-navigation">
+        <h2><?php echo $this->__('Filter By') ?></h2>
         <div class="selected-tags no-display" id="selectedTags">
             <h3><?php echo $this->__('Chosen Filters') ?>: </h3>
             <?php foreach($_categories as $category): ?>

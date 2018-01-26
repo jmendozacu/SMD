@@ -93,6 +93,7 @@ Gallery.Gallery.prototype = {
             newImage.url = response.url;
             newImage.file = response.file;
             newImage.label = '';
+            newImage.description = '';
             newImage.related_product_ids = '';
             newImage.image_specific_url = '';
             newImage.tag_ids = '';
@@ -154,6 +155,8 @@ Gallery.Gallery.prototype = {
         var index = this.getIndexByFile(file);
         this.images[index].label = this
             .getFileElement(file, 'cell-label input').value;
+        this.images[index].description = this
+            .getFileElement(file, 'cell-description textarea').value;
         this.images[index].related_product_ids = this
             .getFileElement(file, 'cell-related-product-ids input').value;
         this.images[index].image_specific_url = this
@@ -192,6 +195,7 @@ Gallery.Gallery.prototype = {
     updateVisualisation : function(file) {
         var image = this.getImageByFile(file);
         this.getFileElement(file, 'cell-label input').value = image.label;
+        this.getFileElement(file, 'cell-description textarea').value = image.description;
         this.getFileElement(file, 'cell-related-product-ids input').value = image.related_product_ids;
         this.getFileElement(file, 'cell-image-specific-url input').value = image.image_specific_url;
         this.getFileElement(file, 'cell-image-tag-ids input').value = image.tag_ids;

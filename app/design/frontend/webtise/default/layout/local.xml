@@ -15,4 +15,23 @@
 		</reference>
 	</catalog_category_landing>
 
+	<wishlist_index_index>
+	<reference name="customer.wishlist.items">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/item/list.phtml</template>
+            </action>
+	</reference>
+	<reference name="customer.wishlist.item.cart">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/item/column/cart.phtml</template>
+            </action>
+	</reference>
+        <reference name="customer.wishlist.button.toCart">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/button/tocart.phtml</template>
+            </action>
+	</reference>
+	</wishlist_index_index>
+
+
 </layout>

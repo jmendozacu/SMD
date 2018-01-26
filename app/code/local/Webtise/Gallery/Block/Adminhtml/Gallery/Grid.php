@@ -20,9 +20,15 @@ class Webtise_Gallery_Block_Adminhtml_Gallery_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection(){
         $collection = Mage::getModel('gallery/gallery')->getCollection()
             ->addAttributeToSelect('date_published')
-            ->addAttributeToSelect('title')
             ->addAttributeToSelect('status')
             ->addAttributeToSelect('url_key');
+        $adminStore = Mage_Core_Model_App::ADMIN_STORE_ID;
+        $store = $this->_getStore();
+        $collection->joinAttribute('title', 'gallery_gallery/title', 'entity_id', null, 'inner', $adminStore);
+        if ($store->getId()) {
+            $collection->joinAttribute('gallery_gallery_title', 'gallery_gallery/title', 'entity_id', null, 'inner', $store->getId());
+        }
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

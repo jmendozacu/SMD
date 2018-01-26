@@ -222,6 +222,16 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     <?php if ((!$showLocations || $groupOrConfigurable) || ($showLocations && (!$allSourceLocations && count($_product->getCustomerLocations()) > 1))): ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                     <?php endif; ?>
+
+			<div class="poqty" style="display:block">
+				<?php if($_product->getData('poqtyone')>0): ?>
+				<span>PO One: </span>
+				<?php echo $_product->getData('poqtyone').' '.($_product->getUom()=='M'?'Meters':'Each'); ?>
+				<span>on</span>
+				<?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
+				<?php endif; ?>
+			</div>
+
                     <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
                         <?php if ($showAddToCart) : ?>

@@ -34,6 +34,9 @@ if (Mage::getStoreConfig('Epicor_Comm/brands/show_store_selector')) {
     Mage::getSingleton('core/session')->setHasStoreSelected(false);
 }
 ?>
+
+
+
 <div class="account-login<?php if (!$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="customer-account-login ">
         <?php echo $this->getMessagesBlock()->toHtml() ?>
@@ -72,6 +75,12 @@ if (Mage::getStoreConfig('Epicor_Comm/brands/show_store_selector')) {
                     <div class="buttons-set">
                         <button type="submit" class="button" title="<?php echo $this->quoteEscape($this->__('Sign in')) ?>" name="send" id="send2"><span><span><?php echo $this->__('Sign in') ?></span></span></button>
                     </div>
+			<div class="buttons-set">
+				<span>Join us?</span><br>
+			<button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';">
+			<span><span><?php echo $this->__('Create an Account') ?></span></span>
+			</button>
+			</div>
                 </div>
             </div>
             <?php if (Mage::helper('checkout')->isContextCheckout()): ?>

@@ -114,7 +114,6 @@ class Webtise_Gallery_Adminhtml_Webtise_Gallery_TagController extends Mage_Admin
             }
             try {
                 $galleryTag->save();
-                Mage::getModel('core/log_adapter', 'tag-save.log')->log($galleryTag->getData());
                 $galleryTagId = $galleryTag->getId();
                 $this->_getSession()->addSuccess(Mage::helper('gallery')->__('Gallery Tag was saved'));
             }

@@ -6,3 +6,6 @@ input[type=tel],
 input[type=text] {
 	height:55px !important;
 }
+#add_all_to_basket {
+	margin:4px !important;
+}

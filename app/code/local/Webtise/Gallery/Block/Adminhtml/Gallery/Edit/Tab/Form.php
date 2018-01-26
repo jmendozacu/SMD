@@ -114,7 +114,7 @@ class Webtise_Gallery_Block_Adminhtml_Gallery_Edit_Tab_Form extends Mage_Adminht
             'name'      => 'display_type',
             'index'     => 'display_type',
             'values'    => Mage::getModel('gallery/source_display_types')->getAllOptions(),
-            'after_element_html' => '<p class="nm"><small>Not applicable for custom pages.</small></p>'
+            'after_element_html' => '<p class="nm"><small>Not applicable for custom pages. If selecting a display with an overlay, the Image label and description will try to be used for text content.</small></p>'
         ));
 
         $items = ($gallery->getCarouselItems() ? Mage::registry('current_gallery')->getCarouselItems() : '1');
@@ -159,7 +159,7 @@ class Webtise_Gallery_Block_Adminhtml_Gallery_Edit_Tab_Form extends Mage_Adminht
             ->addFieldDependence(
                 $carouselItems->getName(),
                 $display->getName(),
-                'carousel'
+                ['carousel', 'carousel_text_overlay']
             )
             ->addFieldDependence(
                 $url->getName(),

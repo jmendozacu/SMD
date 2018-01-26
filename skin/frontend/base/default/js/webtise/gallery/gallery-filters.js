@@ -28,7 +28,7 @@ jQuery.noConflict();
 
     });
 
-    $(document).on('click', '.selected-tag .remove, .swatch-container .remove', function() {
+    $(document).on('click', '.selected-tag', function() {
         var tag = $(this);
         var index = selectedTags[tag.data('category')].indexOf(tag.data('tag-id').toString());
         if(index > -1) {
@@ -120,9 +120,9 @@ jQuery.noConflict();
             }
             var selectedHtml = '';
             if(tag.data('swatch')) {
-                selectedHtml = '<div class="swatch-container"><img class="selected-tag swatch" data-category="'+tag.data('category')+'" src="'+tag.data('swatch-url')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '" width="40" height="40"/><span class="remove" data-category="'+tag.data('category')+'" src="'+tag.data('swatch-url')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '">x</span></div>';
+                selectedHtml = '<img class="selected-tag swatch" data-category="'+tag.data('category')+'" src="'+tag.data('swatch-url')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '" width="40" height="40"/>';
             }else {
-                selectedHtml = '<p class="selected-tag" data-category="'+tag.data('category')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '">' + tag.data('tag-title') + '<span class="remove" data-category="'+tag.data('category')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '">x</span></p>';
+                selectedHtml = '<p class="selected-tag" data-category="'+tag.data('category')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '">' + tag.data('tag-title') + '<span class="remove">x</span></p>';
             }
             selectedEl.append(selectedHtml);
         }

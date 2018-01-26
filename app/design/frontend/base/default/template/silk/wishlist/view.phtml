@@ -53,17 +53,18 @@ $retailerHp = Mage::helper('silk_retailer');
                 </div>
             </fieldset>
         </form>
+
         <?php if($locationsEnabled): ?>
         <form id="wishlist-allcart-form" action="<?php echo $this->getUrl('epicor_comm/locations/addToCartFromWishlist') ?>" method="post">
-            <?php else: ?>
-            <form id="wishlist-allcart-form" action="<?php echo $this->getUrl('*/*/allcart') ?>" method="post">
-                <?php endif ?>
+        <?php else: ?>
+        <form id="wishlist-allcart-form" action="<?php echo $this->getUrl('*/*/allcart') ?>" method="post">
+        <?php endif ?>
                 <?php echo $this->getBlockHtml('formkey') ?>
                 <div class="no-display">
                     <input type="hidden" name="wishlist_id" id="wishlist_id" value="<?php echo $this->getWishlistInstance()->getId() ?>" />
                     <input type="hidden" name="qty" id="qty" value="" />
                 </div>
-            </form>
+        </form>
 
             <script type="text/javascript">
                 //<![CDATA[
@@ -92,7 +93,7 @@ $retailerHp = Mage::helper('silk_retailer');
                 }
                 //]]>
             </script>
-
+<!--
     <?php // retailer ?>
         <form id="relaiter-search" action="<?php echo $this->getUrl('retailer') ?>" method="get">
             <span><?php echo $this->__('Find Retailer')?></span>
@@ -121,6 +122,7 @@ $retailerHp = Mage::helper('silk_retailer');
         }
         //]]>
         </script>
+-->
     </div>
     <?php echo $this->getChildHtml('bottom'); ?>
 <?php endif ?>

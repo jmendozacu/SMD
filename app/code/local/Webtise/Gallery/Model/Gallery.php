@@ -26,7 +26,6 @@ class Webtise_Gallery_Model_Gallery extends Mage_Catalog_Model_Abstract
             $this->setCreatedAt($now);
         }
         $this->setUpdatedAt($now);
-        Mage::getModel('core/log_adapter', 'before-save.log')->log($this->getData());
         return $this;
     }
 

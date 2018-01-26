@@ -1,0 +1,185 @@
+<?php
+/**
+ * WARNING: IF YOU MAKE ECC SPECIFIC CHANGES TO THIS FILE, THEY MUST ALSO BE ADDED TO THE RWD FILE TOO
+ * rwd/default/template/quickorderpad/form/list.phtml
+ */
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Epicor_QuickOrderPad_Block_Catalog_Product_List
+ */
+/* @var $this Epicor_QuickOrderPad_Block_Catalog_Product_List */
+?>
+<?php
+
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$_productHelper = $this->helper('epicor_comm/product');
+/* @var $_productHelper Epicor_Comm_Helper_Product */
+$showUom = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart');
+$showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart_column');
+// limit customer access to configurator button to correct licence
+$customer = Mage::getModel('customer/session')->getCustomer();
+/* @var $customer Epicor_Comm_Model_Customer */
+if ($customer->isCustomer()) {
+    $licenseTypes = array('Customer_Configurator');
+} else {
+    $licenseTypes = array('Consumer_Configurator');
+}
+
+$helper = $this->helper('epicor_comm');
+/* @var $helper Epicor_Comm_Helper_Data */
+
+$showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
+$showPrice = $helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+$showStockLevelDisplay = $this->showStockLevelDisplay();
+$showProductImage = $this->showProductImageDisplay();
+
+$showMultipleAdd = false;
+
+$this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
+
+//locations stuff
+$locHelper = $this->helper('epicor_comm/locations');
+/* @var $helper Epicor_Comm_Helper_Locations */
+$showLocations = $locHelper->isLocationsEnabled();
+$allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
+
+$displayedProductSku = '';
+$displayedProductLocation = '';
+
+
+
+?>
+<?php if (!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="category-products">
+        <?php echo $this->getToolbarHtml() ?>
+        <?php $_iterator = 0; ?>
+        <table class="qop-list data-table" id="qop-list">
+            <thead>
+                <tr>
+                    <?php echo $this->getChildHtml('image_header', false); ?>
+                    <?php echo $this->getChildHtml('product_header', false); ?>
+                    <?php echo $this->getChildHtml($this->getPrimarySort() . '_header', false); ?>
+                    <?php echo $this->getChildHtml($this->getSecondarySort() . '_header', false); ?>
+                    <?php echo $this->getChildHtml('stock_header', false); ?>
+                    <?php echo $this->getChildHtml('price_header', false); ?>
+                    <?php echo $this->getChildHtml('add_header', false); ?>
+                </tr>
+            </thead>
+            <?php
+            foreach ($_productCollection as $product):
+                /* @var $_product Epicor_Comm_Model_Product */
+                Mage::unregister('current_product');
+                Mage::register('current_product', $product);
+                $uomProducts = $this->getUOMProducts($product);
+                if (($product->getTypeId() != 'grouped' || count($uomProducts) > 0) && (!Mage::registry('search-instock') || $product->isSaleable())) :
+                    
+                    $showMultipleAdd = true;
+                    $extraClasses = ( ++$_iterator == sizeof($_productCollection) ) ? ' last' : '';
+                    $primary_rowspan = $this->getPrimaryRowspan($product);
+                    Mage::unregister('current_rowspan');
+                    Mage::register('current_rowspan', $primary_rowspan);
+                    ?>
+                    <tr class="item <?php echo $extraClasses; ?>">
+                        <?php echo $this->getChildHtml('image_row', false); ?>
+                        <?php echo $this->getChildHtml('product_row', false); ?>
+                        <?php
+                        $primaryRow = 1;
+                        $primaryProducts = $this->getPrimaryItems($product);
+                        
+                        foreach ($primaryProducts as $primaryProduct) :
+                            $this->setProductData($product, $primaryProduct);
+                            $secondary_rowspan = $this->getSecondaryRowspan($product, $primaryProduct);
+                            Mage::unregister('current_rowspan');
+                            Mage::register('current_rowspan', $secondary_rowspan);
+                            ?>
+                            <?php echo $this->getChildHtml($this->getPrimarySort() . '_row', false); ?>
+                            <?php
+                            Mage::unregister('current_rowspan');
+                            Mage::register('current_rowspan', 1);
+                            $secondaryRow = 1;
+                            $secondaryProducts = $this->getSecondaryItems($product, $primaryProduct);
+                            $lastSku = '';
+                            foreach ($secondaryProducts as $secondaryProduct) :
+                                if($this->getPrimarySort() == 'location' || $lastSku != $primaryProduct->getSku()):                          //only set when using locations and all_source_locations set 
+                                   $this->setProductData($primaryProduct, $secondaryProduct);
+                                    ?>
+                                    <?php echo $this->getChildHtml($this->getSecondarySort() . '_row', false); ?>
+                                    <?php echo $this->getChildHtml('stock_row', false); ?>
+                                    <?php echo $this->getChildHtml('price_row', false); ?>
+                                    <?php echo $this->getChildHtml('add_row', false); ?>
+                            <?php endif; ?>
+                            <?php if($showLocations && $allSourceLocations): ?>
+                            <?php     $lastSku = $primaryProduct->getSku(); ?>
+                            <?php endif; ?>
+                            </tr>
+                            <?php if ($secondaryRow != count($secondaryProducts)) : ?>
+                                <tr class="item" rel="s-<?php echo $secondaryRow; ?>">
+                                <?php endif; ?>
+                                <?php $secondaryRow++; ?>
+                            <?php endforeach; ?>
+                        </tr>
+                        <?php if ($primaryRow != count($primaryProducts)) : ?>
+                            <tr class="item" rel="p-<?php echo $primaryRow; ?>">
+                            <?php endif; ?>
+                            <?php $primaryRow++; ?>
+                        <?php endforeach; ?>
+
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </table>
+
+        <?php //echo $this->getToolbarHtml(); ?>
+        <?php if (($showMultipleAdd && $showAddToCart) || $this->getForceCart()) : ?>
+		<?php if(Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
+            <?php $label = $this->getCartButtonLabelOverride() ? $this->__($this->getCartButtonLabelOverride()) : $this->__('Add to Cart'); ?>
+            <form method="post" action="/comm/cart/add/" class="addalltobasketform">
+                <input type="hidden" name="configurelist" value="1" />
+                <button type="sumbit" title="<?php echo $label ?>" class="button btn-qop" id="add_all_to_basket"><span><?php echo $label ?></span></button>
+            </form>
+		<?php endif; ?>
+        <?php endif; ?>
+        <?php if ($this->getRequest()->getParam('csv')) : ?>
+            <div class="add-to-cart" id="clear_configure_basket">
+                <a href="<?php echo Mage::getUrl('quickorderpad/form/configclear'); ?>">
+                    <button type="button" title="<?php echo $this->__('Clear List'); ?>" class="button btn-cart" onclick="">
+                        <span><span>
+                                <?php echo $this->__('Clear List') ?>
+                            </span></span>
+                    </button>
+                </a>
+            </div>
+        <?php endif; ?>
+        <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+    </div>
+<?php endif; ?>

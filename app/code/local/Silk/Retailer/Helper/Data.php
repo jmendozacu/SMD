@@ -46,7 +46,7 @@ class Silk_Retailer_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isB2C()
     {
-        return Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2C';
+        return (Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2C') || (Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'Guest');
     }
 
     public function allowAddSampleProduct()

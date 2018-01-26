@@ -27,12 +27,6 @@ class Webtise_Gallery_Model_Gallery_Tag extends Mage_Core_Model_Abstract
         return $html;
     }
 
-    protected function _beforeSave() {
-        parent::_beforeSave();
-        Mage::getModel('core/log_adapter', 'before-save.log')->log($this->getData());
-        return $this;
-    }
-
     public function getDefaultValues() {
         $values = array();
         $values['status'] = 1;

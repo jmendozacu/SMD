@@ -14,6 +14,7 @@ $_block = $this;
             <col width="500" />
             <col width="500" />
             <col width="500" />
+            <col width="500" />
             <col width="70" />
             <col width="70" />
             <col width="70" />
@@ -21,6 +22,7 @@ $_block = $this;
             <tr class="headings">
                 <th><?php echo Mage::helper('gallery')->__('Image') ?></th>
                 <th><?php echo Mage::helper('gallery')->__('Label') ?></th>
+                <th><?php echo Mage::helper('gallery')->__('Description') ?></th>
                 <th><?php echo Mage::helper('gallery')->__('Related Product Ids (comma separated)') ?></th>
                 <th><?php echo Mage::helper('gallery')->__('Image Specific Url') ?></th>
                 <th><?php echo Mage::helper('gallery')->__('Image Tag Ids (comma separated)') ?></th>
@@ -33,6 +35,7 @@ $_block = $this;
             <tr id="<?php echo $_block->getHtmlId() ?>_template" class="template no-display">
                 <td class="cell-image"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('__file__')"><span><?php echo Mage::helper('gallery')->__('Roll Over for preview') ?></span></div><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></td>
                 <td class="cell-label"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
+                <td class="cell-description"><textarea <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')"></textarea></td>
                 <td class="cell-related-product-ids"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
                 <td class="cell-image-specific-url"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
                 <td class="cell-image-tag-ids"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
@@ -43,6 +46,7 @@ $_block = $this;
             <tr id="<?php echo $_block->getHtmlId() ?>-image-0">
                 <td class="cell-image"><?php echo Mage::helper('gallery')->__('No image') ?></td>
                 <td class="cell-label"><input type="hidden" />&nbsp;</td>
+                <td class="cell-description"><input type="hidden" />&nbsp;</td>
                 <td class="cell-related-product-ids"><input type="hidden" />&nbsp;</td>
                 <td class="cell-image-specific-url"><input type="hidden" />&nbsp;</td>
                 <td class="cell-image-tag-ids"><input type="hidden" />&nbsp;</td>

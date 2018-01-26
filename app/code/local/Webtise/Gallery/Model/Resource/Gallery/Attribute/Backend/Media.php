@@ -226,6 +226,7 @@ class Webtise_Gallery_Model_Resource_Gallery_Attribute_Backend_Media extends Mag
                 'main.value_id = default_value.value_id AND default_value.store_id = 0',
                 array(
                     'label_default'                 => 'label',
+                    'description_default'           => 'description',
                     'related_product_ids_default'   => 'related_product_ids',
                     'image_specific_url_default'    => 'image_specific_url',
                     'tag_ids'                       => 'tag_ids',
