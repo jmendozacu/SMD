@@ -63,8 +63,10 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
 		<?php if($_product->getStockLevel() <= 0): ?>
 		<p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
 		<?php else: ?>
+			<?php if(Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
              <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $_product->getStockLevel() ?></span>
 						<?php echo ($_product->getUom() == 'M')?'Meters':'Each' ?>
+			<?php endif; ?>
 	     </p>
 		<?php endif; ?>
    <?php break; ?> 

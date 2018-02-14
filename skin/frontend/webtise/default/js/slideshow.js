@@ -28,7 +28,6 @@ $j(document).ready(function () {
     // ==============================================
     // UI Pattern - Slideshow
     // ==============================================
-
     $j('.slideshow-container .slideshow')
         .cycle({
             slides: '> li',

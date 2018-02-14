@@ -963,6 +963,16 @@
     .link-wishlist {
         display: none;
     }
+
+    .item {
+        &:hover {
+            img,
+            a {
+                opacity: 0.75;
+            }
+        }
+    }
+
 }
 
 /* -------------------------------------------- *

@@ -1,0 +1,58 @@
+<?php
+    /** @var Interjar_CollectionsCategory_Block_Category_View $this */
+    $_category = $this->getCurrentCategory();
+    $_subcategories = $this->getSubcategoryCollection();
+    $updateUrl = Mage::helper('collectionscategory')->getProductsUpdateUrl();
+?>
+<?php if ($_subcategories): ?>
+    <div class="subcategories-wrapper">
+        <?php foreach ($_subcategories as $subcategory): ?>
+            <?php $_products = $this->getProductsFromCategory($subcategory); ?>
+            <?php if ($_products): ?>
+                <div class="subcategory">
+                    <h3 class="subcategory-title"><?php echo $this->__($subcategory->getName()); ?></h3>
+                    <div class="subcategory-products <?php echo $subcategory->getId().'-subcategorySlider'; ?>" id="<?php echo $subcategory->getId().'-subcategorySlider' ?>">
+                        <?php /** @var Interjar_CollectionsCategory_Block_Category_Subcategory_Product $subcategoryProductBlock */ ?>
+                        <?php echo $this->getSubcategoryProductBlock($subcategory, $_products); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery('#<?php echo $subcategory->getId(); ?>-subcategorySlider').slick({
+                        draggable: false,
+                        nextArrow: '<button type="button" class="slick-next slick-next-<?php echo $subcategory->getId(); ?>" id="slick-next-<?php echo $subcategory->getId(); ?>" data-clicks="1" data-page="2" onclick="loadNewProducts(<?php echo $subcategory->getId(); ?>)">Previous</button>',
+                        slidesToShow: 2,
+                        responsive: [
+                            {
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 6,
+                                    slidesToScroll: 1,
+                                    infinite: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 4,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ],
+                        mobileFirst: true
+                    })
+                });
+            </script>
+
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

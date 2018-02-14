@@ -64,7 +64,7 @@
 
 .category-subcategories-top {
     align-items: center;
-    border-bottom: 2px solid #B4B4B4;
+    border-bottom: 2px solid $c-medium-grey;
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
@@ -222,4 +222,32 @@
 .catalog-category-view div.categoryland-caption p.desc {
     color: #656565;
     font: italic 18px/28px Georgia, "Times New Roman", Times, serif;
+}
+
+//Subcategories Slider
+.subcategories-wrapper {
+    border-top: 2px solid $c-medium-grey;
+    padding-top: 20px;
+}
+
+.subcategory-products {
+    .subcategory-product {
+        padding: 5px;
+        &:hover {
+            p,
+            a {
+                opacity: 0.75;
+                text-decoration: none;
+            }
+        }
+    }
+    .product-title {
+        text-align: center;
+    }
+    img {
+        max-width: 100%;
+        &:hover {
+            opacity: 0.75;
+        }
+    }
 }

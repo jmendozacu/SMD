@@ -38,58 +38,132 @@ if (Mage::getStoreConfig('Epicor_Comm/brands/show_store_selector')) {
 
 
 <div class="account-login<?php if (!$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
-    <div class="customer-account-login ">
+    <div class="customer-account-login two-forms">
         <?php echo $this->getMessagesBlock()->toHtml() ?>
-        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" class="scaffold-form">
-            <?php echo $this->getBlockHtml('formkey'); ?>
-            <div class="col2-set">
-                <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
 
-                <?php endif; ?>
-                <?php // This column should be col-1 if the registration column is not displayed ?>
-                <div class="<?php if ($this->helper('customer')->isRegistrationAllowed()): ?>col-2<?php else: ?>col-1<?php endif; ?> registered-users">
-                    <div class="content fieldset">
-                        <h2><?php echo $this->__('Sign in') ?></h2>
-                        <p class="form-instructions"><?php echo $this->__('Log in to access your account') ?></p>
+        <div class="form-left">
+            <p class="title"><?php echo $this->__('Consumer Login') ?></p>
+            <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" class="scaffold-form">
+                <?php echo $this->getBlockHtml('formkey'); ?>
+                <div class="col2-set">
+                    <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
 
-                        <ul class="form-list">
-                            <li>
-                                <div class="input-box">
-                                    <input type="email" placeholder="Enter your email" autocapitalize="off" autocorrect="off" spellcheck="false" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->quoteEscape($this->__('Email Address')) ?>" />
-                                </div>
-                            </li>
-                            <li>
+                    <?php endif; ?>
+                    <?php // This column should be col-1 if the registration column is not displayed ?>
+                    <h2><?php echo $this->__('Sign in') ?></h2>
+                    <div class="<?php if ($this->helper('customer')->isRegistrationAllowed()): ?>col-2<?php else: ?>col-1<?php endif; ?> registered-users">
+                        <div class="content fieldset">
 
-                                <div class="input-box">
-                                    <input type="password" placeholder="Enter your password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->quoteEscape($this->__('Password')) ?>" />
-                                </div>
-                            </li>
-                            <?php echo $this->getChildHtml('form.additional.info'); ?>
-                            <li>
-                                <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
-                            </li>
-                            <?php echo $this->getChildHtml('persistent.remember.me'); ?>
-                        </ul>
-                        <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                            <p class="form-instructions restrained"><?php echo $this->__('Log in to order samples & add to favourites') ?></p>
+                            <ul class="form-list">
+                                <li>
+                                    <div class="input-box">
+                                        <input type="email" placeholder="Enter your email" autocapitalize="off" autocorrect="off" spellcheck="false" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->quoteEscape($this->__('Email Address')) ?>" />
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-box">
+                                        <input type="password" placeholder="Enter your password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->quoteEscape($this->__('Password')) ?>" />
+                                    </div>
+                                </li>
+                                <?php echo $this->getChildHtml('form.additional.info'); ?>
+                                <li>
+                                    <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
+                                </li>
+                                <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                            </ul>
+                            <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                        </div>
+                        <div class="buttons-set align-right restrained ">
+                            <button type="submit" class="button" title="<?php echo $this->quoteEscape($this->__('Log in')) ?>" name="send" id="send2"><span><span><?php echo $this->__('Log in') ?></span></span></button>
+                        </div>
+                        <div class="register-details buttons-set restrained">
+                            <span><?php echo $this->__('If you do not already have an account you can register here to order samples & add to your favourites') ?></span><br>
+                            <button type="button" title="<?php echo $this->__('Register') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';">
+                                <span><span><?php echo $this->__('Register') ?></span></span>
+                            </button>
+                        </div>
+                        <div class="notice-text restrained">
+                            <span><?php echo $this->__('By signing in you are agreeing to our Website Terms & Conditions of Use, our Privacy Policy and our Cookie Policy.') ?></span>
+                        </div>
+
                     </div>
-                    <div class="buttons-set">
-                        <button type="submit" class="button" title="<?php echo $this->quoteEscape($this->__('Sign in')) ?>" name="send" id="send2"><span><span><?php echo $this->__('Sign in') ?></span></span></button>
-                    </div>
-			<div class="buttons-set">
-				<span>Join us?</span><br>
-			<button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';">
-			<span><span><?php echo $this->__('Create an Account') ?></span></span>
-			</button>
-			</div>
                 </div>
-            </div>
-            <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
-                <input name="context" type="hidden" value="checkout" />
-            <?php endif; ?>
-        </form>
+                <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+                    <input name="context" type="hidden" value="checkout" />
+                <?php endif; ?>
+            </form>
+        </div>
+
+        <div class="form-right">
+            <p class="title"><?php echo $this->__('Trade Login') ?></p>
+            <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form2" class="scaffold-form">
+                <?php echo $this->getBlockHtml('formkey'); ?>
+                <div class="col2-set">
+                    <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
+
+                    <?php endif; ?>
+                    <?php // This column should be col-1 if the registration column is not displayed ?>
+                    <h2><?php echo $this->__('Sign in') ?></h2>
+                    <div class="<?php if ($this->helper('customer')->isRegistrationAllowed()): ?>col-2<?php else: ?>col-1<?php endif; ?> registered-users">
+                        <div class="content fieldset">
+
+                            <p class="form-instructions restrained"><?php echo $this->__('Log in to access your account') ?></p>
+
+                            <ul class="form-list">
+                                <li>
+                                    <div class="input-box">
+                                        <input type="email" placeholder="Enter your email" autocapitalize="off" autocorrect="off" spellcheck="false" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->quoteEscape($this->__('Email Address')) ?>" />
+                                    </div>
+                                </li>
+                                <li>
+
+                                    <div class="input-box">
+                                        <input type="password" placeholder="Enter your password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->quoteEscape($this->__('Password')) ?>" />
+                                    </div>
+                                </li>
+                                <?php echo $this->getChildHtml('form.additional.info'); ?>
+                                <li>
+                                    <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
+                                </li>
+                                <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                            </ul>
+                            <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                        </div>
+                        <div class="buttons-set align-right restrained">
+                            <button type="submit" class="button" title="<?php echo $this->quoteEscape($this->__('Log in')) ?>" name="send" id="send2"><span><span><?php echo $this->__('Log in') ?></span></span></button>
+                        </div>
+                        <div class="contact-details restrained">
+
+                            <?php $storeEmail = Mage::getStoreConfig('trans_email/ident_general/email'); ?>
+                            <?php $storePhone = Mage::getStoreConfig('general/store_information/phone'); ?>
+
+                            <p class="details-title"><?php echo $this->__('To obtain login credentials to access the ILIV trade site, please contact us on:') ?></p>
+                            <ul>
+                                <li>
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i> <a class="details-email" href="mailto:<?php echo $storeEmail ?>"><?php echo $storeEmail ?></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone" aria-hidden="true"></i> <a class="details-phone" href="tel:<?php echo $storePhone ?>">+44 <?php echo $storePhone; ?></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="notice-text restrained">
+                            <span><?php echo $this->__('By signing in you are agreeing to our Website Terms & Conditions of Use, our Privacy Policy and our Cookie Policy.') ?></span>
+                        </div>
+                    </div>
+                </div>
+                <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+                    <input name="context" type="hidden" value="checkout" />
+                <?php endif; ?>
+            </form>
+        </div>
+
+
         <script type="text/javascript">
             //<![CDATA[
             var dataForm = new VarienForm('login-form', true);
+            var dataForm2 = new VarienForm('login-form2', true);
             //]]>
         </script>
     </div>

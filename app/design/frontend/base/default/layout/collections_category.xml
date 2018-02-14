@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<layout>
+    <collections_category_view>
+        <remove name="category.products" />
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/interjar/collectionscategory/jquery-1.11.3.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/interjar/collectionscategory/jquery-noconflict.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/interjar/collectionscategory/slick.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/interjar/collectionscategory/collectionsCategory.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="collectionscategory/category_view" name="collections.category.view" as="collections_category_view" template="catalog/collections-category/view.phtml" >
+                <block type="collectionscategory/category_subcategory_product" name="subcategory.products" as="subcategory_products" template="catalog/collections-category/subcategory/product.phtml" />
+            </block>
+        </reference>
+    </collections_category_view>
+</layout>

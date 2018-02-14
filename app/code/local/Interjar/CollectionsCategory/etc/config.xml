@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <modules>
+        <Interjar_CollectionsCategory>
+            <version>1.0.0</version>
+        </Interjar_CollectionsCategory>
+    </modules>
+    <global>
+        <blocks>
+            <collectionscategory>
+                <class>Interjar_CollectionsCategory_Block</class>
+            </collectionscategory>
+        </blocks>
+        <helpers>
+            <collectionscategory>
+                <class>Interjar_CollectionsCategory_Helper</class>
+            </collectionscategory>
+        </helpers>
+        <page>
+            <layouts>
+                <collections_category_view translate="label">
+                    <label>Collections Category</label>
+                    <template>page/1column.phtml</template>
+                    <layout_handle>collections_category_view</layout_handle>
+                </collections_category_view>
+            </layouts>
+        </page>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <collectionscategory>
+                    <file>collections_category.xml</file>
+                </collectionscategory>
+            </updates>
+        </layout>
+        <routers>
+            <collectionscategory>
+                <use>standard</use>
+                <args>
+                    <module>Interjar_CollectionsCategory</module>
+                    <frontName>collections</frontName>
+                </args>
+            </collectionscategory>
+        </routers>
+    </frontend>
+</config>

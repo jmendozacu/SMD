@@ -1039,3 +1039,113 @@ body.newsletter-manage-index .my-account {
 .main-container .sidebar .block-account {
     width: 300px;
 }
+
+//Two Forms
+.two-forms {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    .restrained {
+        margin: auto;
+        max-width: 365px;
+    }
+
+    .align-right {
+        text-align: right!important;
+    }
+
+    .form{
+        &-left {
+            width: 98%;
+        }
+
+        &-right {
+            width: 98%;
+            margin-top: 20px;
+        }
+    }
+
+    @include bp(min-width, $bp-medium) {
+        flex-direction: row;
+        align-items: flex-start;
+
+        .form{
+            &-left,
+            &-right {
+                width: 48%;
+                margin-top: 0;
+            }
+        }
+    }
+
+    form {
+        h2 {
+            font-size: 18px;
+            margin-bottom: 0;
+            background-color: $c-background;
+            padding: 16px;
+            text-align: left;
+            max-width: 470px;
+            margin: auto;
+        }
+    }
+
+    .title {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 22px;
+    }
+
+    .registered-users {
+        padding: 0!important;
+        background-color: $c-white!important;
+        border: 1px solid $c-background;
+        margin-top: 0!important;
+        min-height: 600px;
+    }
+
+    .form-instructions {
+        text-align: left;
+        margin: 0 auto!important;
+        margin-bottom: 20px!important;
+    }
+
+    .button,
+    .button span span {
+        margin-top: 20px!important;
+        text-transform: uppercase!important;
+        font-size: 14px!important;
+
+    }
+
+    .contact-details,
+    .register-details {
+
+        padding-top: 60px;
+
+        .details-title {
+            text-align: left;
+        }
+
+        .buttons-set {
+            padding-bottom: 20px;
+            &:first-of-type {
+                text-align: right!important;
+            }
+
+
+        }
+
+        li {
+            text-align: left;
+            padding-left: 25px;
+        }
+    }
+
+    .notice-text {
+        padding-top: 40px;
+        text-align: left!important;
+    }
+}

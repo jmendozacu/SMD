@@ -25,3 +25,5 @@
 "My Cart (%s item)","My Basket (%s item)"
 "My Cart (%s items)","My Basket (%s items)"
 "My Cart","My Basket"
+"Buy %1$s for %2$s each and save %3$s","Order %1$s or more for %2$s each and save %3$s"
+"Buy %1$s for %2$s each","Order %1$s or more for %2$s each"

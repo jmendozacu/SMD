@@ -1,0 +1,72 @@
+<?php
+$_galleryId = $this->getData('gallery_id');
+$_gallery = Mage::getModel('gallery/gallery')->load($_galleryId);
+$_media = $_gallery->getMediaGalleryImages();
+?>
+
+<div class="gallery-wrapper text-center gallery-<?php echo $_gallery->getId() ?> <?php echo $_gallery->getGalleryClass(); ?>">
+
+    <?php if($_gallery->getShowTitle()): ?>
+        <h1 class="gallery-title"><?php echo $_gallery->getTitle(); ?></h1>
+    <?php endif; ?>
+
+    <?php if($_gallery->getDescription()): ?>
+        <p class="gallery-description"><?php echo $_gallery->getDescription(); ?></p>
+    <?php endif; ?>
+
+    <div class="uneven-grid-images row">
+
+
+        <?php foreach($_media as $image): ?>
+
+            <div class="grid-item-wrapper" data-tag-ids="<?php echo $this->getTagIds($image); ?>">
+
+                <?php if($this->hasProductLink($image)): ?>
+
+                    <a class="grid-item-link product" href="<?php echo $this->getImageLink($image, $_gallery)?>" data-reveal-id="productModal" data-reveal-ajax="true">
+
+                <?php elseif($this->hasLink($image)): ?>
+
+                    <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
+
+                <?php else: ?>
+
+                    <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>" data-reveal-id="productModal" data-reveal-ajax="true">
+
+                <?php endif; ?>
+
+                    <img class="grid-item" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+
+                </a>
+
+            </div>
+
+        <?php endforeach; ?>
+
+
+        <p class="no-images-match <?php if($_media): ?>no-display<?php endif; ?>" id="noImagesMatch"><?php echo $this->__('There are no images matching you\'re filters.') ?></p>
+
+    </div>
+
+    <?php if($_gallery->getGalleryHtml()): ?>
+        <div class="gallery-html">
+            <?php echo $_gallery->getGalleryHtml(); ?>
+        </div>
+    <?php endif; ?>
+
+</div>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+        var grid = $j('.uneven-grid-images').imagesLoaded(function() {
+            grid.masonry({
+                itemSelector: '.grid-item-wrapper',
+                percentPosition: true,
+                gutter: 10
+            });
+        });
+
+    //]>
+</script>

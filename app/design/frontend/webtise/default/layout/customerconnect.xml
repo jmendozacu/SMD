@@ -1,0 +1,939 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="right">
+            <block type="customerconnect/customer_account_summary" name="right.customer.account.summary" template="customerconnect/customer/account/summary.phtml" after="cart_sidebar" />
+        </reference>
+    </default>
+
+    <!--
+    Customer account pages, rendered for all tabs in dashboard
+    -->
+
+    <customer_account>   
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-default-style.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/account-navigation.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-navigation.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/account-common.js</name>
+                <params/>
+            </action> 
+            <block type="core/html_calendar" name="calendar" template="page/js/calendar.phtml" />
+        </reference>    
+        <reference name="left">
+            <block type="customer/account_navigation" name="customer_connect_navigation" template="customerconnect/navigation.phtml">
+                <action method="setTitle" translate="label" module="customerconnect">
+                    <value>Customer Connect</value>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>Customerconnect Account Dashboard</name>
+                    <path>customerconnect/dashboard/</path>
+                    <label>Dashboard</label>                    
+                </action>
+	<!--
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>Customerconnect Account Detail Enquiry </name>
+                    <path>customerconnect/account/</path>
+                    <label>Account Information</label>                   
+                </action>
+	-->
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_orders</name>
+                    <path>customerconnect/orders/</path>
+                    <label>Account Orders</label>
+                    <url_params></url_params>
+                    <msgtype>CUOS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_invoices</name>
+                    <path>customerconnect/invoices/</path>
+                    <label>Account Invoices</label>
+                    <url_params></url_params>
+                    <msgtype>CUIS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_payments</name>
+                    <path>customerconnect/payments/</path>
+                    <label>Account Payments</label>
+                    <url_params></url_params>
+                    <msgtype>CUPS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_shipments</name>
+                    <path>customerconnect/shipments/</path>
+                    <label>Account Shipments</label>
+                    <url_params></url_params>
+                    <msgtype>CUSS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_rmas</name>
+                    <path>customerconnect/rmas/</path>
+                    <label>Account Claims</label>
+                    <url_params></url_params>
+                    <msgtype>CURS</msgtype>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_servicecalls</name>
+                    <path>customerconnect/servicecalls/</path>
+                    <label>Account Service Calls</label>
+                    <url_params></url_params>
+                    <msgtype>CUCS</msgtype>
+                </action>
+	<!--
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_rfqs</name>
+                    <path>customerconnect/rfqs/</path>
+                    <label>Account RFQs</label>
+                    <url_params></url_params>
+                    <msgtype>CRQS</msgtype>
+                </action>
+	-->
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_returns</name>
+                    <path>customerconnect/returns/</path>
+                    <label>Account Returns</label>
+                    <url_params></url_params>
+                    <msgtype>CRRS</msgtype>
+                    <accessFunction>epicor_comm/returns::isReturnsEnabled</accessFunction>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>common_access_management</name>
+                    <path>customerconnect/access_management/</path>
+                    <label>Permissions</label>
+                </action>
+	<!--
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_skus</name>
+                    <path>customerconnect/skus/</path>
+                    <label>Account SKUs</label>
+                </action> 
+	-->
+                <action method="addLink" translate="label" module="customerconnect">
+                   <name>lists_account_contracts</name>
+                   <path>customerconnect/contracts</path>
+                   <label>Account Contracts</label>
+                </action>
+                <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_recentpurchases</name>
+                    <path>customerconnect/recentpurchases/</path>
+                    <label>Account Recent Purchases</label>
+                    <url_params></url_params>
+                    <msgtype>CPHS</msgtype>
+                </action>    
+            </block>
+        </reference>
+    </customer_account>
+  
+    <customer_connect>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/customerconnect/css/style.css</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <file>customerconnect/customerconnect.js?v=3</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+        </reference>
+    </customer_connect>
+    
+    <customerconnect_dashboard_index>
+        <reference name="head" >
+            <action method="addJs">
+                <script>prototype/window.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+                <params/>
+            </action>
+        </reference>    
+        <label>Customer Connect Account Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Dashboard</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action> 
+            <block type="core/template" name="orders.title" template="customerconnect/customer/dashboard/title.phtml" />
+            <block type="customerconnect/customer_dashboard_registeredaddress" name="customer.dashboard.registered" />
+            
+            <block type="epicor_common/protected" name="protected_content">
+                <action method="addProtection">
+                    <name>customer_account_dashboard_summary</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Dashboard</controller>
+                        <action>index</action>
+                        <block>customer_account_summary</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.dashboard.orders</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Orders</controller>
+                        <action>index</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.dashboard.invoices</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Invoices</controller>
+                        <action>index</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <block type="customerconnect/customer_account_summary" name="customer_account_dashboard_summary" as="customer.dashboard.extra" template="customerconnect/customer/dashboard/summary.phtml"/>
+                <block type="customerconnect/customer_dashboard_orders" name="customer.dashboard.orders" />
+                <block type="customerconnect/customer_dashboard_invoices" name="customer.dashboard.invoices" />
+            </block>
+        </reference>    
+    </customerconnect_dashboard_index> 
+    
+    <customerconnect_account_index>
+        <reference name="head" >
+            <action method="addJs">
+                <script>prototype/window.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+                <params/>
+            </action>
+        </reference>    
+        <label>Customer Connect Account Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Account Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_account_billingaddress" name="customer.account.billing" />
+            <block type="epicor_common/protected" name="protected_content">
+                <action method="addProtection">
+                    <name>customer.account.accountinfo</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>account_information</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.account.periodbalances</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>period_balances</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.account.agedbalances</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>aged_balances</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.account.shippingaddress</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>shipping_addresses</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.account.contacts</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>contacts</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.account.cusomaddressallowed</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>index</action>
+                        <block>contact_address_permissions</block>
+                        <action_type>view</action_type>
+                    </access_right>
+                </action>
+                
+                <!--
+                        <action method="addProtection">
+                            <name>customer.checkout.savenewaddress</name>
+                            <access_right>
+                                <module>Epicor_Customerconnect</module>
+                                <controller>Account</controller>
+                                <action>saveErpBillingAddress</action>
+                                <block></block>
+                                <action_type>Access</action_type>
+                            </access_right>
+                        </action>
+                        -->
+                <block type="customerconnect/customer_account_accountinfo" name="customer.account.accountinfo">
+                    <!--<block type="epicor_common/protected" name="savenewaddress_protected_content">-->
+                    <!--</block>-->
+                </block>
+                <!--
+                <block type="customerconnect/customer_checkout_savenewaddress" name="customer.checkout.savenewaddress" />
+                -->
+                <block type="customerconnect/customer_account_customaddressallowed" name="customer.account.cusomaddressallowed" />
+                <block type="customerconnect/customer_account_balances_period_list" name="customer.account.periodbalances" />
+                <block type="customerconnect/customer_account_balances_aged_list" name="customer.account.agedbalances" />
+                <block type="customerconnect/customer_account_shippingaddress_list" name="customer.account.shippingaddress" />
+                <block type="customerconnect/customer_account_contacts_list" name="customer.account.contacts" />
+            </block>
+        </reference>    
+        <reference name="before_body_end">
+            <block type="core/template" name="customer.account.overlaystart" template="customerconnect/customer/account/overlayopen.phtml" />
+            <block type="epicor_common/protected" name="protected_content">
+                <action method="addProtection">
+                    <name>customer.billing.update</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>saveBillingAddress</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.shippingaddress.update</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>saveShippingAddress</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <action method="addProtection">
+                    <name>customer.contact.update</name>
+                    <access_right>
+                        <module>Epicor_Customerconnect</module>
+                        <controller>Account</controller>
+                        <action>saveContact</action>
+                        <block></block>
+                        <action_type>Access</action_type>
+                    </access_right>
+                </action>
+                <block type="customerconnect/customer_account_billingaddress" name="customer.billing.update" template="customerconnect/customer/account/address/edit.phtml"/>
+                <block type="customerconnect/customer_account_shippingaddress" name="customer.shippingaddress.update" template="customerconnect/customer/account/address/edit.phtml"/>
+                <block type="core/template" name="customer.contact.update" template="customerconnect/customer/account/contacts/edit.phtml"/>
+            </block>
+            <block type="core/template" name="customer.account.overlayclose" template="customerconnect/customer/account/overlayclose.phtml" />
+            <block type="core/template" name="customer.account.loader" template="customerconnect/loader.phtml" />
+        </reference>    
+    </customerconnect_account_index> 
+    
+    <customerconnect_orders_index>
+        <label>Account Orders</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Orders</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="customerconnect/customer_orders_list" name="orderslist" />
+        </reference>
+    </customerconnect_orders_index>
+    
+    <customerconnect_orders_details>
+        <label>Customer Connect Order Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Order Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_orders_details_title" name="orders.title"/>
+            <block type="customerconnect/customer_orders_details_billing" name="orders.billing" />
+            <block type="customerconnect/customer_orders_details_shipping" name="orders.shipping" />
+            <block type="customerconnect/customer_orders_details_info" name="orders.info" />
+            <block type="customerconnect/customer_orders_details_parts" name="orders.parts" >
+                <block type="customerconnect/customer_orders_details_totals" name="tfoot" />
+            </block>
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/customerconnect/orders/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/customerconnect/orders/</value>
+                </action>
+                <action method="setListType">
+                    <value>Orders</value>
+                </action>
+            </block>
+        </reference>
+    </customerconnect_orders_details>
+       
+    <customerconnect_shipments_index>
+        <label>Account Shipment Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Shipments</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_shipments_list" name="shipmentslist" />
+        </reference>
+    </customerconnect_shipments_index>
+    
+    <customerconnect_shipments_details>
+        <label>Customer Connect Shipments Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Shipments Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_shipments_details_title" name="shipments.title" />
+            <block type="customerconnect/customer_shipments_details_billing" name="shipments.billing"/>
+            <block type="customerconnect/customer_shipments_details_shipping" name="shipments.shipping"/>   
+            <block type="customerconnect/customer_shipments_details_date" name="shipments.date" />  
+            <block type="customerconnect/customer_shipments_details_info" name="shipments.info"/>
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/customerconnect/shipments/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/customerconnect/shipments/</value>
+                </action>
+                <action method="setListType">
+                    <value>Shipments</value>
+                </action>
+            </block>
+        </reference>
+    </customerconnect_shipments_details> 
+    
+    <customerconnect_invoices_index>
+        <label>Account Invoices</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Invoices</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">   
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="customerconnect/customer_invoices_list" name="invoiceslist" />
+        </reference>
+    </customerconnect_invoices_index>
+       
+    <customerconnect_invoices_details>
+        <label>Customer Connect Invoices Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Invoices Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_invoices_details_title" name="invoices.title"/>
+            <block type="customerconnect/customer_invoices_details_billing" name="invoices.billing"/>
+            <block type="customerconnect/customer_invoices_details_shipping" name="invoices.shipping"/>   
+            <block type="customerconnect/customer_invoices_details_data" name="invoices.data" />  
+            <block type="customerconnect/customer_invoices_details_lines" name="invoices.lines">  
+                <block type="customerconnect/customer_invoices_details_totals" name="tfoot" />  
+            </block>
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/customerconnect/invoices/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/customerconnect/invoices/</value>
+                </action>
+                <action method="setListType">
+                    <value>Invoices</value>
+                </action>
+            </block>
+        </reference>
+    </customerconnect_invoices_details>
+    <customerconnect_payments_index>
+        <label>Account Payments</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Payments</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_payments_list" name="paymentslist" />
+        </reference>
+    </customerconnect_payments_index>
+    
+    <customerconnect_rmas_index>
+        <label>Account RMAs</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>RMAs</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_rmas_list" name="rmaslist" />
+        </reference>
+    </customerconnect_rmas_index>
+    
+    <customerconnect_servicecalls_index>
+        <label>Account Service Calls</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Service Calls</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_servicecalls_list" name="servicecallslist" />
+        </reference>
+    </customerconnect_servicecalls_index>
+    
+    <customerconnect_access_management_index> 
+        <update handle="epicor_common_access_management_index"/>
+    </customerconnect_access_management_index>
+    <customerconnect_access_management_editgroup> 
+        <update handle="epicor_common_access_management_editgroup"/>
+    </customerconnect_access_management_editgroup>
+    
+    <customerconnect_returns_index>
+        <label>Account Returns</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Return Details</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="customerconnect/customer_returns_list" name="returnslist" />
+        </reference>
+    </customerconnect_returns_index>
+    
+    <customerconnect_returns_details>
+        <label>Customer Connect Return Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <update handle="customer_returns_details"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect Return Details</title>
+            </action>
+        </reference>
+    </customerconnect_returns_details>
+    
+    <customerconnect_rfqs_index>
+        <label>Account RFQs</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>RFQs</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq-list.js</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="core/template" name="rfq.formopen" template="customerconnect/customer/account/rfqs/list/formopen.phtml" />
+            <block type="customerconnect/customer_rfqs_list" name="rfqslist" />
+            <block type="core/template" name="rfq.formclose" template="customerconnect/customer/account/rfqs/list/formclose.phtml" />
+        </reference>
+    </customerconnect_rfqs_index>
+    
+    <customerconnect_rfqs_detail_page>
+        <label>Customer Connect RFQ Details</label>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect RFQ Details</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/quickadd.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/core.js?v=1.0.7.5</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/lines.js?v=1.0.7.5</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/contacts.js?v=1.0.7.5</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/salesreps.js?v=1.0.7.5</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/address.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq/details/attachments.js?v=1.0.7.5</name>
+                <params/>
+            </action>
+            <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><script>varien/product_options.js</script></action>
+            <action method="addJs"><script>varien/configurable.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_rfqs_details_js_translation" name="js.translations" />
+            <block type="core/template" name="rfq.formopen" template="customerconnect/customer/account/rfqs/details/formopen.phtml" />
+            <block type="customerconnect/customer_rfqs_details_title" name="rfqs.title"/>
+            <block type="customerconnect/customer_rfqs_details_buttons" name="rfqs.buttons"/>
+            <block type="customerconnect/customer_rfqs_details_address" name="rfqs.billing" />
+            <block type="customerconnect/customer_rfqs_details_delivery" name="rfqs.shipping" />
+            <block type="customerconnect/customer_rfqs_details_info" name="rfqs.info" />
+            <block type="customerconnect/customer_rfqs_details_options" name="rfqs.options" />
+            <block type="customerconnect/customer_rfqs_details_salesreps" name="rfqs.salesreps" />
+            <block type="customerconnect/customer_rfqs_details_contacts" name="rfqs.contacts" />
+            
+            <block type="customerconnect/customer_rfqs_details_linescontainer" name="rfqs.linescontainer">
+                <block type="customerconnect/customer_rfqs_details_lineadd" name="rfqs.lineadd" />
+                <block type="core/template" name="rfqs.linesearch" template="customerconnect/customer/account/rfqs/details/linesearch.phtml" />
+                <block type="customerconnect/customer_rfqs_details_lines" name="rfqs.lines" >
+                    <block type="customerconnect/customer_rfqs_details_totals" name="tfoot" />
+                </block>
+            </block>
+            
+            <block type="customerconnect/customer_rfqs_details_attachments" name="rfqs.attachments" />
+            
+            <block type="customerconnect/customer_rfqs_details_comment" name="rfqs.comment" />
+            
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/customerconnect/rfqs/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/customerconnect/rfqs/</value>
+                </action>
+                <action method="setListType">
+                    <value>Rfqs</value>
+                </action>
+            </block>
+            <block type="core/template" name="rfq.formclose" template="customerconnect/customer/account/rfqs/details/formclose.phtml" />
+            <block type="core/template" name="rfq.loader" template="customerconnect/loader.phtml" />
+            <block type="core/template" name="rfq.overlayopen" template="customerconnect/customer/account/overlayopen.phtml">
+                <action method="setExtraClass">
+                    <value> rfq</value>
+                </action>
+            </block>
+            <block type="core/template" name="rfq.overlayclose" template="customerconnect/customer/account/overlayclose.phtml" />
+        </reference>
+    </customerconnect_rfqs_detail_page>
+    
+    <customerconnect_rfqs_details>
+        <label>Customer Connect RFQ Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <update handle="customerconnect_rfqs_detail_page"/>
+    </customerconnect_rfqs_details>
+    
+    <customerconnect_rfqs_update>
+        <label>Customer Connect RFQ Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <update handle="customerconnect_rfqs_detail_page"/>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq-update.js</name>
+                <params/>
+            </action>
+        </reference>
+    </customerconnect_rfqs_update>
+    
+    <customerconnect_rfqs_new>
+        <label>Customer Connect New RFQ</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <update handle="customerconnect_rfqs_detail_page"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Connect New RFQ</title>
+            </action>
+        </reference>
+        <remove name="rfqs.info" />
+        <remove name="rfqs.salesreps" />
+    </customerconnect_rfqs_new>
+    
+    <customerconnect_rfqs_duplicate>
+        <label>Customer Connect Duplicate RFQ</label>
+        <update handle="customerconnect_rfqs_new"/>
+    </customerconnect_rfqs_duplicate>
+    
+    <customerconnect_rfqs_linesearch translate="label">
+        <label>Quick Order Pad Basket</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/rfq-line-search.js</name>
+                <params/>
+            </action> 
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/customerconnect/css/qop.css</name>
+                <params/>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/add-all-to-basket.js</name>
+                <params/>
+            </action> 
+        </reference>
+        <reference name="content">
+            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="quickorderpad/form/blank.phtml"/>
+            <block type="quickorderpad/form_wrapper" name="quickorderpad_wrapper" template="quickorderpad/form/wrapper.phtml">
+                <action method="setHideTitle">
+                    <value>1</value>
+                </action>
+                <block type="quickorderpad/form_search" name="search" template="quickorderpad/form/search.phtml">
+                    <action method="setSearchUrl">
+                        <name>/customerconnect/rfqs/linesearch</name>
+                    </action>
+                </block>
+                <block type="epicor_comm/cart_product_csvupload" name="csvupload" before="search" template="customerconnect/cart/product/csvupload_quickorderpad.phtml" />
+                <block type="quickorderpad/catalogsearch_result" name="search.result" template="quickorderpad/form/result.phtml">
+                    <block type="quickorderpad/catalog_product_list" name="search_result_list" template="quickorderpad/form/list.phtml">
+                        <action method="setForceCart">
+                            <value>1</value>
+                        </action>
+                        <action method="setHideConfigurator">
+                            <value>1</value>
+                        </action>
+                        <action method="setCartButtonLabelOverride">
+                            <value>Add to Quote</value>
+                        </action>
+                        <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                            <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                            <action method="disableViewSwitcher" />
+                            <action method="disableExpanded" />
+                        </block>
+                        <action method="setToolbarBlockName">
+                            <name>product_list_toolbar</name>
+                        </action>
+                    </block>
+                    <action method="setListOrders"/>
+                    <action method="setListCollection"/>
+                </block>
+            </block>
+        </reference>
+    </customerconnect_rfqs_linesearch>
+    <customerconnect_rfqs_configureproduct>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        
+        <reference name="content">
+            <block type="customerconnect/customer_rfqs_details_product_configure" name="rfqs.product.configure" />
+        </reference>
+    </customerconnect_rfqs_configureproduct>
+    
+    <!--
+    <customerconnect_skus_index>
+        <label>Customer Skus</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_skus_list" name="skus.list" template="customerconnect/sku/list.phtml" />
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </customerconnect_skus_index>
+    
+
+    
+    <customerconnect_skus_index>
+        <label>Account RFQs</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>SKUs</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_skus_list" name="skus.list" template="customerconnect/sku/list.phtml" />
+        </reference>
+    </customerconnect_skus_index>
+    
+        -->
+    
+    <customerconnect_skus_index>
+        <label>Account Skus</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>SKUs</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="customerconnect/customer_skus_list" name="skuslist" />
+        </reference>
+    </customerconnect_skus_index>
+    
+    <customerconnect_skus_create>
+        <label>Account RFQs</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Create SKU</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_skus_form" name="sku.edit" template="customerconnect/sku/form.phtml" />
+        </reference>
+    </customerconnect_skus_create>
+    
+    
+    <customerconnect_skus_edit>
+        <label>Account RFQs</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Edit SKU</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_skus_form" name="sku.edit" template="customerconnect/sku/form.phtml" />
+        </reference>
+    </customerconnect_skus_edit>
+    <customerconnect_recentpurchases_index>
+        <label>Account Recent Purchases</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Products</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
+            <block type="customerconnect/customer_recentpurchases_list" name="recentpurchaseslist" />
+        </reference>
+    </customerconnect_recentpurchases_index>
+    
+</layout> 
