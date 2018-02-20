@@ -223,6 +223,8 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                         <?php echo $this->getChildHtml('product_type_data') ?>
                     <?php endif; ?>
 
+
+                    <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
 			<div class="poqty" style="display:block">
 				<?php if($_product->getData('poqtyone')>0): ?>
 				<span>New Stock Due: </span>
@@ -231,6 +233,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
 				<?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
 				<?php endif; ?>
 			</div>
+			<?php endif; ?>
 
                     <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
@@ -311,7 +314,10 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                 }
                                                 ?>
                                                 <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
-                                                    <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
+                                                    
+							<?php if($_product->getOrderFab()): ?>
+								<button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
+							<?php endif; ?>
                                                 <?php endif; ?>
                                             <?php endif; // if ($_product->getConfigurator()) : ?>
                                         </li>

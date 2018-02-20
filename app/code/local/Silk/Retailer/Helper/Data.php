@@ -15,6 +15,7 @@ class Silk_Retailer_Helper_Data extends Mage_Core_Helper_Abstract
         // 3. If the customer is using a B2B account, the select retailers section will NOT appear on checkout.
         $access = false;
 
+/**
         // first we must exist retailer demo data
         $record = Mage::getSingleton('silk_retailer/retailer')->getCollection()
                     ->AddFieldToFilter('status', 1)
@@ -35,7 +36,7 @@ class Silk_Retailer_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
-
+**/
         return $access;
     }
 
