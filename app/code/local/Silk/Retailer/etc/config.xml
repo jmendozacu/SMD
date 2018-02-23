@@ -12,7 +12,7 @@
             <checkout>
                 <rewrite>
                     <onepage>Silk_Retailer_Block_Checkout_Onepage</onepage>
-                    <onepage_progress>Silk_Retailer_Block_Checkout_Onepage_Progress</onepage_progress>
+                    <!--<onepage_progress>Silk_Retailer_Block_Checkout_Onepage_Progress</onepage_progress>-->
                 </rewrite>
             </checkout>
         </blocks>
@@ -37,6 +37,11 @@
                     </order_sample_record>
                 </entities>
             </silk_retailer_resource>
+		<payment>
+			<rewrite>
+				<method_free>Silk_Retailer_Model_Method_Free</method_free>
+			</rewrite>
+		</payment>
         </models>
         <importexport module="silk_retailer">
             <import_entities>

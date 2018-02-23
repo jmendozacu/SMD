@@ -22,7 +22,9 @@
  * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
+var jQueryScript = document.createElement('script');  
+jQueryScript.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle/3.0.3/jquery.cycle.all.js');
+document.head.appendChild(jQueryScript);
 $j(document).ready(function () {
 
     // ==============================================

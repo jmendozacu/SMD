@@ -12,3 +12,9 @@ input[type=text] {
 #map{
 	margin-top:10px;
 }
+button:not(.button), .form-button{
+	background-color:#cacaca !important;
+}
+.pager.filter-actions.a-right{
+	padding-top:5px;
+}

@@ -28,7 +28,17 @@
             </action>
         </reference>
     </checkout_onepage_index>
+<!--    <checkout_onepage_progress>
+    	<reference name='root'>
+    		<action method='setTemplate'><template>silk/checkout/onepage/progress.phtml</template></action>
+    	</reference>
+    </checkout_onepage_progress>
 
+    <checkout_onepage_review>
+    	<reference name='root'>
+    		<action method='setTemplate'><template>silk/checkout/onepage/review/info.phtml</template></action>
+    	</reference>
+    </checkout_onepage_review>-->
     <checkout_onepage_shipping_retailer>
         <!-- Mage_Checkout -->
         <remove name="right"/>

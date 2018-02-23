@@ -39,7 +39,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="<?php echo $this->getLang(); ?>" id="top" class="no-js"> <!--<![endif]-->
 
 <head>
-<?php echo $this->getChildHtml('head') ?>
+    <?php echo $this->getChildHtml('head') ?>
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <?php echo $this->getChildHtml('after_body_start') ?>
@@ -54,29 +54,8 @@
 <div class="main-container col1-layout">
     <div class="main">
         <div class="col-main">
-            <div class="home-cats2">
-                <ul class="catblocks">
-                    <li>
-                        <a href="/fabrics.html"><img src="<?php echo $this->getSkinUrl('images/home-cat1.png'); ?>" />
-                            <span>Browse our New Collections</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://inspiringinteriors.i-liv.co.uk/"><img src="<?php echo $this->getSkinUrl('images/home-cat2.png'); ?>" />
-                            <span>Inspiring Interiors Blog</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/fire-retardant-fabric.html"><img src="<?php echo $this->getSkinUrl('images/home-cat3.png'); ?>" />
-                            <span>Browse our FR Collections</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"><img src="<?php echo $this->getSkinUrl('images/home-cat1.png'); ?>" />
-                            <span>Trend Videos</span>
-                        </a>
-                    </li>
-                </ul>
+            <div class="home-cats">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home_categories')->toHtml(); ?>
             </div>
         </div>
     </div>
@@ -88,4 +67,3 @@
 <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>
-

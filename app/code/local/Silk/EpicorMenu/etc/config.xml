@@ -1,0 +1,13 @@
+<config>
+<global>
+        <blocks>
+            <customerconnect>
+                <rewrite>
+                    <customer_orders_details_parts_renderer_expand>Silk_EpicorMenu_Block_Customer_Orders_Details_Parts_Renderer_Expand</customer_orders_details_parts_renderer_expand>
+                    <customer_orders_details_parts_grid>Silk_EpicorMenu_Block_Customer_Orders_Details_Parts_Grid</customer_orders_details_parts_grid>
+                    <customer_rmas_list_grid>Silk_EpicorMenu_Block_Customer_Rmas_List_Grid</customer_rmas_list_grid>
+                </rewrite>
+            </customerconnect>
+        </blocks>
+</global>	
+</config>

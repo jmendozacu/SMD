@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Silk_EpicorMenu>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Silk_EpicorMenu>
+    </modules>
+</config>

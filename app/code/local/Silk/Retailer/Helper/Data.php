@@ -14,7 +14,6 @@ class Silk_Retailer_Helper_Data extends Mage_Core_Helper_Abstract
         // 2. If customer is using a B2C account and they DO NOT have "order samples" in their chopping, the Select Retailers section will NOT appear on checkout.
         // 3. If the customer is using a B2B account, the select retailers section will NOT appear on checkout.
         $access = false;
-
 /**
         // first we must exist retailer demo data
         $record = Mage::getSingleton('silk_retailer/retailer')->getCollection()

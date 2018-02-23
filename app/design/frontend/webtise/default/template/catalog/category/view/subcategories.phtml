@@ -8,13 +8,15 @@
             ->addAttributeToSelect(array('name', 'image'))
             ->addAttributeToFilter('is_active', 1)
             ->addAttributeToFilter('is_view_all_category', Mage_Eav_Model_Entity_Attribute_Source_Boolean::VALUE_NO)
-            ->addIdFilter($category->getChildren());
+            ->addIdFilter($category->getChildren())
+            ->addAttributeToSort('position');
 
         $viewAllCategories = $category->getCollection()
             ->addAttributeToSelect(array('name', 'image'))
             ->addAttributeToFilter('is_active', 1)
             ->addAttributeToFilter('is_view_all_category', Mage_Eav_Model_Entity_Attribute_Source_Boolean::VALUE_YES)
-            ->addIdFilter($category->getChildren());
+            ->addIdFilter($category->getChildren())
+            ->addAttributeToSort('position');
     ?>
     <div class="category-subcategories-top">
         <div class="left">
