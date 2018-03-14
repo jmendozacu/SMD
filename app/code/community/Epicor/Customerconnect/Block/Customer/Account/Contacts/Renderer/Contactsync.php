@@ -7,7 +7,7 @@ class Epicor_Customerconnect_Block_Customer_Account_Contacts_Renderer_Contactsyn
         /* @var $helper Epicor_Customerconnect_Helper_Data */
         $actions = $this->getColumn()->getActions();
         $source = $row->getSource();
-        $out = '<select class="action-select" onchange="varienGridAction.execute(this);">'
+        $out = '<select class="action-select" onchange="varienGridAction.execute(this);customerConnect.contactsEdit(this);">'
              . '<option value=""></option>';
         foreach ($actions as $action){
             if ( is_array($action) ) {

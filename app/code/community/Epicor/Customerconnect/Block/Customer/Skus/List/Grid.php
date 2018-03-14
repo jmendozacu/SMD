@@ -4,7 +4,8 @@ class Epicor_Customerconnect_Block_Customer_Skus_List_Grid extends Epicor_Common
 
     public function __construct() {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_skus');
         $this->setDefaultSort('product_sku');
         $this->setDefaultDir('desc');

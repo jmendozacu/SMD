@@ -1,0 +1,53 @@
+<?php
+/**
+ * MageWorx
+ * File Downloads & Product Attachments Extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_Downloads
+ * @copyright  Copyright (c) 2015 MageWorx (http://www.mageworx.com/)
+ */
+
+$items = $this->getItems();
+$_helper = Mage::helper('mageworx_downloads');
+$showMessage = $_helper->showAccessNotice($items);
+?>
+
+<?php if ($items): ?>
+<?php if ($_helper->getGroupByCategory() || $_helper->checkCustomerAccess($items)): ?>
+
+<div class="downloads-links-block" <?php if(!$this->getIsGridMode() && !$this->getIsInTab()){ ?>style="margin-top: 35px;"<?php } ?>>
+    <?php if ($this->getTitle()): ?>
+        <div class="head">
+            <h4><?php echo $this->getTitle() ?></h4>
+        </div>
+    <?php endif; ?>
+
+
+    <?php if(!$_helper->getGroupByCategory()): ?>
+
+        <?php foreach ($items as $item): ?>
+            <?php echo Mage::helper('mageworx_downloads')->getDownloadItemHtml($item, $this->getIsGridMode()); ?>
+        <?php endforeach; ?>
+
+    <?php else: ?>
+
+        <?php foreach($items as $category): ?>
+            <div class="category-title"><?php echo $category['title']; ?></div>
+            <div class="category-files">
+
+                <?php foreach($category['files'] as $item): ?>
+                    <?php echo Mage::helper('mageworx_downloads')->getDownloadItemHtml($item, $this->getIsGridMode()); ?>
+                <?php endforeach; ?>
+
+            </div>
+        <?php endforeach; ?>
+
+    <?php  endif; ?>
+
+    <?php if($showMessage): ?>
+        <div class="access-notice"><span>* <?php echo $_helper->getHowToDownloadMessage() ?></span></div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+<?php endif; ?>

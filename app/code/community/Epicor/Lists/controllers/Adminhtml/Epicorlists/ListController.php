@@ -267,7 +267,7 @@ class Epicor_Lists_Adminhtml_Epicorlists_ListController extends Epicor_Comm_Cont
         $excludeExist =  (isset($productVals)) ? 1 : 0 ;
         //Product tab values are present
         if($excludeExist) {
-            $excludeSelectedProducts = $data['exclude_selected_products'];
+            $excludeSelectedProducts = isset($data['exclude_selected_products']) ? $data['exclude_selected_products'] : false;
             if($excludeSelectedProducts){            
                 $settings[] = 'E';           
             }        

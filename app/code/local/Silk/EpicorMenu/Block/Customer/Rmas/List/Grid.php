@@ -20,11 +20,11 @@ class Silk_EpicorMenu_Block_Customer_Rmas_List_Grid extends Epicor_Customerconne
             if($column['type'] == 'number'){
                 $column['align'] = 'right';
             }
-		if($column['header']!='Status'){
+		/**if($column['header']!='Status'){
 			//$column['filter_condition_callback'] = array($this, '_statusFilter');
 			$columns[$column['index']] = $column;
-		}
-            //$columns[$column['index']] = $column;
+		}**/
+            $columns[$column['index']] = $column;
         }
         $this->setCustomColumns($columns);
 

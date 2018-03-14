@@ -32,9 +32,6 @@ class Epicor_Lists_ContractController extends Epicor_Customerconnect_Controller_
         $contractHelper = Mage::helper('epicor_lists/frontend_contract');
         /* @var $contractHelper Epicor_Lists_Helper_Frontend_Contract */
 
-        if ($contractHelper->listsDisabled()) {
-            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
-        }
     }
 
     /**
@@ -226,7 +223,7 @@ class Epicor_Lists_ContractController extends Epicor_Customerconnect_Controller_
         /* @var $helper Epicor_Lists_Helper_Frontend_Contract */
 
         if ($contract && $helper->isValidContractId($contract)) {
-            $helper->selectContract($contract);
+            $helper->selectContract($contract,true);
         }
 
         if ($contract == -1) {
@@ -286,6 +283,11 @@ class Epicor_Lists_ContractController extends Epicor_Customerconnect_Controller_
 
         if ($shipto && $helper->isValidShiptoAddressCode($shipto)) {
             $helper->selectContractShipto($shipto);
+            $collection = Mage::getModel('epicor_lists/list_address')->load($shipto,'address_code');
+            if(count($collection->getData())==0){
+                        Mage::helper('epicor_common/redirect')->removeFromRedirectArray('40_contract_select');
+            } 
+            $helper->autoSelectContractIfOneContract();
         }
 
         if ($shipto == -1) {

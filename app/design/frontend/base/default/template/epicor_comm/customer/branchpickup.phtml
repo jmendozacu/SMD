@@ -1,0 +1,55 @@
+<?php
+/**
+ * Edit Active Branch Sidebar Template
+ *
+ * @see Epicor_Comm_Block_Customer_Branchpickup
+ * 
+ *
+ */
+/* @var $this Epicor_Comm_Block_Customer_Branchpickup */
+?> 
+<?php if ($this->isBlockAllowed()) : ?>
+    <?php
+    $helperBranchPickup = Mage::helper('epicor_branchpickup/branchpickup');
+    $helper = Mage::helper('epicor_branchpickup');
+    $url = Mage::getUrl('branchpickup/pickup/changepickuplocation', $helperBranchPickup->issecure());
+    $cartPopupurl = Mage::getUrl('branchpickup/pickup/cartpopup', $helperBranchPickup->issecure());
+    $selectbranch = Mage::getUrl('branchpickup/pickup/selectbranchajax', $helperBranchPickup->issecure());
+    $removebranch = Mage::getUrl('branchpickup/pickup/removebranchpickup', $helperBranchPickup->issecure());
+    ?>
+    <div class="block locations_filter_block" >
+        <div class="block-title">
+            <strong><span><?php echo $this->getTitle(); ?></span></strong>
+        </div>
+        <div class="block-content">
+            <div class="empty">
+                <form action="<?php echo $this->getFormUrl(); ?>" method="post">   
+                    <ul class="locations_filter_list">
+                        <li class="wide">
+<!--                            <label for="locations_filter" ><?php echo $this->__('Available Branches') ?></label>-->
+                            <div class="input-box">
+                                <select id="select-branch" title="<?php echo $this->__('Select Branch') ?>" onchange="branchActionChanges(this.value)">
+                                    <?php $_selected = (is_null($this->getSelectedBranch())) ? ' selected="selected"' : '' ?>
+                                    <?php if($helper->getLocationStyle() != 'inventory_view'): ?><option value=""<?php echo $_selected ?>>None</option><?php endif; ?>
+                                    <?php foreach ($this->getBranches() as $_branch): ?>
+                                        <?php $_selected = ($_branch->getCode() == $this->getSelectedBranch()) ? ' selected="selected"' : '' ?>
+                                        <option value="<?php echo $_branch->getCode(); ?>"<?php echo $_selected ?>><?php echo $this->escapeHtml($_branch->getName()) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <input type="hidden" name="ajaxpickupbranchurl" id="ajaxpickupbranchurl" value=" <?php echo $url ?>">
+                                <input type="hidden" name="ajaxcode" id="ajaxcode" value="<?php echo 'this' ?>">
+                                <input type="hidden" name="cartpopupurl" id="cartpopupurl" value="<?php echo $cartPopupurl ?>">
+                                <input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch ?>">
+                                <input type="hidden" name="removebranch" id="removebranch" value="<?php echo $removebranch ?>">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="buttons-set actions">              
+                        <input type="button" id="branch_change_action"  class="button" value="<?php echo $this->__('change selected branch') ?>">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   
+<?php endif; ?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('epicor/branchpickup/js/branselector.js') ?>"></script>

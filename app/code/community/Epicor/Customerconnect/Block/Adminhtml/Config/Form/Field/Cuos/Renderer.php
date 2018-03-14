@@ -16,6 +16,8 @@ class Epicor_Customerconnect_Block_Adminhtml_Config_Form_Field_Cuos_Renderer ext
             $this->addOption('Epicor_Customerconnect_Block_List_Renderer_Currency', $this->__('Currency'));
             $this->addOption('Epicor_Customerconnect_Block_List_Renderer_Erporderstatus', $this->__('Erp Order Status'));
             $this->addOption('Epicor_Customerconnect_Block_List_Renderer_ContractCode', $this->__('Contract Code'));
+            $this->addOption('Epicor_Customerconnect_Block_List_Renderer_Additionalreference', $this->__('Additional Reference'));
+            $this->addOption('Epicor_Customerconnect_Block_List_Renderer_Requireddate', $this->__('Required date'));
         }
         return parent::_toHtml();
     }

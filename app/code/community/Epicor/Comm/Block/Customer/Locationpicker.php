@@ -37,10 +37,10 @@ class Epicor_Comm_Block_Customer_Locationpicker extends Mage_Core_Block_Template
     public function isAllowed()
     {
         $stockVisibility = Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility');
-        $enabled = $this->getLocationHelper()->isLocationsEnabled();
+        $enabled = ($this->getLocationHelper()->isLocationsEnabled()) && ($this->getLocationHelper()->isLocationsPickerEnabled());
         $locationsCount = count($this->getCustomerAllowedLocations());
         
-        return $enabled && $locationsCount > 1 && $stockVisibility != 'all_source_locations';
+        return $enabled && ($locationsCount > 1 || $this->isGroupSelected()) && $stockVisibility != 'all_source_locations';
     }
 
     /**
@@ -97,11 +97,43 @@ class Epicor_Comm_Block_Customer_Locationpicker extends Mage_Core_Block_Template
     public function getCustomerAllowedLocations()
     {
         $locations = $this->getLocationHelper()->getCustomerAllowedLocations();
-
         if (!is_array($locations)) {
             $locations = array();
         }
+        if ($groupId = $this->isGroupSelected()) {
+            $locations = Mage::getSingleton('epicor_comm/location_groupings')->getLocations($groupId);
+        }
         return $locations;
+    }
+    
+    /**
+     * Get All Groups
+     * 
+     * @return Object
+     */
+    public function getGroupLocations()
+    {
+        $groups = Mage::getModel('epicor_comm/location_groupings')->getCollection()
+                ->addFieldToSelect('id')
+                ->addFieldToSelect('group_name')
+                ->addFieldToFilter('enabled', 1)
+                ->setOrder('main_table.order', 'ASC');
+        return $groups;
+    }
+    
+    /**
+     * Get the selected Group at Location Filter
+     * 
+     * @return int
+     */
+    public function isGroupSelected($unset = false)
+    {
+        $session = Mage::getSingleton('customer/session');
+        $groupId = $session->getGroupId();
+        if ($unset == true) {
+            $session->unsGroupId();
+        }
+        return $groupId;
     }
 
 }

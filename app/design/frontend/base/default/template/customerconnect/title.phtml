@@ -9,7 +9,7 @@
 /* @var $this Epicor_Customerconnect_Block_Customer_Title */
 ?>
 <?php if ($this->canReorder()) : ?>
-    <a href="<?php echo $this->getReorderUrl(); ?>" class="reorder link-reorder"><?php echo $this->__('Reorder'); ?></a>
+    <a href="<?php echo $this->getReorderUrl(); ?>" class="reorder link-reorder reorder-button"><?php echo $this->__('Reorder'); ?></a>
 <?php endif; ?>
 <?php if ($this->canReturn()) : ?>
     <a href="<?php echo $this->getReturnUrl(); ?>" class="return link-reorder"><?php echo $this->__('Return'); ?></a>

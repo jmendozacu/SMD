@@ -12,23 +12,22 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
             $this->_ewaData = Mage::registry('EWAData');
         return $this->_ewaData;
     }
-    
-    
+
     private function getCIMData()
     {
         if (!$this->_cimData)
             $this->_cimData = Mage::registry('CIMData');
         return $this->_cimData;
     }
-    
+
     private function getEWASku()
     {
         return Mage::registry('EWASku');
     }
-    
-    public function hasEWAData() {
-        return (bool)$this->getEWAData();
-            
+
+    public function hasEWAData()
+    {
+        return (bool) $this->getEWAData();
     }
 
     public function getFormUrl()
@@ -54,14 +53,14 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
 
     public function getPartNum()
     {
-        return $this->getEWASku();//$this->getEWAData()->getProductCode();
+        return $this->getEWASku(); //$this->getEWAData()->getProductCode();
     }
 
     public function getPartRev()
     {
         return $this->getEWAData()->getProductRevision();
     }
-    
+
     public function getGroupSequence()
     {
         return $this->getEWAData()->getGroupSequence();
@@ -69,12 +68,12 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
 
     public function getStyleSheet()
     {
-        $file = Mage::getDesign()->getFilename('css/ewa.css',array('_type' => 'skin'));
+        $file = Mage::getDesign()->getFilename('css/ewa.css', array('_type' => 'skin'));
         $url = Mage::getDesign()->getSkinUrl('css/ewa.css');
-        
-        if(!file_exists($file))
+
+        if (!file_exists($file))
             $url = Mage::getUrl('epicor_comm/configurator/ewacss');
-        
+
         return $url;
     }
 
@@ -87,7 +86,7 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
 
     public function getReturnUrl()
     {
-        
+
         $helper = $this->helper('epicor_comm');
         /* @var $helper Epicor_Comm_Helper_Data */
 
@@ -96,7 +95,7 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
         } else {
             $route = base64_decode(Mage::registry('EWAReturn'));
         }
-        
+
         $params = array(
             'SKU' => $helper->urlEncode($this->getPartNum()),
             'EWACode' => $helper->urlEncode($this->getRelatedToRowID()),
@@ -104,15 +103,15 @@ class Epicor_Comm_Block_Catalog_Product_Ewa extends Mage_Core_Block_Template
             'location' => $helper->urlEncode(Mage::registry('location_code')),
             'qty' => $helper->urlEncode(Mage::app()->getRequest()->getParam('qty')),
         );
-        
+
         if ($this->getCIMData()->getQuoteId()) {
             $params['quoteId'] = $helper->urlEncode($this->getCIMData()->getQuoteId());
         }
-        
+
         if ($this->getCIMData()->getLineNumber()) {
             $params['lineNumber'] = $helper->urlEncode($this->getCIMData()->getLineNumber());
         }
-        
+
         if ($this->getCIMData()->getItemId()) {
             $params['itemId'] = $helper->urlEncode($this->getCIMData()->getItemId());
         }

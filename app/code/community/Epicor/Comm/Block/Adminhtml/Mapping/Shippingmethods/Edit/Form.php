@@ -31,6 +31,10 @@ class Epicor_Comm_Block_Adminhtml_Mapping_Shippingmethods_Edit_Form extends Epic
         $fieldset = $form->addFieldset('mapping_form', array(
              'legend' =>Mage::helper('adminhtml')->__('Mapping Information')
         ));
+        $rowAttributes ="shipping_method_trakcing";
+        $rowId = $this->getRequest()->getParam('id');
+        $magentoCurrentUrl = Mage::helper("adminhtml")->getUrl("adminhtml/epicorcomm_mapping_shippingmethods/trackingurltest");
+        
         $fieldset->addField('shipping_method_code', 'select', array(
              'label'     => Mage::helper('adminhtml')->__('Shipping Method'),
              'class'     => 'required-entry',
@@ -45,6 +49,16 @@ class Epicor_Comm_Block_Adminhtml_Mapping_Shippingmethods_Edit_Form extends Epic
              'required'  => true,
              'name'      => 'erp_code',
         ));
+        $fieldset->addField('tracking_url', 'text', array(
+             'label'     => Mage::helper('adminhtml')->__('Tracking Url'),
+             'required'  => false,
+             'name'      => 'tracking_url',
+             'class'     =>'validate-trackurl',
+             'note'      => Mage::helper('adminhtml')->__('e.g. http://yourdomain.com/{{TNUM}} - URL should contain this value {{TNUM}}'),
+             'after_element_html' => '<input type="hidden" id="edittrack" name="edittrack" value="1"><input type="hidden" id="popupshipurl" value=\'' .$magentoCurrentUrl. '\'><a href="#"  id="aaa" onclick="shippingmethodtrack.openpopup(\'' . $rowAttributes . '\',\'' . $rowId . '\'); return false;">Test Tracking Url</a>',
+        ));       
+        
+        
         $data = $this->includeStoreIdElement($data);
         $form->setValues($data);
 

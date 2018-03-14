@@ -91,6 +91,7 @@ class Epicor_Comm_Block_Cart_Quickadd_Autocomplete extends Mage_Core_Block_Abstr
             /* @var $product Epicor_Comm_Model_Product */
             $nameDisplay = $product->getCustomDescription() ?: $product->getName();
             $skuDisplay = $product->getSkuDisplay();
+            $isConfigurator = $product->getConfigurator() ? $product->getConfigurator() : 2;
             $typeId = $product->getTypeId();
             $productCount++;
             if ($typeId == 'grouped') {
@@ -126,9 +127,11 @@ class Epicor_Comm_Block_Cart_Quickadd_Autocomplete extends Mage_Core_Block_Abstr
                         $contracts = $contractProductHelper->activeContractsForProduct($child->getId());
                         $contractString = is_array($contracts) ? base64_encode(json_encode($contracts)) : null;
                     }
-
+                     $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($child->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
                     $html .= '<li id="super_group_' . $child->getId()
                         . '" title="' . $this->htmlEscape($childSkuData)
+                        . '" decimal="' . $decimalPlaces
+                        . '" configurator="' . $isConfigurator
                         . '" class="' . ($x % 2 ? 'even' : 'odd') . ($x == 0 ? ' first' : '')
                         . '" data-uom="' . $uomData
                         . '" data-pack="' . $child->getPackSize()
@@ -155,8 +158,12 @@ class Epicor_Comm_Block_Cart_Quickadd_Autocomplete extends Mage_Core_Block_Abstr
                         $contracts = $contractProductHelper->activeContractsForProduct($product->getId());
                         $contractString = is_array($contracts) ? base64_encode(json_encode($contracts)) : null;
                     }
+                    $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+                    
                     $html .= '<li id="' . $product->getId()
                         . '" title="' . $this->htmlEscape($skuDisplay)
+                        . '" configurator="' . $isConfigurator
+                        . '" decimal="' . $decimalPlaces
                         . '" class="' . ($x % 2 ? 'even' : 'odd') . ($x == 0 ? ' first' : '') . '"'
                         //. '" data-contracts="' . $contractString  . '"'
                         . ($locEnabled ? ' data-locations="' . $this->getLocationsJson($product) . '"' : '')
@@ -211,8 +218,8 @@ class Epicor_Comm_Block_Cart_Quickadd_Autocomplete extends Mage_Core_Block_Abstr
             $products = Mage::getModel('catalog/product')->getCollection();
             /* @var $products Mage_Catalog_Model_Resource_Product_Collection */
             $products->setStoreId(Mage::app()->getStore()->getId());
-            $products->addAttributeToSelect(array('sku', 'name', 'type_id'));
-            
+            $products->addAttributeToSelect(array('sku', 'name', 'type_id', 'configurator'));
+
             /* CPN JOIN */
             $cpnTable = $products->getTable('epicor_comm/customer_sku');
             $cpnCond = '`cpn`.`product_id` = `e`.`entity_id` 

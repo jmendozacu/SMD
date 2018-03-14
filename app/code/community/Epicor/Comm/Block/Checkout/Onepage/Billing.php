@@ -31,7 +31,7 @@ class Epicor_Comm_Block_Checkout_Onepage_Billing extends Mage_Checkout_Block_One
             $loadAddresses = $transportObject->getLoadAddresses();
 
             if ($loadAddresses) {
-                $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType($aType) : $this->getCustomer()->getAddresses();
+                $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType($aType,true) : $this->getCustomer()->getAddresses();
             }
 
             $this->setForcedAddressTypes($this->restrictAddressTypes());
@@ -85,17 +85,22 @@ class Epicor_Comm_Block_Checkout_Onepage_Billing extends Mage_Checkout_Block_One
         $helper = Mage::helper('epicor_lists/frontend_contract');
         /* @var $helper Epicor_Lists_Helper_Frontend_Contract */
         $force = Mage::getStoreConfigFlag('Epicor_Comm/address/force_type');
+        $session = Mage::getSingleton('customer/session');
+        $customer = $session->getCustomer();       
+        $getAccountType = $customer->getEccErpAccountType();
+        if($getAccountType =="guest") {
+           $force = false; 
+        } else {        
+            if ($force == false && $helper->contractsEnabled()) {
+                $quote = Mage::getSingleton('checkout/session')->getQuote();
+                /* @var $quote Epicor_Comm_Model_Quote */
 
-        if ($force == false && $helper->contractsEnabled()) {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-            /* @var $quote Epicor_Comm_Model_Quote */
-
-            $contracts = $helper->getQuoteContracts($quote);
-            if (empty($contracts) == false) {
-                $force = true;
+                $contracts = $helper->getQuoteContracts($quote);
+                if (empty($contracts) == false) {
+                    $force = true;
+                }
             }
         }
-
         return $force;
     }
 
@@ -104,7 +109,7 @@ class Epicor_Comm_Block_Checkout_Onepage_Billing extends Mage_Checkout_Block_One
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Comm_Helper_Data */
 
-        return $helper->customerAddressPermissionCheck('create');
+        return $helper->createBillingAddress();
     }
 
     public function isMasquerading()

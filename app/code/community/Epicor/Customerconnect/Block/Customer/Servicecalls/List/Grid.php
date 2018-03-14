@@ -13,7 +13,8 @@ class Epicor_Customerconnect_Block_Customer_Servicecalls_List_Grid extends Epico
 
     public function __construct() {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_servicecalls');
         $this->setDefaultSort('call_number');
         $this->setDefaultDir('desc');

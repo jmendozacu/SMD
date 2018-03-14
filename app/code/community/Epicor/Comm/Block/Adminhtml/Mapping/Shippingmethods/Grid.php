@@ -38,6 +38,15 @@ class Epicor_Comm_Block_Adminhtml_Mapping_Shippingmethods_Grid extends Epicor_Co
           'index'     => 'erp_code',
       ));
       
+      $this->addColumn('tracking_url', array(
+          'header'    => Mage::helper('epicor_comm')->__('Tracking Url'),
+          'align'     => 'left',
+          'index'     => 'tracking_url',
+          'filter'    => false,
+          'sortable'  => false,          
+          'renderer' => new Epicor_Comm_Block_Adminhtml_Mapping_Renderer_Trackingurl(),
+      ));      
+      
 	  
         $this->addColumn('action',
             array(
@@ -71,7 +80,7 @@ class Epicor_Comm_Block_Adminhtml_Mapping_Shippingmethods_Grid extends Epicor_Co
 
   public function getRowUrl($row)
   {
-      return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+      //return $this->getUrl('*/*/edit', array('id' => $row->getId()));
   }
 
 }

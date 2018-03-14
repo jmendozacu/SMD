@@ -28,19 +28,33 @@ $helper = $this->helper('epicor_comm');
 /* @var $helper Epicor_Comm_Helper_Data */
 
 $showPrices = $helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+$ewaHelper = Mage::helper('epicor_comm/configurator');
+/* @var $helper Epicor_Comm_Helper_Configurator */
 ?>
 <?php $_item = $this->getItem() ?>
 <?php $_order = $this->getItem()->getOrder() ?>
+<?php $getOptions = $this->getItemOptions(); ?>
+<?php $checkOptions = $ewaHelper->getEwaOptions($getOptions);   ?>
+<?php
+$storeId  = Mage::app()->getStore()->getStoreId();
+$getConfigurator = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProductId(), 'configurator', $storeId);
+?>
 <tr>
     <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
-        <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item->getName()) ?></strong>
-        <?php if ($this->getItemOptions()): ?>
+        <?php if (!$getConfigurator || $ewaHelper->getEwaDisplay('base_description')): ?>
+            <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item->getName()) ?></strong>
+        <?php endif; ?>
+        <?php if ($checkOptions): ?>
         <dl style="margin:0; padding:0;">
-            <?php foreach ($this->getItemOptions() as $option): ?>
-            <dt><strong><em><?php echo $option['label'] ?></em></strong></dt>
+            <?php foreach ($checkOptions as $option): ?>
+            <?php  if (!isset($option['option_type']) || substr($option['option_type'], 0, 4) != 'ewa_' || $ewaHelper->getEwaDisplay($option['option_type'])) : ?>   
+                <?php if (!isset($option['option_type']) || substr($option['option_type'], 0, 4) != 'ewa_'): ?>
+                    <dt><strong><em><?php echo $option['label'] ?></em></strong></dt>
+                <?php endif; ?>
             <dd style="margin:0; padding:0 0 0 9px;">
                 <?php echo (isset($option['print_value']) ? $option['print_value'] : nl2br($this->escapeHtml($option['value']))) ?>
             </dd>
+             <?php endif; ?>      
             <?php endforeach; ?>
         </dl>
         <?php endif; ?>

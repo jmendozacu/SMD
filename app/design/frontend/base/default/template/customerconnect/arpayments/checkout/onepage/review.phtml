@@ -1,0 +1,166 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$helper = Mage::helper('customerconnect/arpayments');
+/* @var $helper Epicor_Customerconnect_Helper_Arpayments */
+$postparams = Mage::App()->getRequest()->getParam('postvals');
+$templateVals = $helper->Combinevalues($postparams[0]);
+$totalAmount = $helper->CombineTotalAmount($postparams[0]);
+$encodeJson = json_encode($templateVals,true); 
+$clearCustomerInformation = $helper->clearInfo();
+$currencySymbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+$paymentOnAccount = Mage::App()->getRequest()->getParam('paymentOnAccount');
+$allocatedAmount = Mage::App()->getRequest()->getParam('allocatedAmount');
+$amountLeft = Mage::App()->getRequest()->getParam('amountLeft');
+$paymentStyle='';
+$allocatedStyle = "display:none";
+if((trim($postparams[0]) =="{}") && ($paymentOnAccount =="true")) {
+    $paymentStyle = "display:none";
+}
+if(($allocatedAmount) && ($paymentOnAccount =="true")) {
+    $allocatedStyle = "";
+}
+?>
+<li id="opc-review" class="section allow">
+    <div class="step-title">
+        <span class="number">2</span>
+        <h2>Invoice Payment Review</h2>
+        <a href="#"></a>
+    </div>    
+<div id="checkout-step-review" class="step a-item" style="">
+<div class="block-content" id="show_ar_payments_total_grid" style="display: none">
+            <div class="entry-edit-head" >
+                <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Review Invoice Details') ?></h4>
+            </div>            
+            <table class="data-table linearize-table" cellspacing="3" cellpadding="3" id="invoicepaymentamounts" style="<?php echo $paymentStyle; ?>">
+            <thead>
+            <tr class="headings">
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Invoice No') ?></strong></span>
+                </th>
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Invoice Date') ?></strong></span>
+                </th>
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Invoice Amount') ?></strong></span>
+                </th>  
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Invoice Balance') ?></strong></span>
+                </th>                  
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Term Amount') ?></strong></span>
+                </th>
+                <th>
+                    <span class="price"><strong><?php echo $this->__('Payment Amount') ?></strong></span>
+                </th>                 
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($templateVals as $insertedVals) :?>
+            <tr id="">
+                <td>
+                    <span class="price"><?php echo $this->__($insertedVals['invoiceNo']) ?></span>
+                </td>
+                <td>
+                   <span class="price"> <?php echo $this->__($insertedVals['invoiceDate']) ?></span>
+                </td>
+                <td>
+                    <span class="price"><?php echo $currencySymbol ?><?php echo $this->__($insertedVals['invoiceAmnt']) ?></span>
+                </td> 
+                <td>
+                    <span class="price"><?php echo $currencySymbol ?><?php echo $this->__($insertedVals['invoiceBalance']) ?></span>
+                </td>                 
+                <td>
+                    <span class="price"><?php echo $currencySymbol ?><?php echo $this->__($insertedVals['settlementTermAmount']) ?></span>
+                </td>
+                <td>
+                   <span class="price"><?php echo $currencySymbol ?><?php echo $this->__($insertedVals['userPaymentAmount']) ?></span>
+                    
+                </td>                   
+            </tr>         
+            <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr >
+                    <td colspan="5">Invoice Total:  </td><td><span class="price"><?php echo $currencySymbol ?><?php echo $totalAmount?></span>
+                <input type="hidden" name="totalarpayment" id="totalarpayment" class="totalarpayment" value="<?php echo $totalAmount;?>">
+                <input type="hidden" name="invoicearvariables" id="invoicearvariables" class="invoicearvariables" value='<?php echo $encodeJson;?>'>
+                </td></tr>
+                
+            </tfoot>
+        </table>
+        <table class="data-table linearize-table" cellspacing="3" cellpadding="3" id="invoiceallocatedamount" style="<?php echo $allocatedStyle?>" >
+                <tfoot>
+                <tr class="first">
+                <td style="" class="a-right" colspan="5">Payment On Account:</td>
+                    <td style="" class="a-right last">
+                        <span class="price"><?php echo $accounts = ($paymentOnAccount)?"True":"False";?></span>    </td>
+                </tr>
+                <tr>
+                    <td style="" class="a-right" colspan="5">Amount Left:</td>
+                    <td style="" class="a-right last">
+                        <span class="price"><?php echo $currencySymbol ?><?php echo (!empty($amountLeft))? $helper->formatPriceForArPayment($amountLeft) : '0.00';?></span>    </td>
+                </tr>
+                    <tr class="last">
+                    <td style="" class="a-right" colspan="5">
+                        <strong>Total Amount Applied:</strong>
+                    </td>
+                    <td style="" class="a-right last">
+                        <strong><span class="price"><?php echo $currencySymbol ?><?php echo (!empty($allocatedAmount)) ? $helper->formatPriceForArPayment($allocatedAmount) : '0.00'?></span></strong>
+                    </td>
+                </tr>
+                </tfoot>              
+          </table>
+    
+</div>
+
+
+<div class="order-review" id="checkout-review-load">
+    <!-- Content loaded dynamically -->
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    var accordion = new Accordion('checkoutSteps', '.step-title', true);
+    accordion.openSection('opc-review');
+    var checkout = new Checkout(accordion,{
+        progress: '',
+        review: '',
+        saveMethod: '',
+        failure: ''}
+    );      
+//]]>
+</script>
+    <script type="text/javascript">
+    //<![CDATA[
+        review = new Review('<?php echo $this->getUrl('checkout/onepage/saveArOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey())) ?>', '<?php echo $this->getUrl('checkout/onepage/successarorder') ?>', $('checkout-agreements'));
+    //]]>
+    </script>
+</li>
+<style>
+    #co-payment-form {height: 136px;}
+</style>

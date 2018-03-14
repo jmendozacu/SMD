@@ -1,0 +1,198 @@
+<?php
+
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/** @var Mage_Checkout_Block_Onepage_Billing $this */
+?>
+<div id="capture_details_wrapper" style="display:none">
+    <p id="capturedetails-msg"></p>
+    <div id="capture_customer_info" style="display:none">
+        <form id="capturedetails-form">
+            <input type="hidden" id="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" /> 
+            <input type="hidden" id="action_type" name="action_type"/> 
+            <fieldset>
+                <?php echo $this->getChildHtml('capture.billing.details')?>
+                <div class="col-1">
+                    <ul class="form-list">
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:name" class="required"><em>*</em><?php echo $this->__('Name') ?></label>
+                                <div class="input-box">
+                                    <input type="text" id="capturedetails:name" name="capturedetails[name]" value="" title="<?php echo $this->__('Name') ?>" class="input-text required-entry" />
+                                </div>
+                            </div>
+                        </li>    
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:company"><?php echo $this->__('Company') ?></label>
+                                <div class="input-box">
+                                    <input type="text" id="capturedetails:company" name="capturedetails[company]" value="" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('company') ?>" />
+                                </div>
+                            </div>
+                        </li> 
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                                <div class="input-box">
+                                    <input type="email" name="capturedetails[email]" id="capturedetails:email" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry"/>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="wide">
+                            <label for="capturedetails:street" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('Street Address') ?>" name="capturedetails[street][0]" id="capturedetails:street1" value="" class="input-text" />
+                            </div>
+                        </li>
+                    <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                        <li class="wide">
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="capturedetails[street][]" id="capturedetails:street<?php echo $_i ?>" value="" class="input-text " />
+                            </div>
+                        </li>
+                    <?php endfor; ?>                      
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                                <div class="input-box">
+                                    <input type="text" title="<?php echo $this->__('City') ?>" name="capturedetails[city]" value="" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" id="capturedetails:city" />
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="fields" id="region_details">
+                            <label for="capturedetails:region_id"><em class="required">*</em><?php echo $this->__('State/Province') ?></label>
+                            <div class="input-box">
+                                <select id="capturedetails:region_id" name="capturedetails[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                                    <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                                </select>
+                                <script type="text/javascript">
+                                    //<![CDATA[
+                                    $('capturedetails:region_id').setAttribute('defaultValue', "<?php echo $this->getAddress()->getRegionId() ?>");
+                                    //]]>
+                                </script>
+                                <input type="text" id="capturedetails:region" name="capturedetails[region]" value="<?php //echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('region') ?>" style="display:none;" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <ul class="form-list">
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                                <div class="input-box">
+                                    <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="capturedetails[postcode]" id="capturedetails:postcode" value="" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="fields">
+                            <div class="field country_selector">
+                                <label for="capturedetails:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                                <div class="input-box" class="country_details">
+                                    <?php echo $this->getCountryHtmlSelect('capturedetails') ?>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="fields">
+                            <div class="field">                               
+                                <label for="capturedetails:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                                <div class="input-box">
+                                    <input type="number" name="capturedetails[telephone]" value="" title="<?php echo $this->__('Telephone') ?>" class="input-text no-spinners" id="capturedetails:telephone" />
+                                </div>
+                            </div>
+                        </li>   
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:mobile_number"><?php echo $this->__('Mobile Phone') ?></label>
+                                <div class="input-box ">
+                                    <input type="number" name="capturedetails[mobile_number]" value="" title="<?php echo $this->__('mobile_number') ?>" class="input-text" id="capturedetails:mobile_number" />
+                                </div>
+                            </div>
+                        </li> 
+                        <li class="fields">
+                            <div class="field">
+                                <label for="capturedetails:fax"><?php echo $this->__('Fax') ?></label>
+                                <div class="input-box">
+                                    <input type="number" name="capturedetails[fax]" value="" title="<?php echo $this->__('Fax') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('fax') ?>" id="capturedetails:fax" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="control register_checkbox">
+                            <div class="input-box">
+                                <input type="checkbox" id="capturedetails:register" name="capturedetails[register]" title="<?php echo $this->__('Register Details') ?>" checked value="1" class="checkbox" />
+                            </div>
+                            <label for="capturedetails[register]"><?php echo $this->__('Register Details') ?></label>
+                        </li>
+                        <li class="fields" id="capture-register-customer-password">
+                            <div class="field">
+                                <label for="capturedetails:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="capturedetails[customer_password]" id="capturedetails:customer_password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="capturedetails:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="capturedetails[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="capturedetails:confirm_password" class="input-text required-entry validate-cpassword" />
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="buttons-set" id="capturedetails-buttons-container">
+                    <p id="no-thanks-container">
+                        <button type="button" class="confirm_button_no"><span><span><?php echo $this->__('No Thanks') ?></span></span></button>
+                        <button type="button" id="captureDetailsSubmit" title="<?php echo $this->__('Submit') ?>" class="button" onclick="captureDetails(true)"><span><span><?php echo $this->__('Submit Details') ?></span></span></button>
+                    </p>
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                </div>
+            </fieldset> 
+            <?php echo $this->getBlockHtml('formkey') ?>
+        </form>
+    </div>
+    
+    <div id="capture-customer-info-thank-you" style="display:none;">
+        <div class="buttons-set">
+            <button class="button confirm_button_no" ><span><span><?php echo $this->__('Close'); ?></span></span></button>
+        </div>
+    </div>
+
+    <div id="confirm_html" style="display:none">
+        <div class="buttons-set">
+            <button class="button confirm_button_no"><span><span><?php echo $this->__('No'); ?></span></span></button>
+            <button class="button" id="confirm_button_yes" onclick="javascript:captureDetails(false)"><span><span><?php echo $this->__('Yes'); ?></span></span></button>
+        </div>
+    </div>
+    <input type="hidden" id="ecc_cd_cart_url" name="ecc_cd_cart_url" value="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>"/>
+    <input type="hidden" id="ecc_cd_check_url" name="ecc_cd_check_url" value="<?php echo $this->getUrl('epicor/sales_order/nonErpProductCheck'); ?>"/>
+    <input type="hidden" id="ecc_cd_capture_url" name="ecc_cd_capture_url" value="<?php echo $this->getUrl('epicor/sales_order/captureDetails'); ?>"/>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var capturedetailsRegionUpdater = new RegionUpdater('capturedetails:country_id', 'capturedetails:region', 'capturedetails:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'capturedetails:postcode');
+//]]>
+</script>

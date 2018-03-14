@@ -109,4 +109,21 @@
             <block type="customerconnect/adminhtml_mapping_reasoncode_edit" name="reasoncodemapping_edit" />
         </reference>
     </adminhtml_customerconnect_mapping_reasoncode_edit>
+        <!--start ship status code-->
+    <adminhtml_customerconnect_mapping_shipstatus_index>
+        <label>ERP Ship status </label>
+        <update handle="customer_connect"/>
+        <reference name="content">
+            <action method="setHeaderTitle" translate="title">
+                <title>ERP Ship status</title>
+            </action>
+            <block type="customerconnect/adminhtml_mapping_shipstatus" name="shipstatuslist" />
+        </reference>
+    </adminhtml_customerconnect_mapping_shipstatus_index>
+    <adminhtml_customerconnect_mapping_shipstatus_edit>
+        <reference name="content">
+            <block type="customerconnect/adminhtml_mapping_shipstatus_edit" name="shipstatusmapping_edit" />
+        </reference>
+    </adminhtml_customerconnect_mapping_shipstatus_edit>
+	<!--end ship status code-->
 </layout>

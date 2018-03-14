@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Epicor_Comm>
-            <version>1.0.7.2.1</version>
+            <version>1.0.9.0.14</version>
         </Epicor_Comm>
     </modules>
     <adminhtml>  
@@ -138,6 +138,11 @@
                         <class>Epicor_Comm_Model_Observer_Adminhtml_Block</class>
                         <method>customerEditTabUpdate</method>
                     </epicor_customer_edit_tabs>
+                    <add_created_by_to_attribute_form>
+                        <type>singleton</type>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>addCreatedByToAttributeSetField</method>
+                    </add_created_by_to_attribute_form>
                 </observers>
             </adminhtml_block_html_before>
             <adminhtml_customer_prepare_save>
@@ -166,6 +171,33 @@
                     </add_sync_urls_block>
                 </observers>
             </category_prepare_ajax_response>
+            <adminhtml_block_eav_attribute_edit_form_init>
+                <observers>
+                    <add_created_by_to_attribute_form>
+                        <type>singleton</type>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>addCreatedByToAttributeField</method>
+                    </add_created_by_to_attribute_form>
+                </observers>
+            </adminhtml_block_eav_attribute_edit_form_init>
+            <!--AR PAYMENTS OBSERVER STARTS-->
+            <controller_action_layout_render_before_adminhtml_sales_order_view>
+                <observers>
+                    <check_invoice_id_invoice>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>checkOrderIdOrInvoiceId</method>
+                    </check_invoice_id_invoice>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_sales_order_view> 
+            <controller_action_predispatch_adminhtml_sales_order_create_reorder>
+                <observers>
+                    <check_reorder_invoice>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>checkInvoiceIdForCustomerReorder</method>
+                    </check_reorder_invoice>
+                </observers>
+            </controller_action_predispatch_adminhtml_sales_order_create_reorder>             
+            <!--AR PAYMENTS OBSERVER ENDS-->           
         </events>        
         <gor_triggers>
             <any>Any</any>
@@ -211,8 +243,8 @@
     <global>
         <ecc_version_info>
             <Epicor_Comm>
-                <version>1.0.7.7</version>
-                <released>2017-04-12</released>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
             </Epicor_Comm>
         </ecc_version_info>
         <template>
@@ -287,11 +319,18 @@
                     <type>html</type>
                 </epicor_comm_returns_b2b_admin_error_email_template>
                 
-               <epicor_comm_sales_email_order_template translate="label" module="sales">
+                <epicor_comm_sales_email_order_template translate="label" module="sales">
                     <label>New Order</label>
                     <file>epicor_comm/sales/order_new.html</file>
                     <type>html</type>
                 </epicor_comm_sales_email_order_template>
+                <!--In case if coreconfig data for this path exist in DB then also take ECC custom template-->
+                <sales_email_order_template translate="label" module="sales">
+                    <label>New Order</label>
+                    <file>epicor_comm/sales/order_new.html</file>
+                    <type>html</type>
+                </sales_email_order_template>
+                
                 <epicor_comm_sales_email_order_guest_template translate="label" module="sales">
                     <label>New Order for Guest</label>
                     <file>epicor_comm/sales/order_new_guest.html</file>
@@ -307,6 +346,16 @@
                     <file>epicor_comm/sales/order_update_guest.html</file>
                     <type>html</type>
                 </epicor_comm_sales_email_order_comment_guest_template>
+               <sales_email_shipment_template translate="label" module="sales">
+                    <label>New Shipment</label>
+                    <file>epicor_comm/sales/shipment_new.html</file>
+                    <type>html</type>
+                </sales_email_shipment_template>
+                <sales_email_shipment_guest_template translate="label" module="sales">
+                    <label>New Shipment for Guest</label>
+                    <file>epicor_comm/sales/shipment_new_guest.html</file>
+                    <type>html</type>
+                </sales_email_shipment_guest_template>
             </email>
         </template>
         <license_types>
@@ -386,7 +435,8 @@
                         <active>1</active>
                     </hrt_request>
                     <syn_request>
-                        <active>1</active>
+                        <active>1</active> 
+                        <full_sync></full_sync>
                     </syn_request>
                     <lics_request>
                         <active>0</active>
@@ -458,11 +508,12 @@
                     </options>
                 </checkout>
                 <epicor_b2b>
-                   <registration>  
-                       <registered_address>1</registered_address>                         
-                   </registration>
-               </epicor_b2b>  
-               <epicor_comm_returns>
+                    <registration>  
+                        <registered_address>1</registered_address>                         
+                    </registration>
+                </epicor_b2b>  
+                
+                <epicor_comm_returns>
                     <notes>                            
                         <tab_required>1</tab_required>
                         <tab_length></tab_length>
@@ -470,6 +521,11 @@
                         <line_notes_length></line_notes_length>
                     </notes>
                 </epicor_comm_returns>
+                <customerconnect_enabled_messages>
+                    <CRQS_request>
+                        <show_account_number_account_id>account_number</show_account_number_account_id>
+                    </CRQS_request>
+                </customerconnect_enabled_messages>
             </xvp>
             <e10>
                 <mappingData>
@@ -549,6 +605,7 @@
                     </hrt_request>
                     <syn_request>
                         <active>1</active>
+                        <full_sync></full_sync>
                     </syn_request>
                     <lics_request>
                         <active>1</active>
@@ -664,11 +721,11 @@
                         <line_attachments>1</line_attachments>
                     </b2b>
                     <notes>                            
-                       <tab_required>1</tab_required>
-                       <tab_length></tab_length>
-                       <line_notes_required>1</line_notes_required>
-                       <line_notes_length></line_notes_length>
-                   </notes>                  
+                        <tab_required>1</tab_required>
+                        <tab_length></tab_length>
+                        <line_notes_required>1</line_notes_required>
+                        <line_notes_length></line_notes_length>
+                    </notes>                  
                 </epicor_comm_returns>
                 <checkout>
                     <options>
@@ -685,10 +742,15 @@
                     <erp_searching>1</erp_searching>
                 </epicor_comm> 
                 <epicor_b2b>
-                   <registration>  
-                       <registered_address>1</registered_address>                         
-                   </registration>
-               </epicor_b2b> 
+                    <registration>  
+                        <registered_address>1</registered_address>                         
+                    </registration>
+                </epicor_b2b> 
+                <customerconnect_enabled_messages>
+                    <CRQS_request>
+                        <show_account_number_account_id>short_code</show_account_number_account_id>
+                    </CRQS_request>
+                </customerconnect_enabled_messages>
             </e10>
             <p21>
                 <Epicor_Comm>
@@ -727,7 +789,6 @@
                     <syn_request>
                         <active>1</active>
                         <full_sync>STG,ALT</full_sync>
-                        <uploaded_data_filter>STG,ALT</uploaded_data_filter>
                     </syn_request>
                     <lics_request>
                         <active>0</active>
@@ -794,6 +855,7 @@
                     </stg_mapping>
                     <stk_mapping>
                         <active>1</active>
+                        <newproductcode_delete>1</newproductcode_delete>
                     </stk_mapping>
                     <stt_mapping>
                         <active>1</active>
@@ -864,10 +926,15 @@
                     <erp_searching>1</erp_searching>
                 </epicor_comm>
                 <epicor_b2b>
-                   <registration>  
-                       <registered_address>1</registered_address>                         
-                   </registration>
-               </epicor_b2b>   
+                    <registration>  
+                        <registered_address>1</registered_address>                         
+                    </registration>
+                </epicor_b2b>   
+                <customerconnect_enabled_messages>
+                    <CRQS_request>
+                        <show_account_number_account_id>account_number</show_account_number_account_id>
+                    </CRQS_request>
+                </customerconnect_enabled_messages>
             </p21>
             <tropos>                
                 <Epicor_Comm>
@@ -913,6 +980,7 @@
                     </hrt_request>
                     <syn_request>
                         <active>1</active>
+                        <full_sync></full_sync>
                     </syn_request>
                     <lics_request>
                         <active>1</active>
@@ -983,26 +1051,35 @@
                     </options>
                 </checkout>
                 <epicor_b2b>
-                   <registration>  
-                       <registered_address>1</registered_address>                         
-                   </registration>
+                    <registration>  
+                        <registered_address>1</registered_address>                         
+                    </registration>
                 </epicor_b2b>   
                 <epicor_comm_returns>  
                     <notes>                            
-                       <tab_required>1</tab_required>
-                       <tab_length>60</tab_length>
-                       <line_notes_required>1</line_notes_required>
-                       <line_notes_length>60</line_notes_length>
+                        <tab_required>1</tab_required>
+                        <tab_length>60</tab_length>
+                        <line_notes_required>1</line_notes_required>
+                        <line_notes_length>60</line_notes_length>
                     </notes>
-                </epicor_comm_returns>  
+                </epicor_comm_returns> 
+                <customerconnect_enabled_messages>
+                    <CRQS_request>
+                        <show_account_number_account_id>account_number</show_account_number_account_id>
+                    </CRQS_request>
+                </customerconnect_enabled_messages> 
             </tropos>
             <bistrack>
-               <epicor_b2b>
-                   <registration>  
-                       <registered_address>0</registered_address>                         
+                <epicor_b2b>
+                    <registration>  
+                        <registered_address>0</registered_address>                         
                    </registration>
                </epicor_b2b>  
                <epicor_comm_enabled_messages>
+                    <syn_request>
+                        <active>1</active>
+                        <full_sync>STG</full_sync>
+                    </syn_request>
                    <CRRD_request>
                        <active>0</active>
                    </CRRD_request>
@@ -1012,7 +1089,12 @@
                    <CRRU_request>
                        <active>0</active>
                    </CRRU_request>
-               </epicor_comm_enabled_messages>         
+               </epicor_comm_enabled_messages>    
+               <customerconnect_enabled_messages>
+                    <CRQS_request>
+                        <show_account_number_account_id>account_number</show_account_number_account_id>
+                    </CRQS_request>
+                </customerconnect_enabled_messages>     
             </bistrack>
         </erps>
         <xml_message_types>
@@ -1028,7 +1110,7 @@
                 </customers>
                 <locations>
                     <label>Locations</label>
-                     <sort_order>20</sort_order>
+                    <sort_order>20</sort_order>
                     <messages>
                         <loc>LOC</loc>
                     </messages>
@@ -1043,7 +1125,7 @@
                 </suppliers>
                 <products>
                     <label>Products</label>
-                     <sort_order>30</sort_order>
+                    <sort_order>30</sort_order>
                     <messages>
                         <stk>STK</stk>
                         <stt>STT</stt>
@@ -1066,7 +1148,7 @@
                 </categories>
                 <product_catalog>
                     <label>Product Catalog</label>
-                     <sort_order>80</sort_order>
+                    <sort_order>80</sort_order>
                     <messages>
                         <sgp>SGP</sgp>
                     </messages>
@@ -1244,6 +1326,7 @@
                     <multishipping_address_select>Epicor_Comm_Block_Checkout_Multishipping_Address_Select</multishipping_address_select>
                     <multishipping_overview>Epicor_Comm_Block_Checkout_Multishipping_Overview</multishipping_overview>
                     <multishipping_success>Epicor_Comm_Block_Checkout_Multishipping_Success</multishipping_success>
+                    <onepage_payment_methods>Epicor_Comm_Block_Checkout_Onepage_Payment_Methods</onepage_payment_methods>
                 </rewrite>
             </checkout>
             <sales>
@@ -1286,6 +1369,7 @@
                     <layer_view>Epicor_Comm_Block_Catalog_Layer_View</layer_view>
                     <product_view_attributes>Epicor_Comm_Block_Catalog_Product_View_Attributes</product_view_attributes>
                     <product_view>Epicor_Comm_Block_Catalog_Product_View</product_view>
+                    <product_list_toolbar>Epicor_Comm_Block_Catalog_Product_List_Toolbar</product_list_toolbar>
                 </rewrite>
             </catalog>
         </blocks>
@@ -1354,6 +1438,9 @@
                     <erp_mapping_shippingmethod>
                         <table>epicor_comm_erp_mapping_shippingmethod</table>
                     </erp_mapping_shippingmethod>
+                    <erp_mapping_attributes>
+                        <table>epicor_comm_erp_attributes</table>
+                    </erp_mapping_attributes>
                     <customer_sku>
                         <table>epicor_comm_erp_customer_sku</table>
                     </customer_sku>
@@ -1396,6 +1483,15 @@
                     <location_product_store>
                         <table>epicor_comm_location_product_store</table>
                     </location_product_store>
+                    <location_relatedlocations>
+                        <table>epicor_comm_location_relatedlocations</table>
+                    </location_relatedlocations>
+                    <location_groupings>
+                        <table>epicor_comm_location_groupings</table>
+                    </location_groupings>
+                    <location_grouplocations>
+                        <table>epicor_comm_location_grouplocations</table>
+                    </location_grouplocations>
                 </entities>
             </epicor_comm_resource>
             <catalogsearch>
@@ -1445,12 +1541,14 @@
                     <quote_address>Epicor_Comm_Model_Quote_Address</quote_address>
                     <order_address>Epicor_Comm_Model_Sales_Order_Address</order_address>
                     <order_shipment_track>Epicor_Comm_Model_Sales_Order_Shipment_Track</order_shipment_track>
+                    <service_quote>Epicor_Comm_Model_Service_Quote</service_quote>
                 </rewrite>
             </sales>  
             <checkout>
                 <rewrite>
                     <type_onepage>Epicor_Comm_Model_Checkout_Type_Onepage</type_onepage>
                     <cart>Epicor_Comm_Model_Cart</cart>
+                    <session>Epicor_Comm_Model_Session</session>
                 </rewrite>
             </checkout>  
             <customer>
@@ -1491,6 +1589,7 @@
                     <stock_item>Epicor_Comm_Model_Cataloginventory_Stock_Item</stock_item>
                 </rewrite>
             </cataloginventory>
+            
         </models>     
         <resources>
             <epicor_comm_setup>
@@ -1509,6 +1608,11 @@
                     <product_configuration>Epicor_Comm_Helper_Catalog_Product_Configuration</product_configuration>
                 </rewrite>
             </catalog>
+            <checkout>
+                <rewrite> 
+                    <data>Epicor_Comm_Helper_Checkout_Data</data>
+                </rewrite>
+            </checkout>
         </helpers>
         <events>
             <epicor_common_file_not_found>
@@ -1538,15 +1642,20 @@
                     </epicor_comm_model_observer>
                 </observers>
             </epicor_quotes_quote_save_complete>
-            <sales_order_save_commit_after>
+            <sales_order_save_commit_after> 
                 <observers>
                     <epicor_comm_model_observer>
                         <type>singleton</type>                          
                         <class>Epicor_Comm_Model_Observer</class>
                         <method>sendOrderToERP</method>
                     </epicor_comm_model_observer>
+                    <epicor_comm_model_arpayment_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>sendInvoicesToERP</method>
+                    </epicor_comm_model_arpayment_observer>                    
                 </observers>
-            </sales_order_save_commit_after>
+            </sales_order_save_commit_after> 
             <customer_address_format>
                 <observers>
                     <epicor_common_model_observer>
@@ -1823,6 +1932,46 @@
                     </update_contracts_last_use>
                 </observers>
             </gor_request_processresponse_after>
+            <bsv_request_convert2xml_before>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>nonErpProductsProxy</method>
+                    </epicor_comm_model_observer>                    
+                </observers>
+            </bsv_request_convert2xml_before>
+            <gor_request_convert2xml_before>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>nonErpProductsProxy</method>
+                    </epicor_comm_model_observer>                    
+                </observers>
+            </gor_request_convert2xml_before>
+            <gor_request_processresponse_before>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>nonErpProductsProxyGorResponse</method>
+                    </epicor_comm_model_observer>                    
+                </observers>
+            </gor_request_processresponse_before>
+            <gqr_request_convert2xml_before>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>nonErpProductsProxy</method>
+                    </epicor_comm_model_observer>                    
+                </observers>
+            </gqr_request_convert2xml_before>
+            <crqu_request_convert2xml_before>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>nonErpProductsProxy</method>
+                    </epicor_comm_model_observer>                    
+                </observers>
+            </crqu_request_convert2xml_before>            
             <controller_action_layout_load_before>
                 <observers>
                     <addFooterReturnsLink>
@@ -1830,18 +1979,26 @@
                         <method>addFooterReturnLink</method>
                     </addFooterReturnsLink>
                 </observers>
-            </controller_action_layout_load_before>           
+            </controller_action_layout_load_before>  
+            <catalog_product_attribute_update_before>
+                <observers>
+                    <updateAttribute>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>checkAttributeResource</method>
+                    </updateAttribute>
+                </observers>
+            </catalog_product_attribute_update_before>  
         </events>
         <fieldsets>
-            <sales_convert_quote>					
-                <required_date>							
-                    <to_order>*</to_order>			
-                </required_date>					
-                <basket_erp_quote_number>							
-                    <to_order>*</to_order>			
-                </basket_erp_quote_number>					
-                <customer_order_ref>							
-                    <to_order>*</to_order>			
+            <sales_convert_quote>                   
+                <required_date>                         
+                    <to_order>*</to_order>          
+                </required_date>                    
+                <basket_erp_quote_number>                           
+                    <to_order>*</to_order>          
+                </basket_erp_quote_number>                  
+                <customer_order_ref>                            
+                    <to_order>*</to_order>          
                 </customer_order_ref>
                 <bsv_goods_total>
                     <to_order>*</to_order>
@@ -1869,8 +2026,31 @@
                 </delivery_type> 
                 <mobile_number>
                     <to_order>*</to_order>
-                </mobile_number>                                   
-            </sales_convert_quote>	
+                </mobile_number>
+                <tax_exempt_reference>
+                    <to_order>*</to_order>
+                </tax_exempt_reference> 
+               <additional_reference>
+                    <to_order>*</to_order>
+                </additional_reference>
+                <ship_status_erpcode>
+                    <to_order>*</to_order>
+                </ship_status_erpcode>
+                <!--AR PAYMENTS MAPPING STARTS-->                
+                <ecc_arpayments_invoice>
+                    <to_order>*</to_order>
+                </ecc_arpayments_invoice> 
+                <ecc_arpayments_allocated_amount>
+                    <to_order>*</to_order>
+                </ecc_arpayments_allocated_amount> 
+                <ecc_arpayments_amountleft>
+                    <to_order>*</to_order>
+                </ecc_arpayments_amountleft>                                                                                   
+                <ecc_arpayments_ispayment>
+                    <to_order>*</to_order>
+                </ecc_arpayments_ispayment>
+                <!--AR PAYMENTS MAPPING ENDS-->                                                     
+            </sales_convert_quote>  
             <customer_address>
                 <erp_address_code>
                     <to_quote_address>*</to_quote_address>
@@ -1949,6 +2129,14 @@
                 <ecc_gqr_line_number>
                     <to_order_item>*</to_order_item>
                 </ecc_gqr_line_number>
+                <!--AR PAYMENTS MAPPING STARTS-->                
+                <ecc_arpayments_invoice>
+                    <to_order_item>*</to_order_item>
+                </ecc_arpayments_invoice>     
+                <ecc_arpayments_invoice_no>
+                    <to_order_item>*</to_order_item>
+                </ecc_arpayments_invoice_no>  
+                <!--AR PAYMENTS MAPPING ENDS-->                              
             </sales_convert_quote_item>
             <sales_convert_order_item>                                              
                 <ecc_location_code>
@@ -2020,6 +2208,9 @@
                                     <ewa_description translate="label" module="epicor_comm">
                                         <label>EWA Description</label>
                                     </ewa_description>
+                                    <ewa_configurable translate="label" module="epicor_comm">
+                                        <label>EWA Configurable</label>
+                                    </ewa_configurable>
                                 </types>
                             </ewa>
                             <ecc_text translate="label" module="epicor_comm">
@@ -2233,9 +2424,18 @@
                     <epicor_comm_model_observer>
                         <class>Epicor_Comm_Model_Observer</class>
                         <method>checkCartAfterLogin</method>
-                    </epicor_comm_model_observer>
-                </observers>
+                    </epicor_comm_model_observer> 
+                </observers>     
             </customer_login> 
+            <add_final_redirect_url_to_redirect_array>
+                <observers>                                
+                    <add_customer_account_to_redirects>
+                        <class>Epicor_Common_Model_Observer</class>
+                        <method>addCustomerAccountToRedirectArray</method>
+                    </add_customer_account_to_redirects>
+                </observers>     
+            </add_final_redirect_url_to_redirect_array>
+                
             <customer_logout>
                 <observers>
                     <catalogrule>
@@ -2255,8 +2455,32 @@
                         <class>Epicor_Comm_Model_Observer</class>
                         <method>saveOrderLineComment</method>
                     </saveOrderLineComment>
+                    <saveDefaultAddresses>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>saveDefaultAddresses</method>
+                    </saveDefaultAddresses>
+		         </observers>
+            </sales_order_save_after>
+            <checkout_submit_all_after>
+                <observers>
+                    <emptyTaxExemptReference>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>emptyTaxExemptReference</method>
+                    </emptyTaxExemptReference>
+                    <emptysessionmsg>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>emptyCoreSessionMessage</method>
+                    </emptysessionmsg>
                 </observers>
-            </sales_order_save_after>     
+            </checkout_submit_all_after>
+           <bsv_request_processresponse_after>
+                <observers>
+                    <epicor_set_date_required_warning_erp>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>setErpErrorMessage</method>
+                    </epicor_set_date_required_warning_erp>
+                </observers>
+            </bsv_request_processresponse_after>
             <customer_customer_authenticated>
                 <observers>
                     <epicor_comm_model_observer>
@@ -2283,6 +2507,15 @@
                     </epicor_comm_model_observer>
                 </observers>
             </controller_action_predispatch_checkout_multishipping_overview>
+            <controller_action_predispatch_checkout_multishipping_addresses>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>checkBranchSelected</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </controller_action_predispatch_checkout_multishipping_addresses>
             <controller_action_layout_generate_blocks_before>
                 <observers>
                     <epicor_comm_model_observer>
@@ -2365,6 +2598,11 @@
                         <class>Epicor_Comm_Model_Observer_Locations</class>
                         <method>filterProducts</method>
                     </filter_products>
+                    <add_price>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer_Product</class>
+                        <method>addPrice</method>
+                    </add_price>
                 </observers>
             </catalog_product_collection_load_before> 
             <epicor_comm_layer_prepare_product_collection>
@@ -2374,6 +2612,11 @@
                         <class>Epicor_Comm_Model_Observer_Locations</class>
                         <method>filterProducts</method>
                     </filter_products>
+                    <add_price>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer_Product</class>
+                        <method>addPrice</method>
+                    </add_price>
                 </observers>
             </epicor_comm_layer_prepare_product_collection> 
             <catalog_product_collection_load_after>
@@ -2471,6 +2714,15 @@
                     </catalogrule>
                 </observers>
             </checkout_onepage_controller_success_action> 
+             <checkout_submit_all_after>
+                <observers>
+                    <emptysessionmesssage>
+                        <type>singleton</type>
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>emptyCoreSessionMessage</method>
+                    </emptysessionmesssage>
+                </observers>
+            </checkout_submit_all_after> 
             <checkout_cart_update_items_before>
                 <observers>
                     <add_line_comments>
@@ -2520,18 +2772,77 @@
                         <method>checkQtySelected</method>
                     </checkForEmptyCart>
                 </observers>
-            </controller_action_predispatch_checkout_cart_add>
+            </controller_action_predispatch_checkout_cart_add>   
+            
+            
+            <catalog_product_collection_load_after>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer_Msq</class>
+                        <method>removeOutofStockProduct</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </catalog_product_collection_load_after>  
+
+            <customer_login>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>removeOutofStockProductQuote</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </customer_login>   
+            <msq_sendrequest_after>
+                <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer_Msq</class>
+                        <method>removeOutofStockProductAfterMsq</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </msq_sendrequest_after>   
+            <controller_action_layout_render_before_checkout_onepage_index>
+                 <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>ifNonErpProductsUpdateLayout</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </controller_action_layout_render_before_checkout_onepage_index>            
+            <controller_action_layout_render_before_checkout_cart_index>
+                 <observers>
+                    <epicor_comm_model_observer>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>removeQuoteButton</method>
+                    </epicor_comm_model_observer>
+                </observers>
+            </controller_action_layout_render_before_checkout_cart_index>            
         </events>
+        <events>
+            <payment_method_is_active>
+        <observers>
+                    <paymentfilter_payment_method_is_active>
+            <type>singleton</type>
+            <class>Epicor_Comm_Model_Observer</class>
+            <method>paymentMethodIsActive</method>
+                    </paymentfilter_payment_method_is_active>
+        </observers>
+            </payment_method_is_active>
+    </events>
     </frontend>
     <admin>
         <routers>
             <adminhtml>
-                                <args>
-                                        <modules>
-                                                <epicor_comm before="Mage_Adminhtml">Epicor_Comm_Adminhtml</epicor_comm>
-                                        </modules>
-                                </args>
-                        </adminhtml>
+                <args>
+                    <modules>
+                        <epicor_comm before="Mage_Adminhtml">Epicor_Comm_Adminhtml</epicor_comm>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <default>
@@ -2542,6 +2853,7 @@
             <general>
                 <display_order_number_b2b>web</display_order_number_b2b>
                 <display_order_number_b2c>web</display_order_number_b2c>
+                <display_order_number_arpayments>web</display_order_number_arpayments>
             </general>
         </sales>
         <sales_email>
@@ -2552,12 +2864,20 @@
             <order_comment>
                 <template>epicor_comm_sales_email_order_comment_template</template>
                 <guest_template>epicor_comm_sales_email_order_comment_guest_template</guest_template>
-            </order_comment>
+            </order_comment>            
         </sales_email>
         <epicor_product_config>
             <bundles>
                 <add_to_cart_for_parts>0</add_to_cart_for_parts>
             </bundles>
+            <product_related_document_sync>
+                <sync_enabled>1</sync_enabled>
+                <products_per_run>10</products_per_run>
+            </product_related_document_sync>
+            <non_erp_products>
+                <enabled>0</enabled>
+                <options>request</options>                
+            </non_erp_products>                 
         </epicor_product_config>
         <Epicor_Comm>
             <dashboard_priority>
@@ -2665,6 +2985,9 @@
                 <ewa_title>1</ewa_title>
                 <ewa_sku>1</ewa_sku>
                 <ewa_display>base_description,ewa_title,ewa_sku,ewa_short_description,ewa_description</ewa_display>
+                <quote_display_fields>a:4:{s:17:"_1496929134043_43";a:1:{s:17:"ewaquotesortorder";s:7:"ewa_sku";}s:18:"_1496929135843_843";a:1:{s:17:"ewaquotesortorder";s:9:"ewa_title";}s:18:"_1496929137330_330";a:1:{s:17:"ewaquotesortorder";s:15:"ewa_description";}s:18:"_1496929137954_954";a:1:{s:17:"ewaquotesortorder";s:21:"ewa_short_description";}}</quote_display_fields>
+                <!--<quote_display_fields>a:5:{s:18:"_1483723447993_993";a:1:{s:17:"ewaquotesortorder";s:24:"base_product_description";}s:18:"_1483723450544_544";a:1:{s:17:"ewaquotesortorder";s:9:"ewa_title";}s:18:"_1483723452376_376";a:1:{s:17:"ewaquotesortorder";s:7:"ewa_sku";}s:18:"_1483723454480_480";a:1:{s:17:"ewaquotesortorder";s:15:"ewa_description";}s:18:"_1483723456871_871";a:1:{s:17:"ewaquotesortorder";s:21:"ewa_short_description";}}</quote_display_fields>-->
+                <cart_display_fields>a:4:{s:18:"_1483723459192_192";a:1:{s:16:"ewacartsortorder";s:7:"ewa_sku";}s:18:"_1483723461728_728";a:1:{s:16:"ewacartsortorder";s:9:"ewa_title";}s:18:"_1483723463911_911";a:1:{s:16:"ewacartsortorder";s:15:"ewa_description";}s:18:"_1483723466192_192";a:1:{s:16:"ewacartsortorder";s:21:"ewa_short_description";}}</cart_display_fields>
             </ewa_options>         
         </Epicor_Comm>
         <epicor_comm_message_logging>
@@ -2678,6 +3001,7 @@
                 <default_address_code></default_address_code>
                 <default_address_country>GB</default_address_country>
                 <qtydecimals></qtydecimals>
+                <truncated_trailing_zeros>1</truncated_trailing_zeros>
                 <qtyroundingmode></qtyroundingmode>
             </global_request>
             <ast_request>
@@ -2686,6 +3010,7 @@
             </ast_request>
             <cnc_request>
                 <active>1</active>
+                <send_automate_cnc_request>1</send_automate_cnc_request>
             </cnc_request>
             <cim_request>
                 <active>0</active>
@@ -2706,7 +3031,8 @@
             <syn_request>
                 <active>1</active>
                 <autosync_enabled>0</autosync_enabled>
-                <logcleanup_enabled>0</logcleanup_enabled>
+                <logcleanup_enabled>0</logcleanup_enabled>  
+                <full_sync></full_sync>
             </syn_request>
             <lics_request>
                 <log_all_requests>1</log_all_requests>
@@ -2736,6 +3062,11 @@
                 <scheduledmsqbatchsize>50</scheduledmsqbatchsize>
                 <att_cdata>0</att_cdata>
                 <msq_for_non_erp_products>1</msq_for_non_erp_products>
+                <b2c_active>1</b2c_active>
+                <b2c_msq_quantity_breaks>1</b2c_msq_quantity_breaks>
+                <b2c_products_always_in_stock>1</b2c_products_always_in_stock>
+                <b2c_cusomterpriceused>0</b2c_cusomterpriceused>
+                <b2c_update_prices_stock>pricesstock</b2c_update_prices_stock>
             </msq_request>
             <bsv_request>
                 <active>1</active>
@@ -2743,6 +3074,7 @@
                 <bsv_prevent_repricing>0</bsv_prevent_repricing>
                 <log_all_requests>1</log_all_requests>
                 <bsv_trigger_cart>1</bsv_trigger_cart>
+                <notify_qty_change>1</notify_qty_change>
             </bsv_request>
             <gor_request>
                 <active>1</active>
@@ -2754,6 +3086,7 @@
                 <daystoship>5</daystoship>
                 <log_all_requests>1</log_all_requests>
                 <gor_response_condition>1</gor_response_condition>
+                <gor_sent_indicator>order_not_sent</gor_sent_indicator>
             </gor_request>
             <sod_request>
                 <frequency>daily</frequency>
@@ -2793,13 +3126,18 @@
         <epicor_comm_field_mapping>
             <cus_mapping>
                 <active>1</active>
-                <cus_update_addresses>1</cus_update_addresses>
                 <cus_edit_addresses>0</cus_edit_addresses>
                 <cus_create_addresses>0</cus_create_addresses>
+                <cus_default_address_override>0</cus_default_address_override>
                 <cus_min_order>magento</cus_min_order>
                 
+                
+
+                <allow_shipping_address_create>0</allow_shipping_address_create>
+                <allow_billing_address_create>0</allow_billing_address_create>
+                
                 <reject_none_matching_branding>1</reject_none_matching_branding>
-                 <customer_delete>_attributes/delete</customer_delete>
+                <customer_delete>_attributes/delete</customer_delete>
                 <customer_allowbackorders>_attributes/allow_back_orders</customer_allowbackorders>
                 <customer_allowbackorders_default></customer_allowbackorders_default>
                 
@@ -2814,8 +3152,8 @@
                 <customer_balance>account/balance</customer_balance>
                 <customer_balance_default>0</customer_balance_default>
                 <customer_creditlimit>account/credit_limit</customer_creditlimit>
-                <customer_creditlimit_default>0</customer_creditlimit_default>	
-                <customer_min_order_amount>account/min_order_value</customer_min_order_amount>	
+                <customer_creditlimit_default>0</customer_creditlimit_default>  
+                <customer_min_order_amount>account/min_order_value</customer_min_order_amount>  
                 <customer_unallocatedcash>account/unallocated_cash</customer_unallocatedcash>
                 <customer_unallocatedcash_default>0</customer_unallocatedcash_default>
                 <customer_currency_code>account/base_currency_code</customer_currency_code>
@@ -2826,7 +3164,7 @@
                 <customer_currencies_currency_code>currency_code</customer_currencies_currency_code>
                 
                 <default_payment_method>defaults/payment_method_code</default_payment_method>
-                <default_delivery_method>defaults/delivery_method_code</default_delivery_method>				
+                <default_delivery_method>defaults/delivery_method_code</default_delivery_method>                
                 <default_registration_email_address>defaults/registration_email_address</default_registration_email_address>
                 
                 <customer_registered_address>defaults/registered_address</customer_registered_address>
@@ -2893,7 +3231,8 @@
                 <customer_allowed_contract_type>1</customer_allowed_contract_type>
                 <customer_required_contract_type>1</customer_required_contract_type>
                 <customer_allow_non_contract_items>1</customer_allow_non_contract_items>
-                <po_mandatory>1</po_mandatory>                
+                <po_mandatory>1</po_mandatory>     
+                <shopper_default_addresses>1</shopper_default_addresses>           
             </cus_mapping>
             <cpn_mapping translate="label">
                 <active>1</active>
@@ -3004,6 +3343,7 @@
                 <attributes_visible>1</attributes_visible>
                 <product_code_update>1</product_code_update>
                 <product_delete_update>1</product_delete_update>
+                <products_always_in_stock>1</products_always_in_stock>
                 
                 <tax_code_update>1</tax_code_update>
                     
@@ -3028,20 +3368,32 @@
                 <images_update>1</images_update>
                 <product_images_image_description_update>1</product_images_image_description_update>
                 
+                <attributeset_update>1</attributeset_update>
                 <product_attributes_update>1</product_attributes_update>
                 <product_attributes_description_update>1</product_attributes_description_update>
                 <product_attributes_value_update>1</product_attributes_value_update>
-                
+                <product_manage_stock_update>1</product_manage_stock_update>
                 <free_stock_update>1</free_stock_update>
                 <product_min_order_qty_update>1</product_min_order_qty_update>
                 <product_max_order_qty_update>1</product_max_order_qty_update>
                 
                 <custom_options_update>1</custom_options_update>
                 <locations_update>1</locations_update>
+                <location_manufacturers>1</location_manufacturers>
+                <location_stock_status>1</location_stock_status>
+                <location_free_stock>1</location_free_stock>
+                <location_minimum_order_qty>1</location_minimum_order_qty>
+                <location_maximum_order_qty>1</location_maximum_order_qty>
+                <location_lead_time_days>1</location_lead_time_days>
+                <location_lead_time_text>1</location_lead_time_text>
+                <location_supplier_brand>1</location_supplier_brand>
+                <location_tax_code>1</location_tax_code>
+                <location_pricing>1</location_pricing>
                 <metainformation_update>1</metainformation_update>
                 <cost_update>1</cost_update>
+                <decimal_places_update>1</decimal_places_update>
                 <visibility_update>1</visibility_update>
-                         
+                <default_attribute_set>Default</default_attribute_set>         
             </stk_mapping>
             <stt_mapping>
                 <active>1</active>
@@ -3133,6 +3485,9 @@
                 <county_update>1</county_update>
                 <country_update>1</country_update>
                 <postcode_update>1</postcode_update>
+                <location_visible_update>1</location_visible_update>
+                <include_inventory_update>1</include_inventory_update>
+                <show_inventory_update>1</show_inventory_update>
                 <telephone_update>1</telephone_update>
                 <fax_update>1</fax_update>
                 <email_update>1</email_update>
@@ -3251,11 +3606,15 @@
             <taxline>
                 <display_taxlines>1</display_taxlines>                    
             </taxline>
+            <reorder>
+                <cart_merge_action>clear_cart</cart_merge_action>
+            </reorder>
         </sales>
         <epicor_comm_locations>
             <global>
                 <enabled>0</enabled>
                 <stockvisibility>all_given_company</stockvisibility>
+                <style>location_view</style>
             </global>
             <frontend>
                 <display_in_cart>1</display_in_cart>
@@ -3274,7 +3633,17 @@
             <admin>
                 <grid_columns>erp_code,name,address1,address2,city,county,country,postcode</grid_columns>
             </admin>
-        </epicor_comm_locations> 
+        </epicor_comm_locations>        
+        <cataloginventory>
+            <options>
+                <show_out_of_stock>1</show_out_of_stock>
+            </options>
+        </cataloginventory>
+        <epicor_comm_field_mapping>
+            <sgp_mapping>
+                <product_category_postion>1</product_category_postion>
+            </sgp_mapping>
+        </epicor_comm_field_mapping>
     </default>
     <crontab>
         <events>
@@ -3285,6 +3654,11 @@
                         <class>Epicor_Comm_Model_Observer</class>
                         <method>commsSalesOrderSaveAfter</method>
                     </epicor_comm_model_observer>
+                    <epicor_comm_model_arpayment_observers>
+                        <type>singleton</type>                          
+                        <class>Epicor_Comm_Model_Observer</class>
+                        <method>commsSalesArOrderSaveAfter</method>
+                    </epicor_comm_model_arpayment_observers>                      
                 </observers>
             </sales_order_save_after>            
         </events>
@@ -3401,7 +3775,23 @@
                     <model>epicor_comm/cron::submitReturnsToErp</model>
                 </run>
             </returns_submit>
+            <sync_related_documents>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>epicor_comm/cron_product::syncRelatedDocuments</model>
+                </run>
+            </sync_related_documents>
+            <offline_arpaymentorders>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>epicor_comm/cron::offlineArpaymentOrders</model>
+                </run>
+            </offline_arpaymentorders>            
         </jobs>
     </crontab>
-        
+    
 </config>

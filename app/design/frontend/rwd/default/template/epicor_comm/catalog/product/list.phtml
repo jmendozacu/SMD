@@ -33,7 +33,7 @@
 /* @var $this Mage_Catalog_Block_Product_List */
 ?>
 <?php
-$_productCollection=$this->getLoadedProductCollection();
+$_productCollection = $this->getLoadedProductCollection();
 $_helper = $this->helper('catalog/output');
 // EPICOR ECC > START
 $helper = $this->helper('epicor_comm');
@@ -66,36 +66,40 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
 $location = '';
 $this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
 
+$branchpickupHelper = Mage::helper('epicor_branchpickup');
+
 Mage::register('list_mode', $this->getMode());
 // EPICOR ECC < END
 ?>
-<?php if(!$_productCollection->count()): ?>
-<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php if (!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
 <?php else: ?>
-<div class="category-products">
+    <div class="category-products">
     <?php echo $this->getToolbarHtml() ?>
     <?php // List mode ?>
-    <?php if($this->getMode()!='grid'): ?>
+            <?php if ($this->getMode() != 'grid'): ?>
     <?php $_iterator = 0; ?>
     <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
         <?php
         // EPICOR ECC > START
         /* @var $product Epicor_Comm_Model_Product */
-        $customerLocations = $_product->getCustomerLocations();
+        $customerLocations = $_product->getCustomerLocations(true);
         $singleLocation = count($customerLocations) == 1;
         if ($singleLocation) {
             $location = array_pop($customerLocations);
             $_product->setToLocationPrices($location);
         }
-
+                    if ($_product->getConfigurator()) {
+                        $_product->forceMainProductToBeSaleable(true);
+                    }
         if (Mage::registry('current_product')) :
             Mage::unregister('current_product');
         endif;
         Mage::register('current_product', $_product);
         // EPICOR ECC < END
         ?>
-        <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+                        <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
             <?php // Product Image ?>
             <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
                 <?php /* Based on the native RWD styling, product images are displayed at a max of ~400px wide when viewed on a
@@ -114,8 +118,8 @@ Mage::register('list_mode', $this->getMode());
                 <div class="f-fix">
                     <div class="product-primary">
                         <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
-                        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?></a></h2>
-                        <?php if($_product->getRatingSummary()): ?>
+                                        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a></h2>
+                                        <?php if ($_product->getRatingSummary()): ?>
                         <?php echo $this->getReviewsSummaryHtml($_product) ?>
                         <?php endif; ?>
                         <?php
@@ -151,7 +155,7 @@ Mage::register('list_mode', $this->getMode());
                     </div>
                     <?php endif; ?>
                     <div class="product-secondary">
-                        <?php if(!$_product->canConfigure() && $_product->isSaleable()): ?>
+                                        <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
                             <?php // EPICOR ECC > START ?>
                             <?php if ($showAddToCart) : ?>
                                 <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
@@ -175,21 +179,26 @@ Mage::register('list_mode', $this->getMode());
                                 <p class="action"><a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>
                             <?php endif; ?>
                             <?php // EPICOR ECC < END ?>
-                        <?php elseif($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+                                        <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
                             <p class="action"><a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>
                         <?php
                         // EPICOR ECC > START
-                        /*<?php else: ?>
-                            <p class="action availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>*/
+                                            /* <?php else: ?>
+                                              <p class="action availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> */
                         // EPICOR ECC < END
                         ?>
                         <?php endif; ?>
                         <?php // EPICOR ECC > START ?>
-                        <?php if($_product->isSaleable()) : ?>
-                        <?php switch ($_product->getStockType()):
+                                        <?php if ($_product->isSaleable()) : ?>
+                                            <?php
+                                            $commHelper = Mage::helper('epicor_comm');
+                                        $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+                                        ?>
+                        <?php
+                        switch ($_product->getStockType()):
                                 case 'bool':
                                     ?>
-                                    <?php if ($_product->isAvailable()): ?>
+                                    <?php if ($_product->isAvailable() && ($_product->getStockLevel() > 0)): ?>
                                         <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
                                     <?php else: ?>
                                         <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
@@ -200,7 +209,14 @@ Mage::register('list_mode', $this->getMode());
                                         <p class="availability-traffic-light-grid"><img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" /></p>
                                     <?php break; ?>
                                 <?php case 'level': ?>
-                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel(true) ?></span></p>
+                                    <?php if($branchpickupHelper->getSelectedBranch()): ?>
+                                        <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_product); ?>
+                                    <?php else: ?>
+                                        <?php $aggregateStock = $_product->getStockLevel(true); ?>
+                                    <?php endif; ?>
+                                    <?php if($branchpickupHelper->canShowInventory($_product)): ?>
+                                            <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?></span></p>
+                                    <?php endif; ?>
                                     <?php break; ?>
                             <?php endswitch; ?>
                         <?php else: ?>
@@ -210,12 +226,12 @@ Mage::register('list_mode', $this->getMode());
                         <?php // EPICOR ECC < END ?>
                         <ul class="add-to-links">
                             <?php // EPICOR ECC > START ?>
-                            <?php if($_product->isSaleable()) : ?>
+                    <?php if ($_product->isSaleable()) : ?>
                             <?php // EPICOR ECC < END ?>
                                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
                                         <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                                 <?php endif; ?>
-                                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                        <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                                         <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
                                 <?php endif; ?>
                             <?php // EPICOR ECC > START ?>
@@ -235,6 +251,7 @@ Mage::register('list_mode', $this->getMode());
                                 <?php endforeach; ?>
                             </ul>
                         </div>
+                        <?php echo $this->getChildHtml('related_branch', false); ?>
                         <?php // EPICOR ECC < END ?>
                     </div>
                 </div>
@@ -251,11 +268,14 @@ Mage::register('list_mode', $this->getMode());
     <?php $_collectionSize = $_productCollection->count() ?>
     <?php $_columnCount = $this->getColumnCount(); ?>
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
-        <?php $i=0; foreach ($_productCollection as $_product): ?>
+                        <?php $i = 0;
+                        foreach ($_productCollection as $_product):
+                            ?>
         <?php
         // EPICOR ECC > START
-        $customerLocations = $_product->getCustomerLocations();
+        $customerLocations = $_product->getCustomerLocations(true);
         $singleLocation = count($customerLocations) == 1;
+        $_showInventory = 1;
         if ($singleLocation) {
             $location = array_pop($customerLocations);
             $_product->setToLocationPrices($location);
@@ -263,11 +283,15 @@ Mage::register('list_mode', $this->getMode());
         if (Mage::registry('current_product')) :
             Mage::unregister('current_product');
         endif;
+                    if ($_product->getConfigurator()) {
+                        $_product->forceMainProductToBeSaleable(true);
+                    }
         Mage::register('current_product', $_product);
-        // EPICOR ECC < END ?>
-            <?php /*if ($i++%$_columnCount==0): ?>
-            <?php endif*/ ?>
-            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                            // EPICOR ECC < END 
+                            ?>
+                            <?php /* if ($i++%$_columnCount==0): ?>
+                              <?php endif */ ?>
+                            <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
                 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
                     <?php $_imgSize = 210; ?>
                     <img id="product-collection-image-<?php echo $_product->getId(); ?>"
@@ -303,14 +327,17 @@ Mage::register('list_mode', $this->getMode());
                     <?php // EPICOR ECC < END ?>
                         <?php echo $this->getPriceHtml($_product, true) ?>
                     <?php // EPICOR ECC > START ?>
-                    <?php endif;?>
+                                    <?php endif; ?>
                     <?php // EPICOR ECC < END ?>
-                    <?php if($_product->getRatingSummary()): ?>
+                                    <?php if ($_product->getRatingSummary()): ?>
                     <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                     <?php endif; ?>
                     <?php // EPICOR ECC > START ?>
-                    <?php if ($_product->isSaleable() && !in_array($_product->getTypeId(),array('grouped','configurable'))) : ?>
+                                    <?php if ($_product->isSaleable() && !in_array($_product->getTypeId(), array('grouped', 'configurable'))) : ?>
                         <?php
+                                        $commHelper = Mage::helper('epicor_comm');
+                                        $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+
                         switch ($_product->getStockType()):
                             case 'bool':
                                 ?>
@@ -325,11 +352,18 @@ Mage::register('list_mode', $this->getMode());
                                     <p class="availability-traffic-light"><img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" /></p>
                                 <?php break; ?>
                             <?php case 'level': ?>
-                                <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel(true) ?></span></p>
+                                <?php if($branchpickupHelper->getSelectedBranch()): ?>
+                                    <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_product); ?>
+                                <?php else: ?>
+                                    <?php $aggregateStock = $_product->getStockLevel(true); ?>
+                                <?php endif; ?>
+                                <?php if($branchpickupHelper->canShowInventory($_product)): ?>
+                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?></span></p>
+                                <?php endif; ?>
                                 <?php break; ?>
                         <?php endswitch; ?>
                     <?php else: ?>
-                        <?php if(!in_array($_product->getTypeId(),array('grouped','configurable'))): ?>
+                                        <?php if (!in_array($_product->getTypeId(), array('grouped', 'configurable'))): ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
                         <?php endif; ?>    
                     <?php endif; ?>
@@ -338,14 +372,14 @@ Mage::register('list_mode', $this->getMode());
                     <?php // EPICOR ECC > START ?>
                     <?php if ($showAddToCart && $showLocations && !$singleLocation && (!$_product->canConfigure() && $_product->isSaleable())): ?>
                     <div class="desc std">
-                         <?php if ($showLocations && !$singleLocation  && !$allSourceLocations): ?>
+                         <?php if ($showLocations && !$singleLocation  && !$allSourceLocations ): ?>
                                 <?php echo $this->getChildHtml('locations', false) ?>
                         <?php endif; ?>
                     </div>
                     <?php endif; ?>
                     <?php // EPICOR ECC < END ?>
                     <div class="actions<?php if ($showLocations): ?> locations-enabled<?php endif; ?>">
-                        <?php if(!$_product->canConfigure() && $_product->isSaleable()): ?>
+                                        <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
                             <?php // EPICOR ECC > START ?>
                             <?php if ($showAddToCart) : ?>
                                 <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>                              
@@ -359,7 +393,7 @@ Mage::register('list_mode', $this->getMode());
                                                 <input type="hidden" name="bundle_option[<?php echo $option->option_id; ?>]" value="<?php echo $option->selection_id; ?>" />
                                             <?php endforeach; ?>
                                         <?php endif; ?>
-                                        <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
+                                        <?php if ($showLocations && !$allSourceLocations): ?>
                                             <input type="hidden" name="location_code" value="<?php echo $location->getLocationCode(); ?>" />
                                         <?php endif; ?>
                                         <p class="action"><button type="submit" title="<?php echo $this->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
@@ -369,24 +403,27 @@ Mage::register('list_mode', $this->getMode());
                             <a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a>
                             <?php endif; ?>
                             <?php // EPICOR ECC < END ?>
-                        <?php elseif($_product->canConfigure()): ?>
+                                        <?php elseif ($_product->canConfigure()): ?>
                             <a title="<?php echo $this->quoteEscape($this->__('View Details')) ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a>
-                        <?php // EPICOR ECC > START
+                                            <?php
+                                            // EPICOR ECC > START
                         /*
                         <?php else: ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                         */
-                        // EPICOR ECC < END ?>
+                                            // EPICOR ECC < END 
+                                            ?>
                     </div>
                         <?php endif; ?>
+                        <?php echo $this->getChildHtml('related_branch', false); ?>
                         <ul class="add-to-links">
                             <?php // EPICOR ECC > START ?>
-                            <?php if($_product->isSaleable() || $_product->canConfigure()) : ?>
+                                        <?php if ($_product->isSaleable() || $_product->canConfigure()) : ?>
                             <?php // EPICOR ECC < END ?>
                             <?php if ($this->helper('wishlist')->isAllow()) : ?>
                                 <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                             <?php endif; ?>
-                            <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                                            <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                                 <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
                             <?php endif; ?>
                             <?php // EPICOR ECC > START ?>
@@ -395,18 +432,18 @@ Mage::register('list_mode', $this->getMode());
                         </ul>
                 </div>
             </li>
-            <?php /*if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
-            <?php endif*/ ?>
+                            <?php /* if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+                              <?php endif */ ?>
         <?php endforeach ?>
     </ul>
-    <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+                    <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
     <?php endif; ?>
 
     <div class="toolbar-bottom">
         <?php echo $this->getToolbarHtml() ?>
     </div>
-</div>
-<?php endif; ?>
+        </div>
+    <?php endif; ?>
 <?php
 // Provides a block where additional page components may be attached, primarily good for in-page JavaScript
 if ($this->getChild('after')) {

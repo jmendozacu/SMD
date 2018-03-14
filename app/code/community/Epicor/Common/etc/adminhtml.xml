@@ -33,22 +33,22 @@
                         <install_notes>
                             <title>ECC Install Notes</title>
                             <sort_order>10</sort_order>
-                            <action>adminhtml/epicorcommon_notes/install/version/107SP1</action>
+                            <action>adminhtml/epicorcommon_notes/install/version/109</action>
                         </install_notes>
                         <implementation_notes>
                             <title>ECC Implementation Guide</title>
                             <sort_order>15</sort_order>
-                            <action>adminhtml/epicorcommon_notes/implementation/version/107SP1</action>
+                            <action>adminhtml/epicorcommon_notes/implementation/version/109</action>
                         </implementation_notes>
                         <release_101>
                             <title>ECC Release Notes</title>
                             <sort_order>20</sort_order>
-                            <action>adminhtml/epicorcommon_notes/release/version/107SP1</action>
+                            <action>adminhtml/epicorcommon_notes/release/version/109</action>
                         </release_101>
                         <version_highlights>
                             <title>ECC Version Highlights</title>
                             <sort_order>20</sort_order>
-                            <action>adminhtml/epicorcommon_notes/highlights/version/107</action>
+                            <action>adminhtml/epicorcommon_notes/highlights/version/109</action>
                         </version_highlights>
                         <version_changelog>
                             <title>ECC Change Log</title>
@@ -118,6 +118,17 @@
                 </erpaccount>
             </children>
         </customer>
+        <system>
+            <children>
+                <tools>
+                    <children>
+                        <backup>
+                            <disabled>1</disabled>
+                        </backup>
+                    </children>
+                </tools>
+            </children>
+        </system>
     </menu>
     <acl>
         <resources>
@@ -189,9 +200,16 @@
                                     </epicor_common>
                                 </children>
                             </config>
+                            <tools>
+                                <children>
+                                    <backup>
+                                        <disabled>1</disabled>
+                                    </backup>
+                                </children>
+                            </tools>
                         </children>
                     </system>
-                </children>   
+                </children>
             </admin>
         </resources>          
     </acl>                             

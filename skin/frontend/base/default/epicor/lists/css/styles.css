@@ -174,3 +174,7 @@ body.epicor-lists-list-selector ul.messages {
     margin-bottom: 7px;
     text-align: left;
 }
+[id ^= "salesrep_rules_error_msg_"]{
+    margin-right:100px;
+    color:red;
+}

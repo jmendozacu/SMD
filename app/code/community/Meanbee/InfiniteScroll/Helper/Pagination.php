@@ -90,8 +90,11 @@ class Meanbee_InfiniteScroll_Helper_Pagination extends Mage_Core_Helper_Abstract
      */
     protected function _getPageLimit() {
         $block = Mage::helper('infinitescroll')->getProductListBlock();
-        $block->getToolbarBlock()->setCollection($block->getLoadedProductCollection());
-        return $block->getToolbarBlock()->getLastPageNum();
+        if(is_object($block) && null !== $block->getToolbarBlock()) {
+            $block->getToolbarBlock()->setCollection($block->getLoadedProductCollection());
+            return $block->getToolbarBlock()->getLastPageNum();
+        }
+        return 1;
     }
 
     /**

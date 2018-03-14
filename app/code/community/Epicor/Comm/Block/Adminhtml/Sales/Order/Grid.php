@@ -35,7 +35,8 @@ class Epicor_Comm_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block_
         /* @var $collection Mage_Sales_Model_Resource_Order_Collection */
         $collection->getSelect()->join(array('sfo' => $collection->getTable('sales/order')), 'main_table.entity_id = sfo.entity_id', array('gor_message' => 'gor_message', 'gor_status' => 'sfo.status', 'erp_order_number' => 'sfo.erp_order_number', 'device_used' => 'sfo.device_used'));
         $collection->getSelect()->join(array('osh' => $collection->getTable('sales/order_status_history')), 'osh.entity_id = (SELECT entity_id FROM '.$collection->getTable('sales/order_status_history').' WHERE parent_id=main_table.entity_id LIMIT 1)', array('ordercomment' => 'osh.comment',));
-
+        //For AR Payments
+        $collection ->addAttributeToFilter('ecc_arpayments_invoice', 0);
         $this->setCollection($collection);
         return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
     }

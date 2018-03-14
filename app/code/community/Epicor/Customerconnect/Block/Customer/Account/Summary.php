@@ -12,7 +12,10 @@ class Epicor_Customerconnect_Block_Customer_Account_Summary extends Mage_Custome
 
     public function __construct()
     {
-        parent::__construct();          // needed in customerconnect dashboard
+        //this is a workaround to allow external scripts that run $layout->generateBlocks to work
+        if(Mage::app()->getFrontController()->getAction()){            
+            parent::__construct();          // needed in customerconnect dashboard
+        }
         if (Mage::registry('customerconnect_dashboard_ok')) {
             $this->setDisplayDashboard(true);
         }

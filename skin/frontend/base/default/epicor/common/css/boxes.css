@@ -88,7 +88,7 @@
     text-align:center;
     opacity:0.80;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /* IE8 */
-    z-index:500;
+    z-index:2000;
 
 }
 #loading-mask .loader {
@@ -173,6 +173,7 @@ table.actions td                { vertical-align:top; }
 .grid tr.headings th { border-width:1px; border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9; border-style:solid; padding-top:1px; padding-bottom:0; font-size:.9em; }
 .grid tr.headings th.last { border-right:0; }
 .grid tr.headings th.no-link { /* Grid th with no sorting functionality */ padding-top:2px; padding-bottom:1px; color:#67767e; }
+.grid tr.headings th.no-link input[type='checkbox'] { vertical-align: middle; }
 .grid tr.headings th span.nobr { display:block; /* FF3 fix */ }
 .grid tr.headings th a { display:block; padding:2px 4px 1px 0; color:#2d444f; text-decoration:none; }
 .grid tr.headings th a:hover { color:#d85909; text-decoration:none; }
@@ -259,7 +260,7 @@ button,
 button:hover, .form-button:hover  { background:#f77c16 url(images/btn_over_bg.gif) repeat-x 0 0; }
 button:active, .form-button:active  { background:#f77c16 url(images/btn_on_bg.gif) repeat-x 0 0; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
-button span span                { background:none !important; padding:0 !important; margin:0 !important; display:inline !important; }
+button:not(.checkout-review) span span                { background:none !important; padding:0 !important; margin:0 !important; display:inline !important; }
 button.delete,
 button.save,
 button.add                      { padding-left:6px; }
@@ -305,8 +306,8 @@ button.add.disabled span { background-image:url(images/add_btn_icon-disabled.gif
 
 button.loading > span { padding-left:20px; background-image: url(images/btn_loading-icon.gif) !important;}
 
-button.icon-btn { width:32px !important; }
-button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
+button.icon-btn:not(.pricing-row-breaks-delete-button) { width:32px !important; }
+button.icon-btn span:not(.pricing-row-breaks-delete-button-span) { text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
 
 .buttons-set { margin:0 0 10px; }
 .buttons-set button { margin-right:5px; }
@@ -358,4 +359,13 @@ body.sales-order-view td#my-orders-uom{
 
 #clone_selected, #delete_selected {
     margin-bottom:5px;
+}
+/* hide up/down arrows ("spinners") on input fields marked type="number" */
+.no-spinners {
+  -moz-appearance:textfield;
+}
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

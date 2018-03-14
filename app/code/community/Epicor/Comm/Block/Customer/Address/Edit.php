@@ -36,14 +36,57 @@ class Epicor_Comm_Block_Customer_Address_Edit extends Mage_Customer_Block_Addres
         return $max - strlen($current);
     }
 
-    public function canMarkDefaultShippingBillingAddress(){
-        if ($this->getCustomer()->isGuest()) {
+    public function canMarkDefaultShippingBillingAddress()
+    {
+        $helper = Mage::helper('epicor_comm/messaging_customer');
+        /* @var $helper Epicor_Comm_Helper_Messaging_Customer */
+        
+        $storeId = Mage::app()->getStore()->getId();
+        $cusDefaultAddressOverride = $helper->cusDefaultAddressOverride($storeId);
+        
+        if ($this->getCustomer()->isGuest() || $cusDefaultAddressOverride) {
             return true;
         }
 
         return false;
     }
+    
+    public function canSetAsDefaultBilling()
+    {
+        $helper = Mage::helper('epicor_comm/messaging_customer');
+        /* @var $helper Epicor_Comm_Helper_Messaging_Customer */
+        
+        $storeId = Mage::app()->getStore()->getId();
+        
+        if ($this->getCustomer()->isGuest() && !$this->getCustomer()->getErpaccountId()) {
+            return true;
+        }
 
+        return false;
+    }
+    
+    public function canSetAsDefaultShipping()
+    {
+        if (!$this->getAddress()->getId()) {
+            return $this->getCustomerAddressCount();
+        }
+        
+        $_return = !$this->isDefaultShipping();
+        $helper = Mage::helper('epicor_comm/customer_address');
+        /* @var $helper Epicor_Comm_Helper_Customer_Address */
+        $type = $this->getCustomer()->isSupplier() ? 'supplier' : 'customer';
+        $erpAccount = $helper->getErpAccountInfo(null, $type);
+        if (!empty($erpAccount) && $this->getCustomer()->getErpaccountId()) {
+            $address = $helper->getCustomerDefaultAddress($erpAccount, 'invoice', $this);
+            $commonHelper = Mage::helper('epicor_common');
+            /* @var $helper Epicor_Comm_Helper_Data */
+            $_return = !$this->isDefaultShipping() && ($this->getAddress()->getErpAddressCode() != $address->getErpCode()) && $commonHelper->isDefaultAllowed($this->getAddress());
+        }
+        return $_return;
+    }
+    
+    public function getSaveDefaultAddressUrl()
+    {
+        return Mage::getUrl('comm/customer_address/saveDefaultAddress', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+    }
 }
-
-

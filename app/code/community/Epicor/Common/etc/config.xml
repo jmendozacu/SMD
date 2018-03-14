@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Epicor_Common>
-            <version>1.0.6.1.1</version>
+            <version>1.0.9.0.2</version>
         </Epicor_Common>
     </modules>
     <frontend>  
@@ -38,9 +38,13 @@
                     <epicor_common_model_observer>
                         <class>Epicor_Common_Model_Observer</class>
                         <method>checkUserRights</method>
-                    </epicor_common_model_observer>
+                    </epicor_common_model_observer>                   
+                    <epicor_common_model_observer_redirect>
+                        <class>Epicor_Common_Model_Observer</class>
+                        <method>checkRedirectArray</method>
+                    </epicor_common_model_observer_redirect>                  
                 </observers>
-            </controller_action_predispatch>
+            </controller_action_predispatch>    
             <controller_action_layout_render_before_catalog_category_view>
                 <observers>
                     <home_page_redirect_check>
@@ -48,7 +52,15 @@
                         <method>homePageRedirectCheck</method>
                     </home_page_redirect_check>
                 </observers>
-            </controller_action_layout_render_before_catalog_category_view>           
+            </controller_action_layout_render_before_catalog_category_view>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <epicor_common_model_observer_setjqueryversion>
+                        <class>Epicor_Common_Model_Observer</class>
+                        <method>setJqueryVersion</method>
+                    </epicor_common_model_observer_setjqueryversion>
+                </observers>                     
+            </core_block_abstract_prepare_layout_after>
         </events>
     </frontend>    
     <adminhtml>  
@@ -115,6 +127,14 @@
                     </auth>
                 </observers>
             </controller_action_predispatch>
+            <sales_prepare_amount_expression>
+                <observers>
+                    <downloader_version_check>
+                        <class>Epicor_Common_Model_Observer</class>
+                        <method>checkMissingTableColumnAfterUpgrade</method>
+                    </downloader_version_check>
+                </observers>
+            </sales_prepare_amount_expression>   
         </events>
     </adminhtml>
     <admin>
@@ -131,8 +151,8 @@
     <global>
         <ecc_version_info>
             <Epicor_Common>
-                <version>1.0.7.7</version>
-                <released>2017-04-12</released>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
             </Epicor_Common>
         </ecc_version_info>
         <epicor_comm>
@@ -298,7 +318,7 @@
                         <method>categoryAutoHideTopmenu</method>
                     </ecc_auto_hide_check>
                 </observers>
-            </page_block_html_topmenu_gethtml_before>
+            </page_block_html_topmenu_gethtml_before>          
         </events>  
         <ecc_account_selector_types>
             <guest>
@@ -345,7 +365,14 @@
             <dhlint>
                 <content_type>D</content_type>
             </dhlint>
-        </carriers>        
+        </carriers>   
+        <epicor_product_config>            
+            <non_erp_products>                
+                <checkout_text>Checkout is not currently available. Do you wish us to contact you about this order?</checkout_text>     
+                <cart_text>Checkout is not available, cart totals include estimated prices, tax and shipping</cart_text>     
+                <rfq_text>Quote submission is not currently available. Do you wish us to contact you about this quote?</rfq_text>
+            </non_erp_products>
+        </epicor_product_config>
     </default>
     <crontab>        
         <jobs>            

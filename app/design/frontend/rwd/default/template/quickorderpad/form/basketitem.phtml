@@ -77,7 +77,7 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
         <?php endif; ?>
 
         <ul class="cart-links">
-            <?php if ($isVisibleProduct): ?>
+            <?php if ($isVisibleProduct && $this->getConfigureUrl()): ?>
                 <li>
                     <a href="<?php echo $this->getConfigureUrl(null, array('returnurl' => base64_encode(Mage::helper('core/url')->getCurrentUrl()))) ?>" class="remove-for-quotes" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
                 </li>
@@ -107,7 +107,7 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
     <td class="product-cart-info">
         <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item') ?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item') ?></a>
 
-        <?php if (!$_item->getProduct()->load()->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
+        <?php if (!$_item->getProduct()->load($_item->getProduct()->getId())->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
         <h2 class="product-name">
             <?php if ($this->hasProductUrl()): ?>
                 <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
@@ -311,10 +311,14 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
                 </td>
             <?php endif; ?>
         <?php endif; ?>
-    <?php endif; ?>
-    <td class="product-cart-actions " data-rwd-label="<?php echo $this->__('Qty'); ?>">
-        <input type="text" pattern="\d*" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
-        <?php if ($showUom && !$showInColumn) : 
+                <?php endif; ?>
+                <?php
+                $commHelper = Mage::helper('epicor_comm');
+                $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+?>
+                <td class="product-cart-actions " data-rwd-label="<?php echo $this->__('Qty'); ?>">
+                    <input decimal="<?php echo $decimalPlaces; ?>" type="text" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $commHelper->truncateZero($this->getQty(), $decimalPlaces); ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+                    <?php if ($showUom && !$showInColumn) : 
             $_item->getProduct()->load($_item->getProduct()->getId()); ?>
             <span class="uom-qty"> x <?php echo $this->__($_item->getProduct()->getPackSize()); ?></span>
                 
@@ -329,7 +333,7 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
         </button>
 
         <ul class="cart-links">
-            <?php if ($isVisibleProduct): ?>
+            <?php if ($isVisibleProduct && $this->getConfigureUrl()): ?>
                 <li>
                     <a href="<?php echo $this->getConfigureUrl(null, array('returnurl' => base64_encode(Mage::helper('core/url')->getCurrentUrl()))) ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
                 </li>

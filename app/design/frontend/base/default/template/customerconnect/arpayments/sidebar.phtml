@@ -1,0 +1,106 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+
+$postparams = Mage::App()->getRequest()->getParam('postparams');
+$branch     = Mage::App()->getRequest()->getParam('field_id');
+$insertedVals  = json_decode($postparams,true);
+?>
+
+    <div class="block-content">
+    <div class="actions" style=" margin: 10px 0 0;float:right;padding-bottom: 32px;">       
+         <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close')) ?>" class="button" onclick="arpayments.closepopup()"><span><span><?php echo $this->__('Close') ?></span></span></button>
+    </div>
+    
+         
+         <div class="entry-edit box-left grid" >
+        <div class="entry-edit-head" style=" padding-top: 25px;">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Invoice Details') ?></h4>
+        </div>
+        <table class="data" cellspacing="3" cellpadding="3">
+            <thead>
+            <tr class="headings">
+                <th>
+                    <strong><?php echo $this->__('Invoice No') ?></strong>
+                </th>
+                <th>
+                    <strong><?php echo $this->__('Invoice Date') ?></strong>
+                </th>
+                <th>
+                    <strong><?php echo $this->__('Due Date') ?></strong>
+                </th>  
+                <th>
+                    <strong><?php echo $this->__('Invoice Amount') ?></strong>
+                </th>  
+                <th>
+                    <strong><?php echo $this->__('Invoice Balance') ?></strong>
+                </th>       
+                <th>
+                    <strong><?php echo $this->__('Term Amount') ?></strong>
+                </th>
+                <th>
+                    <strong><?php echo $this->__('Ship To') ?></strong>
+                </th>                
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <?php echo $this->__($insertedVals['invoiceNo']) ?>
+                </td>
+                <td>
+                    <?php echo $this->__($insertedVals['invoiceDate']) ?>
+                </td>
+                <td>
+                    <?php echo $this->__($insertedVals['dueDate']) ?>
+                </td>  
+                <td>
+                    <?php echo $this->__($insertedVals['invoiceAmnt']) ?>
+                </td>  
+                <td>
+                    <?php echo $this->__($insertedVals['invoicePayment']) ?>
+                </td>       
+                <td>
+                    <?php echo $this->__($insertedVals['invoiceBalance']) ?>
+                </td>
+                <td>
+                    <?php echo $this->__($insertedVals['deliveryAddress']) ?>
+                </td>                
+            </tr>                
+            </tbody>
+        </table>
+        </div>
+        <div class="entry-edit box-left" style="height:45px;"  >
+        <div class="entry-edit-head" style=" padding-top: 25px;">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('epicor_comm')->__('Mark As Dispute') ?></h4>
+        </div>
+            <input type="checkbox" name="dispute" id="dispute" > Mark As Dispute
+            <input type="submit" name="markasdispute" id="markasdispute" value="Submit">
+        </div>
+        <br>
+        <br>
+        <br>
+</div>

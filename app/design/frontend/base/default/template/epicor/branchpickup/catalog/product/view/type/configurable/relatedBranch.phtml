@@ -1,0 +1,90 @@
+<?php 
+$branchpickupHelper = Mage::helper('epicor_branchpickup');
+$selectedBranch = $branchpickupHelper->getSelectedBranch();
+$helperBranchPickup = Mage::helper('epicor_branchpickup/branchpickup');
+$_product = $this->getProduct();
+/* @var $_product Epicor_Comm_Model_Product */
+?>
+<?php if($selectedBranch && $helperBranchPickup->isValidBranch($selectedBranch)): ?>
+<?php
+$helperBranchPickup  = Mage::helper('epicor_branchpickup/branchpickup');
+$inventoryView = Mage::getUrl('branchpickup/pickup/getInventoryView', $helperBranchPickup->issecure());
+?>
+<p class="locations_add_to_cart">
+    <a href="javascript:void(0)" class="locations-link" id="locations_link" onclick="productInventoryForm.submit(this)"><?php echo $this->__('Inventory') ?></a>
+    <a href="javascript:void(0)" class="locations-link locations-hide" id="locations_hide" style="display:none" onclick="closeInventoryView();"><?php echo $this->__('Hide Inventory') ?></a>
+    <input type="hidden" name="inventoryUpdate" id="inventoryUpdate" value="<?php echo $inventoryView; ?>" />
+    <input type="hidden" name="formData" id="formData" value="" />
+</p>
+<div class="product_grid_locations" id="product_grid_locations">
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    var productInventoryForm = new VarienForm('product_addtocart_form');
+    productInventoryForm.submit = function(button, url) {
+        if (this.validator.validate()) {
+            getInventoryView(this.form);
+        }
+    }.bind(productInventoryForm);
+    
+    document.observe('dom:loaded', function () {
+        Event.live('#product_addtocart_form select', 'click', function () {
+            if($('locations_list') != null) {
+                closeInventoryView()
+            }
+        });
+    });
+    
+    function getInventoryView(form)
+    {
+        var inventory_url = $('inventoryUpdate').value;
+        var data = form.serialize();
+        var formData = $('formData').value;
+        var selectedOpt = "";
+        $$('select', '#product_addtocart_form').each(function(e){
+            var inputName = e.name;
+            if (inputName.search('super_attribute') != -1) {
+                selectedOpt += "_" + e.value;
+            }
+        });
+        if ((selectedOpt != formData) || ($('locations_list') == null)) {
+            $('formData').value = selectedOpt;
+            $('loading-mask').show();
+            this.ajaxRequest = new Ajax.Request(inventory_url, {
+                method: 'post',
+                postBody: data,
+                onComplete: function(request) {
+                    this.ajaxRequest = false;
+                }.bind(this),
+                onSuccess: function(data) {
+                    var json = data.responseText.evalJSON();
+                    $('product_grid_locations').replace(json.content);
+                    $('locations_list').show();
+                    $('locations_link').hide();
+                    $('locations_hide').show();
+                    $('loading-mask').hide();
+                }.bind(this),
+                onFailure: function(request) {
+                    alert('Error occured in Ajax Call');
+                    $('loading-mask').hide();
+                }.bind(this),
+                onException: function(request, e) {
+                    alert(e);
+                    $('loading-mask').hide();
+                }.bind(this)
+            });
+        } else {
+            $('locations_list').show();
+            $('locations_link').hide();
+            $('locations_hide').show();
+        }
+    }
+    function closeInventoryView()
+    {
+        $('locations_list').hide();
+        $('locations_link').show();
+        $('locations_hide').hide();
+    }
+//]]>
+</script>
+<?php endif; ?>

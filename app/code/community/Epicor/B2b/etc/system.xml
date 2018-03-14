@@ -242,6 +242,17 @@
                                 <reg_options>email_request</reg_options>
                             </depends>
                         </reg_show_password>
+                        <request_email_success>
+                            <label>Message Displayed after Account Request Email</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <reg_portal>1</reg_portal>
+                                <reg_options>email_request</reg_options>
+                            </depends>
+                        </request_email_success>
                         
                         <address_options_heading translate="label">
                             <label>Business Registration Address Settings</label>

@@ -62,9 +62,13 @@
     }
     
     
+    if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock') && $_product->getConfigurator()) {
+    $showAddToCart = true;
+} else {
     $showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
-    $this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
-    $locHelper = $this->helper('epicor_comm/locations');
+}
+$this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
+$locHelper = $this->helper('epicor_comm/locations');
     /* @var $helper Epicor_Comm_Helper_Locations */
 
     $showLocations = $locHelper->isLocationsEnabled();
@@ -77,9 +81,12 @@
     
     $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
     
-    $groupOrConfigurable = in_array($_product->getTypeId(),array('grouped','configurable')) ? true : false;
+    $groupOrConfigurable = $this->checkGroupOrConfigurable($_product);
     $bundleProduct = ($_product->getTypeId() == 'bundle') ? true : false;
     $wishlistId = $this->getRequest()->getParam('wishlistid');
+    if ($_product->getConfigurator()) {
+    $_product->forceMainProductToBeSaleable(true);
+}
 ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
@@ -122,8 +129,13 @@
                             <?php endif; ?>
                 <?php endif; ?>
                 <?php if ($_product->isSaleable()): ?>  
-                         <?php echo $this->getChildHtml('product_type_data') ?>
-                         <?php echo $this->getTierPriceHtml() ?>
+                      <?php echo $this->getChildHtml('product_type_data') ?>
+                      <?php
+                      if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock') && ($_product->getTypeId() != 'simple' && Mage::registry('child_product_count') < 1) && !$configuratorProduct) {
+                          $showAddToCart = false;
+                        }
+                      ?>
+    <?php echo $this->getTierPriceHtml() ?>
                 <?php endif; ?>    
                 <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
@@ -209,7 +221,10 @@
                     }
                     var e = null;
                     try {
+                        if (checkDecimal('product_addtocart_form',1))
+                        {
                         this.form.submit();
+                        }
                     } catch (e) {
                     }
                     this.form.action = oldUrl;
@@ -217,9 +232,9 @@
                         throw e;
                     }
 
-                    if (button && button != 'undefined') {
-                        button.disabled = true;
-                    }
+//                    if (button && button != 'undefined') {
+//                        button.disabled = true;
+//                    }
                 }
             }.bind(productAddToCartForm);
 

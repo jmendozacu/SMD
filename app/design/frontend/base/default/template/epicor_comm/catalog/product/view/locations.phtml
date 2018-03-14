@@ -13,12 +13,14 @@ $locations = $this->getLocations($_product);
 $helper = $this->helper('epicor_comm');
 /* @var $helper Epicor_Comm_Helper_Data */
 
-$showPrices = true;//$helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
+$showPrices = $helper->isFunctionalityDisabledForCustomer('prices') ? false : true;
 $showQty = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
-$showPrices = true;//$this->getHidePrices() ? false : $showPrices;
+$commHelper = Mage::helper('epicor_comm');
+//$showPrices = true; //$this->getHidePrices() ? false : $showPrices;
 $locHelper = $this->helper('epicor_comm/locations');
 /* @var $helper Epicor_Comm_Helper_Locations */
-if (count($locations) > 1) :   
+$currentStoreId = Mage::app()->getStore()->getStoreId();
+if (count($locations) > 1) :
     ?>
     <h3 class="locations_header"><?php echo $this->__('Locations'); ?></h3>
     <table class="data-table grouped-items-table" id="super-product-table">
@@ -41,63 +43,74 @@ if (count($locations) > 1) :
             </tr>
         </thead>
         <tbody>
-            <?php $x = 0; ?>
+            <?php
+            $x = 0;
+            $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlacesView($_product);
+                ?>
             <?php foreach ($locations as $location): ?>
-                <?php $_product->setToLocationPrices($location); ?>
-                <tr>                
+                <?php if(!$location->getLocationVisible()): ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+        <?php $_product->setToLocationPrices($location); ?>
+                <tr>
                     <td>
                         <?php echo $location->getName(); ?>
-                        <?php if ($_product->isSaleable()) : ?>   
+                        <?php if ($_product->isSaleable()) : ?>
                             <?php
                             switch ($_product->getStockType()):
                                 case 'bool':
                                     ?>
-                                    <?php if ($_product->isAvailable()): ?>
-                                        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
-                                    <?php else: ?>
-                                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
-                                    <?php endif; ?>
-                                    <?php break; ?> 
-                                <?php case 'range': ?>
-                                    <?php $_img = $_product->getStockRange(); ?>
-                                    <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
-                                    <?php break; ?> 
-                                <?php case 'level': ?>
-                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel() ?></span></p>
-                                    <?php break; ?>         
-                            <?php endswitch; ?>  
-                        <?php endif; ?> 
-                    </td>
-                    <?php if ($showPrices && $this->getCanShowProductPrice($_product)): ?>
-                        <td class="a-right">
-                            <?php echo $this->getPriceHtml($location, $_product, true) ?>
-                            <?php echo $this->getTierPriceHtml($location, $_product, $this) ?>
-                        </td>
-                    <?php endif; ?>
-                    <?php if ($showQty && $_product->isSaleable()): ?>
-                        <td class="a-center">
-                            <input type="hidden" name="products[<?php echo $_product->getId() ?>][multiple][<?php echo $x; ?>][location_code]" value="<?php echo $location->getLocationCode() ?>" />
-                            <input type="text" name="products[<?php echo $_product->getId() ?>][multiple][<?php echo $x; ?>][qty]" maxlength="12" value="<?php echo $this->getEditQty(); ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-                            <?php if ($_product->getConfigurator()): ?>
-                                <div class="configurable_addtocart">  
-                                    <?php $buttonTitle = $this->__('Configure Product'); ?>
-                                    <div class="add-to-cart">
-                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="ewaProduct.submit({sku: '<?php echo $_product->getSku(); ?>', productId: '<?php echo $_product->getId(); ?>', location: '<?php echo $location->getLocationCode() ?>'}, false);"><span><span><?php echo $buttonTitle ?></span></span></button>
-                                        <?php echo $this->getChildHtml('', true, true) ?>
-                                    </div>
-                                </div>
+                                            <?php if ($_product->isAvailable()): ?>
+                                                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+                                            <?php else: ?>
+                                                <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+                                            <?php endif; ?>
+                                            <?php break; ?> 
+                                        <?php case 'range': ?>
+                                            <?php $_img = $_product->getStockRange(); ?>
+                                            <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
+                                            <?php break; ?> 
+                                        <?php case 'level': ?>
+                                            <?php if($location->getShowInventory()): ?>
+                                            <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel() ?></span></p>
+                                            <?php endif; ?>
+                                            <?php break; ?>         
+                                    <?php endswitch; ?>  
+                                <?php endif; ?>
+                            </td>
+                            <?php if ($showPrices && $this->getCanShowProductPrice($_product)): ?>
+                                <td class="a-right">
+                                    <?php echo $this->getPriceHtml($location, $_product, true) ?>
+                                    <?php echo $this->getTierPriceHtml($location, $_product, $this) ?>
+                                </td>
                             <?php endif; ?>
-                        </td>
-                    <?php endif; ?>
-                </tr>
-                <?php $x++; ?>
-            <?php endforeach; ?>
-            <?php $_product->restoreOrigData(); ?>
-        </tbody>
-    </table>
-    <script type="text/javascript">decorateTable('super-product-table')</script>
-<?php else: ?>
-<?php if (!empty($locations)): ?>
+                                    <?php
+                                    if ($showQty && $_product->isSaleable()):
+                                            ?>
+                                            <td class="a-center">
+                                                <input type="hidden" name="products[<?php echo $_product->getId() ?>][multiple][<?php echo $x; ?>][location_code]" value="<?php echo $location->getLocationCode() ?>" />
+                                                <?php $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces($_product); ?>
+                                                <input type="text" decimal="<?php echo $decimalPlaces; ?>" name="products[<?php echo $_product->getId() ?>][multiple][<?php echo $x; ?>][qty]" maxlength="12" value="<?php echo $this->getEditQty(); ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                                <?php if ($_product->getConfigurator()): ?>
+                                        <div class="configurable_addtocart">  
+                                            <?php $buttonTitle = $this->__('Configure Product'); ?>
+                                            <div class="add-to-cart">
+                                                <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="ewaProduct.submit({sku: '<?php echo $_product->getSku(); ?>', currentStoreId: '<?php echo $currentStoreId; ?>', productId: '<?php echo $_product->getId(); ?>', location: '<?php echo $location->getLocationCode() ?>'}, false);"><span><span><?php echo $buttonTitle ?></span></span></button>
+                                                <?php echo $this->getChildHtml('', true, true) ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endif; ?>
+                        </tr>
+                        <?php $x++; ?>
+                    <?php endforeach; ?>
+                    <?php $_product->restoreOrigData(); ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('super-product-table')</script>
+    <?php else: ?>
+        <?php if (!empty($locations)): ?>
             <?php $location = array_pop($locations); ?>
             <?php $_product->setToLocationPrices($location); ?>
             <?php Mage::unregister('current_product'); ?>
@@ -106,10 +119,71 @@ if (count($locations) > 1) :
                 <p><strong><?php echo $this->__('Location'); ?>: </strong><?php echo $location->getLocationCode(); ?></p>
                 <input type="hidden" name="location_code" value="<?php echo $location->getLocationCode(); ?>"/>
             </div>
-    <?php else: ?>
-             <div class="product_location">
+        <?php else: ?>
+            <div class="product_location">
                 <p><strong><?php echo $this->__('Location'); ?>: </strong><?php echo $this->__('No location available'); ?></p>
             </div>
+        <?php endif; ?>
     <?php endif; ?>
-<?php endif; ?>
-    
+    <?php
+    $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces($_product);
+    $message = "Qty must be in the form of 000";
+    if ($decimalPlaces > 0) {
+        $zero = '';
+        for ($i = 0; $i < $decimalPlaces; $i++) {
+            $zero .= '0';
+        }
+        $message = "Qty must be in the form of 000." . $zero;
+    }
+    ?>
+    <script type="text/javascript">
+    /* Validation.add('validate-customfloat', '<?php echo $message; ?>', function (value) {
+     var decimalPlaces = <?php echo $decimalPlaces == '' ? 0 : $decimalPlaces; ?>;
+     if (value.length == 0)
+     {
+     return true;
+     }
+     decimal = 0;
+     var numNum = +value;
+     if (!isNaN(numNum))
+     {
+     var isdecimal = (value.match(/\./g) || []).length;
+     var decimal = 0;
+     if (isdecimal > 0)
+     {
+     decimal = parseInt(value.toString().split(".")[1].length || 0);
+     }
+     if ((decimalPlaces > 0 && decimalPlaces != decimal) || (decimalPlaces == 0 && decimal > 0))
+     {} else
+     { return true; }
+     }
+     });
+
+
+
+        Validation.add('validate-customfloat', function (value) {
+            var decimalPlaces = <?php echo $decimalPlaces == '' ? 0 : $decimalPlaces; ?>;
+            if (value.length == 0)
+            {
+                return true;
+            }
+            decimal = 0;
+            var numNum = +value;
+            if (!isNaN(numNum))
+            {
+                var isdecimal = (value.match(/\./g) || []).length;
+                var decimal = 0;
+                if (isdecimal > 0)
+                {
+                    decimal = parseInt(value.toString().split(".")[1].length || 0);
+                }
+                if ((decimalPlaces > 0 && decimalPlaces != decimal) || (decimalPlaces == 0 && decimal > 0))
+                {
+                } else
+                {
+                    return true;
+                }
+            }
+            return  message = '<?php echo $message; ?>';
+            });*/
+    </script>

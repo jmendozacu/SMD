@@ -71,7 +71,8 @@ class Epicor_Common_Block_Adminhtml_Advanced_Syslog_Grid extends Epicor_Common_B
             'header' => Mage::helper('flexitheme')->__('Name'),
             'align' => 'left',
             'index' => 'filename',
-            'type' => 'text'
+            'type' => 'text',
+            'condition' => 'LIKE'
         );
 
         $columns['size'] = array(

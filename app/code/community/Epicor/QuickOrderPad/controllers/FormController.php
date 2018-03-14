@@ -21,6 +21,12 @@ class Epicor_QuickOrderPad_FormController extends Mage_Core_Controller_Front_Act
         if ($listHelper->listsEnabled() && $listHelper->getSessionList()) {
             $this->_redirect('quickorderpad/form/results');
         } else {
+            $quote = Mage::getModel('checkout/cart')->getQuote();
+            $_cartQty = Mage::getSingleton('checkout/cart')->getItemsCount();
+            if($_cartQty>0){
+                    $quote->setTotalsCollectedFlag(false);
+                    $quote->collectTotals();
+            }
             $this->loadLayout();
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('checkout/session');
@@ -46,7 +52,12 @@ class Epicor_QuickOrderPad_FormController extends Mage_Core_Controller_Front_Act
         Mage::register('search-query', $q);
 //        Mage::register('search-sku', $sku);
         Mage::register('search-instock', $instock != '' ? true : false);
-
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $_cartQty = Mage::getSingleton('checkout/cart')->getItemsCount();
+        if($_cartQty>0){
+            $quote->setTotalsCollectedFlag(false);
+            $quote->collectTotals();
+        }
         if ($q != '') {
 
             $query = Mage::helper('catalogsearch')->getQuery();
@@ -68,7 +79,6 @@ class Epicor_QuickOrderPad_FormController extends Mage_Core_Controller_Front_Act
             }
 
             Mage::helper('catalogsearch')->checkNotes();
-
             $this->loadLayout();
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('checkout/session');

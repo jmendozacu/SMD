@@ -51,6 +51,26 @@
     .slide-wrapper {
         position: relative;
     }
+    .image-holder {
+        min-height:300px;
+        display:block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        img {
+            display: none;
+        }
+    }
+    @media all and (min-width: $bp-medium) {
+        .image-holder {
+            background: none;
+        }
+
+        .image-holder img {
+            display: block;
+        }
+    }
 
     h3 {
         margin-bottom: 0;
@@ -100,7 +120,7 @@
     margin-bottom: $box-spacing;
     margin-right: percentage(8/300) !important;
     position: relative;
-    width: 23% !important;
+    width: 22% !important;
 }
 
 .catblocks li:hover {
@@ -135,7 +155,7 @@
     color: $c-gray;
     display: block;
     font-family: $f-stack-sans;
-    font-size: 17px;
+    font-size: 15px;
     padding: 5px 10px;
     text-align: center;
     text-transform: none;
@@ -228,6 +248,13 @@
 .subcategories-wrapper {
     border-top: 2px solid $c-medium-grey;
     padding-top: 20px;
+
+    .slick-list {
+        margin: 20px;
+    }
+    .subcategory-title {
+        font-size: 16px;
+    }
 }
 
 .subcategory-products {
@@ -243,6 +270,7 @@
     }
     .product-title {
         text-align: center;
+        font-size: 15px;
     }
     img {
         max-width: 100%;
@@ -250,4 +278,4 @@
             opacity: 0.75;
         }
     }
-}
+} 

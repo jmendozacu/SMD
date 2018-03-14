@@ -12,6 +12,8 @@ class Epicor_Common_Block_Generic_List_Search extends Epicor_Common_Block_Generi
 
     protected $_configLocation = 'grid_config';
     
+    protected $_footerPagerVisibility = false;
+    
     public function __construct() {
         parent::__construct();
 
@@ -47,5 +49,13 @@ class Epicor_Common_Block_Generic_List_Search extends Epicor_Common_Block_Generi
         }
         $this->setCustomColumns($columns);
     }
-
+    
+    /**
+     * Set visibility of pager in footer section
+     *
+     * @param boolean $visible
+     */
+    public function setFooterPagerVisibility($visible = false) {
+        $this->_footerPagerVisibility = $visible;
+    }
 }

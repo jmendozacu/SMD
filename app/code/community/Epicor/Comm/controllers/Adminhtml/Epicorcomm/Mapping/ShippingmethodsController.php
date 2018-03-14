@@ -137,4 +137,20 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Mapping_ShippingmethodsController extends
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
+    
+    /**
+     * Test Tracking Url 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * @return layout 
+     */    
+    public function trackingurltestAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+    
 }

@@ -23,8 +23,10 @@ $_carouselItems = $_gallery->getCarouselItems();
                 <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
             <?php endif; ?>
 
-            <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
 
+            <div class="image-holder" style="background-image: url(<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>);">
+                <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+            </div>
 
             <?php if($this->hasLink($image)): ?>
                 </a>

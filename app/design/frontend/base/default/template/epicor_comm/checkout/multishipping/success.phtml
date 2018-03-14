@@ -23,6 +23,7 @@
  * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+$helper = Mage::helper('epicor_comm/sales_order');
 ?>
 <div class="multiple-checkout">
     <div class="page-title">
@@ -38,13 +39,13 @@
             <?php if ($flag): ?>
                 <?php echo ', ' ?>
             <?php endif; ?>
-            <?php $flag = true ?>
-            <?php if ($this->showWebOrderNumber() && $this->showErpOrderNumber()): ?>
-                <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $incrementId ?> (<?php echo $this->__('ERP: '.$this->getErpOrderNumber($orderId)) ?>)</a>
-            <?php elseif ($this->showErpOrderNumber()): ?>
-                <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $this->getErpOrderNumber($orderId) ?></a>
-            <?php elseif ($this->showWebOrderNumber()): ?>
-                <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $incrementId ?></a>
+                <?php $flag = true ?>
+                <?php if ($helper->showWebOrderNumber() && $helper->showErpOrderNumber()): ?>
+                    <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $incrementId ?> (<?php echo $this->__('ERP: '.$this->getErpOrderNumber($orderId)) ?>)</a>
+                        <?php elseif ($helper->showErpOrderNumber()): ?>
+                            <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $this->getErpOrderNumber($orderId) ?></a>
+                        <?php elseif ($helper->showWebOrderNumber()): ?>
+                            <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $incrementId ?></a>
             <?php endif; ?>
         <?php endforeach; ?>
     </p>

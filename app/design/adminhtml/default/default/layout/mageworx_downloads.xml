@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ * File Downloads & Product Attachments Extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_Downloads
+ * @copyright  Copyright (c) 2015 MageWorx (http://www.mageworx.com/)
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_mageworx_downloads_files_edit>
+        <reference name="head">
+            <action method="removeItem">
+                <type>js</type>
+                <name>tbt/enhancedgrid/enhancedgrid.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>tbt/enhancedgrid/egsupplemental.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>tbt/enhancedgrid/customfunctions/catalog_products.js</name>
+            </action>
+            <action method="addCss">
+                <name>css/mageworx/downloads/styles.css</name>
+            </action>
+        </reference>
+    </adminhtml_mageworx_downloads_files_edit>
+
+    <adminhtml_mageworx_downloads_files_index>
+        <reference name="content">
+            <block type="mageworx_downloads/adminhtml_files" name="downloads_files" template="mageworx/downloads/files.phtml">
+                <block type="mageworx_downloads/adminhtml_switcher_store" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm">
+                        <params>0</params>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_mageworx_downloads_files_index>
+
+    <adminhtml_mageworx_downloads_categories_index>
+        <reference name="content">
+            <block type="mageworx_downloads/adminhtml_categories" name="downloads_categories"
+                   template="mageworx/downloads/categories.phtml">
+                <block type="mageworx_downloads/adminhtml_switcher_store" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm">
+                        <params>0</params>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_mageworx_downloads_categories_index>
+
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>downloads_attachments</name>
+                <block>mageworx_downloads/adminhtml_files_edit_tab_attachments</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_edit>
+
+    <adminhtml_catalog_product_new>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>downloads_attachments</name>
+                <block>mageworx_downloads/adminhtml_files_edit_tab_attachments</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_new>
+
+    <adminhtml_mageworx_downloads_files_import>
+        <remove name="root"/>
+        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+            <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+                <action method="addJs">
+                    <script>prototype/prototype.js</script>
+                </action>
+                <action method="addJs">
+                    <script>prototype/validation.js</script>
+                </action>
+                <action method="addJs">
+                    <script>varien/js.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/translate.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/adminhtml/tools.js</script>
+                </action>
+            </block>
+            <block type="adminhtml/template" name="fd_import" template="mageworx/downloads/import.phtml" output="toHtml"/>
+        </block>
+    </adminhtml_mageworx_downloads_files_import>
+
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <name>css/mageworx/downloads/fileuploader.css</name>
+            </action>
+            <action method="addJs">
+                <script>mageworx/downloads/fileuploader.js</script>
+            </action>
+        </reference>
+    </default>
+
+    <adminhtml_mageworx_downloads_import_index>
+        <reference name="content">
+            <block type="adminhtml/template" template="importexport/import/form/before.phtml" name="import.form.before" alias="form_before"/>
+            <block type="mageworx_downloads/adminhtml_import_edit" name="import.form.container"/>
+            <block type="adminhtml/template" template="importexport/import/form/after.phtml" name="import.form.after" alias="form_after"/>
+        </reference>
+    </adminhtml_mageworx_downloads_import_index>
+
+    <adminhtml_mageworx_downloads_import_start>
+        <remove name="root"/>
+        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+            <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+                <action method="addJs">
+                    <script>prototype/prototype.js</script>
+                </action>
+                <action method="addJs">
+                    <script>prototype/validation.js</script>
+                </action>
+                <action method="addJs">
+                    <script>varien/js.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/translate.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/adminhtml/tools.js</script>
+                </action>
+            </block>
+            <block type="adminhtml/template" name="fd_import" template="mageworx/downloads/import.phtml" output="toHtml"/>
+        </block>
+    </adminhtml_mageworx_downloads_import_start>
+
+    <adminhtml_mageworx_downloads_files_customer>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="mageworx_downloads/adminhtml_customer_edit_tab_files_grid" name="admin.customer.downloads"/>
+        </block>
+    </adminhtml_mageworx_downloads_files_customer>
+
+</layout>

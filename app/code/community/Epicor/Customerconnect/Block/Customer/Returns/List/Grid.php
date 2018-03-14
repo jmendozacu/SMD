@@ -15,7 +15,8 @@ class Epicor_Customerconnect_Block_Customer_Returns_List_Grid extends Epicor_Com
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_returns');
         $this->setDefaultSort('id');
         $this->setDefaultDir('desc');

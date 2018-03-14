@@ -5,7 +5,7 @@
 if (!window.Epicor)
     var Epicor = new Object();
 
-if(typeof (currentSkuFieldId) != 'undefined')
+if (typeof (currentSkuFieldId) != 'undefined')
     var currentSkuFieldId;
 /**
  * Quick Search form client model
@@ -16,14 +16,15 @@ Epicor.searchForm.prototype = {
     clickoutHandler: null,
     lastHeight: 0,
     qtyHasFocus: false,
-    sku: null ,
-    initialize: function (form, field, supergroup, emptyText, uom, packsize, productid, location, qtyfield) {
+    sku: null,
+    initialize: function (form, field, supergroup, emptyText, uom, packsize, productid, location, qtyfield, configurator) {
+
         this.form = $(form);
         this.field = $(field);
         this.qtyfield = $(qtyfield);
         this.supergroup = $(supergroup);
-        this.emptyText = emptyText;        
-        this.sku = null;      
+        this.emptyText = emptyText;
+        this.sku = null;
         if (uom) {
             this.uom = $(uom);
         }
@@ -35,11 +36,15 @@ Epicor.searchForm.prototype = {
         if (productid) {
             this.productid = $(productid);
         }
+        // if no configurator value passed, ensure class field is set to 0
+        if (configurator) {
+            this.configurator = $(configurator);            
+        }
 
         if (location) {
             this.location = $(location);
         }
-        
+
         //Insert default element, when the page was loaded
         this.defaultupdate();
 
@@ -55,7 +60,7 @@ Epicor.searchForm.prototype = {
         Event.observe(this.field, 'input', this.clearProductId.bind(this));
         this.clickoutHandler = this.clickoutEvent.bind(this);
         this.blur();
-        
+
         currentSkuFieldId = this.field.identify();
     },
     fieldUpdated: function (event) {
@@ -72,30 +77,85 @@ Epicor.searchForm.prototype = {
 
     },
     clearProductId: function (event) {
-        var currentSkuFieldIds   = this.field.identify();
+        var currentSkuFieldIds = this.field.identify();
         //clear product ids for home page quick add autosuggest
-        if(currentSkuFieldIds    =='qa_sku') {
-            var productElement   =  $('qa_product_id');
+        if (currentSkuFieldIds == 'qa_sku') {
+            var productElement = $('qa_product_id');
             productElement.value = "";
         } else {
             //clear product ids for Quick Add customerconnect rfqs add line
-            var fields           = currentSkuFieldIds.split(/_/);
-            var prefix           = fields[0];
-            var productPrefix    = '_product_id_'; 
-            var productPrefixId  = fields[2];
-            var createProductId  = prefix + productPrefix + productPrefixId;
-            var productElement   = $(createProductId);
-            if (typeof(productElement) != 'undefined' && productElement != null){
+            var fields = currentSkuFieldIds.split(/_/);
+            var prefix = fields[0];
+            var productPrefix = '_product_id_';
+            var productPrefixId = fields[2];
+            var createProductId = prefix + productPrefix + productPrefixId;
+            var productElement = $(createProductId);
+            if (typeof (productElement) != 'undefined' && productElement != null) {
                 productElement.value = "";
-            } 
+            }
         }
-    },    
+    },
     submit: function (event) {
-        if (this.field.value == this.emptyText || this.field.value == '') {
+        if (checkDecimal('quickadd-form', 1))
+        {
+
+            var configuratorValue = $('qa_configurator').value;
+            var productId = $('qa_product_id').value;
+            var qty = $('qa_qty').value;
+            var sku = $('qa_sku').value;
+            var currentStoreId = $('currentStoreId').value;
+            if ($('location_code') != undefined) {
+                var location = $('location_code').value;
+            } else {
+                location = ''
+            }
+            if (configuratorValue == ''){ 
+                
+                // if product is manually entered, even if it is a configurator, this field won't be set 
+		var url =  window.location.protocol + '//' + window.location.hostname + '/comm/configurator/configuratorcheck';				
+		url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');       
+                new Ajax.Request(url,{				
+                            method: 'post', 
+                            asynchronous:false,
+                            parameters:{'sku': sku, 'productId': this.productid.value},
+                            onComplete: function(request) {
+                                this.ajaxRequest = false;
+                            },
+                            onSuccess: function(request){
+                                var json = request.responseText.evalJSON();
+                                if (json.configurator) {
+                                    configuratorValue = 1;
+                                    productId = json.productId;
+                                    $('qa_configurator').value = 1;
+                                }    
+                            }
+                        }                 
+                )
+            }    
+
+            if (configuratorValue == 1)
+            {
+                if (location != null || location == '')
+                {
+                    ewaProduct.submit({sku: sku, productId: productId, currentStoreId: currentStoreId, location: location, qty: qty}, false);
+                } else
+                {
+                    ewaProduct.submit({sku: sku, productId: productId, currentStoreId: currentStoreId, qty: qty}, false);
+                }
+                Event.stop(event);
+                return false;
+            }
+
+            if (this.field.value == this.emptyText || this.field.value == '') {
+                Event.stop(event);
+                return false;
+            }
+            return true;
+        } else
+        {
             Event.stop(event);
             return false;
         }
-        return true;
     },
     focus: function (event) {
         if (this.field.value == this.emptyText) {
@@ -112,30 +172,36 @@ Epicor.searchForm.prototype = {
         }
     },
     blur: function (event) {
-        if($('qa_sku_locations_on') && $('qa_sku').value != '') {
-            if(($('last_searched_sku') == null || $('last_searched_sku').value != $('qa_sku').value)){
+        // clear the existing qa_configurator value 
+        if($('qa_configurator') != null){            
+            $('qa_configurator').value = null;
+        }
+        
+        
+        if ($('qa_sku_locations_on') && $('qa_sku').value != '') {
+            if (($('last_searched_sku') == null || $('last_searched_sku').value != $('qa_sku').value)) {
                 var sku = $('qa_sku').value;
                 var url = $('qa_sku_locations_on').value;
-                url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true'); 
+                url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');
                 new Ajax.Request(url, {
                     method: 'post',
-                    parameters: {                 
+                    parameters: {
                         'sku': sku,
                     },
                     onComplete: function (request) {
                         this.ajaxRequest = false;
                     }.bind(this),
-                    onSuccess: function (request) { 
-                        var json = request.responseText.evalJSON();                      
-                        if(json.message == 'success'){ 
-                                var locations = json.locations;
-                                sku = $('qa_sku').value;
-                                this.locations(sku, locations);
-                                if (this.productid) {
-                                    this.productid.value = json.productid;
-                                }
-                        }  
-                        if(json.message == 'noproduct'){
+                    onSuccess: function (request) {
+                        var json = request.responseText.evalJSON();
+                        if (json.message == 'success') {
+                            var locations = json.locations;
+                            sku = $('qa_sku').value;
+                            this.locations(sku, locations);
+                            if (this.productid) {
+                                this.productid.value = json.productid;
+                            }
+                        }
+                        if (json.message == 'noproduct') {
                             $('qa_location').update().hide();
                             if (this.productid) {
                                 this.productid.value = '';
@@ -152,10 +218,10 @@ Epicor.searchForm.prototype = {
                         alert(e);
                     }.bind(this)
                 });
-            }   
+            }
         }
-       
-        
+
+
     },
     qtyBlur: function (event) {
         this.qtyHasFocus = false;
@@ -181,7 +247,7 @@ Epicor.searchForm.prototype = {
             }
             return;
         }
-   
+
         new Ajax.Request(this.url, {
             method: 'post',
             parameters: {
@@ -195,7 +261,7 @@ Epicor.searchForm.prototype = {
             onSuccess: function (request) {
                 document.stopObserving('click', this.clickoutHandler);
 
-                if (this.qtyHasFocus == true || currentSkuFieldId != this.field.identify()){
+                if (this.qtyHasFocus == true || currentSkuFieldId != this.field.identify()) {
                     return;
                 }
 
@@ -308,11 +374,15 @@ Epicor.searchForm.prototype = {
     },
     selectProduct: function (event) {
         var element = Event.findElement(event, 'li');
-        if (element.title) {
-            this.field.value = element.title;
-            
-            var id = element.readAttribute('id');
 
+
+        if (element.title) {
+            var decimal = element.readAttribute('decimal');
+            this.qtyfield.setAttribute('decimal', decimal);
+            this.field.value = element.title;
+
+            var id = element.readAttribute('id');
+            var configuratorValue = element.readAttribute('configurator');
             if (id != undefined && id.indexOf('super_group') != -1) {
                 if (this.supergroup) {
                     this.supergroup.value = id.replace('super_group_', '');
@@ -324,17 +394,22 @@ Epicor.searchForm.prototype = {
                 if (this.productid) {
                     this.productid.value = element.readAttribute('data-parent');
                 }
+                if (this.configurator) {
+                    this.configurator.value = element.readAttribute('configurator');
+                }
                 if (this.packsize) {
                     this.packsize.down('.packsize').update(element.readAttribute('data-pack'));
                     this.packsize.show();
                 }
-                
+
             } else {
 
                 if (id != undefined && this.productid) {
                     this.productid.value = id;
                 }
-
+                if (this.configurator) {
+                    this.configurator.value = configuratorValue;
+                }
                 if (this.supergroup) {
                     this.supergroup.value = '';
                 }
@@ -347,31 +422,31 @@ Epicor.searchForm.prototype = {
                     this.packsize.down('.packsize').update('');
                     this.packsize.hide();
                 }
-            }            
-           
-            
-            if (this.location) {    
-               var locations = element.readAttribute('data-locations').evalJSON();
-               this.locations(element.title, locations);
+            }
+
+
+            if (this.location) {
+                var locations = element.readAttribute('data-locations').evalJSON();
+                this.locations(element.title, locations);
             }
 
         }
-        if($$('#quickadd_autocomplete ul').length > 0){
+        if ($$('#quickadd_autocomplete ul').length > 0) {
             $('quickadd_autocomplete').select('ul').invoke('remove');
-        }    
+        }
         this.qtyfield.focus();
         this.destinationElement.hide();
         document.stopObserving('mousedown', this.clickoutHandler);
-        Event.stop(event); 
+        Event.stop(event);
     },
-    locations: function (sku, locations) {       
+    locations: function (sku, locations) {
         if (locations) {
             $('qa_location').update();
             var loc_html = '';
             var loc_html = '<label class="required" for="qty"><em>*</em>Location</label>';
             var loc_html = loc_html + '<div class="location_input">';
             if (locations.length > 1) {
-                loc_html = loc_html + '<select name="location_code">';
+                loc_html = loc_html + '<select name="location_code" id="location_code">';
 
                 for (var i = 0; i < locations.length; i++) {
                     loc_html = loc_html + '<option value="' + locations[i].code + '">' + locations[i].name + '</option>';
@@ -379,25 +454,25 @@ Epicor.searchForm.prototype = {
 
                 loc_html = loc_html + '</select>';
             } else {
-                loc_html = loc_html + '<input type="hidden" name="location_code" value="' + locations[0].code + '">' + locations[0].name;
+                loc_html = loc_html + '<input type="hidden" id = "qa_location_code" name="location_code" value="' + locations[0].code + '">' + locations[0].name;
             }
             loc_html = loc_html + '<input id="last_searched_sku" type="hidden" value="' + sku + '">';
             loc_html = loc_html + '</div>';
             $('qa_location').update(loc_html);
-            $('qa_location').show();    
+            $('qa_location').show();
         }
-    }, 
+    },
     defaultupdate: function () {
-        var qaLocation = $('qa_location'); 
-        if(qaLocation) {
+        var qaLocation = $('qa_location');
+        if (qaLocation) {
             var def_html = '';
             var def_html = def_html + '<div class="location_input">';
             def_html = def_html + '<input type="hidden" name="location_code" value="">';
             def_html = def_html + '<input id="last_searched_sku" type="hidden" value="">';
             def_html = def_html + '</div>';
             $('qa_location').update(def_html);
-            $('qa_location').hide();    
+            $('qa_location').hide();
         }
-    },        
+    },
 }
 var option_selected = false;

@@ -1,2 +1,5 @@
 </form>
+<form id="rfq_submit_wrapper_form" name="rfq_submit_wrapper_form" target="rfq-form-iframe" action="<?php echo Mage::registry('rfq_new') ? Mage::getUrl('*/*/add/') : Mage::getUrl('*/*/update'); ?>" method="post" enctype="multipart/form-data" style="display:none">
+    <input id="rfq_serialize_data" name='rfq_serialize_data' type="hidden" value="" />
+</form>
 <iframe id="rfq-form-iframe" name="rfq-form-iframe" style="display:none"></iframe>

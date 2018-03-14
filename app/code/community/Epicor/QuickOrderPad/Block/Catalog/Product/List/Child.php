@@ -99,7 +99,12 @@ class Epicor_QuickOrderPad_Block_Catalog_Product_List_Child extends Mage_Core_Bl
         $qtyFieldName = 'qty';
         if ($product->getTypeId() == 'grouped') {
             if ($this->getHelper()->isLocationsEnabled()) {
-                $qtyFieldName = 'super_group_locations[' . $productLocation->getLocationCode() . '][' . $child->getId() . ']';
+                $locationCode = $product->getRequiredLocation();
+                $branchHelper = Mage::helper('epicor_branchpickup');
+                if ($branchHelper->isBranchPickupAvailable() && $branchHelper->getSelectedBranch()) {
+                    $locationCode = $branchHelper->getSelectedBranch();
+                }
+                $qtyFieldName = 'super_group_locations[' . $locationCode . '][' . $child->getId() . ']';
             } else {
                 $qtyFieldName = 'super_group[' . $child->getId() . ']';
             }

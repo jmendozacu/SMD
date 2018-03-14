@@ -1,96 +1,21 @@
 {
-    "name": "magento/core",
-    "license": "OSL-3.0",
-    "type": "magento-core",
-    "description": "Magento Core",
-    "homepage": "http://www.magentocommerce.com",
-    "require": {},
-    "extra": {
-        "map": [
-            [
-                "app",
-                "app"
-            ],
-            [
-                "dev",
-                "dev"
-            ],
-            [
-                "downloader",
-                "downloader"
-            ],
-            [
-                "errors",
-                "errors"
-            ],
-            [
-                "includes",
-                "includes"
-            ],
-            [
-                "js",
-                "js"
-            ],
-            [
-                "lib",
-                "lib"
-            ],
-            [
-                "media",
-                "media"
-            ],
-            [
-                "shell",
-                "shell"
-            ],
-            [
-                "skin",
-                "skin"
-            ],
-            [
-                "var",
-                "var"
-            ],
-            [
-                ".htaccess",
-                ".htaccess"
-            ],
-            [
-                "api.php",
-                "api.php"
-            ],
-            [
-                "cron.php",
-                "cron.php"
-            ],
-            [
-                "cron.sh",
-                "cron.sh"
-            ],
-            [
-                "favicon.ico",
-                "favicon.ico"
-            ],
-            [
-                "get.php",
-                "get.php"
-            ],
-            [
-                "index.php",
-                "index.php"
-            ],
-            [
-                "install.php",
-                "install.php"
-            ],
-            [
-                "mage",
-                "mage"
-            ],
-            [
-                "LICENSE.html",
-                "LICENSE.html"
-            ]
-        ]
+  "name": "aschroder/smtp_pro",
+  "type": "magento-module",
+  "description": "sending Magento mail through an external smtp-server",
+  "homepage":"https://github.com/aschroder/Magento-SMTP-Pro-Email-Extension",
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }, 
+  "authors":[
+    {"name": "aschroder"
     }
+  ],
+  "extra": {
+    "map" : [
+      ["app/etc/modules/Aschroder_SMTPPro.xml", "app/etc/modules/Aschroder_SMTPPro.xml"],
+      ["app/code/local/Aschroder/SMTPPro", "app/code/local/Aschroder/SMTPPro"],
+      ["app/design/adminhtml/base/default/template/smtppro", "app/design/adminhtml/default/default/template/smtppro"],
+      ["app/locale/en_US/Aschroder_SMTPPro.csv", "app/locale/en_US/Aschroder_SMTPPro.csv"]
+    ]
+  }
 }

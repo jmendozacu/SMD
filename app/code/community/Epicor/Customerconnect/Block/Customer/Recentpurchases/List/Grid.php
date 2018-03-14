@@ -12,7 +12,10 @@
 class Epicor_Customerconnect_Block_Customer_Recentpurchases_List_Grid extends Epicor_Common_Block_Generic_List_Search {
 
     public function __construct() {
+        
         parent::__construct();
+        
+        $this->setFooterPagerVisibility(true);
         $toTime = strtotime("-210 hour");
         $toDate = date("m/d/Y", $toTime);
         $locale = Mage::app()->getLocale()->getLocaleCode();

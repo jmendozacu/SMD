@@ -17,7 +17,7 @@
             <dt>
                 <label for="shipping_dates:shipby"><?php echo $this->__('Available Delivery Dates : '); ?></label>
                 <select name="shipping_dates[shipby]" id="shipping_dates[shipby]">
-                <?php foreach($this->getAvailableDates() as $id => $date): ?>
+                 <?php foreach($this->getAvailableDates() as $id => $date): ?>
                     <option value="<?php echo $date; ?>"><?php echo Mage::helper('epicor_comm')->convertIso8601DateNoLocale($date, 'F j, Y'); ?></option>
                 <?php endforeach; ?>
                 <?php if(count($this->getAvailableDates()) === 0): ?>

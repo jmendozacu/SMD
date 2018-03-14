@@ -8,8 +8,8 @@
     <global>
         <ecc_version_info>
             <Epicor_Upgrade>
-                <version>1.0.7.7</version>
-                <released>2017-04-12</released>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
             </Epicor_Upgrade>
         </ecc_version_info>
         <blocks>

@@ -25,15 +25,16 @@ $_carouselItems = $_gallery->getCarouselItems();
                     <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
                 <?php endif; ?>
 
-                <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
-
-                <div class="text-overlay-content">
-                    <?php if ($label = $image->getLabel()): ?>
-                        <h3><?php echo $this->__($label) ?></h3>
-                    <?php endif; ?>
-                    <?php if ($description = $image->getDescription()): ?>
-                        <p><?php echo $this->__($description) ?></p>
-                    <?php endif; ?>
+                <div class="image-holder" style=" background-image: url(<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>);">
+                    <img src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+                    <div class="text-overlay-content">
+                        <?php if ($label = $image->getLabel()): ?>
+                            <h3><?php echo $this->__($label) ?></h3>
+                        <?php endif; ?>
+                        <?php if ($description = $image->getDescription()): ?>
+                            <p><?php echo $this->__($description) ?></p>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
                 <?php if($this->hasLink($image)): ?>

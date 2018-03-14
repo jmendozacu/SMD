@@ -25,6 +25,7 @@
 
 /* ============================================ *
  * Catalog - Product
+ * Catalog - Product
  * ============================================ */
 
 .product-view {
@@ -463,6 +464,10 @@
 
         display: inline-block;
 
+    }
+
+    button {
+        font-size: 18px!important;
     }
 
 }
@@ -985,9 +990,18 @@
     margin-top: $box-spacing-large;
     padding-top: 20px;
 
+    h2 {
+        font-size: 18px!important;
+    }
+
+    .product-name {
+        font-size: 15px;
+    }
+
     .ratings {
         display: none;
     }
+
 }
 
 .catalog-product-view {
@@ -1195,5 +1209,12 @@ button#product-addtocart-button {
     .more-views li {
         display: inline-block;
         width: 23%;
+    }
+}
+
+//Account Friend Sharing E-mail
+.sendfriend-product-send {
+    .col-right {
+        display: none;
     }
 }

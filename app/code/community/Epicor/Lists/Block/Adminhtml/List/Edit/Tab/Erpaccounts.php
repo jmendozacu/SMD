@@ -117,6 +117,7 @@ class Epicor_Lists_Block_Adminhtml_List_Edit_Tab_Erpaccounts extends Mage_Adminh
      */
     protected function _prepareCollection()
     {
+  
         $collection = Mage::getModel('epicor_comm/customer_erpaccount')->getCollection();
         /* @var $collection Epicor_Comm_Model_Mysql4_Customer_Erpaccount_Collection */
         $selectedType = Mage::getSingleton('admin/session')->getLinkTypeValue();

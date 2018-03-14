@@ -1,0 +1,15 @@
+.guest-downloads-history-msg.notification-global  {
+    background-image: none;
+    padding-left:20px;
+    width: 300px;
+    border: 1px solid #eee2be;
+    margin-bottom: 20px;
+}
+
+.guest-downloads-history-msg.notification-global li {
+    padding-bottom: 10px;
+}
+
+.guest-downloads-history-msg.notification-global li:last-child {
+    padding-bottom: 0;
+}

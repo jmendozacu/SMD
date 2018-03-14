@@ -40,21 +40,34 @@ class Epicor_Comm_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
 ////            $this->getItem()->setId($isGroupedProduct);
 //        }
 
-
-
-
-        $options = $this->getOptionList();
+        /* @var $helper Mage_Catalog_Helper_Product_Configuration */
+        $helper = Mage::helper('catalog/product_configuration');
+        $options = $helper->getCustomOptions($this->getItem());
+        
+        if(!is_array($options)) {
+            $options = array();
+        }
+        
         $configurator = false;
+        $canReConfigure = 'Y';
         foreach ($options as $option) {
-            if ($option['option_type'] == 'ewa_code') {
-                $configurator = $option['value'];
+            $option_type=isset($option['option_type'])?$option['option_type']:null;
+            $option_value=isset($option['value'])?$option['value']:null;
+            if ($option_type == 'ewa_code') {
+                $configurator = $option_value;
                 $productId = $this->getItem()->getProductId();
-                break;
+            } else if ($option_type == 'ewa_configurable') {
+                $canReConfigure = $option_value;
             }
         }
-
+        
+        if($canReConfigure == 'N') {
+            return false;
+        }
+        
         if ($configurator) {
-            return "javascript: ewaProduct.edit({ewaCode: '$configurator', productId: '$productId', itemId: '{$this->getItem()->getId()}'}, false);";
+            $currentStoreId = Mage::app()->getStore()->getStoreId();
+            return "javascript: ewaProduct.edit({ewaCode: '$configurator',currentStoreId:'$currentStoreId', productId: '$productId', itemId: '{$this->getItem()->getId()}'}, false);";
         } elseif (is_array($params)) {
             $params['id'] = $this->getItem()->getId();
             return $this->getUrl('checkout/cart/configure', $params);
@@ -84,6 +97,27 @@ class Epicor_Comm_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
     {
         $product = Mage::getModel('catalog/product')->load($id);
         return $product->getUrlPath();
+    }
+    
+    public function getProductOptions()
+    {
+       $productOptions = parent::getProductOptions();
+        if($productOptions){
+            $ewaHelper = Mage::helper('epicor_comm/configurator');
+            /* @var $ewaHelper Epicor_Comm_Helper_Configurator */     
+            $checkOptions = $ewaHelper->getEwaOptions($productOptions); 
+            return $checkOptions;
+        }
+    }
+
+    public function getQty()
+    {
+        if (!$this->_strictQtyMode && (string) $this->getItem()->getQty() == '') {
+            return '';
+        }
+        $commHelper = Mage::helper('epicor_comm');
+        $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($this->getItem()->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+        return $commHelper->truncateZero($this->getItem()->getQty() * 1, $decimalPlaces);
     }
 
 }

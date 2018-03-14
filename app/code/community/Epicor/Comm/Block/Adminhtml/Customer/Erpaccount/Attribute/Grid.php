@@ -85,32 +85,37 @@ class Epicor_Comm_Block_Adminhtml_Customer_Erpaccount_Attribute_Grid extends Mag
             'index' => 'account_type',
             'width' => '20px',
             'filter_index' => 'account_type',
+            'column_css_class'     => 'column-account-type',
         ));
 
         $this->addColumn('company', array(
             'header' => Mage::helper('epicor_comm')->__('Company'),
             'index' => 'company',
             'width' => '20px',
-            'filter_index' => 'company'
+            'filter_index' => 'company',
+            'column_css_class'     => 'column-company',
         ));
         $this->addColumn('short_code', array(
             'header' => Mage::helper('epicor_comm')->__('Short Code'),
             'index' => 'short_code',
             'width' => '20px',
-            'filter_index' => 'short_code'
+            'filter_index' => 'short_code',
+            'column_css_class'     => 'column-short-code',
         ));
         $this->addColumn('account_number', array(
             'header' => Mage::helper('epicor_comm')->__('Account Number'),
             'index' => 'account_number',
             'width' => '20px',
-            'filter_index' => 'account_number'
+            'filter_index' => 'account_number',
+            'column_css_class'     => 'column-account-number',
         ));
 
         $this->addColumn('name', array(
             'header' => Mage::helper('epicor_comm')->__('Name'),
             'index' => 'name',
             'filter_index' => 'name',
-            'column_css_class'     => 'return-label',
+            'column_css_class'     => 'return-label column-name',
+          
         ));
 
         return $this;

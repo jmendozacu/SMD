@@ -36,9 +36,78 @@ class Epicor_Lists_Block_Customer_Account_Deliveryaddress_Grid extends Epicor_Co
         $this->setCustomData($this->_getCustomData());
     }
 
+    /**
+     * Configuration of grid
+     * Build columns for List Addresses
+     * 
+     * @return array
+     */
     protected function _getColumns()
     {
-        
+        $columns = array(
+            'firstname' => array(
+                'header' => $this->__('Name'),
+                'align' => 'left',
+                'index' => array('firstname','lastname'),
+                'type' => 'concat',
+                'separator' => ' ',
+                'condition' => 'LIKE'
+            ),
+            'street' => array(
+                'header' => $this->__('Address'),
+                'align' => 'left',
+                'index' => 'street',
+                'renderer' => new Epicor_Comm_Block_Customer_Address_Renderer_Street(),
+                'type' => 'text',
+                'condition' => 'LIKE'
+            ),
+            'city' => array(
+                'header' => $this->__('City'),
+                'align' => 'left',
+                'index' => 'city',
+                'type' => 'text',
+                'condition' => 'LIKE'
+            ),
+            'region' => array(
+                'header' => $this->__('Region'),
+                'align' => 'left',
+                'index' => 'region',
+                'condition' => 'LIKE'
+            ),
+            'country_id' => array(
+                'header' => $this->__('Country'),
+                'align' => 'left',
+                'index' => 'country_id',
+                'type' => 'country',
+                'condition' => 'LIKE'
+            ),
+            'postcode' => array(
+                'header' => $this->__('Postcode'),
+                'align' => 'left',
+                'index' => 'postcode',
+                'type' => 'postcode',
+                'condition' => 'LIKE'
+            ),
+            'select' => array(
+                'header' => $this->__('Select'),
+                'width' => '280',
+                'index' => 'entity_id',
+                'renderer' => 'epicor_lists/customer_account_deliveryaddress_grid_renderer_select',
+                'links' => 'true',
+                'filter' => false,
+                'sortable' => false,
+                'is_system' => true,
+                'actions' => array(
+                    array(
+                        'caption' => $this->__('Select'),
+                        'url' => '',
+                        'id' => 'link',
+                        'onclick' => 'changeShippingAdresss(this); return false;'
+                    )
+                )
+            )
+        );
+        return $columns;
     }
 
     protected function _getCustomData()
@@ -103,73 +172,6 @@ class Epicor_Lists_Block_Customer_Account_Deliveryaddress_Grid extends Epicor_Co
     }
 
     /**
-     * Configuration of grid
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     * Build columns for List Addresses
-     */
-    protected function _prepareColumns()
-    {
-        $this->addColumn('firstname', array(
-            'header' => $this->__('Firstname'),
-            'width' => '150',
-            'index' => 'firstname',
-        ));
-        
-        $this->addColumn('street', array(
-            'header' => $this->__('Address'),
-            'index' => 'street',
-            'type' => 'text',
-            'renderer' => new Epicor_Comm_Block_Customer_Address_Renderer_Street()
-        ));
-        
-        $this->addColumn('city', array(
-            'header' => $this->__('City'),
-            'index' => 'city',
-            'type' => 'text'
-        ));
-        
-        $this->addColumn('region', array(
-            'header' => $this->__('Region'),
-            'index' => 'region',
-            'type' => 'text'
-        ));
-        
-        $this->addColumn('country_id', array(
-            'header' => $this->__('Country'),
-            'index' => 'country_id',
-            'type' => 'text'
-        ));
-        $this->addColumn('postcode', array(
-            'header' => $this->__('Postcode'),
-            'index' => 'postcode',
-            'type' => 'text'
-        ));
-
-        $this->addColumn('select', array(
-            'header' => $this->__('Select'),
-            'width' => '280',
-            'index' => 'entity_id',
-            // 'type'=>'text',
-            'renderer' => 'epicor_lists/customer_account_deliveryaddress_grid_renderer_select',
-            'links' => 'true',
-            // 'getter' => 'getId',
-            'filter' => false,
-            'sortable' => false,
-            'is_system' => true,
-            'actions' => array(
-                array(
-                    'caption' => $this->__('Select'),
-                    'url' => '',
-                    'id' => 'link',
-                    'onclick' => 'changeShippingAdresss(this); return false;'
-                )
-            )
-        ));
-
-        return parent::_prepareColumns();
-    }
-
-    /**
      * Gets grid url for ajax reloading
      *
      * @return string
@@ -185,5 +187,4 @@ class Epicor_Lists_Block_Customer_Account_Deliveryaddress_Grid extends Epicor_Co
     {
         return false;
     }
-
 }

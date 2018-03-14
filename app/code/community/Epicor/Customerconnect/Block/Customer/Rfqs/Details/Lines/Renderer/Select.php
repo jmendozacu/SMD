@@ -91,8 +91,9 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Renderer_Select e
 
     protected function _getRowProductJson($row)
     {
-        $helper = Mage::helper('customerconnect');
-        /* @var $helper Epicor_Customerconnect_Helper_Data */
+        $helper = Mage::helper('customerconnect/rfq');
+        /* @var $helper Epicor_Customerconnect_Helper_Rfq */
+        
         $rfq = Mage::registry('customer_connect_rfq_details');
         $currency = $helper->getCurrencyMapping($rfq->getCurrencyCode(), Epicor_Comm_Helper_Messaging::ERP_TO_MAGENTO);
         $rowPrice = $row->getPrice();
@@ -117,7 +118,9 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Renderer_Select e
         $rowProduct->setMsqFormattedPrice($formattedPrice);
         $rowProduct->setMsqFormattedTotal($formattedTotal);
         $rowProduct->setMsqQty($rowQty);
-
+        
+        $configurable = $helper->getAttributeValueFromLineByDescription($row , array('configurable')) ?: 'Y';
+        $rowProduct->setEwaConfigurable($configurable);
         $productInfo = $productHelper->getProductInfoArray($rowProduct);
         $productInfo['request_date'] = $rowProduct->getRequestDate();
 

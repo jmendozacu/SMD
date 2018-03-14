@@ -1,4 +1,5 @@
 var product_opened = 0;
+var account_opened = 0;
 var customer_opened = 0;
 
 document.observe('dom:loaded', function () {
@@ -76,6 +77,30 @@ function list_product(lid) {
     }
     else {
         $('product_grid').show();
+    }
+}    
+function masquerade_accounts(lid) {
+    if (lid)
+        setCurrent(lid);
+    $('primary_detail_content').hide();
+    $('customer_grid').hide();
+    $('product_grid').hide();
+    if (account_opened != 1) {
+        account_opened = 1;
+        new Ajax.Request(account_url, {
+            method: 'POST',
+            onLoading: startLoading,
+            onComplete: function (transport) {
+             //   $('please-wait').hide();
+                div = $('masquerade_accounts_grid');
+                div.update(transport.responseText);
+                $('masquerade_accounts_grid').show();                
+
+            }
+        });
+    }
+    else {
+        $('masquerade_accounts_grid').show();
     }
 }
 function list_customer(lid) {

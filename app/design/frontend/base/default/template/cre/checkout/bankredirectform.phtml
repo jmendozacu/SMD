@@ -1,0 +1,11 @@
+<p><?php echo $this->__('Please wait while you are redirected to you card provider.'); ?></p>
+<form id="bankform" action="<?php echo $this->getFormUrl(); ?>" method="post">
+    <input type="hidden" value="<?php echo $this->getPaReq(); ?>" name="PaReq" />
+    <input type="hidden" value="<?php echo $this->getReturnUrl(); ?>" name="TermUrl" />
+    <input type="hidden" value="PayerAuth" name="MD" />
+</form>
+<script type="text/javascript" >
+<!--
+    document.getElementById('bankform').submit();
+-->
+</script>

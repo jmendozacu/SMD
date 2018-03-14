@@ -16,14 +16,6 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tabs extends Mage_Adminhtml_Blo
         $location = Mage::registry('location');
         /* @var $location Epicor_Comm_Model_Location */
 
-        $detailsBlock = $this->getLayout()->createBlock('epicor_comm/adminhtml_locations_edit_tab_details');
-
-        $this->addTab('form_details', array(
-            'label' => 'Details',
-            'title' => 'Details',
-            'content' => $detailsBlock->toHtml(),
-        ));
-
         if ($location->getId()) {
             $this->addTab('form_stores', array(
                 'label' => 'Stores',
@@ -53,7 +45,20 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tabs extends Mage_Adminhtml_Blo
                 'url' => $this->getUrl('*/*/products', array('id' => $location->getId(), '_current' => true)),
                 'class' => 'ajax'
             ));
-
+            
+            $this->addTab('relatedlocations', array(
+                'label' => 'Related Locations',
+                'title' => 'Related Locations',
+                'url' => $this->getUrl('*/*/relatedLocations', array('id' => $location->getId(), '_current' => true)),
+                'class' => 'ajax'
+            ));
+            $this->addTab('groupings', array(
+                'label' => 'Groups',
+                'title' => 'Groups',
+                'url' => $this->getUrl('*/*/groupings', array('id' => $location->getId(), '_current' => true)),
+                'class' => 'ajax'
+            ));
+            
             $this->addTab('form_log', array(
                 'label' => 'Message Log',
                 'title' => 'Message Log',

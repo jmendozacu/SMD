@@ -28,13 +28,21 @@ $locHelper = $this->helper('epicor_comm/locations');
 /* @var $helper Epicor_Comm_Helper_Locations */
 
 $showLocations = $locHelper->isLocationsEnabled();
-
+$branchpickupHelper = Mage::helper('epicor_branchpickup');
 $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
 ?>
 <?php /* @var $this Mage_Catalog_Block_Product_View_Abstract */?>
 <?php $_product = $this->getProduct() ?>
 
-<?php $singleLocation = (count($_product->getCustomerLocations()) == 1) ? true : false; ?>
+<?php 
+$customerLocations  = $_product->getCustomerLocations();
+$singleLocation = (count($customerLocations) == 1) ? true : false; 
+?>
+<?php 
+if ($singleLocation) {
+    $location = array_pop($customerLocations);
+}
+?>
 <?php if ($_product->isSaleable() && $_product->getTypeId() == 'bundle'): ?>
     <script type="text/javascript">
         //<![CDATA[
@@ -46,8 +54,13 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
         var CACL_TOTAL_BASE = "<?php echo Mage_Tax_Model_Calculation::CALC_TOTAL_BASE ?>";
         //]]>
     </script>
-<?php endif; ?>
-<?php switch($_product->getStockType()):
+    <?php endif; ?>
+    <?php
+    $commHelper = Mage::helper('epicor_comm');
+    $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+    ?>
+
+    <?php switch($_product->getStockType()):
     case 'bool': ?>
         <?php if ($_product->isAvailable()): ?>
             <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
@@ -56,12 +69,19 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
         <?php endif; ?>
     <?php break;?> 
     <?php case 'range':?>
-            <?php $_img = $_product->getStockRange(); ?>
-            <img src="<?php echo $_img['src']?>" alt="<?php echo $_img['alt']?>" title="<?php echo $_img['title']?>" />        
+        <?php $_img = $_product->getStockRange(); ?>
+        <img src="<?php echo $_img['src']?>" alt="<?php echo $_img['alt']?>" title="<?php echo $_img['title']?>" />        
    <?php break;?> 
    <?php case 'level':?>
-             <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $_product->getStockLevel() ?></span></p>
-   <?php break; ?> 
+        <?php if($branchpickupHelper->getSelectedBranch()): ?>
+            <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_product); ?>
+        <?php else: ?>
+            <?php $aggregateStock = $_product->getStockLevel(true); ?>
+        <?php endif; ?>
+        <?php if($branchpickupHelper->canShowInventory($_product)): ?>
+        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?></span></p>
+        <?php endif; ?>
+    <?php break; ?> 
     
 <?php endswitch;?>
 

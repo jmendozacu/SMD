@@ -93,16 +93,28 @@ class Epicor_Common_Block_Generic_List_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _toHtml()
     {
         $html = parent::_toHtml();
+
         if (!$this->getCacheDisabled()) {
-            $cacheTime = $this->getCollection()->getCacheTime();
+            $hideRefeshMsg = $this->getHideRefreshMessage();
+            $internalFilter =  $this->getInternalFilter();            
+            if(!$internalFilter) {
+                $cacheTime = $this->getCollection()->getCacheTime();
+            } else {
+                $cacheTime = now();
+            }
+            
+            if($this->getRequest()->getParam('ajax')) {
+               $hideRefeshMsg = true; 
+            }            
 
             $date = Mage::helper('epicor_common')->getLocalDate($cacheTime);
 
             $identifier = $this->getMessageType() ? : $this->getId();
 
             $url = $this->getUrl('*/grid/clear', array('grid' => $identifier, 'location' => Mage::helper('core/url')->getEncodedUrl()));
-
-            $html = '<p>'.$this->__('Data correct as of %s', $date) . ' <a href="' . $url . '">'.$this->__('Refresh Data') . '</a></p>' . $html;
+            if(!$hideRefeshMsg) {
+                $html = '<p>'.$this->__('Data correct as of %s', $date) . ' <a href="' . $url . '">'.$this->__('Refresh Data') . '</a></p>' . $html;
+            }
         }
         return $html;
     }

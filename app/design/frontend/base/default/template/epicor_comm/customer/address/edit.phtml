@@ -30,13 +30,28 @@
  *
  * @see Mage_Customer_Block_Address_Edit
  */
-$allowEdits = Mage::helper('epicor_common')->customerAddressPermissionCheck('edit'); 
-$allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionCheck('create'); 
+$commonHelper = Mage::helper('epicor_common');
+/* @var $helper Epicor_Comm_Helper_Data */
+$allowEdits        = $commonHelper->customerAddressCheck('guest');
+$checkShippingEdit = $commonHelper->createShippingAddress();
+$checkBillingEdit  = $commonHelper->createBillingAddress();
+$allowBillingEdit  = true;
+$allowShippingEdit = true;
+$allowAdditional   = $commonHelper->createUserAddress();
+if((!$checkBillingEdit && ($this->getAddress()->getIsInvoice() || $this->getAddress()->getIsRegistered()))) {
+  $allowEdits  =false;
+  $allowAdditional = false;
+}
+if((!$checkShippingEdit && $this->getAddress()->getIsDelivery())) {
+  $allowEdits  =false;
+  $allowAdditional = false;
+}
 $telephoneRequired = Mage::getStoreConfig('checkout/options/telephone_required');
 $displayMobilePhone = Mage::getStoreConfigFlag('customer/address/display_mobile_phone');
 $mobileRequired = $displayMobilePhone && Mage::getStoreConfigFlag('checkout/options/mobile_number_required');
 $displayInstructions = Mage::getStoreConfigFlag('customer/address/display_instructions');
 $displayEmail = Mage::getStoreConfigFlag('customer/address/display_email');
+$defaultOverride   = $commonHelper->allowShippingOverride();
 ?>
 <?php if ($this->getTitle()): ?>
     <div class="page-title">
@@ -180,7 +195,7 @@ $displayEmail = Mage::getStoreConfigFlag('customer/address/display_email');
                             <strong><?php echo $this->__('Default Billing Address') ?></strong>
                         <?php elseif($this->canSetAsDefaultBilling()): ?>
                             <input type="checkbox" id="primary_billing" name="default_billing" value="1" title="<?php echo $this->__('Use as My Default Billing Address') ?>" class="checkbox" /><label for="primary_billing"><?php echo $this->__('Use as my default billing address') ?></label>
-                        <?php else: ?>
+                        <?php elseif($this->isDefaultBilling()): ?>
                             <input type="hidden" name="default_billing" value="1" />
                         <?php endif; ?>
                     </li>
@@ -189,7 +204,7 @@ $displayEmail = Mage::getStoreConfigFlag('customer/address/display_email');
                             <strong><?php echo $this->__('Default Shipping Address') ?></strong>
                         <?php elseif($this->canSetAsDefaultShipping()): ?>
                             <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" title="<?php echo $this->__('Use as My Default Shipping Address') ?>" class="checkbox" /><label for="primary_shipping"><?php echo $this->__('Use as my default shipping address') ?></label>
-                        <?php else: ?>
+                        <?php elseif($this->isDefaultShipping()): ?>
                             <input type="hidden" name="default_shipping" value="1" />
                         <?php endif; ?>
                     </li>
@@ -224,7 +239,39 @@ $displayEmail = Mage::getStoreConfigFlag('customer/address/display_email');
         });
     </script>
 <?php endif; ?>
-    
+<?php elseif(!$allowEdits  && ($defaultOverride || $this->getAddress()->getErpAddressCode() == null) && $this->canMarkDefaultShippingBillingAddress()): ?>
+    <form action="<?php echo $this->getSaveDefaultAddressUrl() ?>" method="post" id="form-validate">
+        <div class="fieldset">
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <?php echo $this->getAddress()->format('html'); ?>
+            <?php if($this->canMarkDefaultShippingBillingAddress()): ?>
+                <ul class="form-list">
+                    <li<?php if($this->canSetAsDefaultBilling()) echo ' class="control"' ?>>
+                        <?php if($this->isDefaultBilling()): ?>
+                            <strong><?php echo $this->__('Default Billing Address') ?></strong>
+                        <?php elseif($this->canSetAsDefaultBilling()): ?>
+                            <input type="checkbox" id="primary_billing" name="default_billing" value="1" title="<?php echo $this->__('Use as My Default Billing Address') ?>" class="checkbox" /><label for="primary_billing"><?php echo $this->__('Use as my default billing address') ?></label>
+                        <?php elseif($this->isDefaultBilling()): ?>
+                            <input type="hidden" name="default_billing" value="1" />
+                        <?php endif; ?>
+                    </li>
+                    <li<?php if($this->canSetAsDefaultShipping()) echo ' class="control"' ?>>
+                        <?php if($this->isDefaultShipping()): ?>
+                            <strong><?php echo $this->__('Default Shipping Address') ?></strong>
+                        <?php elseif($this->canSetAsDefaultShipping()): ?>
+                            <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" title="<?php echo $this->__('Use as My Default Shipping Address') ?>" class="checkbox" /><label for="primary_shipping"><?php echo $this->__('Use as my default shipping address') ?></label>
+                        <?php elseif($this->isDefaultShipping()): ?>
+                            <input type="hidden" name="default_shipping" value="1" />
+                        <?php endif; ?>
+                    </li>
+                </ul>
+            <?php endif; ?>
+        </div>
+        <div class="buttons-set">
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo $this->__('Save Address') ?>" class="button"><span><span><?php echo $this->__('Save Address') ?></span></span></button> 
+        </div>
+    </form>
 <?php else: ?>
     <p><?php echo $this->__('Address editing has been disabled by the system administrators.') ?></p>
     <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>

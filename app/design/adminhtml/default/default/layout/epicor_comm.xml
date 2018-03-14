@@ -300,6 +300,85 @@
             <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_locations" name="erp_locations_grid"></block>
         </block>
     </adminhtml_epicorcomm_customer_erpaccount_locationsgrid>
+    <adminhtml_epicorcomm_customer_erpaccount_payments>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_payments_form" name="erp_payments_form"></block>
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_payments" name="erp_payments_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_payments_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[payments]</hidden_input_name>
+                        <reload_param_name>payments</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_payments>
+    <adminhtml_epicorcomm_customer_erpaccount_paymentsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_payments" name="erp_payments_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_paymentsgrid>
+    <adminhtml_epicorcomm_customer_erpaccount_delivery>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_delivery_form" name="erp_delivery_form"></block>
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_delivery" name="erp_delivery_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_delivery_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[delivery]</hidden_input_name>
+                        <reload_param_name>delivery</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_delivery>
+    <adminhtml_epicorcomm_customer_erpaccount_deliverygrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_delivery" name="erp_delivery_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_deliverygrid>
+
+	<!--Ship status-->
+    <adminhtml_epicorcomm_customer_erpaccount_shipstatus>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_shipstatus_form" name="erp_shipstatus_form"></block>
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_shipstatus" name="erp_shipstatus_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>erp_shipstatus_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[shipstatus]</hidden_input_name>
+                        <reload_param_name>shipstatus</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_shipstatus>
+    <adminhtml_epicorcomm_customer_erpaccount_shipstatusgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_customer_erpaccount_edit_tab_shipstatus" name="erp_shipstatus_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_customer_erpaccount_shipstatusgrid>
+	<!--Ship status-->
+	
+	
+	
+	
     <adminhtml_epicorcomm_message_log_index>
         <reference name="content">
             <block type="epicor_comm/adminhtml_message_log" name="log" />
@@ -459,6 +538,21 @@
             <block type="epicor_comm/adminhtml_mapping_remotelinks_edit" name="remotelinksmapping_edit" />
         </reference>
     </adminhtml_epicorcomm_mapping_remotelinks_edit> 
+    <adminhtml_epicorcomm_mapping_erpattributes_index>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_erpattributes" name="erpattributes" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_erpattributes_index>
+    <adminhtml_epicorcomm_mapping_erpattributes_edit>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_erpattributes_edit" name="erpattributes_edit" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_erpattributes_edit>   
+    <adminhtml_epicorcomm_mapping_erpattributes_addbycsv>
+        <reference name="content">
+            <block type="epicor_comm/adminhtml_mapping_erpattributes_csvupload" name="csvupload" />
+        </reference>
+    </adminhtml_epicorcomm_mapping_erpattributes_addbycsv>
     <default>
         <reference name="erp_customer_group">
             <action method="setTemplate">
@@ -569,6 +663,21 @@
         <reference name="left">
             <block type="epicor_comm/adminhtml_locations_edit_tabs" name="locations_tabs"></block>
         </reference>  
+        <reference name="locations_tabs">
+            <block type="epicor_common/adminhtml_widget_tab_wrapper" name="form_details_wrapper">
+                <action method="setLabel">
+                        <label>Details</label>
+                </action>
+                <action method="setTitle">
+                        <title>Details</title>
+                </action>
+                <block type="epicor_comm/adminhtml_locations_edit_tab_details" name="form_details"></block>
+            </block>
+            <action method="addTab">
+                <name>form_details</name>
+                <block>form_details_wrapper</block>
+            </action>
+        </reference>
     </adminhtml_epicorcomm_locations_edit>
     
     <adminhtml_epicorcomm_locations_stores>
@@ -666,6 +775,61 @@
         </block>
     </adminhtml_epicorcomm_locations_productsgrid>
     
+    <adminhtml_epicorcomm_locations_relatedlocations>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_relatedlocations" name="relatedlocations_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>relatedlocations_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[relatedlocations]</hidden_input_name>
+                        <reload_param_name>relatedlocations</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_relatedlocations>
+    <adminhtml_epicorcomm_locations_relatedlocationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_relatedlocations" name="relatedlocations_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_relatedlocationsgrid>
+    
+    <adminhtml_epicorcomm_locations_grouplocationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_groupings_grouplocations_grid" name="grouplocations_grid"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_grouplocationsgrid>
+    
+    <adminhtml_epicorcomm_locations_groupings>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_groupings" name="groupings"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>groupings</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[groups]</hidden_input_name>
+                        <reload_param_name>groups</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locations_groupings>
+    
+    <adminhtml_epicorcomm_locations_groupingsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_edit_tab_groupings" name="groupings"></block>
+        </block>
+    </adminhtml_epicorcomm_locations_groupingsgrid>
+    
     <adminhtml_epicorcomm_locations_loggrid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="epicor_comm/adminhtml_locations_edit_tab_log" name="log_grid"></block>
@@ -731,4 +895,35 @@
             <block name="ftp_sync" type="epicor_comm/adminhtml_catalog_category_edit_sync" template="epicor_comm/catalog/product/edit/sync.phtml"></block>
         </reference>
     </adminhtml_catalog_category_edit>
+    
+    <adminhtml_epicorcomm_locationgroups_locations>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_groups_edit_tab_locations" name="grouplocations_grid"></block>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>grouplocations_grid</grid_block_name>
+                        <data_callback>getSelected</data_callback>
+                        <hidden_input_name>links[locations]</hidden_input_name>
+                        <reload_param_name>locations</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>row_id</input_name>
+                    </action> 
+                </reference>
+            </block>
+        </block>
+    </adminhtml_epicorcomm_locationgroups_locations>
+    
+    <adminhtml_epicorcomm_locationgroups_locationsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_locations_groups_edit_tab_locations" name="grouplocations_grid"/>
+        </block>
+    </adminhtml_epicorcomm_locationgroups_locationsgrid>
+
+    <adminhtml_epicorcomm_mapping_shippingmethods_trackingurltest>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_mapping_shippingmethods" name="epicorcomm" template="epicor_comm/trackurl/trackform.phtml" />
+        </block>        
+    </adminhtml_epicorcomm_mapping_shippingmethods_trackingurltest>
 </layout>

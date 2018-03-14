@@ -5,7 +5,8 @@
  * and open the template in the editor.
  */
 
-class Epicor_Comm_Block_Adminhtml_Catalog_Product_Edit_Sync extends Mage_Adminhtml_Block_Template{
+class Epicor_Comm_Block_Adminhtml_Catalog_Product_Edit_Sync extends Mage_Adminhtml_Block_Template
+{
     public function getAjaxUrl()
     {
         $product = Mage::registry('current_product');
@@ -20,6 +21,18 @@ class Epicor_Comm_Block_Adminhtml_Catalog_Product_Edit_Sync extends Mage_Adminht
             'tab'        => 'product_info_tabs_group_10',
             'active_tab' => null
         ));
+    }
+    
+    /**
+     * Get Ajax Url to Sync Related Document
+     * 
+     * @return string
+     */
+    public function getAjaxSyncRelatedDocUrl()
+    {
+        $productID = Mage::app()->getRequest()->getParam('id');
+        $params = array('product'=>$productID);
+        return $this->getUrl('adminhtml/epicorcomm_message_ajax/syncRelatedDocs',$params);
     }
 }
 

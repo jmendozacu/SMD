@@ -26,8 +26,19 @@
 ?>
 <?php /** @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available */ ?>
 <?php $_shippingRateGroups = $this->getShippingRates(); ?>
-<?php if (!$_shippingRateGroups): ?>
+<?php if (count($_shippingRateGroups) == 1 && count($_shippingRateGroups['epicor_branchpickup']) == 1): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+    <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
+        <?php $_sole = $_sole && count($_rates) == 1;
+        foreach ($_rates as $_rate): ?>
+            <?php if ($_rate->getCarrier() == "epicor_branchpickup"): ?>
+                <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" class="radio"/></span>
+                <?php
+                echo "<span class='no-display'>" . $this->getLayout()->createBlock('epicor_branchpickup/branchpickup')->setTemplate('epicor/branchpickup/onepage/shipping_method/location_selector.phtml')->toHtml() . "</span>";
+                ?>     
+            <?php endif ?>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
 <?php else: ?>
     <dl class="sp-methods">
     <?php $shippingCodePrice = array(); ?>
@@ -41,8 +52,9 @@
                    <?php if ($_rate->getErrorMessage()): ?>
                     <ul class="messages"><li class="error-msg"><ul><li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li></ul></li></ul>
                    <?php else: ?>
-                        <?php if ($_sole) : ?>
-                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+                    
+                        <?php if ($_sole || (count($_shippingRateGroups) == 2 && count($_shippingRateGroups['epicor_branchpickup'] )== 1)) : ?>
+                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="" class="radio"/></span>
                         <?php else: ?>
                         <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
 

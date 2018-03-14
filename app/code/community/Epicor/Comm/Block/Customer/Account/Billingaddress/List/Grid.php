@@ -81,8 +81,7 @@ class Epicor_Comm_Block_Customer_Account_Billingaddress_List_Grid extends Epicor
                 'index' => 'street',
                 'renderer' => new Epicor_Comm_Block_Customer_Address_Renderer_Street(),
                 'type' => 'text',
-                'condition' => 'LIKE',
-                'filter'=>false
+                'condition' => 'LIKE'
             ),
             'city' => array(
                 'header' => Mage::helper('epicor_comm')->__('City'),

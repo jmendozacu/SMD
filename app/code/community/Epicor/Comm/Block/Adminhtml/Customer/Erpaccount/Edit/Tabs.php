@@ -82,6 +82,26 @@ class Epicor_Comm_Block_Adminhtml_Customer_Erpaccount_Edit_Tabs extends Mage_Adm
 //                'content' => $skuBlock->toHtml(),
                 'class' => 'ajax'
             ));
+            
+                        $this->addTab('valid_payment_method', array(
+                'label' => 'Valid Payment Methods',
+                'title' => 'Valid Payment Methods',
+                'url' => $this->getUrl('*/*/payments', array('id' => $customer->getId(), '_current' => true)),
+                'class' => 'ajax'
+            ));
+
+            $this->addTab('valid_delivery_method', array(
+                'label' => 'Valid Delivery Method',
+                'title' => 'Valid Delivery Method',
+                'url' => $this->getUrl('*/*/delivery', array('id' => $customer->getId(), '_current' => true)),
+                'class' => 'ajax'
+            ));
+            $this->addTab('valid_shipstatus_method', array(
+                'label' => 'Valid Ship Status',
+                'title' => 'Valid Ship Status',
+                'url' => $this->getUrl('*/*/shipstatus', array('id' => $customer->getId(), '_current' => true)),
+                'class' => 'ajax'
+            ));
         }
 
         $hierarchyBlock = $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_hierarchy');

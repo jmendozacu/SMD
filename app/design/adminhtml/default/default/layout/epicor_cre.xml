@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <adminhtml_orphan_index>
+        <reference name="content">
+            <block type="cre/adminhtml_orphan" name="orphan" />
+        </reference>
+    </adminhtml_orphan_index>
+    <adminhtml_orphan_view>
+        <reference name="content">
+            <block type="cre/adminhtml_orphan_view" name="orphan_view"/>
+            <block type="cre/adminhtml_orphan_view_transaction" name="orphan_view_transaction"/>
+            <block type="cre/adminhtml_orphan_view_customer" name="orphan_view_customer"/>
+            <block type="cre/adminhtml_orphan_view_token" name="orphan_view_token"/>
+            <block type="cre/adminhtml_orphan_view_quote" name="orphan_view_quote"/>
+        </reference>
+    </adminhtml_orphan_view>
+</layout>

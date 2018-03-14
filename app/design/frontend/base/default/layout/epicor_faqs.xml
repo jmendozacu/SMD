@@ -30,14 +30,7 @@
             <action method="addItem">
                 <type>skin_css</type>
                 <name>epicor/faqs/css/accordionStyle.css</name>
-            </action>
-            <!-- jQuery -->
-            <action method="addJs">
-                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
-            </action>
-            <action method="addJs">
-                <script>flexitheme/jquery/jquery.no-conflict.js</script>
-            </action>
+            </action>            
             <action method="addItem">
                 <type>skin_js</type>
                 <name>epicor/faqs/js/faqsVote.js</name>

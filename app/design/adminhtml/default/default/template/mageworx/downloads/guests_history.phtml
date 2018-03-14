@@ -1,0 +1,29 @@
+<?php
+/**
+ * MageWorx
+ * File Downloads & Product Attachments Extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_Downloads
+ * @copyright  Copyright (c) 2015 MageWorx (http://www.mageworx.com/)
+ */
+?>
+
+<?php
+$data = $this->getGuestsData();
+?>
+<ul class="notification-global guest-downloads-history-msg">
+    <li>
+        <span class="label"><?php echo $this->__('Total downloads by guests'); ?></span>:
+        <span style="float:right;"><?php echo $data->getDownloadsCount();?></span>
+    </li>
+    <li>
+        <span class="label"><?php echo $this->__('Recent download date'); ?></span>:
+        <span style="float:right;"><?php
+            echo Mage::helper('core')->formatDate(
+                $data->getDownloadDate(),
+                Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
+                true);
+        ?></span>
+    </li>
+</ul>

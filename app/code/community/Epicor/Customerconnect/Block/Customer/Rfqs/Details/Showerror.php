@@ -20,5 +20,22 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Showerror extends Mage_
     {
         return Mage::registry('rfq_error');
     }
+    public function getErrorMessage()
+    {
+        //additional message
+        $message = Mage::registry('message_error');
+        if(isset($message['text'])){ 
+            //remove line breaks
+            $message['text'] = preg_replace( "/\r|\n/", "", $message['text']);
+            return $message;
+        }else{
+            return array();
+        }
+    }
+
+    public function getDescriptionError()
+    {
+        return Mage::registry('rfq_error_description');
+    }
 
 }

@@ -3,13 +3,7 @@
     <default>
         
         <reference name="head">
-
-            <!-- JavaScript -->
-            <!--
-            <action method="addJs">
-                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
-            </action>
-            -->
+           
             <!-- CSS -->
             <action method="addItem">
                 <type>skin_css</type>
@@ -121,7 +115,7 @@
                     <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
                         <label>Payment Methods After Checkout Button</label>
                         <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
-                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="epicor_comm/checkout/multishipping/link.phtml"/>
                     </block>
 
                     <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="epicor_comm/checkout/cart/totals.phtml"/>
@@ -246,7 +240,7 @@
                     <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
                         <label>Payment Methods After Checkout Button</label>
                         <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
-                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                        <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="epicor_comm/checkout/multishipping/link.phtml"/>
                     </block>
 
                     <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="epicor_comm/checkout/cart/totals.phtml"/>

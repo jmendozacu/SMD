@@ -21,6 +21,11 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tab_Details extends Epicor_Comm
             $formData = $location->getData();
         }
 
+        if ($location->isObjectNew()) {
+            $formData['location_visible'] = $formData['include_inventory'] = $formData['show_inventory'] = 1;
+			$formData['country'] = Mage::helper('core')->getDefaultCountry(); 
+        }
+
         $fieldset = $form->addFieldset('details', array('legend' => Mage::helper('epicor_common')->__('Details')));
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
 
@@ -63,14 +68,15 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tab_Details extends Epicor_Comm
         $county_id->setForm($form);
         $county_id->setId('county_id');
 
-        $fieldset->addField('county_code', 'text', array(
+        $fieldset->addField('county', 'text', array(
             'label' => Mage::helper('epicor_comm')->__('State/Province'),
             'name' => 'county_code',
+            'required' => true,
             'after_element_html' => $county_id->getElementHtml()
         ));
 
         $elementJs = '<script type="text/javascript">'
-                . 'new RegionUpdater("country", "county_code", "county_id", '
+                . 'new RegionUpdater("country", "county", "county_id", '
                 . $this->helper('directory')->getRegionJson()
                 . ', undefined, "registered_postcode");'
                 . '</script>';
@@ -78,6 +84,7 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tab_Details extends Epicor_Comm
         $fieldset->addField('country', 'select', array(
             'label' => Mage::helper('epicor_comm')->__('Country'),
             'name' => 'country',
+            'required' => true,
             'values' => Mage::getModel('adminhtml/system_config_source_country')->toOptionArray(),
             'class' => 'countries',
             'after_element_html' => $elementJs
@@ -109,6 +116,33 @@ class Epicor_Comm_Block_Adminhtml_Locations_Edit_Tab_Details extends Epicor_Comm
         $fieldset->addField('sort_order', 'text', array(
             'label' => Mage::helper('epicor_common')->__('Sort Order'),
             'name' => 'sort_order'
+        ));
+        $fieldset->addField('locationVisible', 'checkbox', array(
+            'name'      => 'locationVisible',
+            'label'     => Mage::helper('epicor_common')->__('Location Visible'),
+            'onclick'   => "if(this.checked){ $('location_visible').value = 1; } else { $('location_visible').value = 0; }",
+            'checked'   => $location->isObjectNew() ? true : $location->getLocationVisible()
+        ));
+        $fieldset->addField('location_visible', 'hidden', array(
+            'name'      => 'location_visible'
+        ));
+        $fieldset->addField('includeInventory', 'checkbox', array(
+            'name'      => 'includeInventory',
+            'label'     => Mage::helper('epicor_common')->__('Include Inventory'),
+            'onclick'   => "if(this.checked){ $('include_inventory').value = 1; } else { $('include_inventory').value = 0; }",
+            'checked'   => $location->isObjectNew() ? true : $location->getIncludeInventory()
+        ));
+        $fieldset->addField('include_inventory', 'hidden', array(
+            'name'      => 'include_inventory'
+        ));
+        $fieldset->addField('showInventory', 'checkbox', array(
+            'name'      => 'showInventory',
+            'label'     => Mage::helper('epicor_common')->__('Show Inventory'),
+            'onclick'   => "if(this.checked){ $('show_inventory').value = 1; } else { $('show_inventory').value = 0; }",
+            'checked'   => $location->isObjectNew() ? true : $location->getShowInventory()
+        ));
+        $fieldset->addField('show_inventory', 'hidden', array(
+            'name'      => 'show_inventory'
         ));
 
         $form->setValues($formData);

@@ -431,9 +431,9 @@ public function uploadXSDValidation($msgType)
     }
 
     public function sfAction() {
-       
-        $x = Mage::helper('epicor_comm/returns')->isReturnsEnabled();
-        return;
+    //    $x = Mage::helper('epicor_comm')->urlEncode('0bd7e53d9d6673c3af2a469098f3db0f');
+        $x =  Mage::getVersionInfo();
+        var_dump($x);
     }
     
     /**

@@ -68,6 +68,9 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Sales_OrderController extends Epicor_Comm
             case 1:
                 $gor_message = 'Manually set to : Order Sent';
                 break;
+            case 2:
+                $gor_message = 'Manually set to : Never Send';
+                break;
             case 3:
                 $gor_message = 'Manually set to : Erp Error';
                 break;

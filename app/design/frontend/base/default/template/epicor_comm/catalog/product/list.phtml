@@ -42,8 +42,8 @@ $helper = $this->helper('epicor_comm');
 // limit customer access to configurator button to correct licence
 
 $erpAccount = $helper->getErpAccountInfo();
-    /* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
-if($erpAccount) {
+/* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
+if ($erpAccount) {
     if ($erpAccount->getAccountType() == Epicor_Comm_Model_Customer_Erpaccount::CUSTOMER_TYPE_B2B) {
         $licenseTypes = array('Customer_Configurator');
     } else {
@@ -63,10 +63,11 @@ $showLocations = $locHelper->isLocationsEnabled();
 
 $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
 
-$location = '';        
+$location = '';
 $this->setLicensed(Mage::helper('epicor_common/Data')->isLicensedFor($licenseTypes));
 
 Mage::register('list_mode', $this->getMode());
+$branchpickupHelper = Mage::helper('epicor_branchpickup');
 ?>
 <?php if (!$_productCollection->count()): ?>
     <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
@@ -77,27 +78,31 @@ Mage::register('list_mode', $this->getMode());
         <?php if ($this->getMode() != 'grid'): ?>
             <?php $_iterator = 0; ?>
             <ol class="products-list" id="products-list">
-            <?php foreach ($_productCollection as $_product): 
-     /* @var $product Epicor_Comm_Model_Product */            
-                $customerLocations = $_product->getCustomerLocations();
-                $singleLocation = count($customerLocations) == 1;
-                if ($singleLocation) {
-                    $location = array_pop($customerLocations);
-                    $_product->setToLocationPrices($location);
-                }
-                
-                if (Mage::registry('current_product')) :
-                    Mage::unregister('current_product');
-                endif;
-                Mage::register('current_product', $_product); 
-                ?>
+                <?php
+                foreach ($_productCollection as $_product):
+                    /* @var $product Epicor_Comm_Model_Product */
+                    $customerLocations = $_product->getCustomerLocations(true);
+                    $singleLocation = count($customerLocations) == 1;
+                    if ($singleLocation) {
+                        $location = array_pop($customerLocations);
+                        $_product->setToLocationPrices($location);
+                    }
+
+                    if (Mage::registry('current_product')) :
+                        Mage::unregister('current_product');
+                    endif;
+            if ($_product->getConfigurator()) {
+                $_product->forceMainProductToBeSaleable(true);
+            }
+            Mage::register('current_product', $_product);
+                    ?>
                     <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
-                    <?php // Product Image ?>
+                        <?php // Product Image  ?>
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
-                        <?php // Product description ?>
+            <?php // Product description  ?>
                         <div class="product-shop">
                             <div class="f-fix">
-            <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                                <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
                                 <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a></h2>
                                 <?php if ($_product->getRatingSummary()): ?>
                                     <?php echo $this->getReviewsSummaryHtml($_product) ?>
@@ -106,14 +111,16 @@ Mage::register('list_mode', $this->getMode());
                                 <?php if ($_product->getPrice() == 0 && $_product->getConfigurator()): ?>
                                     <div class="price-box"><span class="price"><?php echo $this->__('Price on configuration'); ?></span></div>
                                 <?php else: ?>
-                                     <?php if ($_product->isSaleable()) : ?>   
+                                    <?php if ($_product->isSaleable()) : ?>
                                         <?php echo $this->getPriceHtml($_product, true) ?>
-                                     <?php endif; ?>     
+                                    <?php endif; ?>
                                 <?php endif; ?>
 
-                                <?php if ($_product->isSaleable()) : ?>   
-                                    <?php
-                                    switch ($_product->getStockType()):
+                                <?php if ($_product->isSaleable()) : ?>
+                                                <?php
+                                                $commHelper = Mage::helper('epicor_comm');
+                                                $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+                switch ($_product->getStockType()):
                                         case 'bool':
                                             ?>
                                             <?php if ($_product->isAvailable()): ?>
@@ -121,13 +128,20 @@ Mage::register('list_mode', $this->getMode());
                                             <?php else: ?>
                                                 <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
                                             <?php endif; ?>
-                                            <?php break; ?> 
+                                            <?php break; ?>
                                         <?php case 'range': ?>
                                             <?php $_img = $_product->getStockRange(); ?>
                                             <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
                                             <?php break; ?> 
-                                        <?php case 'level': ?>                                                                                                                                
-                                                <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel(true) ?></span></p>                                           
+                                        <?php case 'level': ?>                                                                                                                
+                                            <?php if($branchpickupHelper->getSelectedBranch()): ?>
+                                                <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_product); ?>
+                                            <?php else: ?>
+                                                <?php $aggregateStock = $_product->getStockLevel(true); ?>
+                                            <?php endif; ?>
+                                            <?php if($branchpickupHelper->canShowInventory($_product)): ?>
+                                                <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?></span></p>
+                                            <?php endif; ?>
                                             <?php break; ?>         
                                     <?php endswitch; ?>  
                                <?php endif; ?>       
@@ -136,11 +150,11 @@ Mage::register('list_mode', $this->getMode());
                                     <?php if ($_product->isSaleable()): ?>
                                         <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
                                             <?php echo $this->getChildHtml('locations', false) ?>
-                                        <?php elseif ($_product->getConfigurator()): ?>  
+                                        <?php elseif ($_product->getConfigurator()): ?>
                                             <?php if ($this->getLicensed()): ?>
                                                 <?php echo $this->getChildHtml('configurableaddtocartlist', false) ?>
                                             <?php endif; ?>
-                                        <?php else: ?>
+                                            <?php else: ?>
                                             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="get">
                                                 <?php if ($_product->getTypeId() == 'bundle'): ?>
                                                     <?php $selectionCollection = $_product->getTypeInstance(true)->getSelectionsCollection($_product->getTypeInstance(true)->getOptionsIds($_product), $_product); ?>
@@ -149,33 +163,39 @@ Mage::register('list_mode', $this->getMode());
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
 
-                                                <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>        
+                                                <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
                                                     <input type="hidden" name="location_code" value="<?php echo $location->getLocationCode(); ?>" />
                                                 <?php endif; ?>
-                                                <p><button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                                                <?php if ($_product->getTypeId() == 'grouped' || $_product->getTypeId() == 'configurable'): ?>
+                                                    <?php $label = 'View Details'; ?>
+                                                <?php else: ?>
+                                                    <?php $label = 'Add to Cart'; ?>
+                        <?php endif; ?>
+                                                <p><button type="submit" title="<?php echo $this->__($label) ?>" class="button btn-cart" ><span><span><?php echo $this->__($label) ?></span></span></button></p>
                                             </form>
-                                        <?php endif; ?>     
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
                                     <?php endif; ?>
-                                <?php endif; ?>
+            <?php endif; ?>
+                                <?php echo $this->getChildHtml('related_branch', false); ?>
                                 <div class="desc std skus">
                                     <strong><?php echo $this->__($_product->getSkuHeader()); ?></strong>
                                     <ul>
-            <?php foreach ($_product->getSkus() as $sku): ?>
+                                        <?php foreach ($_product->getSkus() as $sku): ?>
                                             <li><?php echo $sku; ?></li>
-                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                     </ul>
-                                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+            <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
                                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
                                 </div>
                                 <ul class="add-to-links">
-            <?php if ($_product->isSaleable() && $this->helper('wishlist')->isAllow()) : ?>
+                                    <?php if ($_product->isSaleable() && $this->helper('wishlist')->isAllow()) : ?>
                                         <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                                     <?php endif; ?>
                                     <?php if ($_product->isSaleable() && $_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                                         <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
-                                    <?php endif; ?>
+            <?php endif; ?>
                                 </ul>
                             </div>
                         </div>
@@ -184,16 +204,16 @@ Mage::register('list_mode', $this->getMode());
             </ol>
             <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
 
-    <?php else: ?>
+        <?php else: ?>
 
-            <?php // Grid Mode      ?>
+            <?php // Grid Mode       ?>
 
             <?php $_collectionSize = $_productCollection->count() ?>
             <?php $_columnCount = $this->getColumnCount(); ?>
             <?php
             $i = 0;
             foreach ($_productCollection as $_product):
-                $customerLocations = $_product->getCustomerLocations();
+                $customerLocations = $_product->getCustomerLocations(true);
                 $singleLocation = count($customerLocations) == 1;
                 if ($singleLocation) {
                     $location = array_pop($customerLocations);
@@ -202,60 +222,74 @@ Mage::register('list_mode', $this->getMode());
                 if (Mage::registry('current_product')) :
                     Mage::unregister('current_product');
                 endif;
-                Mage::register('current_product', $_product); ?>
-                <?php if ($i++ % $_columnCount == 0): ?>
+            if ($_product->getConfigurator()) {
+                $_product->forceMainProductToBeSaleable(true);
+            }
+            Mage::register('current_product', $_product);
+                ?>
+                    <?php if ($i++ % $_columnCount == 0): ?>
                     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
-                <?php endif ?>
+            <?php endif ?>
                     <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?><?php if ($showLocations): ?> locations-enabled<?php endif; ?>">
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
                         <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
-            <?php if ($_product->getRatingSummary()): ?>
-                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-                        <?php endif; ?>
+                        <?php if ($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                            <?php endif; ?>
                         <strong><?php echo $this->__($_product->getSkuHeader()); ?></strong>
                         <ul>
-            <?php foreach ($_product->getSkus() as $sku): ?>
+                            <?php foreach ($_product->getSkus() as $sku): ?>
                                 <li><?php echo $sku; ?></li>
-                            <?php endforeach; ?>
+                        <?php endforeach; ?>
                         </ul>
                         <?php if ($_product->getPrice() == 0 && $_product->getConfigurator()): ?>
                             <div class="price-box"><span class="price"><?php echo $this->__('Price on configuration'); ?></span></div>
                         <?php else: ?>
-                            <?php if ($_product->isSaleable()) : ?> 
-                                    <?php echo $this->getPriceHtml($_product, true) ?>
-                            <?php endif; ?>  
-                        <?php endif; ?>
-                        <div class="actions<?php if ($showLocations): ?> locations-enabled<?php endif; ?>"> 
+                            <?php if ($_product->isSaleable()) : ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <div class="actions<?php if ($showLocations): ?> locations-enabled<?php endif; ?>">
                             <?php echo $this->getChildHtml('epicor_extra', false); ?>
-                        <?php if ($_product->isSaleable() && !$_product->canConfigure()) : ?>                            
-                            <?php
-                            switch ($_product->getStockType()):
-                                case 'bool':
-                                    ?>
+                            <?php if ($_product->isSaleable() && !$_product->canConfigure()) : ?>
+                                            <?php
+                                            $commHelper = Mage::helper('epicor_comm');
+                                            $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+
+                switch ($_product->getStockType()):
+                                    case 'bool':
+                                        ?>
                                         <?php if ($_product->isAvailable()): ?>
                                             <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
                                         <?php else: ?>
                                             <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
                                         <?php endif; ?>
-                                        <?php break; ?> 
+                                        <?php break; ?>
                                     <?php case 'range': ?>
                                         <?php $_img = $_product->getStockRange(); ?>
                                         <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
                                         <?php break; ?> 
                                     <?php case 'level': ?>                                        
-                                        <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel(true) ?></span></p>
+                                        <?php if($branchpickupHelper->getSelectedBranch()): ?>
+                                            <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_product); ?>
+                                        <?php else: ?>
+                                            <?php $aggregateStock = $_product->getStockLevel(true); ?>
+                                        <?php endif; ?>
+                                        <?php if($branchpickupHelper->canShowInventory($_product)): ?>
+                                            <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?></span></p>
+                                        <?php endif; ?>
                                         <?php break; ?>         
                                 <?php endswitch; ?> 
                          <?php endif; ?>                                
                             <?php if ($showAddToCart) : ?>
-                                <?php if ($_product->isSaleable() || $_product->canConfigure()): ?>                                           
+                                <?php if ($_product->isSaleable() || $_product->canConfigure()): ?>
                                     <?php if ($showLocations && !$singleLocation && !$allSourceLocations): ?>
                                         <?php echo $this->getChildHtml('locations', false) ?>
-                                    <?php elseif ($_product->getConfigurator()): ?>  
+                                    <?php elseif ($_product->getConfigurator()): ?>
                                         <?php if ($this->getLicensed()): ?>
                                             <?php echo $this->getChildHtml('configurableaddtocartlist', false) ?>
-                                        <?php endif; ?> 
-                                    <?php else: ?>
+                                            <?php endif; ?>
+                                        <?php else: ?>
                                         <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="get">
                                             <?php if ($_product->getTypeId() == 'bundle'): ?>
                                                 <?php $selectionCollection = $_product->getTypeInstance(true)->getSelectionsCollection($_product->getTypeInstance(true)->getOptionsIds($_product), $_product); ?>
@@ -267,30 +301,36 @@ Mage::register('list_mode', $this->getMode());
                                             <?php if ($showLocations && $singleLocation): ?>
                                                 <input type="hidden" name="location_code" value="<?php echo $location->getLocationCode(); ?>" />
                                             <?php endif; ?>
-                                            <p><button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                                            <?php if ($_product->getTypeId() == 'grouped' || $_product->getTypeId() == 'configurable'): ?>
+                                                <?php $label = 'View Details'; ?>
+                                            <?php else: ?>
+                            <?php $label = 'Add to Cart'; ?>
+                                        <?php endif; ?>
+                                            <p><button type="submit" title="<?php echo $this->__($label) ?>" class="button btn-cart" ><span><span><?php echo $this->__($label) ?></span></span></button></p>
                                         </form>
-                                    <?php endif; ?>  
+                                    <?php endif; ?>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
+                            <?php echo $this->getChildHtml('related_branch', false); ?>
                             <ul class="add-to-links">
                                 <?php if (($_product->isSaleable() || $_product->canConfigure()) && $this->helper('wishlist')->isAllow()) : ?>
                                     <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                                 <?php endif; ?>
                                 <?php if (($_product->isSaleable() || $_product->canConfigure()) && $_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
-                                <?php endif; ?>
+                        <?php endif; ?>
                             </ul>
                         </div>
-                        <?php if (!$_product->isSaleable() && !$_product->canConfigure()): ?>   
+                        <?php if (!$_product->isSaleable() && !$_product->canConfigure()): ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
-                        <?php endif; ?>
+                    <?php endif; ?>
                     </li>
-            <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
+                <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
                     </ul>
-                    <?php endif ?>
+                <?php endif ?>
             <?php endforeach ?>
             <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
-        <?php endif; ?>
+            <?php endif; ?>
 
         <div class="toolbar-bottom">
     <?php echo $this->getToolbarHtml() ?>

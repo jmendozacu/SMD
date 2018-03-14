@@ -1,0 +1,152 @@
+"%s file(s) successfully imported. %s files skipped: no such category ID(s): %s","%s file(s) successfully imported. %s files skipped: no such category ID(s): %s"
+"'How to download' message","'How to download' message"
+Action,Action
+Actions,Actions
+"Add Category","Add Category"
+"Add Tab (if supported by theme)","Add Tab (if supported by theme)"
+"Add file in &quot;New Order&quot; email.","Add file in &quot;New Order&quot; email."
+"Add files in 'New Order' emails","Add files in 'New Order' emails"
+"Add new file(s)","Add new file(s)"
+"After Product Description","After Product Description"
+"All Store Views","All Store Views"
+"All files inside will be moved to Default Category. Are you sure you want to proceed?","All files inside will be moved to Default Category. Are you sure you want to proceed?"
+Alphabetical,Alphabetical
+"Are you sure you want to do this?","Are you sure you want to do this?"
+"Assign products","Assign products"
+Attachments,Attachments
+"Attrib. Set Name","Attrib. Set Name"
+Auto,Auto
+B,B
+"Before Product Description","Before Product Description"
+CSV,CSV
+Category,Category
+"Category '%s' already exist","Category '%s' already exist"
+"Change category","Change category"
+"Change status","Change status"
+"Choose Store View","Choose Store View"
+"Collapse All","Collapse All"
+Configuration,Configuration
+"Crop File Name in Downloadable Links","Crop File Name in Downloadable Links"
+"Customer Groups","Customer Groups"
+"Customer groups","Customer groups"
+Customers,Customers
+Delete,Delete
+Description,Description
+Disabled,Disabled
+"Display File Size","Display File Size"
+"Display Number of Downloads","Display Number of Downloads"
+Done,Done
+Download,Download
+"Download Date","Download Date"
+Downloads,Downloads
+"Downloads Limit","Downloads Limit"
+Edit,Edit
+"Edit File '%s'","Edit File '%s'"
+Email,Email
+"Embedded Video Code","Embedded Video Code"
+Enabled,Enabled
+"Enable files on category pages","Enable files on category pages"
+"Expand All","Expand All"
+File,File
+"File Downloads","File Downloads"
+"File Downloads & Product Attachments","File Downloads & Product Attachments"
+"File Downloads Relations","File Downloads Relations"
+"File Downloads Title","File Downloads Title"
+"File Extensions","File Extensions"
+"File Id","File Id"
+"File Name","File Name"
+"File Size Precision","File Size Precision"
+"File does not exist","File does not exist"
+"File do not exist","File do not exist"
+Files,Files
+"Files were successfully saved","Files were successfully saved"
+"File was successfully deleted","File was successfully deleted"
+"File was successfully saved","File was successfully saved"
+"First Download Date","First Download Date"
+"General Information","General Information"
+"Get Link","Get Link"
+"Group Files By Category","Group Files By Category"
+"Hide files","Hide files"
+ID,ID
+Import,Import
+"Import Files Relations","Import Files Relations"
+"Import Settings","Import Settings"
+"Import uploaded files","Import uploaded files"
+KB,KB
+Kilobytes,Kilobytes
+Login,Login
+MB,MB
+"MageWorx &gt; File Downloads & Product Attachments","MageWorx &gt; File Downloads & Product Attachments"
+"Main Settings","Main Settings"
+"Manage Categories","Manage Categories"
+"Manage Customers","Manage Customers"
+"Manage File Downloads Relations","Manage File Downloads Relations"
+"Manage Files","Manage Files"
+Megabytes,Megabytes
+"Multi Upload","Multi Upload"
+Name,Name
+"Name size","Name size"
+"New Category","New Category"
+"New File","New File"
+No,No
+"No files to import","No files to import"
+"Number of Downloads","Number of Downloads"
+"Number of Files for One-Time Processing during Import","Number of Files for One-Time Processing during Import"
+"Please confirm site switching. All data that hasn\'t been saved will be lost","Please confirm site switching. All data that hasn\'t been saved will be lost"
+"Please select Category(ies)","Please select Category(ies)"
+"Please select File(s)","Please select File(s)"
+"Please set resource file and link type","Please set resource file and link type"
+Price,Price
+"Product Block Position","Product Block Position"
+"Product Downloads","Product Downloads"
+"Product Downloads Title","Product Downloads Title"
+"Product Id","Product Id"
+"Product Name","Product Name"
+Products,Products
+"Removes the file name in the link to the downloadable file. Should be enabled if Nginx (web server) is configured to open the files directly.","Removes the file name in the link to the downloadable file. Should be enabled if Nginx (web server) is configured to open the files directly."
+Qty,Qty
+"Quick upload","Quick upload"
+"Recent Download Date","Recent Download Date"
+Register,Register
+"Requested file not available now","Requested file not available now"
+"Reset downloads","Reset downloads"
+SKU,SKU
+Save,Save
+"Save And Continue Edit","Save And Continue Edit"
+"Select All","Select All"
+"Select File to Import","Select File to Import"
+"Select Visible","Select Visible"
+"Short Description","Short Description"
+Size,Size
+"Sorry, there was an error getting the file","Sorry, there was an error getting the file"
+"Sort Order","Sort Order"
+"Start Import","Start Import"
+"Starting import files...","Starting import files..."
+Status,Status
+"Store View","Store View"
+Stores,Stores
+"The file can not be uploaded","The file can not be uploaded"
+"The list of file extensions. If empty - the feature will be applied for all extensions.","The list of file extensions. If empty - the feature will be applied for all extensions."
+"Total %1$s, processed %2$s file(s) (%3$s%%)...","Total %1$s, processed %2$s file(s) (%3$s%%)..."
+"Total %1$s, processed %2$s file(s) (%3$s%%). Starting files relations import.","Total %1$s, processed %2$s file(s) (%3$s%%). Starting files relations import."
+"Total of %d record(s) were successfully deleted","Total of %d record(s) were successfully deleted"
+"Total of %d record(s) were successfully updated","Total of %d record(s) were successfully updated"
+"Total size of uploadable files must not exceed %s","Total size of uploadable files must not exceed %s"
+Type,Type
+URL,URL
+"Unable to find File to save","Unable to find File to save"
+"Unable to save file","Unable to save file"
+"Unselect All","Unselect All"
+"Unselect Visible","Unselect Visible"
+"Update customer groups","Update customer groups"
+"Upload Date","Upload Date"
+"Upload File","Upload File"
+"Use Config","Use Config"
+Visibility,Visibility
+"When uploading video URL embedded video code is required","When uploading video URL embedded video code is required"
+XML,XML
+Yes,Yes
+"You can use %login% and %title% vars to insert links. <br> Example: <br> You have to %login% or %register% to download this file","You can use %login% and %title% vars to insert links. <br> Example: <br> You have to %login% or %register% to download this file"
+"You have to %login% or %register% to download this file","You have to %login% or %register% to download this file"
+"items selected","items selected"
+"Total downloads by guests","Total downloads by guests"

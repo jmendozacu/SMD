@@ -22,18 +22,26 @@ class Epicor_SalesRep_Block_Crqs_List_Renderer_AccountShortcode extends Mage_Adm
 
     public function checkERPAccountRegister($accountNumber)
     {
-       
         $helper = Mage::helper('epicor_comm'); /* @var $helper Epicor_Comm_Helper_Data */
         $company = $helper->getStoreBranding()->getCompany();
         $uomSep = $helper->getUOMSeparator();
         $registerName = $accountNumber . $company . $uomSep;
+
+        /* select account number or account id based on the setting */
+        $crqsHelper = Mage::helper('epicor_comm/messaging_crqs');
+        $select = 'short_code';
+        if ($crqsHelper->mutipleAccountsEnabled()) {
+            if ($crqsHelper->showAccountNumberAccountId()) {
+                $select = $crqsHelper->showAccountNumberAccountId();
+            }
+        }
 
         if (Mage::registry($registerName) == '') { //check if short code is not in registry, get from collection and add to registry
             $shortCodeObj = Mage::getModel('epicor_comm/customer_erpaccount')
                 ->getCollection()
                 ->addFieldToFilter('account_number', array('eq' => $accountNumber))
                 ->addFieldToFilter('erp_code', array('like' => $company . $uomSep . '%'))
-                ->addFieldToSelect('short_code');
+                ->addFieldToSelect($select);
 
             $shortCode = $shortCodeObj->getFirstItem()->getShortCode();
             if ($shortCode != '') { //if shortcode available, adds shortcode to registry

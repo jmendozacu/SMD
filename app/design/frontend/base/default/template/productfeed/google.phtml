@@ -9,8 +9,10 @@
         <link><?php echo Mage::getUrl(); ?></link>
         <description><?php echo $this->getFeedDescription(); ?></description>
         <lastBuildDate><?php echo date(DATE_RSS); ?></lastBuildDate>
+<?php $defaultStore = Mage::app()->getDefaultStoreView()->getId();?>
 <?php foreach ($this->_products as $product): 
      /* @var $product Mage_Catalog_Model_Product */
+    $product = Mage::getModel('catalog/product')->setStoreId($defaultStore)->load($product->getId()); 
     $this->_product = $product;
     if ($this->validate()): ?>
         <item>
@@ -23,7 +25,7 @@
             <price_error>true</price_error>
 <?php endif; ?>
             <g:condition><?php echo $product->getCondition(); ?></g:condition>
-            <g:id><?php echo $this->getProductId(); ?></g:id>
+            <g:id><?php echo $_helper->xmlSafeString($this->getProductId()); ?></g:id>
             <g:shipping_weight><?php echo $this->getWeight(); ?> <?php echo $_helper->getWeightUnit(); ?></g:shipping_weight>
             <g:google_product_category><?php echo $this->getProductCategory(); ?></g:google_product_category>
 <?php foreach($this->getProductPath() as $path) : ?>
@@ -39,8 +41,8 @@
       if($product->getMpn()): ?>
             <g:mpn><?php echo $_helper->xmlSafeString($product->getMpn()); ?></g:mpn>
 <?php endif;
-      if($product->getEan()): ?>
-            <g:ean><?php echo $_helper->xmlSafeString($product->getEan()); ?></g:ean>
+      if($product->getGtin()): ?>
+            <g:gtin><?php echo $_helper->xmlSafeString($product->getGtin()); ?></g:gtin>
 <?php endif; ?>
         </item>
 <?php endif; 

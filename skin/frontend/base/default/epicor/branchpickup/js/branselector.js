@@ -5,19 +5,22 @@ Epicor_cartPage.cartselect = Class.create();
 Epicor_cartPage.cartselect.prototype = {
     target: null,
     wrapperId: "selectbrancPickupWrapperWindow", //selectbrancPickupWrapperWindow
-    initialize: function() {
-        if (!$('window-overlay')) $(document.body).insert(
-            '<div id="window-overlay" class="window-overlay" style="display:none;"></div>');
+    initialize: function () {
+        if (!$('window-overlay'))
+            $(document.body).insert(
+                    '<div id="window-overlay" class="window-overlay" style="display:none;"></div>');
         if ($('loading-mask')) {
             $("loading-mask").remove();
         }
-        if (!$('loading-mask')) $(document.body).insert(
-            '<div id="loading-mask" style="display:none;"><p class="loader" id="loading_mask_loader">Please wait...</p></div>'
-        );
+        if (!$('loading-mask'))
+            $(document.body).insert(
+                    '<div id="loading-mask" style="display:none;"><p class="loader" id="loading_mask_loader">Please wait...</p></div>'
+                    );
     },
-    openpopup: function(newtarget, ahref, removeId, loccode) {
+    openpopup: function (newtarget, ahref, removeId, loccode) {
         this.target = newtarget;
-        if ($(this.wrapperId)) $(this.wrapperId).remove();
+        if ($(this.wrapperId))
+            $(this.wrapperId).remove();
         // create Popup Wrapper
         var wrappingDiv = new Element('div');
         wrappingDiv.id = this.wrapperId;
@@ -25,7 +28,7 @@ Epicor_cartPage.cartselect.prototype = {
         $(document.body).insert(wrappingDiv);
         $(this.wrapperId).hide();
         var website = 0;
-        $$('select#_accountwebsite_id option').each(function(o) { // id = messages1
+        $$('select#_accountwebsite_id option').each(function (o) { // id = messages1
             if (o.selected == true) {
                 website = o.value;
             }
@@ -39,21 +42,21 @@ Epicor_cartPage.cartselect.prototype = {
                 removeval: JSON.stringify(removeId),
                 branch: loccode
             },
-            onComplete: function(request) {
+            onComplete: function (request) {
                 this.ajaxRequest = false;
             }.bind(this),
-            onSuccess: function(request) {
+            onSuccess: function (request) {
                 $('loading-mask').hide();
                 $(this.wrapperId).insert(request.responseText);
                 $(this.wrapperId).show();
                 $('window-overlay').show();
                 this.updateWrapper();
             }.bind(this),
-            onFailure: function(request) {
+            onFailure: function (request) {
                 alert('Error occured loading products grid');
                 this.closepopup();
             }.bind(this),
-            onException: function(request, e) {
+            onException: function (request, e) {
                 alert('Error occured loading products grid');
                 this.closepopup();
             }.bind(this)
@@ -62,9 +65,16 @@ Epicor_cartPage.cartselect.prototype = {
     //set the branch in session
     // If the action was happened in branch select page, then the page will reloaded
     // If the action was happened in checkout page, then no redirect
-    setbranch: function(newtarget, ahref, loccodes,shippingsave=false) {
+    setbranch: function (newtarget, ahref, loccodes, shippingsave, reload) {
+        if (shippingsave === undefined) {
+            shippingsave = false;
+        }
+        if (reload === undefined) {
+            reload = true;
+        }
         this.target = newtarget;
-        if ($(this.wrapperId)) $(this.wrapperId).remove();
+        if ($(this.wrapperId))
+            $(this.wrapperId).remove();
         // create Popup Wrapper
         var wrappingDiv = new Element('div');
         wrappingDiv.id = this.wrapperId;
@@ -72,7 +82,7 @@ Epicor_cartPage.cartselect.prototype = {
         $(document.body).insert(wrappingDiv);
         $(this.wrapperId).hide();
         var website = 0;
-        $$('select#_accountwebsite_id option').each(function(o) { // id = messages1
+        $$('select#_accountwebsite_id option').each(function (o) { // id = messages1
             if (o.selected == true) {
                 website = o.value;
             }
@@ -85,10 +95,16 @@ Epicor_cartPage.cartselect.prototype = {
                 website: website,
                 branch: loccodes
             },
-            onComplete: function(request) {
+            onComplete: function (request) {
+                if (reload == false) {
+                    updateSelectedBranchBlock();
+                }
                 this.ajaxRequest = false;
             }.bind(this),
-            onSuccess: function(request) {
+            onSuccess: function (request) {
+                if (request.responseText) {
+                    window.location = request.responseText;
+                }
                 $('loading-mask').hide();
                 var ajaxcode = $('ajaxcode');
                 var checkoutAjax = $('branchpickup_' + loccodes);
@@ -97,8 +113,8 @@ Epicor_cartPage.cartselect.prototype = {
                 //this condition is for checkout page 
                 //When the user selected a location in search popup
                 //this action will triggered
-                if (typeof(branchPickup) != "undefined" && branchPickup && typeof(checkoutAjax) !=
-                    "undefined" && checkoutAjax) {
+                if (typeof (branchPickup) != "undefined" && branchPickup && typeof (checkoutAjax) !=
+                        "undefined" && checkoutAjax) {
                     var isCheckoutAjax = true;
                     LocationSearchSelector.closepopup();
                     selectItemByValue($('branch_pickup'), loccodes);
@@ -107,47 +123,49 @@ Epicor_cartPage.cartselect.prototype = {
                     $('shipping-new-address-form').hide();
                 }
                 //this condition is for branch select page
-                if (typeof(ajaxcode) != "undefined" && ajaxcode && !(isCheckoutAjax)) {
+                // Added "shippingsave == false" condition as page was reloading on saveShipping as "ajaxcode" comes with Branch Pickup Selectory popup on Inventory View in Checkout page
+                if (typeof (ajaxcode) != "undefined" && ajaxcode && reload && !(isCheckoutAjax) && shippingsave == false) {
                     window.location.reload();
                 }
                 $(this.wrapperId).remove();
                 $('window-overlay').hide();
                 //saving the shipping information
-                if(shippingsave) {
+                if (shippingsave) {
                     var shippingselectForm = $('shipping-address-select');
                     shipping.save();
-                    if (typeof(shippingselectForm) != 'undefined' && shippingselectForm != null) {
-                      $(shipping.form).elements.namedItem("shipping_address_id").disabled = false;
-                    }                     
+                    if (typeof (shippingselectForm) != 'undefined' && shippingselectForm != null) {
+                        $(shipping.form).elements.namedItem("shipping_address_id").disabled = false;
+                    }
                 }
             }.bind(this),
-            onFailure: function(request) {
+            onFailure: function (request) {
                 alert('Error occured loading branch pickup grid');
                 this.closepopup();
             }.bind(this),
-            onException: function(request, e) {
+            onException: function (request, e) {
                 alert('Error occured loading branch pickup grid');
                 this.closepopup();
             }.bind(this)
         });
     },
-    loaderoptions: function(parentDiv, childDiv) {
+    loaderoptions: function (parentDiv, childDiv) {
         if (childDiv == parentDiv) {
             alert("The parent div cannot be removed.");
         } else if (document.getElementById(childDiv)) {
             var child = document.getElementById(childDiv);
             var parent = document.getElementById(parentDiv);
             parent.removeChild(child);
-            if (!$('loading-mask')) $(document.body).insert(
-                '<div id="loading-mask" style="display:none;"><p class="loader" id="loading_mask_loader">Please wait...</p></div>'
-            );
+            if (!$('loading-mask'))
+                $(document.body).insert(
+                        '<div id="loading-mask" style="display:none;"><p class="loader" id="loading_mask_loader">Please wait...</p></div>'
+                        );
         } else {
             return false;
         }
     },
     //Assign the values into hidden field 
     //Also changing the shipping form values when the user pressed continue in shipping information page
-    checkoptiondata: function() {
+    checkoptiondata: function () {
         var optionbranchChecked = $('branchpickupshipping').checked;
         var optionshippingChecked = $('normalshipping').checked;
         var action_value = $('branch_pickup').value;
@@ -164,8 +182,8 @@ Epicor_cartPage.cartselect.prototype = {
         } else {
             if ((optionbranchChecked) && (action_value)) {
                 var shippingselectForm = $('shipping-address-select');
-                $$('#shipping-new-address-form ul input, #shipping-new-address-form ul input').each(function(
-                    item) {
+                $$('#shipping-new-address-form ul input, #shipping-new-address-form ul input').each(function (
+                        item) {
                     item.clear();
                 });
                 $('shipping-new-address-form').hide();
@@ -205,7 +223,12 @@ Epicor_cartPage.cartselect.prototype = {
                 if (!isEmpty($('bcountry_id').value)) {
                     selectItemByValue($('shipping:country_id'), $('bcountry_id').value);
                     var elements = $('shipping:country_id');
-                    var event = new Event('change');
+                    try {
+                        var event = new Event('change');
+                    } catch (error) {
+                        event = document.createEvent("Event");
+                        event.initEvent('change', false, false);
+                    }
                     elements.dispatchEvent(event);
                     //$('shipping:country_id').value = $('bcountry_id').value;
                 }
@@ -220,7 +243,7 @@ Epicor_cartPage.cartselect.prototype = {
                 }
                 $(shipping.form).elements.namedItem("shipping[address_id]").value = '';
                 $(shipping.form).elements.namedItem("shipping[save_in_address_book]").value = '';
-                if (typeof(shippingselectForm) != 'undefined' && shippingselectForm != null) {
+                if (typeof (shippingselectForm) != 'undefined' && shippingselectForm != null) {
                     $(shipping.form).elements.namedItem("shipping_address_id").disabled = true;
                 }
                 //this.saveShippingBranch();
@@ -231,7 +254,7 @@ Epicor_cartPage.cartselect.prototype = {
                     var branchPickupSelected = $('branch_pickup').value;
                     var locationErrorUrl = $('locationerror').value;
                     LocationEditSelector.openpopup('ecc_branchpickup_locationedit', locationErrorUrl + '?q=' +
-                        branchPickupSelected);
+                            branchPickupSelected);
                     $('brancherrormsg').hide();
                     $('branch_pickup').focus();
                     return false;
@@ -242,18 +265,65 @@ Epicor_cartPage.cartselect.prototype = {
                         return false;
                     } else {
                         var branchPickupSelect = $('branch_pickup').value;
-                        cartPage.setbranch('ecc_branchpickup_cart', this.href, branchPickupSelect,true);
+                        cartPage.setbranch('ecc_branchpickup_cart', this.href, branchPickupSelect, true);
                     }
                 }
+                if (branch_pickup_msg_enabled) {
+                    if ($$('.success-msg ul li span') != undefined) {
+                        var newMessage = branch_select_translate_message + jQuery("#branch_pickup option:selected").text();
+                        var lenth_span = $$('.success-msg ul li span').length;
+                        if (lenth_span > 0) {
+                            $$('.success-msg ul li span').each(function (msg) {
+                                var currentMessage = msg.innerHTML;
+                                if ((currentMessage != newMessage) && currentMessage.includes(branch_select_translate_message)) {
+                                    msg.update(newMessage);
+                                }
+                            });
+                        } else {
+                            var branch_select_msg = '<ul class="messages"><li class="success-msg"><ul><li><span>' + newMessage + '</span></li></ul></li></ul>';
+                            jQuery('.col-main .page-title').prepend(branch_select_msg);
+                        }
+                    }
+                }
+
+                if ($('selected-branch') !== null) {
+                    $('selected-branch').show();
+                } else {
+                    updateSelectedBranchBlock();
+                }
             } else {
+                //$('branch_pickup').value = '';
+                jQuery("#s_method_epicor_branchpickup_epicor_branchpickup").removeAttr("checked");
                 shipping.save();
+                if (branch_pickup_msg_enabled) {
+                    if ($$('.success-msg ul li span') != undefined) {
+                        var lenth_span = $$('.success-msg ul li span').length;
+                        if (lenth_span > 0) {
+                            $$('.success-msg ul li').each(function (msg) {
+                                var currentMessage = msg.innerHTML;
+                                if (currentMessage.includes(branch_select_translate_message) && $('locationStyle') !== null && ($('locationStyle').value != 'inventory_view')) {
+                                    msg.remove(currentMessage);
+                                    var lenth_span_new = $$('.success-msg ul li').length;
+                                    if(lenth_span_new==0){
+                                    jQuery('.success-msg').remove();
+                                }
+                                }
+                            });
+                        }
+                    }
+                }
                 $('brancherrormsg').hide();
                 $('shippingbranchselect').hide();
+
+                if ($('selected-branch') !== null && $('locationStyle') !== null && ($('locationStyle').value != 'inventory_view')) {
+                    $('selected-branch').hide();
+                }
+
             }
         }
     },
     //If some mandatory values are not present in the Location, then show this error
-    checkMandatoryFields: function() {
+    checkMandatoryFields: function () {
         if ((isEmpty($('bcity').value)) || (isEmpty($('bstreet1').value)) || (isEmpty($('bcity').value)) || (
                 isEmpty($('bcountry_id').value)) || (isEmpty($('btelephone').value)) || (isEmpty($('bpostcode')
                 .value))) {
@@ -262,16 +332,16 @@ Epicor_cartPage.cartselect.prototype = {
             return false;
         }
     },
-    closepopup: function() {
+    closepopup: function () {
         $(this.wrapperId).remove();
         var elementBranch = $('branch_pickup');
-        if (typeof(elementBranch) != 'undefined' && elementBranch != null) {
+        if (typeof (elementBranch) != 'undefined' && elementBranch != null) {
             var defaultValue = $('selectedbranch').value;
             $('branch_pickup').value = defaultValue;
         }
         $('window-overlay').hide();
     },
-    getSelectedValues: function() {
+    getSelectedValues: function () {
         var shippingBranch = document.getElementsByName('selectshipping');
         for (var i = 0; i < shippingBranch.length; i++) {
             if (shippingBranch[i].checked) {
@@ -279,30 +349,31 @@ Epicor_cartPage.cartselect.prototype = {
             }
         }
     },
-    removeClass: function(ele, cls) {
+    removeClass: function (ele, cls) {
         if (this.hasClass(ele, cls)) {
             var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
             ele.className = ele.className.replace(reg, ' ');
         }
     },
-    hasClass: function(element, className) {
+    hasClass: function (element, className) {
         if (element) {
             return element.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(element.className);
         }
     },
-    checkselected: function() {
+    checkselected: function () {
         var checkPresent = $('s_method_epicor_branchpickup_epicor_branchpickup');
-        if (typeof(checkPresent) != "undefined" && checkPresent) {
+        if (typeof (checkPresent) != "undefined" && checkPresent) {
             var optionChecked = $('s_method_epicor_branchpickup_epicor_branchpickup').checked;
             var action_value = $('branch_pickup').value;
             if ((optionChecked) && (!action_value)) {
                 $('brancherrormsg').show();
                 $('branchvalidationrmsg').hide();
                 return false;
-            } else {}
+            } else {
+            }
         }
     },
-    saveShippingBranch: function() {
+    saveShippingBranch: function () {
         var ajax_url = $('saveshippingbranch').value;
         var action_value = $('branch_pickup').value;
         var url = decodeURIComponent(ajax_url);
@@ -311,33 +382,35 @@ Epicor_cartPage.cartselect.prototype = {
             parameters: {
                 'locationcode': action_value
             },
-            onComplete: function(request) {
+            onComplete: function (request) {
                 this.ajaxRequest = false;
             }.bind(this),
-            onSuccess: function(data) {
+            onSuccess: function (data) {
                 var json = data.responseText.evalJSON();
                 if (json.type == 'success') {
                     var classnames = $('opc-shipping_method').className;
                     $('loading-mask').hide();
                 }
             }.bind(this),
-            onFailure: function(request) {
+            onFailure: function (request) {
                 alert('Error occured in Ajax Call');
             }.bind(this),
-            onException: function(request, e) {
+            onException: function (request, e) {
                 alert(e);
             }.bind(this)
         });
     },
-    updateWrapper: function() {
+    updateWrapper: function () {
         if ($(this.wrapperId)) {
             var height = 40;
-            $$('#' + this.wrapperId + ' > *').each(function(item) {
+            $$('#' + this.wrapperId + ' > *').each(function (item) {
                 height += item.getHeight();
             });
-            if (height > ($(document.viewport).getHeight() - 60)) height = $(document.viewport).getHeight() -
-                60;
-            if (height < 55) height = 55;
+            if (height > ($(document.viewport).getHeight() - 60))
+                height = $(document.viewport).getHeight() -
+                        60;
+            if (height < 55)
+                height = 55;
             $(this.wrapperId).setStyle({
                 'height': height + 'px',
                 'marginTop': '-' + (height / 2) + 'px'
@@ -346,14 +419,14 @@ Epicor_cartPage.cartselect.prototype = {
     }
 };
 var cartPage = 'test';
-document.observe('dom:loaded', function() {
+document.observe('dom:loaded', function () {
     cartPage = new Epicor_cartPage.cartselect();
-    Event.observe(window, "resize", function() {
+    Event.observe(window, "resize", function () {
         cartPage.updateWrapper();
     });
     var checkPickupPresent = $('branch_pickup');
-    if (typeof(checkPickupPresent) != "undefined" && checkPickupPresent) {
-        $('branch_pickup').observe('change', function(e) {
+    if (typeof (checkPickupPresent) != "undefined" && checkPickupPresent) {
+        $('branch_pickup').observe('change', function (e) {
             $('brancherrormsg').hide();
             $('branchvalidationrmsg').hide();
             $('branchpickupshipping').checked = true;
@@ -362,28 +435,29 @@ document.observe('dom:loaded', function() {
         updateNameShipping();
         onloadhideDiv();
         //
-        if (typeof($('billing:use_for_shipping_no')) != "undefined" && $('billing:use_for_shipping_no')) {
-            $('billing:use_for_shipping_no').observe('click', function() {
+        if (typeof ($('billing:use_for_shipping_no')) != "undefined" && $('billing:use_for_shipping_no')) {
+            $('billing:use_for_shipping_no').observe('click', function () {
                 hideAddressForm();
             });
         }
-        if (typeof($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
-            $('billing:use_for_shipping_yes').observe('click', function(e) {
+        if (typeof ($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
+            $('billing:use_for_shipping_yes').observe('click', function (e) {
                 showAddressForm();
             });
         }
-        Billing.prototype.save = function() {
-            if (checkout.loadWaiting != false) return;
+        Billing.prototype.save = function () {
+            if (checkout.loadWaiting != false)
+                return;
             var validator = new Validation(this.form);
             if (validator.validate()) {
                 checkout.setLoadWaiting('billing');
-                if (typeof($('billing:use_for_shipping_no')) != "undefined" && $(
+                if (typeof ($('billing:use_for_shipping_no')) != "undefined" && $(
                         'billing:use_for_shipping_no')) {
                     if ($('billing:use_for_shipping_no').checked) {
                         hideAddressForm();
                     }
                 }
-                if (typeof($('billing:use_for_shipping_yes')) != "undefined" && $(
+                if (typeof ($('billing:use_for_shipping_yes')) != "undefined" && $(
                         'billing:use_for_shipping_yes')) {
                     if ($('billing:use_for_shipping_yes').checked) {
                         showAddressForm();
@@ -402,8 +476,9 @@ document.observe('dom:loaded', function() {
         /// $('billing:use_for_shipping_yes').disabled = true;
         // $('billing:use_for_shipping_no').disabled = true; 
         // Fix for Back Button in Onepage Checkout Page
-        Checkout.prototype.back = function() {
-            if (this.loadWaiting) return;
+        Checkout.prototype.back = function () {
+            if (this.loadWaiting)
+                return;
             //Navigate back to the previous available step
             var stepIndex = this.steps.indexOf(this.currentStep);
             var section = this.steps[--stepIndex];
@@ -424,7 +499,7 @@ document.observe('dom:loaded', function() {
             }
             this.changeSection('opc-' + section);
         }
-        Checkout.prototype.checkoptions = function() {
+        Checkout.prototype.checkoptions = function () {
             var shippingBranch = document.getElementsByName('selectshipping');
             for (var i = 0; i < shippingBranch.length; i++) {
                 if (shippingBranch[i].checked) {
@@ -433,9 +508,9 @@ document.observe('dom:loaded', function() {
             }
         }
         //user clicks "Normal Shipping" option in Shipping Information Page
-        $('normalshipping').observe('click', function(e) {
+        $('normalshipping').observe('click', function (e) {
             var checkPresent = $('shipping-address-select');
-            if (typeof(checkPresent) != "undefined" && checkPresent) {
+            if (typeof (checkPresent) != "undefined" && checkPresent) {
                 if ($('shipping-address-select').value != "") {
                     $('shipping-new-address-form').hide();
                 } else {
@@ -448,15 +523,15 @@ document.observe('dom:loaded', function() {
             toggleGuestForm(1);
             var sameasbilling = $('shipping:same_as_billing');
             $('billing:use_for_shipping_no').checked = true;
-            if (typeof(sameasbilling) != 'undefined' && sameasbilling != null) {
+            if (typeof (sameasbilling) != 'undefined' && sameasbilling != null) {
                 $('shipping:same_as_billing').disabled = false;
             }
         });
         //Option buttons for Shipping Information (Branch pickup)
-        $('branchpickupshipping').observe('click', function(e) {
+        $('branchpickupshipping').observe('click', function (e) {
             $('shipping-new-address-form').hide();
             var sameasbilling = $('shipping:same_as_billing');
-            if (typeof(sameasbilling) != 'undefined' && sameasbilling != null) {
+            if (typeof (sameasbilling) != 'undefined' && sameasbilling != null) {
                 $('shipping:same_as_billing').disabled = true;
             }
             $('billing:use_for_shipping_no').checked = true;
@@ -464,31 +539,31 @@ document.observe('dom:loaded', function() {
         });
     }
     var shippingAddressSelect = $('shipping-address-select');
-    if (typeof(shippingAddressSelect) != "undefined" && shippingAddressSelect) {
+    if (typeof (shippingAddressSelect) != "undefined" && shippingAddressSelect) {
         //Normal Shipping option select
-        $('shipping-address-select').observe('change', function(e) {
+        $('shipping-address-select').observe('change', function (e) {
             $('brancherrormsg').hide();
             shipping.newAddress(!this.value);
             $('normalshipping').checked = true;
             $('branchpickupshipping').checked = false;
             var selectedString = $('shipping-address-select').options[$('shipping-address-select').selectedIndex]
-                .value;
+                    .value;
         });
         //Option buttons for Shipping Information (Select a address)
-        $('shipping-address-select').observe('mousedown', function(e) {
+        $('shipping-address-select').observe('mousedown', function (e) {
             if ($('shipping-address-select').value != "") {
                 $('shipping-new-address-form').hide();
             } else {
                 $('shipping-address-select').value = '';
-                if (typeof($('shipping:same_as_billing')) != 'undefined' && $('shipping:same_as_billing') != null) {
+                if (typeof ($('shipping:same_as_billing')) != 'undefined' && $('shipping:same_as_billing') != null) {
                     $('shipping:same_as_billing').checked = false;
-                }                
+                }
                 $('shipping-new-address-form').show();
             }
             //    $('shipping-new-address-form').show();
         });
         //Option buttons for Shipping Information (Select a address)
-        $('shipping-address-select').observe('click', function(e) {
+        $('shipping-address-select').observe('click', function (e) {
             if ($('shipping-address-select').value != "") {
                 $('shipping-new-address-form').hide();
             } else {
@@ -501,11 +576,28 @@ document.observe('dom:loaded', function() {
         //$('billing:use_for_shipping_yes').disabled = true;
         //$('billing:use_for_shipping_no').disabled = true;
     }
+
+    $$('.related-locations-popup-close').each(function (element) {
+        Event.observe(element, 'click', togglerelatedLocationspopup);
+    });
+    $$('.selected-branch a').each(function (element) {
+        Event.observe(element, 'click', togglerelatedLocationspopup);
+    });
+});
+
+document.on('DOMSubtreeModified', function () {
+    $$('.related-locations-popup-close').each(function (element) {
+        Event.observe(element, 'click', togglerelatedLocationspopup);
+    });
+    $$('.selected-branch a').each(function (element) {
+        Event.observe(element, 'click', togglerelatedLocationspopup);
+    });
 });
 
 function selectItemByValue(elmnt, value) {
     for (var i = 0; i < elmnt.options.length; i++) {
-        if (elmnt.options[i].value == value) elmnt.selectedIndex = i;
+        if (elmnt.options[i].value == value)
+            elmnt.selectedIndex = i;
     }
 }
 //when the user change the location. This function will get triggered
@@ -514,22 +606,45 @@ function onchangeBranchPickup() {
     checkBranchpickupChecked();
     if (action_value) {
         $('loading-mask').show();
-        changeBranPickupLocation(action_value);
-        if (typeof($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
+        changeBranPickupLocation(action_value, false, false);
+        if (typeof ($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
             $('shipping:same_as_billing').checked = false;
             $('shipping:same_as_billing').disabled = true;
-        }    
+        }
         $('shipping-new-address-form').hide();
-        var validatename = $('form-validatename'); 
-        if (typeof(validatename) != "undefined" && validatename) {
+        var validatename = $('form-validatename');
+        if (typeof (validatename) != "undefined" && validatename) {
             toggleGuestForm(0);
-        }            
+        }
     }
 }
+
+
+//when the user change the location. This function will get triggered
+//This is for related branch pickup
+function onchangeRelatedBranchPickup(selectedLocation) {
+    var action_value = selectedLocation;
+    checkBranchpickupChecked();
+    if (action_value) {
+        $('loading-mask').show();
+        changeBranPickupLocation(action_value, false, false);
+        if (typeof ($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
+            $('shipping:same_as_billing').checked = false;
+            $('shipping:same_as_billing').disabled = true;
+        }
+        selectItemByValue($('branch_pickup'), selectedLocation);
+        $('shipping-new-address-form').hide();
+        var validatename = $('form-validatename');
+        if (typeof (validatename) != "undefined" && validatename) {
+            toggleGuestForm(0);
+        }
+    }
+}
+
 //set shipping method
 function checkBranchpickupChecked() {
     var checkPresent = $('s_method_epicor_branchpickup_epicor_branchpickup');
-    if (typeof(checkPresent) != "undefined" && checkPresent) {
+    if (typeof (checkPresent) != "undefined" && checkPresent) {
         var optionChecked = $('s_method_epicor_branchpickup_epicor_branchpickup').checked;
         var action_value = $('branch_pickup').value;
         if ((optionChecked) && (!action_value)) {
@@ -549,12 +664,14 @@ function isEmpty(value) {
     return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
 }
 //change brnach pickup location ajax call
-function changeBranPickupLocation(action_value) {
+function changeBranPickupLocation(action_value, is_sidebar = false, reload = true) {
     var ajax_url = $('ajaxpickupbranchurl').value;
     var ajaxcode = $('ajaxcode');
     var url = decodeURIComponent(ajax_url);
-    if (typeof(ajaxcode) != "undefined" && ajaxcode) {
-        var action_value = action_value.getAttribute("href");
+    if (typeof (ajaxcode) != "undefined" && ajaxcode && typeof (action_value) != "string") {
+        if (!is_sidebar) {
+            var action_value = action_value.getAttribute("href");
+        }
         $('loading-mask').show();
     }
     this.ajaxRequest = new Ajax.Request(url, {
@@ -562,27 +679,52 @@ function changeBranPickupLocation(action_value) {
         parameters: {
             'locationcode': action_value
         },
-        onComplete: function(request) {
+        onComplete: function (request) {
             this.ajaxRequest = false;
         }.bind(this),
-        onSuccess: function(data) {
+        onSuccess: function (data) {
             var json = data.responseText.evalJSON();
             var theHTML = json.html;
             var theValues = json.values;
             var loccode = json.locationcode;
+            var locname = json.locationname;
             var getDetails = json.details;
+            var showmsg = json.is_message_allowed;
+            var branch_select_message = json.show_msg;
+            var message_check = json.message_check;
+
             if ((json.type == 'success') && (Object.keys(theValues).length != 0)) {
                 cartPage.openpopup('ecc_branchpickup_cart', this.href, theValues, loccode);
                 return false;
             } else {
+                if (showmsg) {
+                    if ($$('.success-msg ul li span') != undefined) {
+                        var newMessage = branch_select_message;
+                        var lenth_span = $$('.success-msg ul li span').length;
+                        if (lenth_span > 0) {
+                            $$('.success-msg ul li span').each(function (msg) {
+                                var currentMessage = msg.innerHTML;
+                                if ((currentMessage != newMessage) && currentMessage.includes(message_check)) {
+                                    msg.update(newMessage);
+                                }
+                            });
+                        } else {
+                            var url = window.location.href;
+                            if (url.search("checkout") >= 0) {
+                                var branch_select_msg = '<ul class="messages"><li class="success-msg"><ul><li><span>' + newMessage + '</span></li></ul></li></ul>';
+                                jQuery('.col-main .page-title').prepend(branch_select_msg);
+                            }
+                        }
+                    }
+                }
                 if (getKeys(getDetails)) {
-                    cartPage.setbranch('ecc_branchpickup_cart', this.href, loccode);
+                    cartPage.setbranch('ecc_branchpickup_cart', this.href, loccode, false, reload);
                     var branchValidation = $('branchvalidationrmsg');
                     var brancherrormsg = $('brancherrormsg');
-                    if (typeof(branchValidation) != 'undefined' && branchValidation != null) {
+                    if (typeof (branchValidation) != 'undefined' && branchValidation != null) {
                         $('branchvalidationrmsg').hide();
                     }
-                    if (typeof(brancherrormsg) != 'undefined' && brancherrormsg != null) {
+                    if (typeof (brancherrormsg) != 'undefined' && brancherrormsg != null) {
                         $('brancherrormsg').hide();
                     }
                     return false;
@@ -590,10 +732,10 @@ function changeBranPickupLocation(action_value) {
             }
             $('loading-mask').hide();
         }.bind(this),
-        onFailure: function(request) {
+        onFailure: function (request) {
             alert('Error occured in Ajax Call');
         }.bind(this),
-        onException: function(request, e) {
+        onException: function (request, e) {
             alert(e);
         }.bind(this)
     });
@@ -616,16 +758,16 @@ function getKeys(objects) {
 function changeOptionValues() {
     var useShippingBranch = $('billing:use_for_shipping_no'); // #foo3
     useShippingBranch.nextElementSibling.innerHTML = "Ship to different address / Branch Pickup";
-    var checkBranchShipping = $('branch_pickup').value;
-    var optionbranchChecked = $('branchpickupshipping').checked;
+    var checkBranchShipping = ($('branch_pickup') !== null) ? $('branch_pickup').value : false;
+    var optionbranchChecked = ($('branchpickupshipping') !== null) ? $('branchpickupshipping').checked : false;
     if (checkBranchShipping) {
         var useShipping = $('billing:use_for_shipping_yes');
-        if (typeof(useShipping) != "undefined" && useShipping) {
+        if (typeof (useShipping) != "undefined" && useShipping) {
             useShipping.parentNode.removeChild(useShipping.nextSibling);
             useShipping.remove();
         }
         var sameAsBilling = $('shipping:same_as_billing');
-        if (typeof(sameAsBilling) != "undefined" && sameAsBilling) {
+        if (typeof (sameAsBilling) != "undefined" && sameAsBilling) {
             sameAsBilling.parentNode.hide(sameAsBilling.nextSibling);
             //sameAsBilling.remove();
             $('billing:use_for_shipping_no').checked = true;
@@ -637,7 +779,7 @@ function changeOptionValues() {
 //Validate first name/last name for the guest
 function checkBranchName() {
     var branchFieldPresent = $('form-validatename'); // #foo3
-    if (typeof(branchFieldPresent) != "undefined" && branchFieldPresent) {
+    if (typeof (branchFieldPresent) != "undefined" && branchFieldPresent) {
         var dataForm = new VarienForm('form-validatename', true);
         return dataForm.validator.validate();
     } else {
@@ -648,7 +790,7 @@ function checkBranchName() {
 //Show hide firstname/last name for the guest
 function toggleGuestForm(hide) {
     var branchFieldPresent = $('form-validatename'); // #foo3
-    if (typeof(branchFieldPresent) != "undefined" && branchFieldPresent) {
+    if (typeof (branchFieldPresent) != "undefined" && branchFieldPresent) {
         if (hide) {
             $('guestname').hide();
         } else {
@@ -661,11 +803,11 @@ function toggleGuestForm(hide) {
 //Update the firstname& last name to shipping
 function updateNameShipping() {
     var branchFieldPresent = $('form-validatename'); // #foo3
-    if (typeof(branchFieldPresent) != "undefined" && branchFieldPresent) {
-        $('billing:firstname').observe('change', function(e) {
+    if (typeof (branchFieldPresent) != "undefined" && branchFieldPresent) {
+        $('billing:firstname').observe('change', function (e) {
             $('bfirstname').value = $('billing:firstname').value;
         });
-        $('billing:lastname').observe('change', function(e) {
+        $('billing:lastname').observe('change', function (e) {
             $('blastname').value = $('billing:lastname').value;
         });
         //$('blastname').value  = $('billing:lastname').value;
@@ -675,12 +817,12 @@ function updateNameShipping() {
 
 //Hide Div's based on the checkbox condition
 function onloadhideDiv() {
-    if (typeof($('billing:use_for_shipping_no')) != "undefined" && $('billing:use_for_shipping_no')) {
+    if (typeof ($('billing:use_for_shipping_no')) != "undefined" && $('billing:use_for_shipping_no')) {
         if ($('billing:use_for_shipping_no').checked) {
             hideAddressForm();
         }
     }
-    if (typeof($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
+    if (typeof ($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
         if ($('billing:use_for_shipping_yes').checked) {
             showAddressForm();
         }
@@ -690,11 +832,11 @@ function onloadhideDiv() {
 //Show Address Form
 function showAddressForm() {
     var branchFieldPresent = $('form-validatename'); // #foo3
-    if (typeof(branchFieldPresent) != "undefined" && branchFieldPresent) {
+    if (typeof (branchFieldPresent) != "undefined" && branchFieldPresent) {
         toggleGuestForm(1);
         $('shipping-new-address-form').show();
     }
-    if (typeof($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
+    if (typeof ($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
         $('shipping:same_as_billing').disabled = false;
     }
     $('branchpickupshipping').checked = false;
@@ -704,31 +846,94 @@ function showAddressForm() {
 
 //Hide Address Form
 function hideAddressForm() {
-    if($('isbranchselected') && $('isbranchselected').value !== ""){
+    if ($('isbranchselected') && $('isbranchselected').value !== "") {
         var branchFieldPresent = $('form-validatename'); // #foo3
         $('shipping-new-address-form').hide();
         $('branchpickupshipping').checked = true;
-        if (typeof($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
-            if (typeof($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
+        if (typeof ($('shipping:same_as_billing')) != "undefined" && $('shipping:same_as_billing')) {
+            if (typeof ($('billing:use_for_shipping_yes')) != "undefined" && $('billing:use_for_shipping_yes')) {
                 $('shipping:same_as_billing').disabled = true;
             } else {
-            sameAsBilling();  
+                sameAsBilling();
             }
         }
         $('normalshipping').checked = false;
-        if (typeof(branchFieldPresent) != "undefined" && branchFieldPresent) {
+        if (typeof (branchFieldPresent) != "undefined" && branchFieldPresent) {
             toggleGuestForm(0);
         }
         var checkPresent = $('shipping-address-select');
-        if (typeof(checkPresent) != "undefined" && checkPresent) {
+        if (typeof (checkPresent) != "undefined" && checkPresent) {
             $('shipping-new-address-form').hide();
         }
     }
 }
 
-function sameAsBilling(){
+function sameAsBilling() {
     var sameAsBilling = $('shipping:same_as_billing');
-    if (typeof(sameAsBilling) != "undefined" && sameAsBilling) {
+    if (typeof (sameAsBilling) != "undefined" && sameAsBilling) {
         sameAsBilling.parentNode.hide(sameAsBilling.nextSibling);
-    }    
+    }
+}
+
+function branchActionChanges(action_value) {
+    if (action_value == '') {
+        $('branch_change_action').value = 'Remove Selected Branch';
+    } else {
+        $('branch_change_action').value = 'Change Selected Branch';
+    }
+}
+
+function updateSelectedBranchBlock() {
+    if ($('selectedbranchUpdate') !== null) {
+        var selectbranchUpdateUrl = $('selectedbranchUpdate').value;
+        this.ajaxRequest = new Ajax.Request(selectbranchUpdateUrl, {
+            method: 'post',
+            async: false,
+            onComplete: function (request) {
+                this.ajaxRequest = false;
+            }.bind(this),
+            onSuccess: function (data) {
+                var json = data.responseText.evalJSON();
+                if ($('selected-branch') !== null) {
+                    $('selected-branch').replace(json.content);
+                } else {
+                    document.body.insert(json.content);
+                }
+                $('loading-mask').hide();
+            }.bind(this),
+            onFailure: function (request) {
+                alert('Error occured in Ajax Call');
+            }.bind(this),
+            onException: function (request, e) {
+                alert(e);
+            }.bind(this)
+        });
+    }
+}
+
+function togglerelatedLocationspopup(event) {
+    if ($('related-locations-popup')) {
+        var branchPickupform = $('branch_pickup');
+        if (typeof (branchPickupform) != 'undefined' && branchPickupform != null) {
+            $('branch_pickup').blur();
+        }
+        var viewportHeight = document.viewport.getHeight(),
+                docHeight = $$('body')[0].getHeight(),
+                height = docHeight > viewportHeight ? docHeight : viewportHeight;
+        
+        
+        $('related-locations-popup').toggle();
+        $('window-overlay-branch').setStyle({height: height + 'px'}).toggle();
+    }
+}
+
+if ($('branch_change_action')) {
+    $("branch_change_action").on('click', function () {
+        if ($('select-branch').value == '') {
+            var val = $('removebranch').value;
+            location.href = val;
+        } else {
+            changeBranPickupLocation($('select-branch').value, true);
+        }
+    });
 }

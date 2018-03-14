@@ -1,0 +1,147 @@
+<?php
+/**
+ * @category    design
+ * @package     base_default
+ */
+?>
+<?php if (Mage::getStoreConfig('epicor_comm_locations/global/showselectedlocation')): ?>
+<?php
+$helper = Mage::helper('epicor_branchpickup');
+/* @var $helper Epicor_BranchPickup_Helper_Data */
+$selectedBranch = $helper->getSelectedBranch();
+?>
+<?php if ($selectedBranch): ?>
+<?php 
+$selectedLocation = $this->getSelectedBranch($selectedBranch); 
+$relatedLocations = $this->getRelatedLocations($selectedLocation->getId()); 
+$groupings = $this->getGroupLocations();
+$helperBranchPickup = Mage::helper('epicor_branchpickup/branchpickup');
+$url = Mage::getUrl('branchpickup/pickup/changepickuplocation', $helperBranchPickup->issecure());
+$cartPopupurl = Mage::getUrl('branchpickup/pickup/cartpopup', $helperBranchPickup->issecure());
+$selectbranch = Mage::getUrl('branchpickup/pickup/selectbranchajax', $helperBranchPickup->issecure());
+$allLocations = $this->getAllLocations();
+$ischeckCheckoutPage = $helperBranchPickup->checkCheckoutPage();
+$isCheckoutUpdatePage = $this->getResponse();
+if($isCheckoutUpdatePage) {
+   $ischeckCheckoutPage = true; 
+}
+?>
+<div id="selected-branch">
+    <div class="selected-branch" <?php if($ischeckCheckoutPage):?> style="display: none" <?php endif ?>>
+        <p><?php echo $helper->__("Your Selected Branch "); ?></p>
+        <?php if ($relatedLocations->getSize() > 0 || $groupings->getSize() > 0 || $allLocations->getSize() > 0): ?>
+        <a href="javascript:void(0)"><strong><?php echo $helper->__("%s", $selectedLocation->getName()); ?></strong></a>
+        <?php else: ?>
+        <span><strong><?php echo $helper->__("%s", $selectedLocation->getName()); ?></strong></span>
+        <?php endif; ?>
+    </div>
+    <?php if ($relatedLocations->getSize() > 0 || $groupings->getSize() > 0 || $allLocations->getSize() > 0): ?>
+    <div id="window-overlay-branch" class="window-overlay-branch" style="display:none;"></div>
+    <div id="related-locations-popup" class="related-locations-popup" style="display:none;">
+        <div class="related-locations-popup-head">
+            <h3><strong><?php echo $helper->__("Branch Selector"); ?></strong></h3>
+            <a href="javascript:void(0)" class="related-locations-popup-close" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close')) ?>"><?php echo $this->__('Close') ?></a>
+        </div>
+        <div class="related-locations-popup-body">
+            <?php if(($relatedLocations->getSize() == 0) && ($groupings->getSize() == 0) && ($allLocations->getSize() > 0)): ?>
+                <!-- All Locations -->
+                <div class="related-locations">
+                    <ul>
+                        <?php foreach($allLocations as $_location): ?>
+                        <?php $branchUrl = 'branchpickup/pickup/selectBranch/branch/'.$_location->getCode(); ?>
+                        <li>
+                            <span class="location-details">
+                                <p><b><?php echo $_location->getName(); ?></b></p>
+                                <p><?php echo $this->getBranchAddress($_location); ?></p>
+                            </span>
+                            <?php if ($_location->getCode() != $selectedLocation->getCode()): ?>
+                            <span class="location-select">
+                                <a id="link" <?php if($ischeckCheckoutPage):?> onclick="onchangeRelatedBranchPickup('<?php echo $_location->getCode(); ?>'); return false;" <?php else: ?> onclick="changeBranPickupLocation(this); return false;" <?php endif?> href="<?php echo $_location->getCode(); ?>"><span><?php echo $helper->__("Select"); ?></span></a>
+                                <input type="hidden" name="ajaxpickupbranchurl" id="ajaxpickupbranchurl" value="<?php echo $url; ?>" />
+                                <input type="hidden" name="ajaxcode" id="ajaxcode" value="<?php echo $_location->getCode(); ?>" />
+                                <input type="hidden" name="cartpopupurl" id="cartpopupurl" value="<?php echo $cartPopupurl; ?>" />
+                                <input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch; ?>" />
+
+                            </span>
+                            <?php endif; ?>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+            <?php if($relatedLocations->getSize() > 0): ?>
+            <div class="related-locations">
+                <h3><?php echo $helper->__("Related Location");  ?></h3>
+                <ul>
+                    <?php foreach($relatedLocations as $relLocation): ?>
+                        <?php if (!$relLocation->getLocationVisible()): ?>
+                            <?php continue; ?>
+                        <?php endif; ?>
+                    <?php $branchUrl = 'branchpickup/pickup/selectBranch/branch/'.$relLocation->getCode(); ?>
+                    <li>
+                        <span class="location-details">
+                            <p><b><?php echo $relLocation->getName(); ?></b></p>
+                            <p><?php echo $this->getBranchAddress($relLocation); ?></p>
+                        </span>
+                        <span class="location-select">
+                            <a  id="link" <?php if($ischeckCheckoutPage):?> onclick="onchangeRelatedBranchPickup('<?php echo $relLocation->getCode(); ?>'); return false;" <?php else: ?> onclick="changeBranPickupLocation(this); return false;" <?php endif?> href="<?php echo $relLocation->getCode(); ?>"><span><?php echo $helper->__("Select"); ?></span></a>
+                            <input type="hidden" name="ajaxpickupbranchurl" id="ajaxpickupbranchurl" value="<?php echo $url; ?>" />
+                            <input type="hidden" name="ajaxcode" id="ajaxcode" value="<?php echo $relLocation->getCode(); ?>" />
+                            <input type="hidden" name="cartpopupurl" id="cartpopupurl" value="<?php echo $cartPopupurl; ?>" />
+                            <input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch; ?>" />
+                            
+                        </span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+            <?php $groupHeader = ""; ?>
+            <?php foreach ($groupings as $location): ?>
+                <?php if(!$location->getLocationVisible()): ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+                <?php $display = ""; ?>
+                <?php if ($groupHeader == ""): ?>
+                    <?php $groupHeader = $location->getGroupName(); ?>
+                    <?php $display = ($location->getGroupExpandable() == 1) ? "display:none;": ""; ?>
+                    <?php $event = ($location->getGroupExpandable() == 1) ? "class='accordin' style='cursor:pointer;' onclick=toggleBlock('selected_branch_group_".$location->getGroupId()."')": ""; ?>
+                <div class="related-locations">
+                    <h3 <?php echo $event; ?>><?php echo $groupHeader;  ?></h3>
+                        <ul style="<?php echo $display; ?>" id="selected_branch_group_<?php echo $location->getGroupId(); ?>">
+                <?php elseif(($groupHeader != "") && ($groupHeader != $location->getGroupName())): ?>
+                    <?php $groupHeader = $location->getGroupName(); ?>
+                    <?php $display = ($location->getGroupExpandable() == 1) ? "display:none;": ""; ?>
+                    <?php $event = ($location->getGroupExpandable() == 1) ? "class='accordin' style='cursor:pointer;' onclick=toggleBlock('selected_branch_group_".$location->getGroupId()."')": ""; ?>
+                        </ul>
+                </div>
+                <div class="related-locations">
+                    <h3 <?php echo $event; ?>><?php echo $groupHeader;  ?></h3>
+                    <ul style="<?php echo $display; ?>" id="selected_branch_group_<?php echo $location->getGroupId(); ?>">
+                <?php endif; ?>
+                        <li>
+                            <span class="location-details">
+                                <p><b><?php echo $location->getName(); ?></b></p>
+                                <p><?php echo $this->getBranchAddress($location); ?></p>
+                            </span>
+                            <?php if ($location->getCode() != $selectedLocation->getCode()): ?>
+                            <span class="location-select">
+                                <a id="link" <?php if($ischeckCheckoutPage):?> onclick="onchangeRelatedBranchPickup('<?php echo $location->getCode(); ?>'); return false;" <?php else: ?> onclick="changeBranPickupLocation(this); return false;" <?php endif?> href="<?php echo $location->getCode(); ?>"><span><?php echo $helper->__("Select"); ?></span></a>
+                                <input type="hidden" name="ajaxpickupbranchurl" id="ajaxpickupbranchurl" value="<?php echo $url; ?>" />
+                                <input type="hidden" name="ajaxcode" id="ajaxcode" value="<?php echo $location->getCode(); ?>" />
+                                <input type="hidden" name="cartpopupurl" id="cartpopupurl" value="<?php echo $cartPopupurl; ?>" />
+                                <input type="hidden" name="selectbranch" id="selectbranch" value="<?php echo $selectbranch; ?>" />
+                            </span>
+                            <?php endif; ?>
+                        </li>
+            <?php endforeach; ?>
+            <?php if ($groupings->getSize() > 0): ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+<?php endif; ?>

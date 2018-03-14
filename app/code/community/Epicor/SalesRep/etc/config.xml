@@ -2,14 +2,14 @@
 <config>
     <modules>
         <Epicor_SalesRep>
-            <version>1.0.6.8.0</version>
+            <version>1.0.9.0.1</version>
         </Epicor_SalesRep>
     </modules>
     <global>
         <ecc_version_info>
             <Epicor_SalesRep>
-                <version>1.0.7.7</version>
-                <released>2017-04-12</released>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
             </Epicor_SalesRep>
         </ecc_version_info>
         <xml_salesrep_dashboard>
@@ -256,6 +256,7 @@
                     </salesRepCanAccessUrl>
                 </observers>
             </epicor_common_can_access_url_after>
+            
             <epicor_common_can_customer_access_url_after>
                 <observers>
                     <salesRepCanCustomerAccessUrl>
@@ -287,7 +288,7 @@
                     <changeShippingAddress>
                         <class>Epicor_SalesRep_Model_Observer_Checkout_Onepage</class>
                         <method>changeShippingAddress</method>
-                    </changeShippingAddress>
+                    </changeShippingAddress>                  
                 </observers>
             </epicor_comm_onepage_shipping_get_address>
             <epicor_comm_onepage_get_steps>
@@ -382,7 +383,43 @@
                         <method>getSalesRepAccessGroups</method>
                     </epicor_salesrep_hideBlocks>
                 </observers>
-            </epicor_common_get_default_session_access_groups>        
+            </epicor_common_get_default_session_access_groups> 
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <epicor_salesrep_model_observer_addcolumns>
+                        <type>singleton</type>                          
+                        <class>Epicor_SalesRep_Model_Observer</class>
+                        <method>addPricelistColumns</method>
+                    </epicor_salesrep_model_observer_addcolumns>
+                </observers>     
+            </core_block_abstract_prepare_layout_after>             
+            <adminhtml_block_html_before>                
+                <observers>
+                    <epicor_salesrep_model_observer_removeColumns>
+                        <type>singleton</type>                          
+                        <class>Epicor_SalesRep_Model_Observer</class>
+                        <method>updateColumns</method>
+                    </epicor_salesrep_model_observer_removeColumns>
+                </observers>     
+            </adminhtml_block_html_before>  
+            <controller_action_predispatch_epicor_salesrep_account_manage_pricelist>
+                <observers>           
+                    <temp_block_to_salesrep_pricelists>
+                        <type>singleton</type>
+                        <class>Epicor_SalesRep_Model_Observer_Access</class>
+                        <method>stopAccessToPriceLists</method>
+                    </temp_block_to_salesrep_pricelists>
+                </observers>
+            </controller_action_predispatch_epicor_salesrep_account_manage_pricelist>    
+            <controller_action_predispatch_epicor_salesrep_account_manage_edit>
+                <observers>           
+                    <temp_block_to_salesrep_pricelists>
+                        <type>singleton</type>
+                        <class>Epicor_SalesRep_Model_Observer_Access</class>
+                        <method>stopAccessToPriceLists</method>
+                    </temp_block_to_salesrep_pricelists>
+                </observers>
+            </controller_action_predispatch_epicor_salesrep_account_manage_edit>    
         </events>
     </frontend>
     <admin>
@@ -436,6 +473,14 @@
                 <frontend_children_addexisting>0</frontend_children_addexisting>
             </management>
         </epicor_salesrep>
+        <epicor_comm_enabled_messages>            
+            <msq_request>   
+                <triggers>   
+                    <salesrep_price_lists>1</salesrep_price_lists>
+                </triggers>   
+            </msq_request> 
+        </epicor_comm_enabled_messages> 
+                   
     </default>
     <global>
         <erps>

@@ -37,6 +37,11 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
 
     protected function _sendEmail($vars, $to, $name)
     {
+        if ($vars['region_id'] != '') {
+            $vars['state_code'] = Mage::getModel('directory/region')->load($vars['region_id'])->getName();
+        } else {
+            $vars['state_code'] = $vars['region'];
+        }
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -56,8 +61,7 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
     {
         $customerData = $this->_getData();
         $setting = Mage::getStoreConfig('epicor_b2b/registration/reg_email_account');
-//        $successMsg = Mage::getStoreConfig('epicor_b2b/registration/success_message');
-
+        $successMsg = Mage::getStoreConfig('epicor_b2b/registration/request_email_success');
         $email = Mage::getStoreConfig('trans_email/ident_' . $setting . '/email');
         $name = Mage::getStoreConfig('trans_email/ident_' . $setting . '/name');
         $customerData['adminname'] = $name;
@@ -66,9 +70,9 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
         $customerData['street2'] = @$customerData['street'][1];
         $customerData['street3'] = @$customerData['street'][2];
         $this->_sendEmail($customerData, $email, $name);
-
-//        Mage::getSingleton('core/session')->addSuccess($successMsg);
-//        Mage::log($successMsg);
+        if(!empty($successMsg)){
+            $this->_getSession()->addSuccess($this->__(Mage::helper('epicor_comm')->__($successMsg)));
+        }
         $this->_redirect($this->_getLoginUrl());
     }
 
@@ -339,6 +343,20 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
             $validationResult = count($errors) == 0;
 
             if (true === $validationResult) {
+                if($this->getRequest()->getPost('firstname') && $this->getRequest()->getPost('lastname')){
+                $name=$this->getRequest()->getPost('firstname').' '.$this->getRequest()->getPost('lastname');
+                }else{
+                $name=$this->getRequest()->getPost('firstname');
+                }
+                $registeredData = $this->getRequest()->getPost('registered');
+                $formData = array('login_id' => 'true',
+                    'name' => $name,
+                    'telephone_number' => $registeredData['phone'],
+                    'fax_number' => $registeredData['fax_number'],
+                    'email_address' => $this->getRequest()->getPost('email')
+                    );
+                $customer->setTelephoneNumber($formData['telephone_number']);
+                $customer->setFaxNumber($formData['fax_number']);
                 $customer->save();
                 Mage::dispatchEvent('customer_register_success', array('account_controller' => $this, 'customer' => $customer)
                 );
@@ -349,14 +367,20 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
                     );
                     $this->_addSuccesMessage();
                     $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())));
-                    return true;
                 } else {
                     $session->setCustomerAsLoggedIn($customer);
 
                     // display success message on first entry after account created 
                     $this->_addSuccesMessage();
-                    return true;
                 }
+                //send CUAU to create the login in ERP.
+                if(Mage::getStoreConfigFlag('epicor_comm_enabled_messages/cnc_request/send_automate_cnc_request', Mage::app()->getStore()->getId())){
+                $oldFormData = false;
+                $message = Mage::getSingleton('customerconnect/message_request_cuau');
+                $message->addContact('A', $formData, $oldFormData);
+                $this->sendUpdate($message,$customer->getErpaccountId(), $customer, $formData);
+                }
+                return true;
             } else {
                 $session->setCustomerFormData($this->getRequest()->getPost());
                 if (is_array($errors)) {
@@ -451,6 +475,44 @@ class Epicor_B2b_PortalController extends Mage_Core_Controller_Front_Action
             }
         }
         $this->successMessageDisplayed = true;
+    }
+    
+    private function sendUpdate($message, $erpAccountId, $customer) 
+    {
+        $helper = Mage::helper('customerconnect');
+        /* @var $helper Epicor_Customerconnect_Helper_Data */
+        $xmlHelper = Mage::helper('epicor_common/xml');
+        /* @var $helper Epicor_Common_Helper_Xml */
+        $storeId = Mage::app()->getStore()->getId();
+        $erp_account_number = $helper->getErpAccountNumber($erpAccountId, $storeId);
+        $messageTypeCheck = $message->getHelper("customerconnect/messaging")->getMessageType('CUAU');
+
+        if ($message->isActive() && $messageTypeCheck) {
+
+            $message->setAccountNumber($erp_account_number)
+                    ->setLanguageCode($helper->getLanguageMapping(Mage::app()->getLocale()->getLocaleCode()));
+
+            if ($message->sendMessage()) {
+
+                $response = $message->getResponse();
+                $contacts = $xmlHelper->varienToArray($response->getCustomer()->getContacts());
+                $currentEmail = $customer->getEmail();
+                $filteredContact = array_filter($contacts, function ($val) use ($currentEmail) {
+                    return $val['email_address'] == $currentEmail;
+                });
+                if (empty($filteredContact['contact']['contact_code'])) {
+                    $customer->setEccCucoPending('1');
+                } else {
+                    $customer->setContactCode($filteredContact['contact']['contact_code']);
+                    $customer->setEccCucoPending('0');
+                }
+            } else {
+                $customer->setEccCucoPending('1');
+            }
+        } else {
+            $customer->setEccCucoPending('1');
+        }
+        $customer->save();
     }
 
 }

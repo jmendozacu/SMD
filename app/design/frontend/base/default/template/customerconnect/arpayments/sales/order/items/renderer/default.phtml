@@ -1,0 +1,115 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_item = $this->getItem() ;
+$info = $_item->getProductOptionByCode('info_buyRequest');
+$checkDisputeActive = Mage::getModel('customerconnect/arpayments')->checkDisputeAllowedOrNot();
+?>
+<tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
+    <td><h3 class="product-name"><?php echo $this->escapeHtml($_item->getName()) ?></h3>
+        <?php if($_options = $this->getItemOptions()): ?>
+        <dl class="item-options">
+        <?php foreach ($_options as $_option) : ?>
+            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+            <?php if (!$this->getPrintStatus()): ?>
+                <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>>
+                    <?php echo $_formatedOptionValue['value'] ?>
+                    <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                    <div class="truncated_full_value">
+                        <dl class="item-options">
+                            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                            <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                        </dl>
+                    </div>
+                    <?php endif; ?>
+                </dd>
+            <?php else: ?>
+                <dd>
+                    <?php echo nl2br($this->escapeHtml( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) )) ?>
+                </dd>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </dl>
+        <?php endif; ?>
+        <?php $addtInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addtInfoBlock) :?>
+            <?php echo $addtInfoBlock->setItem($_item)->toHtml(); ?>
+        <?php endif; ?>
+        <?php echo $this->escapeHtml($_item->getDescription()) ?>
+    </td>
+    <td>
+            <span class="price-excl-tax">
+                    <span class="cart-price">
+                        <?php echo $info['invoiceDate']; ?>
+                </span>
+            </span>
+    </td>  
+    <td >
+            <span class="price-excl-tax">
+                    <span class="cart-price">
+                        <?php echo $info['dueDate']; ?>
+                </span>
+            </span>
+    </td> 
+    <td>
+            <span class="price-excl-tax">
+                    <span class="cart-price">
+                          <?php echo $this->getOrder()->formatPrice($info['invoiceAmnt']) ?>
+                </span>
+            </span>
+    </td>  
+    <td>
+            <span class="price-excl-tax">
+                    <span class="cart-price">
+                        <?php echo $this->getOrder()->formatPrice($info['invoiceBalance']) ?>
+                </span>
+            </span>
+    </td> 
+    <td>
+            <span class="price-excl-tax">
+                    <span class="cart-price">
+                        <?php echo $this->getOrder()->formatPrice($info['settlementTermAmount']) ?>
+                </span>
+            </span>
+    </td>  
+    <?php 
+    if($checkDisputeActive):
+    ?>    
+    <td>
+        
+        <h5 class="product-name"> <strong>Dispute:</strong> <?php echo ($info['dispute']) ? "True" : 'No'?></h5>
+        <h5 class="product-name"><strong>Dispute Comments:</strong> <?php echo $info['disputeComment'] ?></h5>
+    </td>
+    <?php endif;?>    
+    <td class="a-right">
+        <span class="price-excl-tax">
+         <span class="cart-price">
+            <?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?>
+        </span>
+        </span>
+    </td>
+</tr>

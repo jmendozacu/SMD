@@ -45,3 +45,27 @@ $stockVisibility = Mage::getStoreConfig('epicor_comm_locations/global/stockvisib
             <?php echo $this->getChildHtml('configurable_tierprices') ?>
     <?php endif; ?>
 </div>
+<script type="text/javascript">
+       //<![CDATA[
+      
+       <?php
+if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')):
+    if (!$_product->isAvailable()):
+        ?>
+                                                           $$('.product-options-bottom .add-to-cart').each(
+                                                       function (e) {
+                                              e.setStyle({display:'none'});
+                                           }
+                                         );
+    <?php else: ?>
+                                                      $$('.product-options-bottom .add-to-cart').each(
+                                                       function (e) {
+                                              e.setStyle({display:'block'});
+                                           }
+                                         );
+    <?php
+    endif;
+endif;
+?>
+       //]]>
+</script>

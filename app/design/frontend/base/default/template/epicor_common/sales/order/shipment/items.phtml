@@ -40,7 +40,22 @@ $listEnabled = $contractHelper->contractsEnabled();
 <?php foreach ($_order->getShipmentsCollection() as $_shipment): ?>
 <h2 class="sub-title"><?php echo $this->__('Shipment #') ?><?php echo $_shipment->getIncrementId(); ?> <span class="separator">|</span> <a href="<?php echo $this->getPrintShipmentUrl($_shipment) ?>" onclick="this.target='_blank'" class="link-print"><?php echo $this->__('Print Shipment') ?></a></h2>
 <?php $tracks = $_shipment->getTracksCollection(); ?>
-<?php  if ($tracks->count()): ?>
+<?php  if ($tracks->count()): 
+    $_size = $tracks->count();
+    $showRow = array();
+    foreach($tracks as $track): 
+       if(!$track->getNumber()) {
+          $showRow[] = $track->getId(); 
+       } 
+    endforeach;
+    $hiderow=false;
+    if($_size == count($showRow)):
+       $hiderow=true; 
+    endif;    
+    ?>
+    <?php
+    if(!$hiderow):
+    ?>
     <table class="data-table tracking-table" id="my-tracking-table-<?php echo $_shipment->getId(); ?>">
         <tbody>
             <tr>
@@ -49,20 +64,23 @@ $listEnabled = $contractHelper->contractsEnabled();
                 </td>
             </tr>
             <tr>
-                <th class="label"><?php echo $this->__('Tracking Number(s):') ?></th>
-                <td>&nbsp;
-                <?php
-                $i = 1;
-                $_size = $tracks->count();
-                foreach($tracks as $track): ?>
-                    <a href="#" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopupUrlBySalesModel($track) ?>','trackorder','width=800,height=600,left=0,top=0,resizable=yes,scrollbars=yes')" ><?php echo $this->escapeHtml($track->getNumber()) ?></a>
-                <?php if($i!=$_size): ?>, <?php endif; ?>
+
+                    <th class="label"><?php echo $this->__('Tracking Number(s):') ?></th>
+                    <td>&nbsp;
+                    <?php
+                    $i = 1;
+                    foreach($tracks as $track): ?>
+                        <a href="#" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopupUrlBySalesModel($track) ?>','trackorder','width=800,height=600,left=0,top=0,resizable=yes,scrollbars=yes')" ><?php echo $this->escapeHtml($track->getNumber()) ?></a>
+                    <?php if(($i!=$_size) && ($track->getNumber())): ?>, <?php endif; ?>
                 <?php $i++;
-                endforeach; ?>
+                      endforeach; 
+                
+                ?>
                 </td>
             </tr>
         </tbody>
     </table>
+    <?php endif;?>
     <script type="text/javascript">decorateTable('my-tracking-table-<?php echo $_shipment->getId(); ?>')</script>
 <?php  endif; ?>
 <h3 class="table-caption"><?php echo $this->__('Items Shipped') ?></h3>

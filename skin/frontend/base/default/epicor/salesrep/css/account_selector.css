@@ -1,0 +1,92 @@
+/* 
+    Document   : erpaccount
+    Created on : 17-May-2013, 12:38:33
+    Author     : Paul.Ketelle
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#window-overlay {
+    position:fixed;
+    background:rgba(0, 0, 0, 0.35);
+    height:100%;
+    left:0;
+    top:0;
+    width:100%;
+    z-index:990;
+}
+
+#selectErpAccountWrapperWindow{
+    position:fixed;
+    width:750px;
+    height:90%;
+    left:50%;
+    top:50%;
+    margin:-250px 0 0 -325px;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+
+#selectErpAccountWrapperWindow > div {
+    padding:5px;
+}
+
+#selectErpAccountWrapperWindow > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectErpAccountWrapperWindow > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}
+
+#ecc_account_select_type {
+    margin-bottom:5px;
+}
+
+span.erpaccount_label {
+    display:inline-block;
+    width:165px;
+    background: #fff;
+    border: 1px solid #aaa;
+    display: inline-block;
+    font-size: 12px;
+    padding: 0 5px;
+    margin-top:-1px;
+}
+
+.massaction span.erpaccount_label {
+    width: auto;
+}
+
+.massaction .outer-span .field-row label {
+    display:none;
+}
+
+@media (max-width:1235px){
+
+    .massaction span.erpaccount_label {
+        width: 120px;
+        height:17px;
+        margin-bottom:-6px;
+        overflow:hidden;
+    }
+
+}
+
+@media (max-width:1090px){
+    .massaction span.erpaccount_label {
+        width: 80px;
+    }
+}
+
+@media (max-width:1040px){
+    .massaction span.erpaccount_label {
+        width: 70px;
+    }
+}

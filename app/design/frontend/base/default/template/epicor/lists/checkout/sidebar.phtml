@@ -51,9 +51,15 @@ $controller = Mage::App()->getRequest()->getParam('page');
 <div class="block block-cart chooseaddressmaincontainer">
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-content">
-    <div class="actions" id="chooseaddressactions">
-        <p class="block-subtitle"><?php echo $this->__('The following items are not available from your selected Address') ?></p>
-        <br>
+        <div class="actions" id="chooseaddressactions">
+            <?php
+            $msg = '';
+            if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+                $msg = " Or May be out of stock";
+            }
+            ?>
+            <p class="block-subtitle"><?php echo $this->__('The following items are not available from your selected Address' . $msg) ?></p>
+            <br>
         <p class="block-subtitle error">Would you like to delete these item(s)?</p>
         <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Cancel')) ?>" class="button" onclick="<?php echo $returnVals?>"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
         <form method="post" action="<?php echo Mage::getUrl('epicor_lists/list/removeitemsincart',$frontendHelper->issecure()) ?>">

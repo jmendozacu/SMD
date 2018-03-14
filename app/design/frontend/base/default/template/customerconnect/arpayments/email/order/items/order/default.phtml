@@ -1,0 +1,67 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_item = $this->getItem() ?>
+<?php $_order = $this->getItem()->getOrder() ?>
+<?php $info = $_item->getProductOptionByCode('info_buyRequest'); ?>
+<tr>
+    <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+        <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item->getName()) ?></strong>
+        <?php if ($this->getItemOptions()): ?>
+        <dl style="margin:0; padding:0;">
+            <?php foreach ($this->getItemOptions() as $option): ?>
+            <dt><strong><em><?php echo $option['label'] ?></em></strong></dt>
+            <dd style="margin:0; padding:0 0 0 9px;">
+                <?php echo (isset($option['print_value']) ? $option['print_value'] : nl2br($this->escapeHtml($option['value']))) ?>
+            </dd>
+            <?php endforeach; ?>
+        </dl>
+        <?php endif; ?>
+        <?php $addInfoBlock = $this->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addInfoBlock) :?>
+            <?php echo $addInfoBlock->setItem($_item)->toHtml(); ?>
+        <?php endif; ?>
+    </td>
+    <?php if(isset($info['invoiceAmnt'])): ?>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+                <?php echo $_order->formatPrice($info['invoiceAmnt']) ?>      
+        </td>    
+    <?php endif; ?>
+    <?php if(isset($info['invoicePayment'])): ?>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+                <?php echo $_order->formatPrice($info['invoicePayment']) ?>      
+        </td>
+    <?php endif; ?>
+    <?php if(isset($info['invoiceBalance'])): ?>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+                <?php echo $_order->formatPrice($info['invoiceBalance']) ?>      
+        </td> 
+    <?php endif; ?>
+    <td align="right" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+            <?php echo $_order->formatPrice($_item->getRowTotal()) ?>      
+    </td>
+
+</tr>

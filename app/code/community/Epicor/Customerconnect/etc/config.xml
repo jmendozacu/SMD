@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Epicor_Customerconnect>
-            <version>1.0.7.1</version>
+            <version>1.0.9.1.1</version>
         </Epicor_Customerconnect>
     </modules>
     
@@ -47,15 +47,104 @@
                     </customerconnect_model_observer>
                 </observers>
             </customer_customer_authenticated>
+            <!--AR PAYMENTS LAYOUT STARTS-->
+            <controller_action_layout_render_before_sales_order_view>
+                <observers>
+                    <check_order_front_check>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>checkValidOrder</method>
+                    </check_order_front_check>
+                </observers>
+            </controller_action_layout_render_before_sales_order_view>
+            <controller_action_layout_render_before_sales_order_print>
+                <observers>
+                    <check_orderprint_front_check>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>checkValidOrder</method>
+                    </check_orderprint_front_check>
+                </observers>
+            </controller_action_layout_render_before_sales_order_print>
+            <sales_convert_quote_to_order>
+                    <observers>
+                        <set_grand_total_before_arpayments>
+                            <type>singleton</type>
+                            <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                            <method>salesQuoteAddressCollectTotalsBefore</method>
+                        </set_grand_total_before_arpayments>
+                    </observers>                
+            </sales_convert_quote_to_order>
+            <sales_order_place_before>
+                    <observers>
+                    <set_grand_total_to_order>
+                            <type>singleton</type>
+                            <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                            <method>saleOrderToCollection</method>
+                    </set_grand_total_to_order>
+                    </observers>                    
+            </sales_order_place_before>
+            <sales_quote_item_set_product>
+                <observers>
+                    <setInvoiceProductName>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>setInvoiceProductName</method>
+                    </setInvoiceProductName>
+                </observers>                
+            </sales_quote_item_set_product>
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <setCustomerInformation>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>setCustomerInformation</method>
+                    </setCustomerInformation>
+                </observers>                
+            </sales_quote_payment_import_data_before>       
+            <load_customer_quote_before>
+                <observers>
+                <arpayments_load_customer_quote_before>
+                    <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                    <method>clearAbandonedCarts</method>
+                </arpayments_load_customer_quote_before>
+             </observers>                
+            </load_customer_quote_before>   
+            <!--Remove Customer information from quote If there  is a error For AR Payments(To prevent merging to normal cart)-->
+            <sales_model_service_quote_submit_failure>
+                <observers>
+                    <removeCustomerIdToPreventMerge>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>quoteRemovecustomerIdOnError</method>
+                    </removeCustomerIdToPreventMerge>
+                </observers>
+            </sales_model_service_quote_submit_failure> 
+            <!--Every time remove EccArpaymentsInvoice flag to 0, when the user enter into the cart index-->
+            <controller_action_predispatch_checkout_cart_index>
+                <observers>
+                    <removetheFlagInQuote>
+                        <class>Epicor_Customerconnect_Model_Observer_Arpayments</class>
+                        <method>quoteRemoveInvoiceFlag</method>
+                    </removetheFlagInQuote>
+                </observers>                
+            </controller_action_predispatch_checkout_cart_index>                                                                                       
+            <!--AR PAYMENTS LAYOUT ENDS-->
         </events>
     </frontend>
     <global>
         <ecc_version_info>
             <Epicor_Customerconnect>
-                <version>1.0.7.7</version>
-                <released>2017-04-12</released>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
             </Epicor_Customerconnect>
         </ecc_version_info>
+        <!--AR PAYMENTS PAYMENT EMAIL STARTS-->
+         <template>
+            <email>
+                <arpayments_invoice_order_email>
+                    <label>AR Payments Email</label>
+                    <file>arpayments/arpayments_invoice_order.html</file>
+                    <type>html</type>
+                </arpayments_invoice_order_email>
+            </email>
+        </template>
+        <!--AR PAYMENTS PAYMENT EMAIL ENDS-->        
         <erps>
             <xvp>
                 <customerconnect_enabled_messages>
@@ -100,6 +189,12 @@
                     <CUCO_mapping>
                         <active>1</active>
                     </CUCO_mapping>
+                    <CAPS_request>
+                        <active>0</active>
+                    </CAPS_request>
+                    <CAAP_request>
+                        <active>0</active>
+                    </CAAP_request>                    
                 </customerconnect_enabled_messages>
                 <customerconnect>            
                     <erp_searching>1</erp_searching>
@@ -160,6 +255,12 @@
                     <CRQS_request>
                         <active>1</active>
                     </CRQS_request>
+                    <CAPS_request>
+                        <active>0</active>
+                    </CAPS_request>
+                    <CAAP_request>
+                        <active>0</active>
+                    </CAAP_request>                    
                 </customerconnect_enabled_messages>
                 <customerconnect>            
                     <erp_searching>1</erp_searching>
@@ -208,6 +309,12 @@
                     <CUCO_mapping>
                         <active>1</active>
                     </CUCO_mapping>
+                    <CAPS_request>
+                        <active>1</active>
+                    </CAPS_request>
+                    <CAAP_request>
+                        <active>1</active>
+                    </CAAP_request>                    
                 </customerconnect_enabled_messages>
                 <customerconnect>            
                     <erp_searching>1</erp_searching>
@@ -256,6 +363,12 @@
                     <CUCO_mapping>
                         <active>1</active>
                     </CUCO_mapping>
+                    <CAPS_request>
+                        <active>0</active>
+                    </CAPS_request>
+                    <CAAP_request>
+                        <active>0</active>
+                    </CAAP_request>                    
                 </customerconnect_enabled_messages>
                 <customerconnect>            
                     <erp_searching>1</erp_searching>
@@ -275,8 +388,22 @@
                     <CRQU_request>
                         <active>0</active>
                     </CRQU_request>
+                    <CAPS_request>
+                        <active>0</active>
+                    </CAPS_request>
+                    <CAAP_request>
+                        <active>0</active>
+                    </CAAP_request>                    
                 </customerconnect_enabled_messages>
             </bistrack>
+            <eclipse>
+                <customerconnect_enabled_messages>
+                   <CUOS_request>
+                        <active>1</active>
+                        <grid_config>a:10:{s:18:"_1380728508313_313";a:8:{s:6:"header";s:12:"Order Number";s:4:"type";s:5:"range";s:7:"options";s:0:"";s:5:"index";s:12:"order_number";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:6:"number";s:8:"renderer";s:0:"";}s:18:"_1380728509643_643";a:8:{s:6:"header";s:12:"Purchased On";s:4:"type";s:4:"date";s:7:"options";s:0:"";s:5:"index";s:10:"order_date";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:4:"date";s:8:"renderer";s:0:"";}s:18:"_1380728510155_155";a:8:{s:6:"header";s:12:"Customer Ref";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:18:"customer_reference";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:0:"";}s:18:"_1505974435875_875";a:8:{s:6:"header";s:20:"Additional Reference";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:20:"additional_reference";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:0:"";}s:18:"_1505974454341_341";a:8:{s:6:"header";s:13:"Required Date";s:4:"type";s:4:"date";s:7:"options";s:0:"";s:5:"index";s:13:"required_date";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"date";s:8:"renderer";s:0:"";}s:18:"_1505974477106_106";a:8:{s:6:"header";s:10:"Order Name";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:14:"original_value";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:0:"";}s:17:"_1505974518034_34";a:8:{s:6:"header";s:13:"Order Address";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:13:"order_address";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:0:"";}s:18:"_1505974541773_773";a:8:{s:6:"header";s:5:"Price";s:4:"type";s:7:"options";s:7:"options";s:0:"";s:5:"index";s:12:"order_number";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:6:"number";s:8:"renderer";s:51:"Epicor_Customerconnect_Block_List_Renderer_Currency";}s:18:"_1505974595114_114";a:8:{s:6:"header";s:6:"Status";s:4:"type";s:4:"text";s:7:"options";s:42:"customerconnect/erp_mapping_erporderstatus";s:5:"index";s:12:"order_status";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:57:"Epicor_Customerconnect_Block_List_Renderer_Erporderstatus";}s:18:"_1505974639690_690";a:8:{s:6:"header";s:9:"Contracts";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:23:"contracts_contract_code";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:4:"text";s:8:"renderer";s:55:"Epicor_Customerconnect_Block_List_Renderer_ContractCode";}}</grid_config>
+                    </CUOS_request>
+                </customerconnect_enabled_messages>
+            </eclipse>
         </erps>
         <xml_message_types>
             <request>
@@ -296,6 +423,8 @@
                 <crqd>CRQD - Customer Quote Detail Enquiry</crqd>
                 <crqu>CRQU - Customer Quote Update</crqu>
                 <crqc>CRQC - Customer Quote Confirm/Reject</crqc>
+		<caps>CAPS - Customer AR Payments Search</caps>
+                <caap>CAAP - Customer AP Account Payment</caap>                
             </request>
             <upload>
                 <cuco>
@@ -344,6 +473,9 @@
                     <erp_customer_skus>
                         <table>epicor_comm_erp_customer_sku</table>
                     </erp_customer_skus>
+                     <erp_mapping_shipstatus>
+                        <table>epicor_customerconnect_erp_mapping_shipstatus</table>
+                    </erp_mapping_shipstatus>
                 </entities>
             </customerconnect_resource>
         </models>        
@@ -423,6 +555,11 @@
         </routers>        
     </admin>
     <default>
+        <sales_email>
+            <arpayments>
+                <template>arpayments_invoice_order_email</template>
+            </arpayments>
+        </sales_email>        
         <Epicor>
             <stores>
                 <english>1</english>
@@ -547,6 +684,22 @@
                 <contacts_contact_email_update>1</contacts_contact_email_update>
                 <locations_update>1</locations_update>
             </CUCO_mapping>
+            <CAPS_request>
+                <active>0</active>
+                <log_all_requests>0</log_all_requests>  
+                <max_results_value></max_results_value>
+                <grid_config>a:7:{s:18:"_1501838519469_469";a:8:{s:6:"header";s:14:"Invoice Number";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:14:"invoice_number";s:9:"filter_by";s:3:"erp";s:9:"condition";s:2:"EQ";s:9:"sort_type";s:6:"number";s:8:"renderer";s:0:"";}s:18:"_1501839478956_956";a:8:{s:6:"header";s:12:"Invoice Date";s:4:"type";s:4:"date";s:7:"options";s:0:"";s:5:"index";s:12:"invoice_date";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:4:"date";s:8:"renderer";s:0:"";}s:18:"_1501839503350_350";a:8:{s:6:"header";s:8:"Due Date";s:4:"type";s:4:"date";s:7:"options";s:0:"";s:5:"index";s:8:"due_date";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:4:"date";s:8:"renderer";s:0:"";}s:18:"_1501839594519_519";a:8:{s:6:"header";s:14:"Invoice Amount";s:4:"type";s:6:"number";s:7:"options";s:0:"";s:5:"index";s:14:"original_value";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:6:"number";s:8:"renderer";s:76:"Epicor_Customerconnect_Block_Customer_Arpayments_List_Renderer_InvoiceAmount";}s:18:"_1501839629977_977";a:8:{s:6:"header";s:11:"Paid Amount";s:4:"type";s:6:"number";s:7:"options";s:0:"";s:5:"index";s:13:"payment_value";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:6:"number";s:8:"renderer";s:75:"Epicor_Customerconnect_Block_Customer_Arpayments_List_Renderer_PaymentValue";}s:18:"_1501849440455_455";a:8:{s:6:"header";s:15:"Invoice Balance";s:4:"type";s:6:"number";s:7:"options";s:0:"";s:5:"index";s:17:"outstanding_value";s:9:"filter_by";s:3:"erp";s:9:"condition";s:7:"LTE/GTE";s:9:"sort_type";s:6:"number";s:8:"renderer";s:77:"Epicor_Customerconnect_Block_Customer_Arpayments_List_Renderer_InvoiceBalance";}s:18:"_1515397488450_450";a:8:{s:6:"header";s:7:"Ship To";s:4:"type";s:4:"text";s:7:"options";s:0:"";s:5:"index";s:35:"delivery_addresses_delivery_address";s:9:"filter_by";s:3:"erp";s:9:"condition";s:4:"LIKE";s:9:"sort_type";s:4:"text";s:8:"renderer";s:78:"Epicor_Customerconnect_Block_Customer_Arpayments_List_Renderer_DeliveryAddress";}}</grid_config>                
+                <range_min_value></range_min_value>                 
+            </CAPS_request>             
+            <CAAP_request>
+                <active>0</active>
+                <caap_payment_condition>captured</caap_payment_condition>
+                <valid_order_statuses>pending,processing</valid_order_statuses>  
+                <log_all_requests>1</log_all_requests>   
+                <caap_response_condition>1</caap_response_condition>           
+                <caap_disputeactive>0</caap_disputeactive>
+                <valid_payment_methods>elements</valid_payment_methods>
+            </CAAP_request>            
         </customerconnect_enabled_messages>
         <customerconnect>            
             <customer_account_summary>

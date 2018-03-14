@@ -6,7 +6,9 @@
 <?php
 $erpCustomer = $this->getErpCustomer();
 $yesNoOptions =  Mage::getModel('epicor_comm/config_source_yesnonulloption')->toOptionArray();
-$yesNoBranchOptions =  Mage::getModel('epicor_branchpickup/config_source_branchoptions')->toOptionArray();
+$yesNoBranchOptions = Mage::getModel('epicor_branchpickup/config_source_branchoptions')->toOptionArray();
+$eccDisableFunctionalityOption = Mage::getModel('epicor_comm/config_source_eccdisablefunctionalityoptions')->toOptionArray();
+$arpaymentOptions =  Mage::getModel('customerconnect/config_source_arpayments')->toOptionArray();
 $accountType = $erpCustomer->getAccountType();
 ?>
 <div class="entry-edit box-left" style="width:49.5%">
@@ -73,6 +75,16 @@ $accountType = $erpCustomer->getAccountType();
                 <td class="label"><strong><label for="warranty_customer"><?php echo $this->__('Allow Backorders') ?></label></td>
                 <td><input name="allow_backorders" id="allow_backorders" type="checkbox" <?php if ($erpCustomer->getAllowBackorders()) : ?>checked="checked"<?php endif; ?> value="1"/></td>
             </tr>
+            <tr>
+                <td class="label"><strong><label for="is_tax_exempt"><?php echo $this->__('Allow Tax Exempt') ?></label></td>
+                <td>
+                    <select name="is_tax_exempt" id="is_tax_exempt">
+                        <?php foreach ($yesNoOptions as $key => $value): ?>
+                            <option value="<?php echo $value['value'] ?>" <?php if ($erpCustomer->getIsTaxExempt() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
             <?php /* CPN EDITING REMOVED UNTIL IS COMPLETE
             <tr>
                 <td class="label"><strong><label for="cpn_editing"><?php echo $this->__('CPN Editing') ?></label></td>
@@ -117,15 +129,35 @@ $accountType = $erpCustomer->getAccountType();
             <?php if($accountType !="Supplier"): ?>
             <tr>
                 <td class="label"><strong><label for="is_branch_pickup_allowed"><?php echo $this->__('Branch Pickup Allowed') ?></label></td>
-                <td>
+                    <td>
                     <select name="is_branch_pickup_allowed" id="is_branch_pickup_allowed">
                         <?php foreach ($yesNoBranchOptions as $key => $value): ?>
                             <option value="<?php echo $value['value'] ?>" <?php if ($erpCustomer->getIsBranchPickupAllowed() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
-            </tr>
-            <?php endif; ?>          
+                </tr>
+            <?php endif; ?>
+                <tr>
+                    <td class="label"><strong><label for="ecc_disable_functionality"><?php echo $this->__('Disable Functionality') ?></label></td>
+                    <td>
+                        <select name="disable_functionality" id="disable_functionality">
+                            <?php foreach ($eccDisableFunctionalityOption as $key => $value): ?>
+                                <option value="<?php echo $value['value'] ?>" <?php if ($erpCustomer->getDisableFunctionality() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+            <tr>
+                <td class="label"><strong><label for="is_arpayments_allowed"><?php echo $this->__('AR Payment Allowed') ?></label></td>
+                <td>
+                    <select name="is_arpayments_allowed" id="is_arpayments_allowed">
+                        <?php foreach ($arpaymentOptions as $key => $value): ?>
+                            <option value="<?php echo $value['value'] ?>" <?php if ($erpCustomer->getIsArpaymentsAllowed() == $value['value']) : ?>selected="selected"<?php endif; ?>><?php echo $value['label'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>                
         </table>
         <?php echo $this->getChildHtml('erp-left-box-information') ?>
     </fieldset>

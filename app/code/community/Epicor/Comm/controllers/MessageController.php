@@ -36,6 +36,7 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
         $ewaCode = $this->getRequest()->getParam('ewa');
         $attributes = $this->getRequest()->getParam('att');
         $useIndex = $this->getRequest()->getParam('use_index');
+        $offline = $this->getRequest()->getParam('offline');
 
         $skuList = !empty($skuParam) ? $skuParam : $idParam;
         $productsCount = max(count($skuParam), count($idParam));
@@ -59,11 +60,16 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
             $msq->addCurrency($currencyCode);
         }
 
-        if (!empty($currencyCode)) {
+        if (!empty($erpAccountId)) {
             $msq->setCustomerGroupId($erpAccountId);
+            if ($offline) {
+                $msq->setOfflineShippingAddress();
+                $msq->setUpdateGroupedProducts(true);
+            }
         }
 
         if ($saveValues) {
+            $msq->setIsOfflineMsq(true);
             $msq->setSaveProductDetails(true);
         }
 
@@ -75,7 +81,7 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
                 $product = $helper->findProductBySku($helper->getSku($p['sku']), $helper->getUom($p['sku']), false);
             } else if (isset($p['id']) && !empty($p['id'])) {
                 $product = Mage::getModel('catalog/product')->load($p['id']);
-                if ($product->getTypeId() == 'grouped') {
+                if ($product->getTypeId() == 'grouped' && $offline == false) {
                     $product = $helper->findProductBySku($p['sku'], '', false);
                 }
             } else if (isset($p['sku'])) {
@@ -83,7 +89,7 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
             } else {
                 continue;
             }
-
+            
             /* @var $product Epicor_Comm_Model_Product */
 
             if (!$product && isset($p['sku'])) {
@@ -290,6 +296,7 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
         $helper = Mage::helper('epicor_comm/configurator');
         /* @var $helper Epicor_Comm_Helper_Configurator */
         $ewaCode = '';
+        $error ='';
         try {
 
             $productId = Mage::app()->getRequest()->getParam('productId');
@@ -376,7 +383,10 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
                     'ewa_description' => $configurator->getShortDescription(),
                     'ewa_short_description' => $configurator->getShortDescription(),
                     'ewa_sku' => $configurator->getConfiguredProductCode(),
-                    'ewa_title' => $configurator->getTitle()
+                    'ewa_title' => $configurator->getTitle(),
+                    'type' => $configurator->getType(),
+                    'ewa_configurable' => $configurator->getConfigurable(),
+                    'base_product_code' => $configurator->getBaseProductCode()
                 );
             } else {
                 $error = $this->__('Failed to retrieve configured details.');
@@ -436,5 +446,32 @@ class Epicor_Comm_MessageController extends Mage_Core_Controller_Front_Action
             }
         }
     }
+    
+    /**
+     * CAAP Action - AR Payments
+     * 
+     * 
+     */    
+    public function caapAction()
+    {
+
+        $orderID = $this->getRequest()->getParam('id');
+        Mage::getModel('sales/order')->load($orderID);
+        $order = Mage::getModel('sales/order')->load($orderID);
+
+        if (!$order->isObjectNew()) {
+
+            if (!Mage::registry("offline_order_{$order->getId()}")) {
+                Mage::register("offline_order_{$order->getId()}", true);
+            }
+
+            Mage::dispatchEvent('sales_order_save_commit_after', array(
+                'data_object' => $order,
+                'order' => $order,
+            ));
+
+            Mage::unregister("offline_order_{$order->getId()}");
+        }
+    }     
 
 }

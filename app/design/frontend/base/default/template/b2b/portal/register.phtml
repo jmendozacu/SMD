@@ -450,7 +450,7 @@ $deliveryAddressTelephoneFax = $this->showDeliveryAddressTelephoneFax();
                             if($registeredAddress):
                         ?>
                         <p>
-                            <input type="checkbox" name="same_as" value="1" id="registered_delivery" class="same_as" />
+                            <input type="checkbox" name="same_as" value="1" id="registered_delivery" class="same_as" onclick="selectOnlyOneCheckbox(id)"/>
                             <label for="registered_delivery"class="required"><?php echo $this->__('Same as Registered Address') ?></label>
                         </p>
                         <?php
@@ -458,7 +458,7 @@ $deliveryAddressTelephoneFax = $this->showDeliveryAddressTelephoneFax();
                             if($invoiceAddress):
                         ?>
                         <p>
-                            <input type="checkbox" name="same_as" value="1" id="invoice_delivery" class="same_as" />
+                            <input type="checkbox" name="same_as" value="1" id="invoice_delivery" class="same_as" onclick="selectOnlyOneCheckbox(id)"/>
                             <label for="invoice_delivery"class="required"><?php echo $this->__('Same as Invoice Address') ?></label>
                         </p>
                         <?php
@@ -681,6 +681,14 @@ $deliveryAddressTelephoneFax = $this->showDeliveryAddressTelephoneFax();
                     $$('label[for="' + to + '_county_id"] em').first().update('');  
                 } 
             }
+            //ensure only one checkbox is ticked in delivery address
+             function selectOnlyOneCheckbox(id) {
+                 if(id == 'registered_delivery'){
+                    $('invoice_delivery').checked = false;
+                 }else{
+                    $('registered_delivery').checked = false; 
+                 }
+             }
 
             document.observe('dom:loaded', function() {
 
@@ -690,9 +698,11 @@ $deliveryAddressTelephoneFax = $this->showDeliveryAddressTelephoneFax();
                     var to = split[1];
                     if (this.checked) {
                         sameAddressAs(from, to);
-                    } else {
-                        blankAddress(to);
-                    }
+                    } 
+                    //remove functionality that blanks out fields if checkbox unchecked
+//                    else {
+//                        blankAddress(to);
+//                    }
                 });
                 
                 $('invoice_country').observe('change', function(a){

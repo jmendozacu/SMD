@@ -260,5 +260,25 @@
                 </accessrights>
             </groups>
         </epicor_common> 
+        <epicor_comm_enabled_messages translate="label" module="epicor_comm">
+            <groups>
+                <msq_request>   
+                    <fields>                        
+                        <triggers_salesrep_price_lists>
+                            <config_path>epicor_comm_enabled_messages/msq_request/triggers/salesrep_price_lists</config_path>
+                            <label>Salesrep Price Lists</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </triggers_salesrep_price_lists>
+                    </fields>             
+                </msq_request>
+            </groups>                        
+        </epicor_comm_enabled_messages>                
     </sections>
 </config>

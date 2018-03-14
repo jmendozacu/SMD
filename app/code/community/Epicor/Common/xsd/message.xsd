@@ -9,7 +9,7 @@
                 <xs:element type="requestType" name="request"/>
                 <xs:element type="responseType" name="response"/>
             </xs:choice>
-            <xs:attribute type="xs:float" name="version" use="required"/>
+            <xs:attribute type="xs:float" name="version" use="optional"/>
         </xs:complexType>
     </xs:element>
     
@@ -20,4 +20,11 @@
             <xs:element type="msgStatus" name="status"/>
         </xs:sequence>
     </xs:complexType>
+    
+     <xs:complexType name="responseMsg">
+        <xs:complexContent>					
+            <xs:extension base="responseBody" />
+        </xs:complexContent>
+    </xs:complexType>
+    
 </xs:schema>

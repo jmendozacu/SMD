@@ -2,7 +2,8 @@
 <layout version="0.1.7"> 
     <empty>
     </empty>
-    <default>
+    <default>        
+        
         <reference name="top.links">
             <action method="addLink" translate="label title">
                 <label>Home</label>
@@ -63,8 +64,9 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>            
-                <name>epicor/comm/js/configurableAddToCart.js</name>               
+                <name>epicor/comm/js/configurableAddToCart.js?v=1.0.8.3</name>               
             </action>
+            
             <action method="addItem">
                 <type>skin_css</type>            
                 <name>epicor/comm/css/locations.css</name>               
@@ -112,6 +114,7 @@
             <block type="epicor_comm/cart_quickadd" name="epicor_comm.cart.quickadd" template="epicor_comm/cart/quickadd.phtml" after="cart_sidebar" />                
             <block type="epicor_comm/customer_account_masquerade" name="epicor_comm.cart.masquerade" template="epicor_comm/customer/account/masquerade.phtml" after="epicor_comm.cart.quickadd" />
             <block type="epicor_comm/customer_locationpicker" name="epicor_comm.locationpicker" template="epicor_comm/customer/locationpicker.phtml" after="epicor_comm.cart.masquerade" />
+            <block type="epicor_comm/customer_branchpickup" name="epicor_comm.branchpickup" template="epicor_comm/customer/branchpickup.phtml" after="epicor_comm.locationpicker" />
         </reference>        
         <reference name="wishlist_sidebar">          
             <action method="setTemplate">
@@ -138,16 +141,6 @@
             </action>
         </reference>
     </customer_logged_in>        
-    <epicor_comm_configurator_loadewa>
-        <reference name="root">
-            <action method="setTemplate">
-                <template>page/empty.phtml</template>
-            </action>
-        </reference>
-        <reference name="content">
-            <block type="epicor_comm/catalog_product_ewa" name="ewaform" template="epicor_comm/catalog/product/ewa.phtml" />
-        </reference>
-    </epicor_comm_configurator_loadewa>
     <epicor_comm_configurator_error>
         <reference name="root">
             <action method="setTemplate">
@@ -178,9 +171,6 @@
             <block type="epicor_comm/catalog_product_ewa" name="bankform" template="epicor_comm/catalog/product/ewa.phtml" />
         </reference>
     </epicor_comm_configurator_reorderewa2>
-    <epicor_comm_configurator_editewa>
-        <update handle="epicor_comm_configurator_loadewa" />
-    </epicor_comm_configurator_editewa>
     <catalog_product_view>
         <reference name="product.info" >
             <action method="setTemplate">
@@ -390,7 +380,8 @@
         </reference>
     </PRODUCT_TYPE_bundle>        
        
-    <checkout_cart_index translate="label">
+    <checkout_cart_index translate="label">       
+              
         <reference name="checkout.cart">
             <action method="setCartTemplate">
                 <value>epicor_comm/checkout/cart.phtml</value>
@@ -415,7 +406,8 @@
                 <type>configurable</type>
                 <block>checkout/cart_item_renderer_configurable</block>
                 <template>epicor_comm/checkout/cart/item/default.phtml</template>
-            </action>
+            </action>           
+            
         </reference>
         <reference name="additional.product.info">
             <block type="epicor_comm/checkout_cart_item_comment" name="item_comment" />
@@ -423,6 +415,11 @@
         <reference name="checkout.cart.totals">
             <action method="setTemplate">
                 <template>epicor_comm/checkout/cart/totals.phtml</template>
+            </action>
+        </reference>
+        <reference name="checkout.cart.methods.multishipping">
+            <action method="setTemplate">
+                <value>epicor_comm/checkout/multishipping/link.phtml</value>
             </action>
         </reference>
     </checkout_cart_index>
@@ -488,13 +485,7 @@
     </epicor_comm_onepage_shippingpopup>
     <checkout_onepage_index>
         
-        <reference name="head">  
-            <action method="addJs">
-                <file>flexitheme/jquery/jquery-1.7.2.min.js</file>
-            </action>
-            <action method="addJs">
-                <file>flexitheme/jquery/jquery.no-conflict.js</file>
-            </action>
+        <reference name="head"> 
             <action method="addJs">
                 <file>epicor/grid.js</file>
             </action>  
@@ -502,6 +493,22 @@
                 <type>skin_js</type>
                 <name>epicor/comm/js/jquery.maxlength.js</name>
             </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params></params>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+                <params></params>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+                <params></params>
+            </action>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
         </reference>
         <reference name="checkout.onepage">
             <action method="setTemplate">
@@ -525,7 +532,12 @@
             <action method="setTemplate">
                 <template>epicor_comm/checkout/onepage/progress.phtml</template>
             </action>
-        </reference>       
+        </reference>    
+        <reference name="checkout.onepage.shipping_method">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/shipping_method.phtml</template>
+            </action>
+        </reference>   
     </checkout_onepage_index>
     <checkout_onepage_shipping_dates>
         <!-- Mage_Checkout -->
@@ -607,6 +619,11 @@
                 <template>epicor_comm/sales/order/recent.phtml</template>
             </action>
         </reference>
+        <reference name="customer_account_dashboard_address">
+            <action method="setTemplate">
+                <template>epicor_comm/customer/account/dashboard/address.phtml</template>
+            </action>
+        </reference>        
     </customer_account_index>
     <catalog_product_compare_index>
         <reference name="catalog.compare.list">
@@ -615,7 +632,7 @@
             </action>
         </reference>
     </catalog_product_compare_index>
-    <sales_order_history>
+    <sales_order_history>        
         <reference name="sales.order.history">
             <action method="setTemplate">
                 <template>epicor_comm/sales/order/history.phtml</template>
@@ -636,6 +653,13 @@
             </action>
         </reference>
     </checkout_multishipping_shipping>
+    <checkout_multishipping_billing translate="label">
+        <reference name="checkout_billing">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/billing.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_billing>
     <checkout_multishipping_address_select translate="label">
         <reference name="checkout_address_select">
             <action method="setTemplate">
@@ -848,7 +872,7 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>epicor/comm/js/quickadd.js</name>
+                <name>epicor/comm/js/quickadd.js?v=1.0.9.1</name>
                 <params/>
             </action>
             <action method="addJs">
@@ -899,7 +923,7 @@
             <block type="epicor_comm/store_switcher" name="store_switcher" as="store.switcher" template="epicor_comm/store/selector.phtml" />    
         </reference>
     </epicor_comm_store_selector>
-    <sales_order_view>
+    <sales_order_view>        
         <reference name="sales.order.info.buttons">
             <block type="epicor_comm/sales_order_returnlink" as="returnlink" name="returnlink" />     
         </reference>
@@ -932,16 +956,16 @@
         </block>
     </epicor_comm_configurableproducts_stockandprice>       
     <add_returns_footer_link>  
-       <reference name="footer_links" >
-           <action method="addLink" translate="label title" module="epicor_comm">
-               <label>Returns</label>
-               <url>epicor_comm/returns</url>
-               <title>Returns</title>
-               <prepare>true</prepare>
-               <urlParams/>
-               <position>40</position>
-           </action>
-       </reference>    
+        <reference name="footer_links" >
+            <action method="addLink" translate="label title" module="epicor_comm">
+                <label>Returns</label>
+                <url>epicor_comm/returns</url>
+                <title>Returns</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>40</position>
+            </action>
+        </reference>    
     </add_returns_footer_link>       
     
     <epicor_comm_locations_addtocartfrommyorderswidget translate="title">

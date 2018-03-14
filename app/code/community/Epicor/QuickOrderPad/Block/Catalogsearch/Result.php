@@ -25,6 +25,7 @@ class Epicor_QuickOrderPad_Block_Catalogsearch_Result extends Mage_CatalogSearch
         
         $query = $this->helper('catalogsearch')->getQueryText();
         
+        $title = '';
         if ($actionName == 'addToCartFromWishlist') {
             $title = $this->__('Add to cart from Wishlist');
         } elseif ($actionName == 'addToCartFromMyOrdersWidget') {

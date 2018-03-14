@@ -25,7 +25,7 @@ class Epicor_Customerconnect_Block_Customer_Dashboard_Orders_Renderer_Reorder
 
             $return = Mage::getUrl('customerconnect/orders/');
 
-            $html = '<a href="' . $helper->getOrderReorderUrl($row, $return) . '">' . $this->__('Reorder') . '</a>';
+            $html = '<a href="' . $helper->getOrderReorderUrl($row, $return) . '" class="link-reorder reorder-button">' . $this->__('Reorder') . '</a>';
         }
 
         return $html;

@@ -80,7 +80,21 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Message_AjaxController extends Epicor_Com
 
         Mage::app()->getResponse()->setBody($helper->getP21Token());
     }
-
+    
+    /**
+     * Syncs Related Documents of product from ERP to Magento
+     */
+    public function syncRelatedDocsAction()
+    {
+        $productId = $this->getRequest()->getParam('product', null);
+        
+        $helper = Mage::helper('epicor_comm/product_relateddocuments_sync');
+        /* @var $helper Epicor_Comm_Helper_Product_Relateddocuments_Sync */
+        
+        $helper->processRelatedDocuments($productId,true);
+        
+        Mage::app()->getResponse()->setBody('true');
+    }
 }
 
 

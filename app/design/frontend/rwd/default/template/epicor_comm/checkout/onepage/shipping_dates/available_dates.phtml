@@ -19,10 +19,9 @@
                 <div class="fields">
                     <label for="shipping_dates:shipby"><?php echo $this->__('Available Delivery Dates : '); ?></label>
                     <select name="shipping_dates[shipby]" id="shipping_dates[shipby]">
-                        <?php foreach ($this->getAvailableDates() as $id => $date): ?>
-                        <option value="<?php echo $date; ?>"><?php echo Mage::helper('epicor_common')->convertIso8601DateNoLocale($date, 'F j, Y');
-                            ?></option>
-                        <?php endforeach; ?>
+                      <?php foreach($this->getAvailableDates() as $id => $date): ?>
+                        <option value="<?php echo $date; ?>"><?php echo Mage::helper('epicor_comm')->convertIso8601DateNoLocale($date, 'F j, Y'); ?></option>
+                    <?php endforeach; ?>
                         <?php if (count($this->getAvailableDates()) === 0): ?>
                             <option value="<?php echo $this->getDefaultAvailableDate(); ?>">
                             <?php echo $this->__('Next Available Day'); ?>

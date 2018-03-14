@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Epicor_Cre>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment />
+                <Epicor_Common />
+            </depends>
+        </Epicor_Cre>
+    </modules>
+</config>

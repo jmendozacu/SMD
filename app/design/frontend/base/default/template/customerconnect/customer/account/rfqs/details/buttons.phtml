@@ -52,7 +52,8 @@ $action = Mage::registry('rfq_new') ? Mage::getUrl('*/*/add/') : Mage::getUrl('*
     <?php endif; ?>
     <?php if (Mage::registry('rfqs_editable') || Mage::registry('rfqs_editable_partial')) : ?>
         <!--<button id="rfq_save" class="scalable button " type="submit">Save and Continue</button>-->
-         <button id="rfq_save" class="scalable save" type="button" title="<?php echo $this->__('Save and Continue') ?>">
+        <button id="rfq_save" class="scalable save" type="button" title="<?php echo $this->__('Save and Continue') ?>">
+            <!--<button id="rfq_save" class="scalable save" type="button" title="<?php echo $this->__('Save and Continue') ?>">-->
             <span>
                 <span>
                     <span><?php echo $this->__('Save and Continue') ?></span>

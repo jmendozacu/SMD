@@ -11,7 +11,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
 {
 
     /**
-     * Index action 
+     * Index action
      */
     public function indexAction()
     {
@@ -43,7 +43,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         if ($data) {
             $commHelper = Mage::helper('epicor_comm');
             /* @var $commHelper Epicor_Comm_Helper_Data */
-            
+
             $data = $commHelper->sanitizeData($data);
 
             $message = Mage::getSingleton('customerconnect/message_request_crqc');
@@ -103,10 +103,10 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         if ($data) {
             $helper = Mage::helper('customerconnect/rfq');
             /* @var $helper Epicor_Customerconnect_Helper_Rfq */
-            
+
             $commHelper = Mage::helper('epicor_comm');
             /* @var $commHelper Epicor_Comm_Helper_Data */
-            
+
             $data = $commHelper->sanitizeData($data);
 
             $response = $helper->processRfqCrqc('confirm', $data, $response);
@@ -124,10 +124,10 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         if ($data) {
             $helper = Mage::helper('customerconnect/rfq');
             /* @var $helper Epicor_Customerconnect_Helper_Rfq */
-            
+
             $commHelper = Mage::helper('epicor_comm');
             /* @var $commHelper Epicor_Comm_Helper_Data */
-            
+
             $data = $commHelper->sanitizeData($data);
 
             $response = $helper->processRfqCrqc('reject', $data, $response);
@@ -142,10 +142,9 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         Mage::register('customer_connect_rfq_details', $rfq);
 
         $this->loadLayout()->renderLayout();
-        
+
         $erpAccount = Mage::helper('epicor_comm')->getErpAccountInfo();
         $currencyCode = $erpAccount->getCurrencyCode(Mage::app()->getStore()->getBaseCurrencyCode());
-
         if (Mage::getSingleton('core/session')->getMessages()->getItems() || !$currencyCode) {
             session_write_close();
             $this->_redirect('*/*/index');
@@ -154,14 +153,18 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
 
     public function addAction()
     {
+        $helper = Mage::helper('customerconnect/rfq');
+        /* @var $helper Epicor_Customerconnect_Helper_Rfq */
+
+        $_post = $this->getRequest()->getPost();
+        
+        $newData = $helper->getProcessedRfqData($_post['rfq_serialize_data']);
         $error = false;
-        $deliveryAddress = $this->getRequest()->getPost('delivery_address');
-        $error =  $this->getRequest()->getPost('delivery_address') ? Mage::helper('customerconnect')->addressValidate($deliveryAddress, true) : null; 
-        if(!isset($error)){
+        $deliveryAddress = $newData['delivery_address'];
+        $error = $deliveryAddress ? Mage::helper('customerconnect')->addressValidate($deliveryAddress, true) : null;
+        if (!isset($error)) {
             try {
-                if ($newData = $this->getRequest()->getPost()) {
-                    $helper = Mage::helper('customerconnect/rfq');
-                    /* @var $helper Epicor_Customerconnect_Helper_Rfq */
+                if ($newData) {
                     $fileHelper = Mage::helper('epicor_common/file');
                     /* @var $fileHelper Epicor_Common_Helper_File */
                     $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -212,7 +215,9 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                                     $adapter->setCurlOption(CURLOPT_POST, 1);
 
                                     $adapter->setCurlOption(CURLOPT_USERAGENT, 'api');
-                                    $adapter->setCurlOption(CURLOPT_TIMEOUT, 1);
+                                    
+                                    $adapter->setCurlOption(CURLOPT_TIMEOUT, $this->getMessageTimeout());
+                               //     $adapter->setCurlOption(CURLOPT_TIMEOUT, 1);
                                     $adapter->setCurlOption(CURLOPT_HEADER, 0);
                                     $adapter->setCurlOption(CURLOPT_RETURNTRANSFER, false);
                                     $adapter->setCurlOption(CURLOPT_FORBID_REUSE, true);
@@ -220,8 +225,10 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                                     $adapter->setCurlOption(CURLOPT_DNS_CACHE_TIMEOUT, 10);
                                     $adapter->setCurlOption(CURLOPT_FRESH_CONNECT, true);
 
+
                                     $helper = Mage::helper('customerconnect');
                                     /* @var $helper Epicor_Customerconnect_Helper_Data */
+
 
                                     $newData['account_number'] = $helper->getErpAccountNumber();
 
@@ -233,10 +240,11 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                                 }
                                 $url = Mage::getUrl('*/*/index');
 
+                                
                                 Mage::register('rfq_redirect_url', $url);
 
                                 $this->getResponse()->setBody(
-                                        $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_redirector')->toHtml()
+                                    $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_redirector')->toHtml()
                                 );
 
                                 return;
@@ -283,12 +291,22 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             }
         }
         if ($error) {
+
             Mage::register('rfq_error', $error);
+            $description = '';
+            if(is_object($crqu->getResponse())){    
+                if(is_object($crqu->getResponse()->getStatus())){    
+                    $description = $crqu->getResponse()->getStatus()->getDescription();
+					Mage::register('rfq_error_description', $description);
+                }    
+            }
+
 
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
+                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
             );
         } else {
+
 
             $helper = Mage::helper('customerconnect');
             /* @var $helper Epicor_Customerconnect_Helper_Data */
@@ -303,10 +321,11 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             $requested = $helper->urlEncode($helper->encrypt(serialize($quoteDetails)));
             $url = Mage::getUrl('*/*/details', array('quote' => $requested));
 
+
             Mage::register('rfq_redirect_url', $url);
 
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_redirector')->toHtml()
+                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_redirector')->toHtml()
             );
         }
     }
@@ -314,26 +333,27 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
     public function updateAction()
     {
         $files = array();
+        $helper = Mage::helper('customerconnect/rfq');
+        /* @var $helper Epicor_Customerconnect_Helper_Rfq */
+        $_post = $this->getRequest()->getPost();
 
-        $error = '';        
-        $deliveryAddress = $this->getRequest()->getPost('delivery_address');
-        $error =  $this->getRequest()->getPost('delivery_address') ? Mage::helper('customerconnect')->addressValidate($deliveryAddress, true) : null; 
-        if(!isset($error)){
+        $newData = $helper->getProcessedRfqData($_post['rfq_serialize_data']);
+        $error = '';
+        $deliveryAddress = $newData['delivery_address'];
+        $error = $deliveryAddress ? Mage::helper('customerconnect')->addressValidate($deliveryAddress, true) : null;
+        if (!isset($error)) {
             try {
-                if ($newData = $this->getRequest()->getPost()) {
-
-                    $helper = Mage::helper('customerconnect/rfq');
-                    /* @var $helper Epicor_Customerconnect_Helper_Rfq */
+                if ($newData) {
                     $fileHelper = Mage::helper('epicor_common/file');
                     /* @var $fileHelper Epicor_Common_Helper_File */
                     $customer = Mage::getSingleton('customer/session')->getCustomer();
                     /* @var $customer Epicor_Comm_Model_Customer */
-                $commHelper = Mage::helper('epicor_comm');
-                /* @var $commHelper Epicor_Comm_Helper_Data */
+                    $commHelper = Mage::helper('epicor_comm');
+                    /* @var $commHelper Epicor_Comm_Helper_Data */
                     $oldData = unserialize(base64_decode($newData['old_data']));
                     unset($newData['old_data']);
-                $newData = $commHelper->sanitizeData($newData);
-                $oldData = $commHelper->sanitizeData($oldData);
+                    $newData = $commHelper->sanitizeData($newData);
+                    $oldData = $commHelper->sanitizeData($oldData);
 
                     $crqu = Mage::getSingleton('customerconnect/message_request_crqu');
                     /* @var $crqu Epicor_Customerconnect_Model_Message_Request_Crqu */
@@ -397,14 +417,15 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             } catch (Exception $ex) {
                 $error = $this->__('An error occurred, please try again');
             }
-        }    
+        }
         if ($error) {
-            Mage::register('rfq_error', $error);
 
+            Mage::register('rfq_error', $error);
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
+                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
             );
         } else {
+            
             $this->loadLayout()->renderLayout();
         }
     }
@@ -461,18 +482,18 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             }
 
             $content = $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_addressdetails')
-                            ->setAddressType($type)
-                            ->setAddressFromCustomerAddress($address)->toHtml();
+                    ->setAddressType($type)
+                    ->setAddressFromCustomerAddress($address)->toHtml();
         } else {
             $addressParam = Mage::app()->getRequest()->getParam('address-data');
             $addressData = !empty($addressParam) ? (array) json_decode($addressParam) : array();
 
             $content = $this->getLayout()->createBlock('customerconnect/customer_editableaddress')
-                            ->setAddressType($type)
-                            ->setFieldnamePrefix($type . '_address[')
-                            ->setFieldnameSuffix(']')
-                            ->setShowAddressCode(false)
-                            ->setAddressFromCustomerAddress(new Varien_Object($addressData))->toHtml();
+                    ->setAddressType($type)
+                    ->setFieldnamePrefix($type . '_address[')
+                    ->setFieldnameSuffix(']')
+                    ->setShowAddressCode(false)
+                    ->setAddressFromCustomerAddress(new Varien_Object($addressData))->toHtml();
         }
 
         $this->getResponse()->setBody($content);
@@ -486,7 +507,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         $baseUrl = Mage::helper('customerconnect')->urlWithoutHttp();
         $fileName = $baseUrl . '_rfq.csv';
         $content = $this->getLayout()->createBlock('customerconnect/customer_rfqs_list_grid')
-                ->getCsvFile();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -499,7 +520,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         $baseUrl = Mage::helper('customerconnect')->urlWithoutHttp();
         $fileName = $baseUrl . '_rfq.xml';
         $content = $this->getLayout()->createBlock('customerconnect/customer_rfqs_list_grid')
-                ->getExcelFile();
+            ->getExcelFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -529,9 +550,9 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             }
 
             if (
-                    count($quoteDetails) == 3 &&
-                    $quoteDetails['erp_account'] == $erpAccountNumber &&
-                    !empty($quoteDetails['quote_number']) && array_key_exists('quote_sequence', $quoteDetails)
+                count($quoteDetails) == 3 &&
+                $quoteDetails['erp_account'] == $erpAccountNumber &&
+                !empty($quoteDetails['quote_number']) && array_key_exists('quote_sequence', $quoteDetails)
             ) {
                 $crqd = Mage::getSingleton('customerconnect/message_request_crqd');
                 $messageTypeCheck = $crqd->getHelper('customerconnect/messaging')->getMessageType('CRQD');
@@ -539,9 +560,9 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                 if ($crqd->isActive() && $messageTypeCheck) {
 
                     $crqd->setAccountNumber($erpAccountNumber)
-                            ->setQuoteNumber($quoteDetails['quote_number'])
-                            ->setQuoteSequence($quoteDetails['quote_sequence'])
-                            ->setLanguageCode($helper->getLanguageMapping(Mage::app()->getLocale()->getLocaleCode()));
+                        ->setQuoteNumber($quoteDetails['quote_number'])
+                        ->setQuoteSequence($quoteDetails['quote_sequence'])
+                        ->setLanguageCode($helper->getLanguageMapping(Mage::app()->getLocale()->getLocaleCode()));
 
                     if ($crqd->sendMessage()) {
                         $rfq = $crqd->getResults();
@@ -564,7 +585,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             $accessHelper = Mage::helper('epicor_common/access');
             /* @var $helper Epicor_Common_Helper_Access */
             $editable = $accessHelper->customerHasAccess(
-                    'Epicor_Customerconnect', 'Rfqs', 'update', '', 'Access'
+                'Epicor_Customerconnect', 'Rfqs', 'update', '', 'Access'
             );
 
             $helper = Mage::helper('customerconnect/messaging');
@@ -580,11 +601,11 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
 
             $msgHelper = Mage::helper('epicor_comm/messaging');
             /* @var $msgHelper Epicor_Comm_Helper_Messaging */
-            
+
             if ($editable && $rfq->getCurrencyCode() != $msgHelper->getCurrencyMapping()) {
                 $editable = false;
             }
-            
+
             $enabled = $msgHelper->isMessageEnabled('customerconnect', 'crqu');
 
             if ($enabled && $status == Epicor_Customerconnect_Model_Config_Source_Quotestatus::QUOTE_STATUS_AWAITING) {
@@ -614,6 +635,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         }
 
         $q = $this->getRequest()->getParam('q', '');
+        $listId = $this->getRequest()->getParam('list_id');
         $instock = $this->getRequest()->getParam('instock', '');
         Mage::register('search-query', $q);
 
@@ -628,8 +650,8 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             $query->setStoreId(Mage::app()->getStore()->getId());
             if (Mage::helper('catalogsearch')->isMinQueryLength()) {
                 $query->setId(0)
-                        ->setIsActive(1)
-                        ->setIsProcessed(1);
+                    ->setIsActive(1)
+                    ->setIsProcessed(1);
             } else {
                 if ($query->getId()) {
                     $query->setPopularity($query->getPopularity() + 1);
@@ -644,6 +666,15 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
 
             if (!empty($q) && !Mage::helper('catalogsearch')->isMinQueryLength()) {
                 $query->save();
+            }
+        } else if ($listId) {
+            $helper = Mage::helper('epicor_lists/frontend');
+            /* @var $helper Epicor_Lists_Helper_Frontend */
+
+            if ($helper->getValidListById($listId)) {
+                $helper->setSessionList($listId);
+            } else {
+                $helper->setSessionList(-1);
             }
         }
 
@@ -671,7 +702,6 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         /* @var $helper Epicor_Comm_Helper_Product */
 
         $products = $helper->processProductCsvUpload($_FILES['import_product_csv_file']['tmp_name']);
-
         $prodArray = array();
 
         if (!empty($products['products'])) {
@@ -682,11 +712,22 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             $qty = array();
             foreach ($products['products'] as $x => $product) {
                 $msqProds[$x] = $product['product_added'];
+                if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+                    $productId[$product['product_added']->getEntityId()] = $x;
+                    $productSku[$product['product_added']->getEntityId()] = $product['product_added']->getSku();
+                }
                 $qty[$x] = $product['qty'];
             }
-
             $messenger->sendMsq($msqProds);
-
+            if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+                $handleResponse = Mage::helper('epicor_comm')->createMsqRequest($msqProds, 'reorder');
+                if ($handleResponse) {
+                    foreach ($handleResponse as $removeProduct) {
+                        unset($msqProds[$productId[$removeProduct]]);
+                        $products['errors'][] = $this->__('Product %s could not be added to basket as it is not currently available', $productSku[$removeProduct]);
+                    }
+                }
+            }
             $customerSession = Mage::getSingleton('customer/session');
             /* @var $customerSession Mage_Customer_Model_Session */
 
@@ -723,7 +764,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         Mage::register('line_add_json', json_encode($response));
 
         $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_lineaddbyjs')->toHtml()
+            $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_lineaddbyjs')->toHtml()
         );
     }
 
@@ -746,6 +787,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         $qty = $helper->urlDecode(Mage::app()->getRequest()->getParam('qty')) ?: 1;
         $quoteId = $helper->urlDecode(Mage::app()->getRequest()->getParam('quoteId'));
         $lineNumber = $helper->urlDecode(Mage::app()->getRequest()->getParam('lineNumber'));
+        $ewaSortOrder = array();
 
         try {
             $product = Mage::getModel('catalog/product');
@@ -753,18 +795,19 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
             $errors = array();
 
             $product->setStoreId(Mage::app()->getStore()->getId())
-                    ->load($product->getIdBySku($productSku));
+                ->load($product->getIdBySku($productSku));
 
             $prodArray = array();
 
             $cdm = Mage::getModel('epicor_comm/message_request_cdm');
             /* @var $cdm Epicor_Comm_Model_Message_Request_Cdm */
-
+            $commHelper = Mage::helper('epicor_comm');
+            $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
             $cdm->setProductSku($product->getSku());
             $cdm->setProductUom($product->getUom());
             $cdm->setGroupSequence($groupSequence);
             $cdm->setTimeStamp(null);
-            $cdm->setQty($qty);
+            $cdm->setQty($commHelper->qtyRounding($qty, $decimalPlaces));
             $cdm->setEwaCode($ewaCode);
             $cdm->setQuoteId(!empty($quoteId) ? $quoteId : null);
             $cdm->setLineNumber($lineNumber);
@@ -778,33 +821,63 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                 $ewaDescription = $configurator->getDescription();
                 $ewaSku = $configurator->getConfiguredProductCode();
                 $productCurrency = $configurator->getCurrencies()->getCurrency();
+                $isConfigurable = $configurator->getConfigurable() ?: 'Y';
+                $cdmType = $configurator->getType() ?: 'S';
+                $cdmBaseProduct = $configurator->getBaseProductCode() ?: $product->getSku();
+                $isConfigurator = true;
 
-                $ewaAttributes = array(
-                    array('description' => 'Ewa Code', 'value' => $ewaCode),
-                    array('description' => 'Ewa Description', 'value' => $ewaDescription),
-                    array('description' => 'Ewa Short Description', 'value' => $ewaShortDescription),
-                    array('description' => 'Ewa SKU', 'value' => $ewaSku),
-                    array('description' => 'Ewa Title', 'value' => $ewaTitle),
-                );
+                /* start if base product does't exist magento throw error */
+                if ($cdmBaseProduct != $product->getSku()) {
+                    $productObj = Mage::getModel('catalog/product');
+                    /* @var $productObj Epicor_Comm_Model_Product */
+                    $productObj->setStoreId(Mage::app()->getStore()->getId())->load($productObj->getIdBySku($cdmBaseProduct));
 
-                $product->setEwaCode($ewaCode);
-                $product->setEwaSku($ewaSku);
+                    if (!$productObj->getId()) {
+                        throw new Exception($this->__('Unknown Product for Web Configuration'));
+                    }
 
-                $product->setEwaDescription(base64_encode($ewaDescription));
-                $product->setEwaShortDescription(base64_encode($ewaShortDescription));
-                $product->setEwaTitle(base64_encode($ewaTitle));
+                    $isConfigurator = $productObj->getConfigurator();
 
-                $product->setEwaAttributes(base64_encode(serialize($ewaAttributes)));
+                    unset($product);
+                    $product = $productObj;
+
+                    /* if product is not configurator product */
+                    if (!$isConfigurator) {
+                        $isConfigurable = 'N';
+                    }
+                }
+                if ($isConfigurator) {
+                    $ewaAttributes = array(
+                        array('description' => 'Ewa Code', 'value' => $ewaCode),
+                        array('description' => 'Ewa Description', 'value' => $ewaDescription),
+                        array('description' => 'Ewa Short Description', 'value' => $ewaShortDescription),
+                        array('description' => 'Ewa SKU', 'value' => $ewaSku),
+                        array('description' => 'Ewa Title', 'value' => $ewaTitle)
+                    );
+
+                    $product->setEwaCode($ewaCode);
+                    $product->setEwaSku($ewaSku);
+                    $product->setEwaDescription(base64_encode($ewaDescription));
+                    $product->setEwaShortDescription(base64_encode($ewaShortDescription));
+                    $product->setEwaTitle(base64_encode($ewaTitle));
+                    $product->setEwaConfigurable($isConfigurable);
+                    $product->setEwaAttributes(base64_encode(serialize($ewaAttributes)));
+                    $ewaSortOrder = Mage::helper('customerconnect')->sortQuoteEwaAttributes();
+                }
+
+                $product->setCdmType($cdmType);
 
                 $basePrice = $productCurrency->getBasePrice();
                 $customerPrice = $productCurrency->getCustomerPrice();
                 $product->setEccMsqBasePrice($basePrice);
                 $product->unsFinalPrice();
 
-                $customerPriceUsed = Mage::getStoreConfig('epicor_comm_enabled_messages/msq_request/cusomterpriceused');
+                $configHelper = Mage::helper('epicor_comm/messaging_msqconfig');
+                /* @var $configHelper Epicor_Comm_Helper_Messaging_Msqconfig */
+                $customerPriceUsed = $configHelper->getConfig('cusomterpriceused');
                 // Set prices
                 if ($customerPriceUsed || $product->getTypeId() == 'bundle') {
-                    // NOTe Bundle products cannot have special prices like other products 
+                    // NOTe Bundle products cannot have special prices like other products
                     // as it's expecting a percentage, not a price!
                     $product->setPrice($customerPrice);
                 } else {
@@ -816,7 +889,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
                 $product->setMinimalPrice($customerPrice);
                 $product->setMinPrice($customerPrice);
                 $product->setCustomerPrice($customerPrice);
-                $product->setMsqQty($configurator->getQuantity());
+                $product->setMsqQty($commHelper->qtyRounding($configurator->getQuantity(), $decimalPlaces));
                 $product->setQty($configurator->getQuantity());
                 $product->setUsePrice($customerPrice);
 
@@ -860,14 +933,15 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
 
         $response = array(
             'errors' => $errors,
-            'products' => $prodArray
+            'products' => $prodArray,
+            'ewasortorder' => $ewaSortOrder
         );
         Mage::register('line_add_json', str_replace('\\', '\\\\', json_encode($response)));
         Mage::register('double_parent', true);
 
 
         $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_lineaddbyjs')->toHtml()
+            $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_lineaddbyjs')->toHtml()
         );
     }
 
@@ -938,7 +1012,7 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         ));
 
         $cartCandidates = $product->getTypeInstance(true)
-                ->prepareForCartAdvanced($request, $product, null);
+            ->prepareForCartAdvanced($request, $product, null);
 
         $finalProduct = array();
 
@@ -1082,18 +1156,18 @@ class Epicor_Customerconnect_RfqsController extends Epicor_Customerconnect_Contr
         if ($customer->getContactCode()) {
 
             $contact = new Epicor_Common_Model_Xmlvarien(
-                    array(
+                array(
                 'number' => $customer->getContactCode(),
                 'name' => $customer->getName(),
-                    )
+                )
             );
 
             $contactArr = new Epicor_Common_Model_Xmlvarien(
-                    array(
+                array(
                 'contact' => array(
                     $contact
                 )
-                    )
+                )
             );
 
             $rfq->setContacts($contactArr);

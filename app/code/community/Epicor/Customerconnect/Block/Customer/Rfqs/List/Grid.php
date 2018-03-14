@@ -17,7 +17,8 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_List_Grid extends Epicor_Common
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $helper = Mage::helper('epicor_common/access');
         /* @var $helper Epicor_Common_Helper_Access */
 
@@ -35,8 +36,8 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_List_Grid extends Epicor_Common
         $this->setMessageType('crqs');
         $this->setIdColumn('quote_number');
         $this->initColumns();
-        $this->setExportTypeCsv(array('text' => 'CSV', 'url' => '*/*/exportRfqsCsv'));
-        $this->setExportTypeXml(array('text' => 'XML', 'url' => '*/*/exportRfqsXml'));
+        $this->setExportTypeCsv(array('text' => 'CSV', 'url' => '*/*/exportCsv'));
+        $this->setExportTypeXml(array('text' => 'XML', 'url' => '*/*/exportXml'));
     }
 
     public function getRowUrl($row)
@@ -78,7 +79,7 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_List_Grid extends Epicor_Common
             unset($columns['contracts_contract_code']);
         }
         
-        if ($this->_allowEdit) {
+        if ($this->_allowEdit && $this->getRequest()->getActionName() != "exportCsv"  && $this->getRequest()->getActionName() != "exportXml") {
             $newColumns = array(
                 'confirm' => array(
                     'header' => Mage::helper('customerconnect')->__('Confirm'),

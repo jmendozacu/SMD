@@ -25,7 +25,7 @@ class Epicor_Comm_Block_Checkout_Multishipping_Addresses extends Mage_Checkout_B
         if (is_null($options)) {
             $options = array();
 
-            $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType('delivery') : $this->getCustomer()->getAddresses();
+            $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType('delivery',true) : $this->getCustomer()->getAddresses();
 
             foreach ($addresses as $address) {
                 $options[] = array(
@@ -44,7 +44,7 @@ class Epicor_Comm_Block_Checkout_Multishipping_Addresses extends Mage_Checkout_B
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Comm_Helper_Data */
 
-        return $helper->customerAddressPermissionCheck('create');
+        return $helper->createShippingAddress();
     }
 
 }

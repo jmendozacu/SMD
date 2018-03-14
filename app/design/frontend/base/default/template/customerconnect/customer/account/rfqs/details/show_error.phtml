@@ -7,8 +7,20 @@
  * @author     Epicor Websales Team
  */
 /* @var $this Epicor_Customerconnect_Block_Customer_Rfqs_Details_Showerror */
+$error = trim($this->getError());
+$messageError = $this->getErrorMessage();
+$messageType = isset($messageError['message_type']) ? strtolower($messageError['message_type']) : 'error';
+$descriptionError = $this->getDescriptionError();
 ?>
 <script type="text/javascript">
-    window.parent.showMessage('<?php echo $this->getError(); ?>', 'error');
-    window.parent.$('loading-mask').hide();
+    
+    window.parent.showMessage('<?php echo $this->getError(); ?>', 'error', false);
+    <?php if(!empty($messageError)){   ?>     
+        window.parent.showMessage('<?php echo $messageError['text']; ?>', '<?php echo $messageType ?>', true);
+    <?php } ?>
+    <?php if (!empty($descriptionError)) { ?>
+            window.parent.showMessage('<?php echo $descriptionError; ?>', '<?php echo $messageType ?>', true);
+    <?php } ?>
+    window.parent.$('loading-mask').hide(); 
+   
 </script>

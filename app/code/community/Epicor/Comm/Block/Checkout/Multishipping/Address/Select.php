@@ -18,7 +18,7 @@ class Epicor_Comm_Block_Checkout_Multishipping_Address_Select extends Mage_Check
     {
         $collection = $this->getData('address_collection');
         if (is_null($collection)) {
-            $collection = ($this->restrictAddressTypes()) ? $this->_getCheckout()->getCustomer()->getAddressesByType('invoice') : $this->_getCheckout()->getCustomer()->getAddresses();
+            $collection = ($this->restrictAddressTypes()) ? $this->_getCheckout()->getCustomer()->getAddressesByType('invoice',true) : $this->_getCheckout()->getCustomer()->getAddresses();
             $this->setData('address_collection', $collection);
         }
         return $collection;
@@ -29,7 +29,7 @@ class Epicor_Comm_Block_Checkout_Multishipping_Address_Select extends Mage_Check
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Comm_Helper_Data */
 
-        return $helper->customerAddressPermissionCheck('create');
+        return $helper->createBillingAddress();
     }
     
 }

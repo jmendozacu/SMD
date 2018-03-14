@@ -65,6 +65,11 @@
                             <sort_order>50</sort_order>
                             <action>adminhtml/epicorcomm_mapping_remotelinks</action>
                         </remotelinks>
+                        <erpattributes>
+                            <title>ERP Attributes</title>
+                            <sort_order>110</sort_order>
+                            <action>adminhtml/epicorcomm_mapping_erpattributes</action>
+                        </erpattributes>
                     </children>
                 </mapping>      
                 <messaging>
@@ -138,6 +143,11 @@
                             <sort_order>10</sort_order>
                             <action>adminhtml/epicorcomm_locations</action>
                         </manage>
+                        <groups>
+                            <title>Groups</title>
+                            <sort_order>15</sort_order>
+                            <action>adminhtml/epicorcomm_locationgroups</action>
+                        </groups>
                         <config>
                             <title>Configure</title>
                             <sort_order>20</sort_order>
@@ -192,6 +202,9 @@
                                     <shippingmethods>
                                         <title>Shipping Methods</title>
                                     </shippingmethods>
+                                    <erpattributes>
+                                        <title>ERP Attributes</title>
+                                    </erpattributes>
                                 </children>
                             </mapping>  
                             <messaging>
@@ -240,6 +253,9 @@
                                     <manage>
                                         <title>Manage</title>
                                     </manage>
+                                    <groups>
+                                        <title>Groups</title>
+                                    </groups>
                                     <configure>
                                         <title>Configure</title>
                                     </configure>

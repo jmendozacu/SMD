@@ -54,6 +54,7 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Js_Translation extends 
             'All quantities must be valid' => $this->__('All quantities must be valid'),
             'Configure' => $this->__('Configure'),
             'Edit Configuration' => $this->__('Edit Configuration'),
+            'Unknown Product for Web Configuration' => $this->__('Unknown Product for Web Configuration'),
             'No lines added' => $this->__('No lines added'),
             'Line(s) added successfully' => $this->__('Line(s) added successfully'),
             'Are you sure you want to delete selected lines?' => $this->__('Are you sure you want to delete selected lines?'),

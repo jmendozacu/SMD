@@ -29,8 +29,17 @@
  * Temlate for Mage_Customer_Block_Address_Book block
  * @var $test Mage_Customer_Block_Address_Book
  */
-$allowEdits = Mage::helper('epicor_common')->customerAddressPermissionCheck('edit'); 
-$allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionCheck('create'); 
+$commonHelper = Mage::helper('epicor_common');
+/* @var $helper Epicor_Comm_Helper_Data */
+$allowAdditional   = $commonHelper->createUserAddress(); 
+$checkShippingEdit = $commonHelper->createShippingAddress();
+$checkBillingEdit  = $commonHelper->createBillingAddress();
+$allowEdit         = $commonHelper->customerAddressCheck('guest');
+$defaultOverride   = $commonHelper->allowShippingOverride();
+$hideDelete = false;
+if($defaultOverride && !$allowAdditional) {
+    $hideDelete = true;
+}
 ?>
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('Address Book') ?></h1>
@@ -49,7 +58,9 @@ $allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionChec
                     <address>
                         <?php echo $this->getAddressHtml($address);?>
                     </address>
-                    <?php if ($allowEdits || ($allowAdditional && $address->getErpAddressCode() == null)): ?>
+                    <?php 
+                     if(($allowEdit) || ($checkBillingEdit && $address->getErpAddressCode() == null)) :
+                    //if ($checkBillingEdit || ($allowAdditional && $address->getErpAddressCode() == null)): ?>
                         <p><a href="<?php echo $this->getAddressEditUrl($address) ?>"><?php echo $this->__('Change Billing Address') ?></a></p>
                 <?php endif; ?>
                 </li>
@@ -66,7 +77,9 @@ $allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionChec
                     <address>
                     <?php echo $this->getAddressHtml($address);?>
                     </address>
-                    <?php if ($allowEdits || ($allowAdditional && $address->getErpAddressCode() == null)): ?>
+                    <?php 
+                        //if ($checkShippingEdit || ($allowAdditional && $address->getErpAddressCode() == null)):
+                        if(($allowEdit) || ($checkShippingEdit && $address->getErpAddressCode() == null)) : ?>
                         <p><a href="<?php echo $this->getAddressEditUrl($address) ?>"><?php echo $this->__('Change Shipping Address') ?></a></p>
                 <?php endif; ?>
                 </li>
@@ -81,16 +94,36 @@ $allowAdditional =  Mage::helper('epicor_common')->customerAddressPermissionChec
     <div class="col-2 addresses-additional">
         <h2><?php echo $this->__('Additional Address Entries') ?></h2>
         <ol>
-<?php if ($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses()): ?>
-                        <?php foreach ($_pAddsses as $_address): ?>
-                    <li class="item">
-                        <address>
-                        <?php echo $this->getAddressHtml($_address);?>
-                        </address>
-                    <?php if ($allowEdits || ($allowAdditional && $_address->getErpAddressCode() == null)): ?>
-                            <p><a href="<?php echo $this->getUrl('customer/address/edit', array('id' => $_address->getId())) ?>"><?php echo $this->__('Edit Address') ?></a> <span class="separator">|</span> <a href="#" class="link-remove" onclick="return deleteAddress('<?php echo $_address->getId() ?>');"><?php echo $this->__('Delete Address') ?></a></p>
-                    <?php endif; ?>
-                    </li>
+<?php if ($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses()):  ?>
+    <?php foreach ($_pAddsses as $_address): ?>
+            <li class="item">
+                <address>
+                <?php echo $this->getAddressHtml($_address);?>
+                </address>
+                <?php 
+                $allowDefault = $commonHelper->isDefaultAllowed($_address);
+                $allowAdditionalAddress = $allowAdditional;
+                $allowEditAddress = $allowEdit;
+                $checkShippingEdit = $commonHelper->createShippingAddress();
+                $checkBillingEdit  = $commonHelper->createBillingAddress();
+                if(!$checkBillingEdit && $_address->getIsInvoice()) {
+                    $allowEditAddress  =false;
+                    $allowAdditionalAddress = false;
+                }
+                if(!$checkShippingEdit && $_address->getIsDelivery()) {
+                    $allowEditAddress  =false;
+                    $allowAdditionalAddress = false;
+                }
+                ?>
+                <?php if (($_address->getErpAddressCode() == null && $allowAdditionalAddress) || ($allowEditAddress)):?>
+                <p>
+                    <a href="<?php echo $this->getUrl('customer/address/edit', array('id' => $_address->getId())) ?>"><?php echo $this->__('Edit Address') ?></a>
+                    <?php echo $commonHelper->displayDelete($_address,$allowEdit) ?>
+                </p>
+                <?php elseif ($allowDefault): ?>
+                <p><a href="<?php echo $this->getUrl('customer/address/edit', array('id' => $_address->getId())) ?>"><?php echo $this->__('Edit Address') ?></a></p>
+                <?php endif; ?>
+            </li>
     <?php endforeach; ?>
             <?php else: ?>
                 <li class="item empty">

@@ -15,7 +15,8 @@ class Epicor_Customerconnect_Block_Customer_Invoices_List_Grid extends Epicor_Co
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_invoices_grid');
         $this->setMessageBase('customerconnect');
         $this->setMessageType('cuis');

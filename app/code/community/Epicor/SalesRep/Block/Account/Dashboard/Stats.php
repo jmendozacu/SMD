@@ -26,7 +26,7 @@ class Epicor_SalesRep_Block_Account_Dashboard_Stats extends Mage_Core_Block_Temp
 
         if (count($salesRepAccount->getChildAccounts(true)) > 0) {
             $this->_stats[2] = array(
-                $this->__('Total ERP Accounts Under You:') => array('value' => count($salesRepAccount->getMasqueradeAccounts(true)), 'link' => $this->getUrl('*/account_manage/erpaccounts')),
+                $this->__('Total ERP Accounts Under You:') => array('value' => count(array_unique($salesRepAccount->getMasqueradeAccounts(true))), 'link' => $this->getUrl('*/account_manage/erpaccounts')),
                 $this->__('Total Sales Rep Price Lists:') => array('value' => 0, 'link' => ''),
                 $this->__('Sales Reps Reporting to You:') => array('value' => count($salesRepAccount->getChildAccounts(true)), 'link' => $this->getUrl('*/account_manage/hierarchy'))
             );

@@ -13,7 +13,7 @@ document.observe('dom:loaded', function () {
 
 
     Event.live('.addall_qty', 'keyup', function (el, e) {
-        formatNumber(el, false, false);
+        //formatNumber(el, false, false);
     });
 
     $$('#qop-list a').invoke('observe', 'click', function (event) {
@@ -29,8 +29,10 @@ document.observe('dom:loaded', function () {
 
         prodArr = [];
         qtyArr = [];
+        decimalArr = [];
         var message = '';
-
+        if(checkDecimal(this.readAttribute('check'),1))
+        {
         if (this.readAttribute('id') == 'add_all_to_basket') {
             $$('.addall_qty').each(function (ele) {
                 if (ele.value > 0) {
@@ -42,6 +44,7 @@ document.observe('dom:loaded', function () {
 
                     prodArr[prodArr.length] = product;
                     qtyArr[qtyArr.length] = ele.value;
+                    decimalArr[decimalArr.length] = ele.readAttribute('decimal');
                     ele.value = 0;
                 }
             });
@@ -51,7 +54,8 @@ document.observe('dom:loaded', function () {
         } else {
             ele = this.up().select('.addall_qty').shift();
 
-            if (ele.value > 0) {
+            var qnty = (ele.value == 0) ? 1 : ele.value;
+            if (qnty > 0) {
                 var product = ele.readAttribute('id').replace('qty_', '');
                 name = ele.readAttribute('name');
                 if (name != 'qty') {
@@ -59,8 +63,8 @@ document.observe('dom:loaded', function () {
                 }
 
                 prodArr[prodArr.length] = product;
-                qtyArr[qtyArr.length] = ele.value;
-
+                qtyArr[qtyArr.length] = qnty;
+                decimalArr[decimalArr.length] = ele.readAttribute('decimal');
                 ele.value = 0;
             } else {
                 alert(Translator.translate('Please enter a qty'));
@@ -73,7 +77,7 @@ document.observe('dom:loaded', function () {
 
             var url = window.parent.$('la_msq_link').value;
 
-            var postData = {'id[]': prodArr, 'qty[]': qtyArr, 'currency_code': window.parent.$('quote_currency_code').value}
+            var postData = {'id[]': prodArr, 'qty[]': qtyArr, 'decimal[]': decimalArr,'currency_code': window.parent.$('quote_currency_code').value}
 
             window.parent.$('loading-mask').show();
 
@@ -90,6 +94,7 @@ document.observe('dom:loaded', function () {
                     for (index = 0; index < prodArr.length; index++) {
                         id = prodArr[index];
                         qty = qtyArr[index];
+                        decimal = decimalArr[index];
                         pData = msqData[id];
 
                         separator = window.parent.$('la_separator').value;
@@ -101,7 +106,7 @@ document.observe('dom:loaded', function () {
                             showConfiguratorMessage = true;
                         }
 
-                        window.parent.addLineRow(false, pData.sku, qty, pData);
+                        window.parent.addLineRow(false, pData.sku, qty, pData,false,decimal);
                     }
 
                     window.parent.recalcLineTotals();
@@ -126,7 +131,9 @@ document.observe('dom:loaded', function () {
             });
         }
 
-        event.stop();
+        
+    }
+    event.stop();
     });
 
 });

@@ -149,6 +149,7 @@ class Epicor_Customerconnect_Block_Customer_Account_Shippingaddress_List_Grid ex
                 'sortable' => false,
                 'index' => 'stores',
                 'is_system' => true,
+                'renderer' => new Epicor_Customerconnect_Block_Customer_Account_Shippingaddress_Renderer_Shippingsync(),
             );
             
             if($this->_allowEdit) {

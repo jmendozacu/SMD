@@ -90,3 +90,34 @@ span.erpaccount_label {
         width: 70px;
     }
 }
+
+
+
+#selectShippingMethodTrackWrapperWindow{
+    position:fixed;
+    width:750px;
+    height:30%;
+    left:50%;
+    top:50%;
+    margin:-250px 0 0 -325px;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+
+#selectShippingMethodTrackWrapperWindow > div {
+    padding:5px;
+}
+
+#selectShippingMethodTrackWrapperWindow > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectShippingMethodTrackWrapperWindow > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}

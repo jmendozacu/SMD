@@ -74,8 +74,7 @@ class Epicor_Comm_Block_Customer_Account_Shippingaddress_List_Grid extends Epico
 //                'width' => '150px',
                 'type' => 'text',
                 'condition' => 'LIKE',
-                'renderer' => new Epicor_Comm_Block_Customer_Address_Renderer_Street(),
-                'filter'=>false
+                'renderer' => new Epicor_Comm_Block_Customer_Address_Renderer_Street()
             ),
             'city' => array(
                 'header' => Mage::helper('epicor_comm')->__('City'),

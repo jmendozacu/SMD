@@ -23,20 +23,19 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
 /**
  * Grouped product data template
  *
  * @see Mage_Catalog_Block_Product_View_Media
  * @see Mage_Catalog_Block_Product_View_Type_Grouped
  */
-
 $locHelper = $this->helper('epicor_comm/locations');
-    /* @var $helper Epicor_Comm_Helper_Locations */
-
+/* @var $helper Epicor_Comm_Helper_Locations */
+$branchpickupHelper = Mage::helper('epicor_branchpickup');
 $showLocations = $locHelper->isLocationsEnabled();
 $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility') == 'all_source_locations') ? true : false;
-if($showLocations && !$allSourceLocations && !$this->getHideLocations()) : ?>
+if ($showLocations && !$allSourceLocations && !$this->getHideLocations()) :
+    ?>
     <?php echo $this->getChildHtml('grouped_locations') ?>
 <?php else: ?>
     <?php $this->setPreconfiguredValue(); ?>
@@ -49,10 +48,10 @@ if($showLocations && !$allSourceLocations && !$this->getHideLocations()) : ?>
         <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
     <?php endif; ?>
     <?php echo $this->getChildHtml('product_type_data_extra') ?>
-    <?php $packsizeToBeConfigured = $this->getRequest()->getParam('packsize');?>   
-    <?php $initialQtyToBeConfigured = $this->getRequest()->getParam('qty');?>   
+    <?php $packsizeToBeConfigured = $this->getRequest()->getParam('packsize'); ?>
+    <?php $initialQtyToBeConfigured = $this->getRequest()->getParam('qty'); ?>
 
-    <?php 
+    <?php
     $helper = $this->helper('epicor_comm');
     /* @var $helper Epicor_Comm_Helper_Data */
 
@@ -69,70 +68,84 @@ if($showLocations && !$allSourceLocations && !$this->getHideLocations()) : ?>
             <tr>
                 <th><?php echo $this->__('Product Name') ?></th>
                 <?php if ($showPrices): ?>
-                <?php if ($this->getCanShowProductPrice($_product)): ?>
-                <th class="a-right"><?php echo $this->__('Price') ?></th>
-                <?php endif; ?>
+                    <?php if ($this->getCanShowProductPrice($_product)): ?>
+                        <th class="a-right"><?php echo $this->__('Price') ?></th>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <?php if ($showQty): ?>
-                <?php if ($_product->isSaleable()): ?>
-                <th class="a-center"><?php echo $this->__('Qty') ?></th>
-                <?php endif; ?>
+                    <?php if ($_product->isSaleable()): ?>
+                        <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                    <?php endif; ?>
                 <?php endif; ?>
             </tr>
         </thead>
         <tbody>
-        <?php if ($_hasAssociatedProducts): ?>
-        <?php foreach ($_associatedProducts as $_item): ?>
-            <?php if(!$packsizeToBeConfigured ||$packsizeToBeConfigured == $_item->getId()){ ?>
-                <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
-                <tr>              
-                    <td>
-                        <?php if($_item->getPackSize() != '' && $_product->getStkType() == 'grouped') :  ?>  
-                            <?php echo $this->__($this->htmlEscape($_item->getPackSize())) ?>
+            <?php if ($_hasAssociatedProducts): ?>
+                <?php foreach ($_associatedProducts as $_item): ?>
+                    <?php if (!$packsizeToBeConfigured || $packsizeToBeConfigured == $_item->getId()) { ?>
+                        <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+                        <tr>
+                            <td>
+                                <?php
+                                $commHelper = Mage::helper('epicor_comm');
+                                $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+                ?>
+                                <?php if ($_item->getPackSize() != '' && $_product->getStkType() == 'grouped') : ?>
+                                    <?php echo $this->__($this->htmlEscape($_item->getPackSize())) ?>
 
-                            <?php echo '</br>'.$this->__($this->htmlEscape($_item->getName())) ?>
-                            <?php echo '</br> Stock: '.$_item->getStockLevel() ?>
-                        <?php else: ?>
-                            <?php echo $this->__($this->htmlEscape($_item->getName())) ?>
-                        <?php endif ?>   
-                    </td>
-                        
-                    <?php if ($showPrices): ?>
-                    <?php if ($this->getCanShowProductPrice($_product)): ?>
-                    <td class="a-right">
-                        <?php if ($this->getCanShowProductPrice($_item)): ?>
-                        <?php echo $this->getPriceHtml($_item, true) ?>
-                        <?php echo $this->getTierPriceHtml($_item) ?>
-                        <?php endif; ?>
-                    </td>
-                    <?php endif; ?>
-                    <?php endif; ?>
-                    <?php if ($showQty): ?>
-                    <?php if ($_product->isSaleable()): ?>
-                    <td class="a-center">
-                    <?php if ($_item->isSaleable()) : ?>
-                        <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $initialQtyToBeConfigured ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-                        <?php if ($_item->getTypeId() == 'bundle'): ?>
-                            <?php $selectionCollection = $_item->getTypeInstance(true)->getSelectionsCollection( $_item->getTypeInstance(true)->getOptionsIds($_item), $_item); ?>
-                            <?php foreach($selectionCollection as $option) : ?>
-                                <input type="hidden" name="bundle_option[<?php echo $option->option_id; ?>]" value="<?php echo $option->selection_id; ?>" />
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                                    <?php echo '</br>' . $this->__($this->htmlEscape($_item->getName())) ?>
+                                    <?php if($selectedBranch = $branchpickupHelper->getSelectedBranch()): ?>
+                                        <?php $aggregateStock = $branchpickupHelper->getStockForAllLoc($_item); ?>
+                                    <?php else: ?>
+                                        <?php $aggregateStock = $_item->getStockLevel(); ?>
+                                    <?php endif; ?>
+                                    <?php if($branchpickupHelper->canShowInventory($_item)): ?>
+                                        <?php echo '</br> Stock: ' . $commHelper->truncateZero($aggregateStock, $decimalPlaces); ?>
+                                    <?php endif; ?>
+                                    <?php $this->getChild('related_branch')->setData('current_uom', $_item); ?>
+                                    <?php echo $this->getChildHtml('related_branch', false); ?>
+                                <?php else: ?>
+                                    <?php echo $this->__($this->htmlEscape($_item->getName())) ?>
+                                <?php endif ?>
+                            </td>
 
-                    <?php else: ?>
-                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
-                    <?php endif; ?>
-                    </td>
-                    <?php endif; ?>
-                    <?php endif; ?>
-            <?php } ?>    
-            </tr>
-        <?php endforeach; ?>
-        <?php else: ?>
-           <tr>
-               <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
-           </tr>
-        <?php endif; ?>
+                            <?php if ($showPrices): ?>
+                                <?php if ($this->getCanShowProductPrice($_product)): ?>
+                                    <td class="a-right">
+                                        <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                            <?php echo $this->getPriceHtml($_item, true) ?>
+                                            <?php echo $this->getTierPriceHtml($_item) ?>
+                                        <?php endif; ?>
+                                    </td>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if ($showQty): ?>
+                                <?php if ($_product->isSaleable()): ?>
+                                    <td class="a-center">
+                                        <?php if ($_item->isSaleable()) : ?>
+                                                                    <?php $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId())); ?>
+                                                                    <input decimal ="<?php echo $decimalPlaces; ?>" type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $initialQtyToBeConfigured ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                            <?php if ($_item->getTypeId() == 'bundle'): ?>
+                                                <?php $selectionCollection = $_item->getTypeInstance(true)->getSelectionsCollection($_item->getTypeInstance(true)->getOptionsIds($_item), $_item); ?>
+                                                <?php foreach ($selectionCollection as $option) : ?>
+                                                    <input type="hidden" name="bundle_option[<?php echo $option->option_id; ?>]" value="<?php echo $option->selection_id; ?>" />
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                        <?php else: ?>
+                                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                                <?php endif; ?>
+                                    </td>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php } ?>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('super-product-table')</script>

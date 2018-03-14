@@ -46,7 +46,7 @@
 }
 
 #shopping-cart-table button:not(.button),  .form-button {
-    background: none;
+    background: none !important;
 }
 
 form#discount-coupon-form .button2 {
@@ -169,4 +169,37 @@ form#discount-coupon-form .button2 {
 #selectLocationEditWrapperWindow > div.content-header h3 {
     color:#fff;
     padding:0;
+}
+
+#loading-mask {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    color: #d85909;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0.80;
+    z-index: 2000;
+}
+
+#loading-mask .loader {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    width: 150px;
+    margin-left: -105px;
+    padding: 15px 30px;
+    background: #fff4e9;
+    border: 2px solid #f1af73;
+    color: #d85909;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+}
+.loader {
+    font-size: 12px;
 }

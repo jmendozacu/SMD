@@ -162,10 +162,10 @@ $displayedProductLocation = '';
         <?php echo $this->getToolbarHtml(); ?>
         <?php if (($showMultipleAdd && $showAddToCart) || $this->getForceCart()) : ?>
             <?php $label = $this->getCartButtonLabelOverride() ? $this->__($this->getCartButtonLabelOverride()) : $this->__('Add to Cart'); ?>
-            <form method="post" action="/comm/cart/add/" class="addalltobasketform">
-                <input type="hidden" name="configurelist" value="1" />
-                <button type="sumbit" title="<?php echo $label ?>" class="button btn-qop" id="add_all_to_basket"><span><?php echo $label ?></span></button>
-            </form>
+                <form method="post" action="/comm/cart/add/" class="addalltobasketform">
+                    <input type="hidden" name="configurelist" value="1" />
+                            <button  type="sumbit" title="<?php echo $label ?>" class="button btn-qop" id="add_all_to_basket"><span><?php echo $label ?></span></button>
+                </form>
         <?php endif; ?>
         <?php if ($this->getRequest()->getParam('csv')) : ?>
             <div class="add-to-cart" id="clear_configure_basket">

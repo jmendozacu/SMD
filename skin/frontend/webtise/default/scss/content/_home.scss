@@ -254,5 +254,25 @@ body .promos > li {
         right: 30px;
         width: 42px;
     }
+    .image-holder {
+        min-height:300px;
+        display:block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        img {
+            display: none;
+        }
+    }
+    @media all and (min-width: $bp-medium) {
+        .image-holder {
+            background: none;
+        }
+
+        .image-holder img {
+            display: block;
+        }
+    }
 }
 

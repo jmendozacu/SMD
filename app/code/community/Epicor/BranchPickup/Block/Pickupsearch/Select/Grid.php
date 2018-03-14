@@ -85,10 +85,11 @@ class Epicor_BranchPickup_Block_Pickupsearch_Select_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         $locationIds = $this->_getSelected();
-        $collection  = Mage::getModel('epicor_comm/location')->getCollection();
-        $collection->addFieldToFilter('code', array(
-            'in' => $locationIds
-        ));
+        $collection  = Mage::getModel('epicor_comm/location')->getCollection()
+                    ->addFieldToFilter('code', array(
+                        'in' => $locationIds
+                    ))
+                    ->addFieldToFilter('location_visible', 1);
         $collection->getSelect()->order('sort_order ASC');
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -127,14 +128,12 @@ class Epicor_BranchPickup_Block_Pickupsearch_Select_Grid extends Mage_Adminhtml_
             'filter_index' => 'name'
         ));
         
-        $this->addColumn('address1', array(
-            'header' => Mage::helper('epicor_comm')->__('Street'),
-            'width' => '150',
-            'index' => 'address1',
-            'filter_index' => 'address1',
-            'renderer' => new Epicor_BranchPickup_Block_Pickupsearch_Select_Renderer_Street(),
-            'filter' => false,
-            'sortable' => false,            
+        $this->addColumn('street', array(
+                   'header' => Mage::helper('epicor_comm')->__('Street'),
+                   'width' => '150',
+                   'filter_condition_callback' => array($this, '_streetFilter'),
+                   'renderer' => new Epicor_BranchPickup_Block_Pickupsearch_Select_Renderer_Street(),
+                   'sortable' => false,               
         ));
         
         $this->addColumn('city', array(
@@ -227,5 +226,21 @@ class Epicor_BranchPickup_Block_Pickupsearch_Select_Grid extends Mage_Adminhtml_
         return $this->getUrl('*/*/pickupsearchgrid', array(
             '_current' => true
         ));
+    }
+    
+    /**
+     * enable search for street column(WSO-4177)
+     */
+    protected function _streetFilter($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+        $this->getCollection()->getSelect()->where(
+            "address1 like ?
+            OR address2 like ?
+            OR address3 like ?"
+        , "%$value%");
+        return $this;
     }
 }

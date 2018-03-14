@@ -18,6 +18,12 @@ class Epicor_Common_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
                     if (!$this->matchesConditions($action, $row)) {
                         continue;
                     }
+                    /*WSO-4728 admin list profuct log clear
+                     * since we dont need condition attribute in the html element so we have to unset
+                     */
+                    if (isset($action['conditions'])) {
+                        unset($action['conditions']);
+                    }
                     if($html != '') {
                         $html .= '<span class="action-divider">'.($this->getColumn()->getDivider() ?: ' | ').'</span>';
                     }

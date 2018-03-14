@@ -1,7 +1,7 @@
 <?php
 /**
  * RFQ line quick add
- * 
+ *
  * @category   Epicor
  * @package    Epicor_Customerconnect
  * @author     Epicor Websales Team
@@ -19,7 +19,7 @@
             <?php endif; ?>
             <div class="la_field la_sku_box lineadd-autocomplete-container" >
                 <label for="la_sku" class="required"><em>*</em><?php echo $this->__('SKU') ?></label>
-                <input type="text" name="sku" value="" title="<?php echo $this->__('SKU') ?>" id="la_sku_1" class="la_sku input-text" />
+                <input type="text" name="sku" value="" title="<?php echo $this->__('SKU') ?>" id="la_sku_1" class="la_sku input-text" tabindex="1"/>
                 <input type="hidden" name="la_product_id" value="" id="la_product_id_1" class="la_product_id"  />
                 <div class="lineadd-autocomplete" id="lineadd_autocomplete_1"></div>
                 <input type="hidden" name="uom" value="" title="<?php echo $this->__('UOM') ?>" id="la_uom_1" class="la_uom input-text" />
@@ -28,9 +28,9 @@
                 <label for="la_name" class="required"><em>*</em><?php echo $this->__('Name') ?></label>
                 <input type="text" name="name" value="" title="<?php echo $this->__('Name') ?>" id="la_name_1" class="la_name input-text" />
             </div>
-            <div class="la_field">
+            <div class="la_field la_qty_box">
                 <label for="qty" class="required"><em>*</em><?php echo $this->__('Qty') ?></label>
-                <input type="text" name="qty" value="" title="<?php echo $this->__('Qty') ?>" id="la_qty_1" class="la_quantity input-text" />
+                <input type="text" name="qty" value="" title="<?php echo $this->__('Qty') ?>" decimal="" id="la_qty_1" class="la_quantity qty input-text" tabindex="1"/>
             </div>
             <div class="la_field la_packsize_field">
                 <span id="la_pack_1" class="la_packsize" style="display:none">x <span class="packsize"></span></span>

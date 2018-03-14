@@ -38,20 +38,25 @@ $contractHelper = Mage::helper('epicor_lists/frontend_contract');
 /* @var $contractHelper Epicor_Lists_Helper_Frontend_Contract */
 $listEnabled = $contractHelper->contractsEnabled();
 ?>
+
 <?php $_item = $this->getItem() ?>
+<?php $getOptions = $this->getItemOptions(); ?>
+<?php $checkOptions = $ewaHelper->getEwaOptions($getOptions);   ?>
 <tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
     <td>
-        <?php if (!$_item->getProduct()->load()->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
+        <?php if (!$_item->getProduct()->load($_item->getProduct()->getId())->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
         <h3 class="product-name"><?php echo $this->htmlEscape($_item->getName()) ?></h3>
         <?php endif; ?>
-        <?php if($_options = $this->getItemOptions()): ?>
-        <dl class="item-options">
-        <?php foreach ($_options as $_option) : ?>
-            <?php  if (!isset($_option['option_type']) || ($ewaHelper->getEwaDisplay($_option['option_type']))) : ?>       
-                <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+        <?php if($checkOptions): ?>
+        <dl>
+        <?php foreach ($checkOptions as $_option) : ?>
+            <?php  if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_' || $ewaHelper->getEwaDisplay($_option['option_type'])) : ?>
+                <?php if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_'): ?>
+                    <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                <?php endif; ?>
                 <?php if (!$this->getPrintStatus()): ?>
                     <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
-                    <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>>
+                    <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?> style="margin:0; padding:0 0 0 9px;">
                         <?php echo $_formatedOptionValue['value'] ?>
                         <?php if (isset($_formatedOptionValue['full_view'])): ?>
                         <div class="truncated_full_value">
@@ -213,18 +218,22 @@ $listEnabled = $contractHelper->contractsEnabled();
     <?php endif; ?>
     <td class="a-right">
         <span class="nobr">
-                <?php if ($this->getItem()->getQtyOrdered() > 0): ?>
-            <?php echo $this->__('Ordered'); ?>: <strong><?php echo $this->getItem()->getQtyOrdered()*1 ?></strong><br />
-        <?php endif; ?>
+            <?php
+            $commHelper = Mage::helper('epicor_comm');
+            $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($this->getItem()->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+            ?>
+<?php if ($this->getItem()->getQtyOrdered() > 0): ?>
+                <?php echo $this->__('Ordered'); ?>: <strong><?php echo $commHelper->truncateZero($this->getItem()->getQtyOrdered() * 1, $decimalPlaces); ?></strong><br />
+            <?php endif; ?>
         <?php if ($this->getItem()->getQtyShipped() > 0): ?>
-            <?php echo $this->__('Shipped'); ?>: <strong><?php echo $this->getItem()->getQtyShipped()*1 ?></strong><br />
-        <?php endif; ?>
+                    <?php echo $this->__('Shipped'); ?>: <strong><?php echo $commHelper->truncateZero($this->getItem()->getQtyShipped() * 1, $decimalPlaces); ?></strong><br />
+                <?php endif; ?>
         <?php if ($this->getItem()->getQtyCanceled() > 0): ?>
-            <?php echo $this->__('Canceled'); ?>: <strong><?php echo $this->getItem()->getQtyCanceled()*1 ?></strong><br />
-        <?php endif; ?>
+                    <?php echo $this->__('Canceled'); ?>: <strong><?php echo $commHelper->truncateZero($this->getItem()->getQtyCanceled() * 1, $decimalPlaces); ?></strong><br />
+                <?php endif; ?>
         <?php if ($this->getItem()->getQtyRefunded() > 0): ?>
-            <?php echo $this->__('Refunded'); ?>: <strong><?php echo $this->getItem()->getQtyRefunded()*1 ?></strong><br />
-        <?php endif; ?>
+                    <?php echo $this->__('Refunded'); ?>: <strong><?php echo $commHelper->truncateZero($this->getItem()->getQtyRefunded() * 1, $decimalPlaces); ?></strong><br />
+                <?php endif; ?>
         <?php if ($this->getShowLocations() && !$this->getShowLocationsColumn()) : ?>
             <?php echo $this->__('From'); ?>: <strong><?php echo $this->__($_item->getEccLocationName()); ?></strong><br />
         <?php endif; ?>

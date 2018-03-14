@@ -16,6 +16,18 @@ class Epicor_Comm_LocationsController extends Mage_Core_Controller_Front_Action
             $helper = Mage::helper('epicor_comm/locations');
             /* @var $helper Epicor_Comm_Helper_Locations */
             $postedLocations = @$data['locations_filter'] ? : array();
+            
+            $session = Mage::getSingleton('customer/session');
+            
+            if (isset($data['location_groups']) && ($data['location_groups'] != "")) {
+                $_locations = Mage::getSingleton('epicor_comm/location_groupings')->getLocations($data['location_groups']);
+                $postedLocations = array_keys($_locations);
+                $session->unsGroupId();
+                $session->setGroupId($data['location_groups']);
+            } else if ($session->getGroupId()) {
+                $session->unsGroupId();
+                $postedLocations = $helper->getCustomerAllowedLocations();
+            }
             $helper->setCustomerDisplayLocationCodes($postedLocations);
             $this->_redirectUrl($helper->urlDecode($data['return_url']));
         }

@@ -389,7 +389,7 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>epicor/comm/js/quickadd.js</name>
+                <name>epicor/comm/js/quickadd.js?v=1.0.9.1</name>
                 <params/>
             </action>
             <action method="addItem">

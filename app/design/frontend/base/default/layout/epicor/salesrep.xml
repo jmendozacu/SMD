@@ -33,7 +33,13 @@
                     <name>My Login Information</name>
                     <path>customer/account/edit</path>
                     <label>My Login Information</label>
-                </action>
+                </action>  
+<!--SF add back in when required
+                <action method="addLink" translate="label" module="epicor_salesrep">
+                    <name>Price Lists</name>
+                    <path>epicor_salesrep/account_manage/pricelist</path>
+                    <label>Price Lists</label>
+                </action>             -->
             </block>
         </reference>
     </customer_account>
@@ -540,5 +546,91 @@
             </action>
         </reference> 
     </epicor_salesrep_account_index>
-    
+    <epicor_salesrep_account_manage_pricelist>
+        <update handle="customer_account"/>
+        <update handle="sales_rep"/>
+        <reference name="my.account.wrapper">
+            <!--<block type="epicor_salesrep/account_manage_pricelist" name="salesrep.pricelists" output="toHtml"/>-->    
+            <block type="epicor_salesrep/account_manage_pricelist" name="salesrep.pricelists"/>    
+        </reference>
+    </epicor_salesrep_account_manage_pricelist>
+    <epicor_salesrep_account_manage_edit>
+      <label>Detail</label>
+      <update handle="customer_account" />
+      <reference name="head">
+         <action method="setTitle" translate="title">
+            <title>Lists</title>
+         </action>
+         <action method="addItem">
+            <type>skin_js</type>
+            <name>epicor/lists/js/edit.js</name>
+            <params />
+         </action>    
+         <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/products.js</name>
+                <params/>
+         </action>    
+         <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/lists/js/product_conditions.js</name>
+                <params/>
+         </action>
+         <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/salesrep/js/account_selector.js</name>
+                <params/>
+         </action>    
+         <action method="addItem">
+            <type>skin_css</type>
+            <name>epicor/lists/css/manage.css</name>
+            <params />
+         </action>
+         <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/salesrep/css/account_selector.css</name>
+                <params/>
+         </action>
+         <action method="addJs">
+            <file>mage/adminhtml/form.js</file>
+         </action>    
+         <action method="addJs">
+             <script>flexitheme/simulate.js</script>
+         </action>   
+      </reference>
+      <reference name="my.account.wrapper">
+         <block type="epicor_salesrep/account_manage_listdetails" name="salesrep_list_details" template="epicor/salesrep/account/manage/details_sp1.phtml" />
+      </reference>
+   </epicor_salesrep_account_manage_edit>
+    <epicor_salesrep_account_manage_listerpaccounts>
+        <reference name="head" >
+        </reference>
+        <update handle="customer_account"/>
+        <update handle="sales_rep"/>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_comm/adminhtml_container" name="product_locations_wrapper">  
+                <block type="core/text_list" name="root" output="toHtml">
+                    <block type="epicor_salesrep/account_manage_listerpaccounts_grid" name="listerpaccounts_grid" as="listerpaccounts_grid"></block>
+                    <block type="adminhtml/widget_grid_serializer" name="erpaccounts_grid_serializer">
+                        <reference name="erpaccounts_grid_serializer">
+                            <action method="initSerializerBlock">
+                                <grid_block_name>listerpaccounts_grid</grid_block_name>
+                                <data_callback>getSelected</data_callback>
+                                <hidden_input_name>links[erpaccounts]</hidden_input_name>
+                                <reload_param_name>erpaccounts</reload_param_name>
+                            </action>
+                            <action method="addColumnInputName">
+                                <input_name>row_id</input_name>
+                            </action>
+                        </reference>
+                    </block>
+                </block>
+            </block>
+        </block>
+    </epicor_salesrep_account_manage_listerpaccounts>
+    <epicor_salesrep_account_manage_listerpaccountsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="epicor_salesrep/account_manage_listerpaccounts_grid" name="listerpaccounts_grid" as="listerpaccounts_grid"></block>
+        </block>
+    </epicor_salesrep_account_manage_listerpaccountsgrid>
 </layout> 

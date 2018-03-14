@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">    
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <script>epicor/cre/js/checkout.js</script>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/cre/css/checkout.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+           <block type="core/template" name="page.before_body_end.tracking_pixels" as="tracking_pixels" template="cre/checkout/payerauth.phtml" />
+        </reference>        
+    </checkout_onepage_index>
+    <cre_payment_payerauth>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="cre/checkout_payerauth" name="payerauth" template="cre/checkout/payerauth.phtml" />
+        </reference>
+    </cre_payment_payerauth>
+</layout>

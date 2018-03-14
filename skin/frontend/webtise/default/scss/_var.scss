@@ -221,9 +221,12 @@ $c-email-highlighted-border: #FFF74C;
 
 // Font Stacks
 
-$f-stack-sans: 'goudy-old-style', serif;
-$f-stack-serif: 'lato', sans-serif;
-$f-stack-special: 'goudy-old-style', serif;
+$font-lato: 'Lato', sans-serif;
+
+$f-stack-sans: $font-lato;
+$f-stack-serif: $font-lato;
+$f-stack-special: $font-lato;
+
 
 $f-stack-default: $f-stack-sans;
 

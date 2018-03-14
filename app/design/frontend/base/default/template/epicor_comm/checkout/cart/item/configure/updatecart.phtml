@@ -49,11 +49,16 @@ if ($showAddToCart && !$_product->getConfigurator() && $_product->isSaleable()):
             !$showLocations || $allSourceLocations || (!$_product->isConfigurable() && $singleLocation) || (
                 $_product->isConfigurable() && in_array($stockVisibility, array('default', 'logged_in_shopper_source', 'all_source_locations'))
             )
-        )): ?>
-        <label for="qty"><?php echo $this->__('Qty:') ?></label>
-        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty" />
-        <?php endif; ?>
-        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
-        <?php echo $this->getChildHtml('', true, true) ?>
+        )):
+                ?>
+                <?php
+                $commHelper = Mage::helper('epicor_comm');
+                $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+        ?>
+                <label for="qty"><?php echo $this->__('Qty:') ?></label>
+                <input decimal="<?php echo $decimalPlaces; ?>" type="text" name="qty" id="qty" maxlength="12" value="<?php echo $commHelper->truncateZero($this->getProductDefaultQty() * 1, $decimalPlaces); ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty" />
+            <?php endif; ?>
+                <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="preventFormSubmit('product_addtocart_form','product_addtocart_form');productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+                    <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>

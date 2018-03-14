@@ -426,9 +426,13 @@ class Epicor_Customerconnect_AccountController extends Epicor_Customerconnect_Co
         $erpAccount = $commHelper->getErpAccountInfo();
         /* @var $erpAccount Epicor_Comm_Model_Customer_Erpaccount */
 
-        $customAddressAllowed = Mage::app()->getRequest()->getParam('customAddressAllowed');
+        $customShipAddressAllowed = Mage::app()->getRequest()->getParam('allowShippingAddressCreate');
+        $customBillAddressAllowed = Mage::app()->getRequest()->getParam('allowBillingAddressCreate');
+
         try {
-            $erpAccount->setCustomAddressAllowed($customAddressAllowed)->save();
+            $erpAccount->setAllowShippingAddressCreate($customShipAddressAllowed)->save();
+            $erpAccount->setAllowBillingAddressCreate($customBillAddressAllowed)->save();
+            
             $this->getResponse()->setBody(
                     json_encode(
                             array(

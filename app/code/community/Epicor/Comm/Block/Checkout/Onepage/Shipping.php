@@ -22,7 +22,7 @@ class Epicor_Comm_Block_Checkout_Onepage_Shipping extends Mage_Checkout_Block_On
             $loadAddresses = $transportObject->getLoadAddresses();
 
             if ($loadAddresses) {
-                $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType($aType) : $this->getCustomer()->getAddresses();
+                $addresses = ($this->restrictAddressTypes()) ? $this->getCustomer()->getAddressesByType($aType,true) : $this->getCustomer()->getAddresses();
             }
 
             $fastFormat = Mage::getStoreConfigFlag('customer/address_templates/checkout_disable');
@@ -83,7 +83,15 @@ class Epicor_Comm_Block_Checkout_Onepage_Shipping extends Mage_Checkout_Block_On
 
     public function restrictAddressTypes()
     {
-        return Mage::getStoreConfigFlag('Epicor_Comm/address/force_type');
+        $force = Mage::getStoreConfigFlag('Epicor_Comm/address/force_type');
+        $session = Mage::getSingleton('customer/session');
+        $customer = $session->getCustomer();       
+        $getAccountType = $customer->getEccErpAccountType();
+        if($getAccountType =="guest") {
+           $force = false; 
+        }           
+        
+        return $force;
     }
 
     public function canAddNew()
@@ -91,7 +99,7 @@ class Epicor_Comm_Block_Checkout_Onepage_Shipping extends Mage_Checkout_Block_On
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Comm_Helper_Data */
 
-        return $helper->customerAddressPermissionCheck('create');
+        return $helper->createShippingAddress();
     }
 
     public function isMasquerading()

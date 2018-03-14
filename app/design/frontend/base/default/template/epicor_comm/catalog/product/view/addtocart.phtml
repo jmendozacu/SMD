@@ -40,6 +40,7 @@ $showLocations = $locHelper->isLocationsEnabled();
 $singleLocation = count($_product->getCustomerLocations()) == 1;
 $stockVisibility = Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility');
 $allSourceLocations = ($stockVisibility == 'all_source_locations') ? true : false;
+$decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces($_product);
 
 if ($showAddToCart && !$_product->getConfigurator() && ($_product->isSaleable() || $_product->getStockItem()->getBackorders())):
     ?>
@@ -49,7 +50,14 @@ if ($showAddToCart && !$_product->getConfigurator() && ($_product->isSaleable() 
                 $_product->isConfigurable() && in_array($stockVisibility, array('default', 'logged_in_shopper_source', 'all_source_locations'))
             )
         )): ?>
-            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+            <label for="qty"><?php echo $this->__('Qty:') ?></label>
+                    <input type="text" name="qty" id="qty" maxlength="12" value="<?php if (!$showLocations): echo $this->getProductDefaultQty() * 1;
+        endif;
+                ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" decimal="<?php echo $decimalPlaces == '' ? 0 : $decimalPlaces; ?>" />
+    <?php endif; ?>
+        <?php if ($singleLocation): ?>
+            <?php $locationCode = key($_product->getCustomerLocations());?>
+            <input type="hidden" name="location_code" value="<?php echo $locationCode; ?>"/>
         <?php endif; ?>
         <?php if ($returnUrl): ?>
             <input type="hidden" name="return_url" value="<?php echo base64_decode($returnUrl); ?>" />
@@ -58,3 +66,19 @@ if ($showAddToCart && !$_product->getConfigurator() && ($_product->isSaleable() 
                     <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>
+<script type="text/javascript">
+            document.getElementById('product_addtocart_form').onkeypress = function(e) {
+                var key = e.charCode || e.keyCode || 0;
+                if (key == 13) {
+                   Event.observe('product_addtocart_form', 'submit', function (event) {
+                        if (checkDecimal('product_addtocart_form', 1))
+                        {
+                            return true;
+                        } else
+                        {
+                            Event.stop(event);
+                        }
+                    });
+                }
+           }
+</script>

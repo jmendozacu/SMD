@@ -32,6 +32,9 @@
                 <file>mage/adminhtml/events.js</file>
             </action>
         </reference>
+        <reference name="header">
+            <block type="epicor_branchpickup/selectedbranch" name="selected_branch" as="selected_branch" template="epicor/branchpickup/selectedBranch.phtml" output="toHtml"/>
+        </reference>
     </default>
     <hide_locations_filter_block>
         <remove name="epicor_comm.locationpicker" />
@@ -66,18 +69,13 @@
             </action>
             <action method="addJs">
                 <file>calendar/calendar.js</file>
-            </action>
+            </action>           
             <action method="addJs">
                 <file>calendar/calendar-setup.js</file>
             </action>
             <action method="addItem">
                 <type>js_css</type>
                 <name>calendar/calendar-win2k-1.css</name>
-                <params />
-            </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <name>epicor/common/css/boxes.css</name>
                 <params />
             </action>
             <action method="addItem">
@@ -103,6 +101,11 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <name>epicor/common/js/account-common.js</name>
+                <params />
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
                 <params />
             </action>
         </reference>
@@ -154,24 +157,30 @@
             <action method="addItem">
                 <type>skin_css</type>
                 <name>epicor/lists/css/styles.css?v=1</name>
-                <params />
-            </action>
+                <params />                
+            </action>            
         </reference>
         <reference name="content">
             <block type="epicor_branchpickup/pickupsearch_select" name="pickupsearch_select" as="pickupsearch.select" />
         </reference>
     </epicor_branchpickup_pickup_pickupsearch>
     <epicor_branchpickup_pickup_pickupsearchgrid>
+        <remove name="selected_branch" /> 
         <reference name="root">
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
             </action>
-        </reference>          
+        </reference>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="epicor_branchpickup/pickupsearch_select" name="pickupsearch_selectgrid"></block>
         </block>
     </epicor_branchpickup_pickup_pickupsearchgrid>
     <!--     <checkout_onepage_review><reference name="root"><action method="setTemplate" ifconfig="carriers/epicorbranchpickup/active"><template>branchpickup/onepage/review/info.phtml</template></action></reference></checkout_onepage_review> -->
+    <checkout_onepage_review>
+        <reference name="checkout.onepage.review.button">
+            <action method="setTemplate"><template>epicor/branchpickup/onepage/review/button.phtml</template></action>
+        </reference>
+    </checkout_onepage_review>
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem">
@@ -209,16 +218,99 @@
                 <name>epicor/branchpickup/css/styles.css</name>
                 <params />
             </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <name>epicor/common/css/boxes.css</name>
-                <params />
-            </action>
         </reference>
     </checkout_cart_index>
     <epicor_branchpickup_pickup_location>
+        <remove name="selected_branch" /> 
         <block type="core/text_list" name="root" output="toHtml">
             <block type="epicor_branchpickup/location_edit" name="location_edit" template="epicor/branchpickup/editlocation.phtml"></block>
         </block>
     </epicor_branchpickup_pickup_location>
+    <catalog_category_default>
+        <reference name="product_list">
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </catalog_category_default>
+    <catalog_category_view>
+        <reference name="product_list">
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </catalog_category_view>
+    <catalog_category_layered>
+        <reference name="product_list">
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </catalog_category_layered>
+    <catalogsearch_result_index>
+        <reference name="search_result_list">
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </catalogsearch_result_index>
+    <catalogsearch_advanced_result>
+        <reference name="search_result_list">
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </catalogsearch_advanced_result>
+    <epicor_lists_list_selector>
+        <remove name="selected_branch" /> 
+    </epicor_lists_list_selector>
+    <epicor_lists_list_products>
+        <remove name="selected_branch" /> 
+    </epicor_lists_list_products>
+    <epicor_comm_onepage_shippingpopup>
+        <remove name="selected_branch" /> 
+    </epicor_comm_onepage_shippingpopup>
+    <epicor_comm_onepage_billingpopup>
+        <remove name="selected_branch" /> 
+    </epicor_comm_onepage_billingpopup>
+    <PRODUCT_TYPE_simple>
+        <reference name="product.info.addtocart" >
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_grouped translate="label" module="catalog">
+        <reference name="epicor_comm.locations">
+            <block type="epicor_branchpickup/selectedbranch_catalog_product_view_type_group" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+        <reference name="product.info.grouped">
+            <block type="epicor_branchpickup/selectedbranch_catalog_product_view_type_group" name="related_branch" as="related_branch" template="epicor/branchpickup/relatedBranch.phtml"/>
+        </reference>
+    </PRODUCT_TYPE_grouped>
+    <PRODUCT_TYPE_configurable translate="label" module="catalog">
+        <reference name="product.info.addtocart" >
+            <block type="epicor_branchpickup/selectedbranch" name="related_branch" as="related_branch" template="epicor/branchpickup/catalog/product/view/type/configurable/relatedBranch.phtml"/>
+        </reference>
+    </PRODUCT_TYPE_configurable>
+    <b2b_portal_login>
+        <reference name="selected_branch">
+            <action method="setTemplate" ifconfig="epicor_b2b/registration/reg_portaltype">
+              <template></template>
+            </action>
+        </reference>
+    </b2b_portal_login>
+    <b2b_portal_register>
+        <reference name="selected_branch">
+            <action method="setTemplate" ifconfig="epicor_b2b/registration/reg_portaltype">
+              <template></template>
+            </action>
+        </reference>
+    </b2b_portal_register>
+    <epicor_lists_contract_productsgrid>
+        <remove name="selected_branch" /> 
+    </epicor_lists_contract_productsgrid>
+    <epicor_lists_list_productsgrid>
+        <remove name="selected_branch" /> 
+    </epicor_lists_list_productsgrid>
+    <epicor_lists_list_customers>
+        <remove name="selected_branch" /> 
+    </epicor_lists_list_customers>
+    <epicor_lists_list_customersgrid>
+        <remove name="selected_branch" /> 
+    </epicor_lists_list_customersgrid>
+    <epicor_lists_contract_addressesgrid>
+        <remove name="selected_branch" /> 
+    </epicor_lists_contract_addressesgrid>
+    <customerconnect_rfqs_linesearch>
+        <remove name="selected_branch" /> 
+    </customerconnect_rfqs_linesearch>
 </layout>

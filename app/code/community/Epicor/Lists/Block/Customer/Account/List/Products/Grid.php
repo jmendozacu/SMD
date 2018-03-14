@@ -98,7 +98,6 @@ class Epicor_Lists_Block_Customer_Account_List_Products_Grid extends Mage_Adminh
         $typeModel = Mage::getModel('epicor_lists/list_type');
         
         $this->addColumn('selected_products', array(
-            'header' => $helper->__('Select'),
             'index' => 'sku',
             'header_css_class' => 'a-center',
             'type' => 'checkbox',
@@ -134,9 +133,9 @@ class Epicor_Lists_Block_Customer_Account_List_Products_Grid extends Mage_Adminh
         $this->addColumn('row_id', array(
             'header' => $helper->__('Position'),
             'name' => 'row_id',
-            'type' => 'number',
+            'type' => 'input',
             'validate_class' => 'validate-number',
-            'index' => 'entity_id',
+            'index' => 'sku',
             'width' => 0,
             'editable' => true,
             'column_css_class' => 'no-display',
@@ -208,16 +207,14 @@ class Epicor_Lists_Block_Customer_Account_List_Products_Grid extends Mage_Adminh
      *
      * @return void
      */
-//    public function setSelected($selected)
-//    {
-//        if (!empty($selected)) {
-//            foreach ($selected as $id) {
-//                $this->_selected[$id] = array(
-//                    'id' => $id
-//                );
-//            }
-//        }
-//    }
+    public function setSelected($selected)
+    {
+        if (!empty($selected)) {
+            foreach ($selected as $id) {
+                $this->_selected[$id] = array('id' => $id);
+            }
+        }
+    }
     
     protected function _addColumnFilterToCollection($column)
     {

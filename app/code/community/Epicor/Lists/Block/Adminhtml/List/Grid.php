@@ -22,6 +22,7 @@ class Epicor_Lists_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_Widget
         $this->setDefaultSort('id');
         $this->setDefaultDir('asc');
         $this->setSaveParametersInSession(true);
+        $this->setNoFilterMassactionColumn(true); 
     }
 
     protected function _prepareCollection()

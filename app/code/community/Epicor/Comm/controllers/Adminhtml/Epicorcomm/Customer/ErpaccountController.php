@@ -22,15 +22,15 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
             return true;
         } else {
             return Mage::getSingleton('admin/session')
-                            ->isAllowed('customer/erpaccount');
+                    ->isAllowed('customer/erpaccount');
         }
     }
 
     protected function _initAction()
     {
         $this->loadLayout()
-                ->_setActiveMenu('customer/erpaccount')
-                ->_addBreadcrumb(Mage::helper('adminhtml')->__('Erp Accounts'), Mage::helper('adminhtml')->__('Erp Accounts'));
+            ->_setActiveMenu('customer/erpaccount')
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Erp Accounts'), Mage::helper('adminhtml')->__('Erp Accounts'));
         return $this;
     }
 
@@ -38,11 +38,11 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     {
         if ($this->getRequest()->get('grid')) {
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_attribute_grid')->toHtml()
+                $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_attribute_grid')->toHtml()
             );
         } else {
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_attribute')->toHtml()
+                $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_attribute')->toHtml()
             );
         }
     }
@@ -51,11 +51,11 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     {
         if ($this->getRequest()->get('grid')) {
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_products_grid')->toHtml()
+                $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_products_grid')->toHtml()
             );
         } else {
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_products')->toHtml()
+                $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_sku_products')->toHtml()
             );
         }
     }
@@ -67,7 +67,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     {
         $fileName = 'erpaccounts.csv';
         $content = $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_grid')
-                ->getCsvFile();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -79,7 +79,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     {
         $fileName = 'erpaccounts.xml';
         $content = $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_grid')
-                ->getExcelFile();
+            ->getExcelFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -89,7 +89,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('erp_customer_grid')
-                ->setSelected($this->getRequest()->getPost('customers', null));
+            ->setSelected($this->getRequest()->getPost('customers', null));
         $this->renderLayout();
     }
 
@@ -107,7 +107,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('erp_locations_grid')
-                ->setSelected($this->getRequest()->getPost('locations', null));
+            ->setSelected($this->getRequest()->getPost('locations', null));
         $this->renderLayout();
     }
 
@@ -125,7 +125,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('stores_grid')
-                ->setSelected($this->getRequest()->getPost('stores', null));
+            ->setSelected($this->getRequest()->getPost('stores', null));
         $this->renderLayout();
     }
 
@@ -143,7 +143,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('salesreps_grid')
-                ->setSelected($this->getRequest()->getPost('salesreps', null));
+            ->setSelected($this->getRequest()->getPost('salesreps', null));
         $this->renderLayout();
     }
 
@@ -160,7 +160,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_log')->toHtml()
+            $this->getLayout()->createBlock('epicor_comm/adminhtml_customer_erpaccount_edit_tab_log')->toHtml()
         );
     }
 
@@ -196,7 +196,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
     public function indexAction()
     {
         $this->_initAction()
-                ->renderLayout();
+            ->renderLayout();
     }
 
     public function editAction()
@@ -348,9 +348,16 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
                 if ($id) {
                     $model->setId($id);
                 }
-                $customAddressAllowed = $this->getRequest()->getParam('custom_address_allowed');
-                $updateValue = $customAddressAllowed == '' ? null : $customAddressAllowed;
-                $model->setCustomAddressAllowed($updateValue);
+                
+                //update for shipping/billing edit
+                $customShippingAddressCreate = $this->getRequest()->getParam('allow_shipping_address_create');
+                $customBillingAddressCreate = $this->getRequest()->getParam('allow_billing_address_create');
+                $updateShippingAddressCreateValue = $customShippingAddressCreate == '' ? null : $customShippingAddressCreate;
+                $updateBillingAddressCreateValue = $customBillingAddressCreate == '' ? null : $customBillingAddressCreate;
+                $model->setAllowShippingAddressCreate($updateShippingAddressCreateValue);
+                $model->setAllowBillingAddressCreate($updateBillingAddressCreateValue);
+                
+                
                 if (isset($data['allow_masquerade'])) {
                     $allowed = $data['allow_masquerade'] == '' ? null : $data['allow_masquerade'];
                     $model->setAllowMasquerade($allowed);
@@ -423,6 +430,30 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
                         $model->setIsBranchPickupAllowed($data['is_branch_pickup_allowed']);
                     }
                 }
+                
+                if (isset($data['is_tax_exempt'])) {
+                    if ($data['is_tax_exempt'] == '') {
+                        $model->setIsTaxExempt(null);
+                    } else {
+                        $model->setIsTaxExempt($data['is_tax_exempt']);
+                    }
+                }
+
+                if (isset($data['disable_functionality'])) {
+                    if ($data['disable_functionality'] == '') {
+                        $model->setData('disable_functionality',0);
+                    } else {
+                        $model->setData('disable_functionality',$data['disable_functionality']);
+                    }
+                }
+                
+                if (isset($data['is_arpayments_allowed'])) {
+                    if ($data['is_arpayments_allowed'] == '') {
+                        $model->setIsArpaymentsAllowed(null);
+                    } else {
+                        $model->setIsArpaymentsAllowed($data['is_arpayments_allowed']);
+                    }
+                }                
 
                 //process Contracts if lists enabled
                 if (Mage::getStoreConfigFlag('epicor_lists/global/enabled')) {
@@ -437,12 +468,23 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
                 if (!is_null($saveLocations)) {
                     $this->saveLocations($model, $data);
                 }
-                $saveLists = $this->getRequest()->getPost('links');
-                if (!is_null($saveLists)) {
+                $links = $this->getRequest()->getPost('links');
+                if (!is_null($links)) {
                     $this->saveLists($model, $data);
-                }
-                if (!is_null($this->getRequest()->getPost('links'))) {
                     $this->saveMasterShoppers($model, $data);
+                }
+                if (isset($links['payments'])) {
+                    $this->savePaymentMethods($model, $data);
+                }
+                if (isset($links['delivery'])) {
+                    $this->saveDeliveryMethods($model, $data);
+                }
+
+		if (isset($links['shipstatus'])) {
+//                    if(!$data['links']['shipstatus']){
+//                        Mage::throwException(Mage::helper('epicor_comm')->__("At least one ship status must be selected"));
+//                    }
+                    $this->saveShipStatus($model, $data);
                 }
 
                 $model->save();
@@ -561,7 +603,8 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
      */
     private function saveLists($erpAccount, $data)
     {
-        $lists = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['lists']));
+        $listpostValue=isset($data['links']['lists'])? $data['links']['lists']: '';
+        $lists = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($listpostValue));
         $erpAccount->removeLists($erpAccount->getLists());
         $erpAccount->addLists($lists);
     }
@@ -774,7 +817,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('erp_lists_grid')
-                ->setSelected($this->getRequest()->getPost('in_list', null));
+            ->setSelected($this->getRequest()->getPost('in_list', null));
         $this->renderLayout();
     }
 
@@ -792,7 +835,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
         $this->_initErpAccount();
         $this->loadLayout();
         $this->getLayout()->getBlock('erp_mastershopper_grid')
-                ->setSelected($this->getRequest()->getPost('ecc_master_shopper', null));
+            ->setSelected($this->getRequest()->getPost('ecc_master_shopper', null));
         $this->renderLayout();
     }
 
@@ -819,5 +862,209 @@ class Epicor_Comm_Adminhtml_Epicorcomm_Customer_ErpaccountController extends Epi
             }
         }
     }
-   
+
+    public function deliveryAction()
+    {
+        $this->_initErpAccount();
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_delivery_grid')
+            ->setSelected($this->getRequest()->getPost('shipping', null));
+        $this->renderLayout();
+    }
+
+    public function deliverygridAction()
+    {
+        $this->_initErpAccount();
+        $delvery = $this->getRequest()->getParam('delivery');
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_delivery_grid')->setSelected($delivery);
+        $this->renderLayout();
+    }
+
+    public function paymentsAction()
+    {
+        $this->_initErpAccount();
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_payments_grid')
+            ->setSelected($this->getRequest()->getPost('payment', null));
+        $this->renderLayout();
+    }
+
+    public function paymentsgridAction()
+    {
+        $this->_initErpAccount();
+        $payments = $this->getRequest()->getParam('payments');
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_payments_grid')->setSelected($payments);
+        $this->renderLayout();
+    }
+
+    /**
+     * Saves payments for this erp account
+     * 
+     * @param Epicor_Comm_Model_Customer_Erpaccount $erpAccount
+     * @param array $data
+     */
+    private function savePaymentMethods($erpAccount, $data)
+    {
+
+        $payments = array_keys(Mage::helper('epicor_common')->decodeGridSerializedInput($data['links']['payments']));
+        $null = new Zend_Db_Expr("NULL");
+        $emptyArr = array();
+        //$setNull = 0;
+
+        if (isset($data['exclude_selected_payments'])) {
+            $exclude = $data['exclude_selected_payments'];
+            if ($exclude == 1) {
+                if (!empty($payments)) {
+                    $erpAccount->setAllowedPaymentMethods($null);
+                    $erpAccount->setAllowedPaymentMethodsExclude(serialize($payments));
+                } else {
+                    $erpAccount->setAllowedPaymentMethods($null);
+                    $erpAccount->setAllowedPaymentMethodsExclude($null);
+                    //$setNull = 1;
+                }
+            }
+        } else {
+            if (!empty($payments)) {
+                $erpAccount->setAllowedPaymentMethodsExclude($null);
+                $erpAccount->setAllowedPaymentMethods(serialize($payments));
+            } else {
+                $erpAccount->setAllowedPaymentMethods(serialize($emptyArr));
+                $erpAccount->setAllowedPaymentMethodsExclude($null);
+                //$setNull = 1;
+            }
+        }
+        // if($setNull){
+        //     $erpAccount->setAllowedPaymentMethods($null);
+        //     $erpAccount->setAllowedPaymentMethodsExclude($null);
+        // }
+    }
+    
+        public function shipstatusAction()
+    {
+        $this->_initErpAccount();
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_shipstatus_grid')
+            ->setSelected($this->getRequest()->getPost('shipstatus', null));
+        $this->renderLayout();
+    }
+
+    public function shipstatusgridAction()
+    {
+        $this->_initErpAccount();
+        $delivery = $this->getRequest()->getParam('shipstatus');
+        $this->loadLayout();
+        $this->getLayout()->getBlock('erp_shipstatus_grid')->setSelected($delivery);
+        $this->renderLayout();
+    }
+
+    /**
+     * Saves delivery methods for this erp account
+     * 
+     * @param Epicor_Comm_Model_Customer_Erpaccount $erpAccount
+     * @param array $data
+     */
+    private function saveDeliveryMethods($erpAccount, $data)
+    {
+
+        $delivery = array_keys(Mage::helper('epicor_common')->decodeGridSerializedInput($data['links']['delivery']));
+        $null = new Zend_Db_Expr("NULL");
+        $emptyArr = array();
+        //$setNull = 0;
+
+        if (isset($data['exclude_selected_delivery'])) {
+            $exclude = $data['exclude_selected_delivery'];
+            if ($exclude == 1) {
+                if (!empty($delivery)) {
+                    $erpAccount->setAllowedDeliveryMethods($null);
+                    $erpAccount->setAllowedDeliveryMethodsExclude(serialize($delivery));
+                } else {
+                    $erpAccount->setAllowedDeliveryMethods($null);
+                    $erpAccount->setAllowedDeliveryMethodsExclude($null);
+                    //$setNull =1;
+                }
+            }
+        } else {
+            if (!empty($delivery)) {
+                $erpAccount->setAllowedDeliveryMethodsExclude($null);
+                $erpAccount->setAllowedDeliveryMethods(serialize($delivery));
+            } else {
+                //$setNull = 1;
+                $erpAccount->setAllowedDeliveryMethods(serialize($emptyArr));
+                $erpAccount->setAllowedDeliveryMethodsExclude($null);
+            }
+        }
+        // if($setNull){
+        //      $erpAccount->setAllowedDeliveryMethods($null);
+        //      $erpAccount->setAllowedDeliveryMethodsExclude($null);
+        // }
+    }
+/**
+     * Saves shipstatus methods for this erp account
+     * 
+     * @param Epicor_Comm_Model_Customer_Erpaccount $erpAccount
+     * @param array $data
+     */
+    private function saveShipStatus($erpAccount, $data)
+    {
+
+        $delivery = $data['links'];//array_keys(Mage::helper('epicor_common')->decodeGridSerializedInput($data['links']));
+        unset($delivery['shipstatus']);
+        $countDefault= Mage::getModel('customerconnect/erp_mapping_shipstatus')->getDefaultErpshipstatusCount();
+        if($countDefault==0 && !$delivery){
+            Mage::throwException(Mage::helper('epicor_comm')->__("At least one ship status must be selected"));
+        }
+       
+        $null = new Zend_Db_Expr("NULL");
+        $emptyArr = array();
+            if ($delivery) {
+                $erpAccount->setData('allowed_shipstatus_methods',serialize($delivery));
+            } else {
+                $erpAccount->setData('allowed_shipstatus_methods',$null);
+            }
+    }
+
+
+    /**
+     * Adding a warning for exclude-unchecked and empty set.
+     *
+     */
+    public function emptyListCheckAction()
+    {
+
+        $data = Mage::app()->getRequest()->getParams();
+        $model = Mage::getModel('epicor_comm/customer_erpaccount')->load($data['id']);
+        $response = array(
+            'message' => '',
+            'exclusionerror' => false,
+        );
+        if ($model->getId()) {
+            $delivery = false;
+            $payments = false;
+            if(isset($data['links'])){
+                $delivery = isset($data['links']['delivery']) ? array_keys(Mage::helper('epicor_common')->decodeGridSerializedInput($data['links']['delivery'])) : false;
+                $payments = isset($data['links']['payments']) ? array_keys(Mage::helper('epicor_common')->decodeGridSerializedInput($data['links']['payments'])) : false;
+            }
+            if (!isset($data['exclude_selected_delivery'])) {
+                if ((isset($data['links']['delivery'])) && empty($delivery) && ($model->getAllowedDeliveryMethods() !== 'a:0:{}')) {
+                    $response['message'] = "No Delivery Methods have been selected to Include. One or more Delivery Methods should be chosen if 'Exclude selected Delivery Methods' is not ticked
+.\n";
+                    $response['exclusionerror'] = true;
+                }
+            }
+            if (!isset($data['exclude_selected_payments'])) {
+                if ((isset($data['links']['payments'])) && empty($payments) && ($model->getAllowedPaymentMethods() !== 'a:0:{}')) {
+                    $response['message'] = $response['message'] . "No Payment Methods have been selected to Include. One or more Payment Methods should be chosen if 'Exclude selected payments' is not ticked
+";
+                    $response['exclusionerror'] = true;
+                }
+            }
+
+
+        }
+
+        Mage::App()->getResponse()->setBody(json_encode($response));
+    }
+
 }

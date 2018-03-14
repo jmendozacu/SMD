@@ -81,6 +81,12 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
         if ($data = $this->getRequest()->getPost()) {
             $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->getParam('id'));
             /* @var $location Epicor_Comm_Model_Location */
+            
+            //when creating a new location, it should auto-choose the default country if the country field is empty in admin
+            if(empty($data['country'])) {
+                $defaultCountry = Mage::getStoreConfig('general/country/default');
+                $data['country'] = $defaultCountry;
+            }            
 
             if (isset($data['county_id'])) {
                 $region = Mage::getModel('directory/region')->load($data['county_id']);
@@ -89,7 +95,7 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
             }
 
             $location->addData($data);
-
+            
             if (!$location->getSource()) {
                 $location->setSource('web');
                 $location->setDummy(0);
@@ -103,15 +109,14 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
                 $location->setFullStores($stores);
             }
 
+            $helper = Mage::helper('epicor_comm/locations');
+            /* @var $helper Epicor_Comm_Helper_Locations */
             
             // Handle ErpAccounts Tab
             $saveErpAccounts = $this->getRequest()->getParam('selected_erpaccount');
 
             if (!is_null($saveErpAccounts)) {
                 $erpAccounts = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['erpaccounts']));
-                /* @var $helper Epicor_Comm_Helper_Locations */
-                $helper = Mage::helper('epicor_comm/locations');
-
                 $helper->syncErpAccountsToLocation($location->getCode(), $erpAccounts);
             }
 
@@ -121,9 +126,6 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
 
             if (!is_null($saveCustomers)) {
                 $customers = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['customers']));
-                /* @var $helper Epicor_Comm_Helper_Locations */
-                $helper = Mage::helper('epicor_comm/locations');
-
                 $helper->syncCustomersToLocation($location->getCode(), $customers);
             }
             
@@ -133,18 +135,29 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
             
             if (!is_null($saveProducts)) {
                 $products = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['products']));
-                /* @var $helper Epicor_Comm_Helper_Locations */
-                $helper = Mage::helper('epicor_comm/locations');
-
                 $helper->syncProductsToLocation($location->getCode(), $products);
             }
-
+            
             $location->save();
-
+            
+            // Handle Related Locations Tab
+            $saveRelatedlocations = $this->getRequest()->getParam('selected_location');
+            
+            if (!is_null($saveRelatedlocations)) {
+                $relatedlocations = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['relatedlocations']));
+                $helper->syncRelatedLocations($location->getId(), $relatedlocations);
+            }
+            
+            $saveGroups = $this->getRequest()->getParam('selected_group');
+            if (!is_null($saveGroups)) {
+                $groups = array_keys(Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['links']['groups']));
+                $helper->updateGroupLocations($groups, $location->getId());
+            }
+            
             $session = Mage::getSingleton('adminhtml/session');
             /* @var $helper Epicor_Comm_Helper_Data */
             $session->addSuccess($this->__('Location %s Saved Successfully', $location->getErpCode()));
-
+            
             if ($this->getRequest()->getParam('back')) {
                 $this->_redirect('*/*/edit', array('id' => $location->getId()));
             } else {
@@ -290,5 +303,103 @@ class Epicor_Comm_Adminhtml_Epicorcomm_LocationsController extends Epicor_Comm_C
             }
         }
     }
+    
+    public function relatedLocationsAction()
+    {
+        $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->get('id'));
+        /* @var $location Epicor_Comm_Model_Location */
 
+        $relatedLocations = $this->getRequest()->getParam('relatedlocations');
+        Mage::register('location', $location);
+        $this->loadLayout();
+        $this->getLayout()->getBlock('relatedlocations_grid')->setSelected($relatedLocations);
+        $this->renderLayout();
+    }
+    
+    public function relatedlocationsgridAction()
+    {
+        $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->get('id'));
+        /* @var $location Epicor_Comm_Model_Location */
+
+        Mage::register('location', $location);
+        $relatedLocations = $this->getRequest()->getParam('relatedlocations');
+        $this->loadLayout();
+        $this->getLayout()->getBlock('relatedlocations_grid')->setSelected($relatedLocations);
+        $this->renderLayout();
+    }
+    
+    public function groupingsAction()
+    {
+        $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->get('id'));
+        /* @var $location Epicor_Comm_Model_Location */
+        $groups = $this->getRequest()->getParam('groups');
+        Mage::register('location', $location);
+        $this->loadLayout();
+        $this->getLayout()->getBlock('groupings')->setSelected($groups);
+        $this->renderLayout();
+    }
+
+    public function groupingsgridAction()
+    {
+        $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->get('id'));
+        /* @var $location Epicor_Comm_Model_Location */
+        $groups = $this->getRequest()->getParam('groups');
+        Mage::register('location', $location);
+        $this->loadLayout();
+        $this->getLayout()->getBlock('groupings')->setSelected($groups);
+        $this->renderLayout();
+    }
+    
+    public function groupingspostAction()
+    {
+        $data = new Varien_Object($this->getRequest()->getParams());
+        if ($data->getGroupId() == '') {
+            $data->unsId();
+        } else {
+            $data->setData('id',$data->getGroupId());
+        }
+        $group = Mage::getModel('epicor_comm/location_groupings')->load($data->getId());
+        $group->setData($data->getData())->save();
+        if ($group->getGrouplinks()) {
+            $groupLinks = explode(',', $group->getGrouplinks());
+            $helper = Mage::helper('epicor_comm/locations');
+            $helper->syncGroupLocations($group->getId(), $groupLinks);
+        }
+        return;
+    }
+    
+    public function deletegroupAction()
+    {
+        $groupId = $this->getRequest()->getParam('id');
+        $group = Mage::getModel('epicor_comm/location_groupings')->load($groupId);
+        $group->delete();
+        return;
+    }
+    
+    public function editGroupAction()
+    {
+        $data = new Varien_Object($this->getRequest()->getParams());
+        $group = Mage::getModel('epicor_comm/location_groupings')->load($data->getGroupId());
+        Mage::register('group', $group);
+        $response = array(
+            'location_groupings_form'   => $this->getLayout()->createBlock('epicor_comm/adminhtml_locations_edit_tab_groupings_form')->toHtml()
+        );
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
+    }
+    
+    public function grouplocationsgridAction()
+    {
+        $location = Mage::getModel('epicor_comm/location')->load($this->getRequest()->get('id'));
+        /* @var $location Epicor_Comm_Model_Location */
+        Mage::register('location', $location);
+        $group = Mage::getModel('epicor_comm/location_groupings')->load($this->getRequest()->get('group_id'));
+        Mage::register('group', $group);
+        
+        $groupLocations = Mage::getModel('epicor_comm/location_grouplocations')->getCollection()
+                        ->addFieldToFilter('group_id', $this->getRequest()->get('group_id'))
+                        ->getAllLocationIds();
+        $this->loadLayout();
+        $this->getLayout()->getBlock('grouplocations_grid')->setSelected($groupLocations);
+        $this->renderLayout();
+    }
 }

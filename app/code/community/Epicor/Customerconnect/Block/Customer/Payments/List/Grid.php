@@ -13,7 +13,8 @@ class Epicor_Customerconnect_Block_Customer_Payments_List_Grid extends Epicor_Co
 
     public function __construct() {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_payments');
         $this->setDefaultSort('payment_date');
         $this->setDefaultDir('desc');

@@ -28,9 +28,32 @@ document.observe('dom:loaded', function () {
             $('loading-mask').hide();
             event.stop();
         } else {
-            $('rfq_update').submit();
+            rfqSubmit();
+            if(window.nonErpProductItems){
+                $('loading-mask').hide();
+                moreInformationBox(window.msgText, 200, 150, 'confirm_html', true, 'quote');         
+                return;
+            }
+            var url = $('rfq_update').readAttribute('action');
+            var rfqDatas = $('rfq_update').serialize();
+            
+            if ($('rfq_serialize_data').setValue(rfqDatas))
+            {
+                $$('#rfq_update input[type="file"]').each(function (elem) {
+                    if (elem.name != '')
+                    {
+                        $('rfq_serialize_data').insert({
+                            after: elem.clone(true)
+                        });
+                    }
+
+                });
+                $('rfq_submit_wrapper_form').submit();
+            }
         }
+
     });
+
 
     Event.live('#rfq_duplicate', 'click', function (el, event) {
         if (!rfqHasChanges || confirm(Translator.translate('There are unsaved changes to this quote. These changes will be lost. Are you sure you wish to continue?'))) {
@@ -83,6 +106,9 @@ function validateRfqForm() {
     var valid = rfqform.validate();
 
     if (!valid) {
+//        if($$('.fancybox-skin').length > 0){            
+//            $j.fancybox.close();
+//        }
         errorMessage += Translator.translate('One or more options is incorrect, please see page for details') + '\n';
     }
 
@@ -133,6 +159,9 @@ function submitConfirmReject(action) {
             if (json.message) {
                 showMessage(json.message, json.type);
             }
+            if(json.errordescription){                
+                showMessage(json.errordescription['text'], json.type);
+            }
         }
     });
 
@@ -154,10 +183,13 @@ function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function showMessage(txt, type) {
-
+function showMessage(txt, type, position) {
     var html = '<ul class="messages"><li class="' + type + '-msg"><ul><li>' + txt + '</li></ul></li></ul>';
-    $('messages').update(html);
+    if(position == false){    
+        $('messages').update(html);        
+    }else{
+        $('messages').insert(html);        
+    }
 }
 
 function deleteWarning(el) {

@@ -13,7 +13,8 @@ class Epicor_Customerconnect_Block_Customer_Rmas_List_Grid extends Epicor_Common
 
     public function __construct() {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_rmas');
         $this->setDefaultSort('returns_number');
         $this->setDefaultDir('desc');

@@ -6,13 +6,13 @@ $locHelper = $this->helper('epicor_comm/locations');
 /* @var $helper Epicor_Comm_Helper_Locations */
 
 $showLocations = $locHelper->isLocationsEnabled();
-
+$currentStoreId = Mage::app()->getStore()->getStoreId();
 if ($showLocations) {    
     $location = $_product->getRequiredLocation();
     $qty = $this->getQty() ? ", qty: '{$this->getQty()}'" : null;
-    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', location: '{$_product->getRequiredLocation()}'$qty}, false);";
+    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}',currentStoreId:'{$currentStoreId}', productId: '{$_product->getId()}', location: '{$_product->getRequiredLocation()}'$qty}, false);";
 } else {
-    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}', productId: '{$_product->getId()}', qty: '{$this->getQty()}'}, false);";
+    $onClick = "ewaProduct.submit({sku: '{$_product->getSku()}',currentStoreId:'{$currentStoreId}', productId: '{$_product->getId()}', qty: '{$this->getQty()}'}, false);";
 }
 ?>
 <div class="configurable_addtocart">  

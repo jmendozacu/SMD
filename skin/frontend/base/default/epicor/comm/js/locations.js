@@ -22,7 +22,9 @@ function showLocations(type, id) {
         $('locations_list_' + productid).show();
         $('locations_hide_' + productid).show();
         $('locations_link_' + productid).hide();
-        $('locations_btn_' + productid).hide();
+        if ($('locations_btn_' + productid) != undefined) {
+           $('locations_btn_' + productid).hide();
+        }
     }
 }
 
@@ -33,6 +35,19 @@ function hideLocations(type, id) {
         $('locations_list_' + productid).hide();
         $('locations_hide_' + productid).hide();
         $('locations_link_' + productid).show();
-        $('locations_btn_' + productid).show();
+        if ($('locations_btn_' + productid) != undefined) {
+            $('locations_btn_' + productid).show();
+        }
     }
+}
+
+function toggleBlock(block) {
+    if ($(block).previous().hasClassName('active')) {
+        $(block).previous().removeClassName('active');
+        $(block).previous().addClassName('accordin');
+    } else {
+        $(block).previous().removeClassName('accordin');
+        $(block).previous().addClassName('active');
+    }
+    $(block).toggle("slow");
 }

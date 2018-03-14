@@ -135,7 +135,7 @@ class Epicor_Customerconnect_Block_Customer_Shipments_Details_Info_Grid extends 
                 'index' => 'invoice_status',
                 'type' => 'text',
                 'renderer' => new Epicor_Customerconnect_Block_List_Renderer_Invoicestatus()
-            ),
+            )
         );
 
         $locHelper = Mage::helper('epicor_comm/locations');

@@ -155,20 +155,6 @@ class Epicor_Customerconnect_Block_Customer_Account_Contacts_List_Grid extends E
                 'type' => 'email',
                 'condition' => 'LIKE'
             ),
-            'login_id' => array(
-                'header' => Mage::helper('epicor_comm')->__('Web Enabled'),
-                'align' => 'center',
-                'index' => 'login_id',
-                'width' => '75px',
-                'type' => 'options',
-                'options' => array(
-                    'yes' => 'Yes',
-                    'no' => 'No'
-                ),
-                'tick_mode' => 'content',
-                'renderer' => new Epicor_Common_Block_Adminhtml_Widget_Grid_Column_Renderer_Tickcross(),
-                'filter_condition_callback' => array($this, 'filterWebEnabledCallback')
-            ),
             'master_shopper' => array(
                 'header' => Mage::helper('epicor_comm')->__('Master Shopper'),
                 'align' => 'center',
@@ -229,22 +215,6 @@ class Epicor_Customerconnect_Block_Customer_Account_Contacts_List_Grid extends E
         );
 
         return $columns;
-    }
-
-    /**
-     * Filters the web enabled column
-     * 
-     * @param Epicor_Common_Model_Message_Collection $collection
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
-     */
-    protected function filterWebEnabledCallback($collection, $column)
-    {
-        $filterValue = $column->getFilter()->getValue();
-        if ($filterValue == 'yes') {
-            $collection->addFilter('login_id', array('neq' => ''));
-        } else {
-            $collection->addFilter('login_id', array('eq' => ''));
-        }
     }
 
     public function getRowUrl($row)

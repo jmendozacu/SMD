@@ -56,7 +56,8 @@ class Epicor_Common_Block_Adminhtml_Advanced_Errors_Grid extends Epicor_Common_B
         $columns['filename'] = array(
             'header' => Mage::helper('flexitheme')->__('Name'),
             'align' => 'left',
-            'index' => 'filename'
+            'index' => 'filename',
+            'condition' => 'LIKE'
         );
 
         $columns['last_modified'] = array(

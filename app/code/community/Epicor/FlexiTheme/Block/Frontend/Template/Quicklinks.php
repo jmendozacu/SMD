@@ -31,6 +31,15 @@ class Epicor_FlexiTheme_Block_Frontend_Template_Quicklinks extends Epicor_Common
         }
         //this is required because the observer has a zero value for teh $this->_links variable when it is hit
         $quicklinks = $this->checkIfContractsLinkRequired();
+        if (Mage::helper('core')->isModuleEnabled('Epicor_Aga')) {
+            $agaHelper = Mage::helper('epicor_aga');
+            /* @var $agaHelper Epicor_Aga_Helper_Data */
+            $enabled = $agaHelper->addAgaPortalLink();
+            if ($enabled) {
+                $agaPortalLink = $agaHelper->getAgaPortalLink();
+                $this->addLink($agaPortalLink['label'], $agaPortalLink['url'], 'aga_portal');
+            }
+        }
         return parent::_beforeToHtml();
     }
 

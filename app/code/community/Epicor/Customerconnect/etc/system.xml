@@ -171,6 +171,28 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </CRQC>
+                        <!--AR PAYMENTS SYSTEM CONFIGURATION STARTS-->
+                        <CAPS translate="label">
+                            <label>CAPS - AR Payments Search</label>
+                            <config_path>customerconnect_enabled_messages/CAPS_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </CAPS>	
+                        <CAAP translate="label">
+                            <label>CAAP - Customer AP Account Payment</label>
+                            <config_path>customerconnect_enabled_messages/CAAP_request/log_all_requests</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </CAAP> 
+                        <!--AR PAYMENTS SYSTEM CONFIGURATION ENDS-->                       
                     </fields>
                 </customerconnect>
             </groups>
@@ -2749,6 +2771,18 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </multiple_accounts>
+                        <show_account_number_account_id>
+                            <label>Show Account Number or Account ID on Grid</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_showaccountnumberaccountid</source_model>
+                            <sort_order>81</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <multiple_accounts>1</multiple_accounts>
+                            </depends>
+                        </show_account_number_account_id>
                         <error_heading translate="label">
                             <label>Error Handling</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -3574,6 +3608,458 @@
                         </master_shopper_default_value>
                     </fields>
                 </CUCO_mapping>
+                <CAPS_request translate="label">
+                    <label>CAPS - Customer AR Payments Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>6</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <CAPS_heading translate="label">
+                            <label>The CAPS Message is Generated During a Customer AR Payments Search</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </CAPS_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <log_all_requests translate="label">
+                            <label>Log all Requests</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_all_requests>
+                        <options_heading translate="label">
+                            <label>Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </options_heading>
+                        <max_results_value translate="label">
+                            <label>Max Results</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_results_value>
+                        <range_min_value translate="label">
+                            <label>Range Minimium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </range_min_value>
+                        <grid_config>
+                            <label>Grid Setup</label>
+                            <comment>Configuration for the grid display</comment>
+                            <frontend_model>customerconnect/adminhtml_config_form_field_caps_grid</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grid_config>
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </CAPS_request>            
+                <CAAP_request translate="label">
+                    <label>CAAP - Customer AP Account Payment</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>5</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <CAAP_heading translate="label">
+                            <label>The CAAP Message is Generated During a Customer AR Invoice Payment</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </CAAP_heading>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <timeout translate="label">
+                            <label>Timeout</label>
+                            <comment><![CDATA[ Message specific timeout setting. Leave blank for default ]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </timeout>
+                        <caap_settings translate="label">
+                            <label>CAAP ERP Response Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </caap_settings>
+                        <caap_response_condition>
+                            <label>Generate CAAP as background task?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_inverseyesno</source_model>
+                            <comment>If set to Yes, the user will still recieve a succesful response</comment>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </caap_response_condition>  
+                        <caap_disputesettings translate="label">
+                            <label>Message Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </caap_disputesettings>  
+                        <caap_disputeactive>
+                            <label>Allow AR Disputes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>56</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </caap_disputeactive>        
+                        <valid_payment_methods>
+                            <label>Valid Payment Methods For AR Payments</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_comm/config_source_caappaymentmethods</source_model>
+                            <sort_order>57</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </valid_payment_methods>                                                               
+                        <triggers_heading translate="label">
+                            <label>Trigger Conditions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </triggers_heading>
+                        <caap_payment_condition>
+                            <label>Payment Condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_gorpaymentconditions</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </caap_payment_condition>
+                        <valid_order_statuses>
+                            <label>AR Payments Order Status Condition</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </valid_order_statuses>  
+                        <error_heading translate="label">
+                            <label>Error Handling</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </error_heading>
+                        <error_action>
+                            <label>Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erroractions</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_action>
+                        <error_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>820</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_magento_notifcation>
+                        <error_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>825</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_magento_notifcation>1</error_magento_notifcation>
+                            </depends>
+                        </error_severity>
+                        <error_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_user_notification>
+                        <error_user_notification_erp translate="label">
+                            <label>Show ERP Error Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>835</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <error_user_notification>1</error_user_notification>
+                            </depends>
+                        </error_user_notification_erp>
+                        <error_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_notifcation>
+                        <warning_heading translate="label">
+                            <label>Warning Actions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </warning_heading>
+                        <warning_magento_notifcation translate="label">
+                            <label>Send Magento Admin Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_magento_notifcation>
+                        <warning_severity>
+                            <label>Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_adminnotificationmodelinbox</source_model>
+                            <sort_order>915</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_magento_notifcation>1</warning_magento_notifcation>
+                            </depends>
+                        </warning_severity>
+                        <warning_user_notification translate="label">
+                            <label>Send User Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_user_notification>
+                        <warning_user_notification_erp translate="label">
+                            <label>Show ERP Warning Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>925</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <warning_user_notification>1</warning_user_notification>
+                            </depends>
+                        </warning_user_notification_erp>
+                        <warning_email_notifcation translate="label">
+                            <label>Send Admin Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warning_email_notifcation>
+                    </fields>
+                </CAAP_request>             
             </groups>
         </customerconnect_enabled_messages>
     </sections>

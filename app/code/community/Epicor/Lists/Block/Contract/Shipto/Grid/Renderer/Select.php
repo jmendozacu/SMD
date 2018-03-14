@@ -16,7 +16,6 @@ class Epicor_Lists_Block_Contract_Shipto_Grid_Renderer_Select extends Epicor_Com
         if (empty($actions) || !is_array($actions)) {
             return '&nbsp;';
         }
-
         if ($this->getColumn()->getLinks() == true) {
             $contractHelper = Mage::helper('epicor_lists/frontend_contract');
             /* @var $contractHelper Epicor_Lists_Helper_Frontend_Contract */

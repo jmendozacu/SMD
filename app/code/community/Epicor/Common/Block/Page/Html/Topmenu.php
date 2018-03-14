@@ -25,7 +25,9 @@ class Epicor_Common_Block_Page_Html_Topmenu extends Mage_Page_Block_Html_Topmenu
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Common_Helper_Data */
         $extraKeys = $helper->getCategoryCacheKeys();
-        $shortCacheId = array_merge($shortCacheId, $extraKeys);
+        if (is_array($extraKeys)) {
+            $shortCacheId = array_merge($shortCacheId, $extraKeys);
+        }
         
         $cacheId = $shortCacheId;
         

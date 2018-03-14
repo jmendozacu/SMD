@@ -9,7 +9,7 @@
  */
 class Epicor_SalesRep_CrqsController extends Epicor_SalesRep_Controller_Abstract
 {
-    
+    protected $_quoteDetails;
     /**
      * Index action 
      */
@@ -75,8 +75,14 @@ class Epicor_SalesRep_CrqsController extends Epicor_SalesRep_Controller_Abstract
             }
 
             $brand = $helper->getStoreBranding();
-
-            $accountNumber = $brand->getCompany() ? $brand->getCompany() . $helper->getUOMSeparator() . $quoteDetails['erp_account'] : $quoteDetails['erp_account'];
+            
+            $accountNumber = $quoteDetails['erp_account'];
+            // if brand company exists, check if brand and delimiter are already in the erp_account, if not add them
+            if ($brand->getCompany()) {
+                if (!strstr($quoteDetails['erp_account'], $brand->getCompany() . $helper->getUOMSeparator())) {
+                    $accountNumber = $brand->getCompany() . $helper->getUOMSeparator() . $quoteDetails['erp_account'];
+                }
+            }
             $erpAccount = $helper->getErpAccountByAccountNumber($accountNumber);
             Mage::register('crq_erp_account', $erpAccount);
             if (
@@ -170,12 +176,16 @@ class Epicor_SalesRep_CrqsController extends Epicor_SalesRep_Controller_Abstract
 
     public function updateAction()
     {
+//        $salesrepHelper = Mage::helper('epicor_salesrep');
+//        $erpAccount = $salesrepHelper->getErpAccountByAccountNumber($accountNumber);
+//        $masqueradeErpAccount =  
         $files = array();
 
         $error = '';
 
         try {
-            if ($newData = $this->getRequest()->getPost()) {
+            $rfqs = $this->getRequest()->getParam('rfq_serialize_data');
+            if ($newData =  Mage::helper('customerconnect/rfq')->getProcessedRfqData($rfqs)) {
 
                 $helper = Mage::helper('customerconnect/rfq');
                 /* @var $helper Epicor_Customerconnect_Helper_Rfq */
@@ -250,12 +260,27 @@ class Epicor_SalesRep_CrqsController extends Epicor_SalesRep_Controller_Abstract
 
         if ($error) {
             Mage::register('rfq_error', $error);
-
             $this->getResponse()->setBody(
-                    $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
+                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_showerror')->toHtml()
             );
         } else {
-            $this->loadLayout()->renderLayout();
+            $cusHelper = Mage::helper('customerconnect');
+            /* @var $cusHelper Epicor_Customerconnect_Helper_Data */
+            $erpAccountNum = $cusHelper->getErpAccountNumber();
+
+            $quoteDetails = array(
+                'erp_account' => $erpAccountNum,
+                'quote_number' => $rfq->getQuoteNumber(),
+                'quote_sequence' => $rfq->getQuoteSequence()
+            );
+            $requested = $helper->urlEncode($helper->encrypt(serialize($quoteDetails)));
+            $url = Mage::getUrl('*/*/details', array('quote' => $requested));
+            
+            Mage::register('rfq_redirect_url', $url);
+
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('customerconnect/customer_rfqs_details_redirector')->toHtml()
+            );
         }
     }
 

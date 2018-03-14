@@ -119,6 +119,13 @@ class Epicor_SalesRep_Block_Account_Manage_Erpaccounts_Grid extends Mage_Adminht
             'index' => 'account_number'
         ));
 
+        $this->addColumn('short_code', array(
+            'header' => Mage::helper('epicor_comm')->__('Short Code'),
+            'index' => 'short_code',
+            'filter_index' => 'short_code',
+            'column_css_class' => 'no-display',
+            'header_css_class' => 'no-display'
+        ));
         $this->addColumn('erp_account_name', array(
             'header' => Mage::helper('core')->__('Name'),
             'align' => 'left',

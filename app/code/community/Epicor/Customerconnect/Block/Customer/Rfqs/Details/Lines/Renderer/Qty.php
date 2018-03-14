@@ -19,11 +19,16 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Renderer_Qty exte
         } else {
             $value = $row->getData($index);
         }
+        $productId = Mage::getModel('catalog/product')->getIdBySku($row->getData('product_code'));
+        $decimalPlaces = 0;
+        if ($productId) {
+            $decimalPlaces = Mage::helper('epicor_comm')->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($productId, 'decimal_places', Mage::app()->getStore()->getStoreId()));
+        }
         if (Mage::registry('rfqs_editable')) {
-            $html = '<input type="text" name="lines[' . $key . '][' . $row->getUniqueId() . '][' . $index . ']" value="' . $value . '" class="lines_' . $index . '"/>';
+            $html = '<input decimal="' . $decimalPlaces . '" type="text" name="lines[' . $key . '][' . $row->getUniqueId() . '][' . $index . ']" value="' . $value . '" class="qty lines_' . $index . '"/>';
         } else {
             $html = $value;
-            $html .= '<input type="hidden" name="lines[' . $key . '][' . $row->getUniqueId() . '][' . $index . ']" value="' . $value . '" class="lines_' . $index . '"/>';
+            $html .= '<input decimal="' . $decimalPlaces . '" type="hidden" name="lines[' . $key . '][' . $row->getUniqueId() . '][' . $index . ']" value="' . $value . '" class="qty lines_' . $index . '"/>';
         }
 
         return $html;

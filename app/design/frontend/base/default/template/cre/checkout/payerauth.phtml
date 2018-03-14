@@ -1,0 +1,98 @@
+<?php
+$creHelper = Mage::helper('cre');
+$checkEnabled = $creHelper->checkCreEnabled();
+if(!$checkEnabled) {
+    return;
+}
+$javaScript = $creHelper->getHostedJavascript();
+$nameSpace = $creHelper->getNameSpace();
+$getPublicKey = $creHelper->getPublicKey();
+$getCreHeading = $creHelper->getCreHeading();
+$getStyles = $creHelper->getStyles();
+$paymentModes = $creHelper->getPaymentModes();
+if($javaScript) :
+$quote = Mage::getModel('checkout/session')->getQuote();
+$quoteData= $quote->getData();
+$grandTotal=$quoteData['grand_total'];
+$currency =  Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+$parseUrl = parse_url($javaScript);
+$scheme = $parseUrl['scheme'];
+$host = $parseUrl['host'];
+$fullUrl = $scheme."://".$host;
+?>
+<script src="<?php echo $javaScript?>"></script>
+<?php if(!$paymentModes):?>
+
+<script>
+    /* Note: These should be used in development cycle, if we pass in prodution deployment make sure its is non-dev URI */
+    var paymentHandler = HostedPayment.setup({
+        response: function(response) {
+            var JsonParams = JSON.stringify(response);
+            saveCreQuote(JsonParams);
+            },
+	    service_uri: "<?php echo $fullUrl?>"
+    });
+</script>
+<?php endif; ?>
+<?php if($paymentModes):?>
+<script>
+    var paymentHandler = HostedPayment.setup({
+        response: function(response) {
+            var JsonParams = JSON.stringify(response);
+            saveCreQuote(JsonParams);
+            }
+    });
+</script>
+<?php endif; ?>
+<script>
+    function creloadpayment() {
+        var amt = '<?php echo $grandTotal?>';
+        var ns = '<?php echo $nameSpace?>';
+        paymentHandler.open({
+            public_key: '<?php echo $getPublicKey?>', // do not hard-code
+            namespace: ns,
+            //name: '<?php //echo ($getStyles['paymentTitle']) ? $getStyles['paymentTitle'] : "Epicor Retail Cloud"?> (<?php //echo $currency?> ' + amt + ')',
+            name: '<?php echo ($getStyles['paymentTitle']) ? $getStyles['paymentTitle'] : "Epicor Retail Cloud"?>',
+            button: '<?php echo ($getStyles['name']) ? $getStyles['name'] : "Purchase"?>',
+            lang: '',
+            style_config: {
+                body_background: '<?php echo ($getStyles['background']) ? $getStyles['background'] : "#fffff"?>',
+                header_border: '1px solid green',
+                control_font: 'verdana',
+                control_font_size: '15px',
+                control_font_color: '#000',
+                control_background: '#fff',
+                btn_font: 'verdana',
+                btn_font_size: '18px',
+                btn_font_color: '<?php echo ($getStyles['fontColor']) ? $getStyles['fontColor'] : "#fff"?>',
+                btn_font_background: '<?php echo ($getStyles['fontBackground']) ? $getStyles['fontBackground'] : "#5cb85c" ?>'
+            },
+            translation_config: {
+                ccnum_lbl: "Card Number",
+                ccnum_plh: "Enter card number",
+                expiry_lbl: "Expiration",
+                expiry_plh: "MMYY",
+                cvv_lbl: "CVV/CVC",
+                cvv_phl: 'CVV',
+                expiry_err1: "Expiration Date Required",
+                ccnum_err: "Please specify a valid credit card number.",
+                cvv_err: "Invalid CVV/CVC."
+            }
+        });
+        $('loading-mask').hide();
+        return true;
+    }
+    window.addEventListener('popstate', function() {
+        paymentHandler.close();
+    }); 
+</script>
+<?php endif; ?>
+<?php 
+if(!$javaScript):
+?>
+<script>
+ alert("Please enter a valid url for CRE payment gateway");
+</script>
+<?php
+endif;
+?>

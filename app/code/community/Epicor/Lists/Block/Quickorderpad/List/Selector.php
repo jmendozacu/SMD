@@ -37,13 +37,19 @@ class Epicor_Lists_Block_Quickorderpad_List_Selector extends Epicor_Supplierconn
      * 
      * @return Epicor_Lists_Helper_Frontend
      */
-    public function getHelper()
+    public function getHelper($type = null)
     {
         return Mage::helper('epicor_lists/frontend');
     }
 
     public function getActionUrl()
     {
+        $_request = Mage::app()->getRequest();
+        $_module = $_request->getModuleName();
+        $_controller = $_request->getControllerName();
+        if ($_module == 'customerconnect' && $_controller == 'rfqs') {
+            return $this->getUrl('customerconnect/rfqs/linesearch');
+        }
         return $this->getUrl('quickorderpad/form/listselect');
     }
 

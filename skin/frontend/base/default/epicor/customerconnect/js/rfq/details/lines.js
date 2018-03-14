@@ -16,23 +16,43 @@ document.observe('dom:loaded', function () {
         event.stop();
     });
 
-    Event.live('.la_sku', 'keydown', function (a, b) {
+    Event.live('.la_sku', 'keydown', function (a, b) {      
         if (b.keyCode == 9) {
-            a.up('.la_row').down('.la_quantity').focus();
-            b.stop();
+            if(!b.shiftKey){
+                a.up('.la_row').down('.la_quantity').focus();
+                b.stop();
+            }  else{
+                var currentArray = a.id.split('_');
+                var currentRowNumber = Number(currentArray[2]);
+                if(currentRowNumber > 1){                    
+                    $('lineadd_autocomplete_'+currentRowNumber).hide();
+                }else{
+                   b.stop();
+                }
+            }  
         }
     });
-
-    Event.live('.la_quantity', 'keydown', function (a, b) {
+//
+    Event.live('.la_quantity', 'keydown', function (a, b) {      
         if (b.keyCode == 9) {
-            addLineAddRow(a);
-            b.stop();
+            if(!b.shiftKey){          
+                var currentArray = a.id.split('_');
+                var currentRowNumber = Number(currentArray[2]);
+                var nextRowNumber = currentRowNumber + 1; 
+                if((typeof($('la_sku_'+nextRowNumber) != 'undefined') && $('la_sku_'+nextRowNumber) != null)) {   
+                    $('la_sku_'+currentRowNumber).down('#lineadd_autocomplete_'+currentRowNumber).hide();
+                    $('la_sku_'+nextRowNumber).focus();
+                }else{                    
+                   addLineAddRow(a); 
+                }
+                b.stop();
+            }
         }
     });
 
     Event.live('.la_quantity', 'keyup', function (el, e) {
 //--SF        formatNumber(el, false, true);
-        formatNumber(el, false, false);
+        //formatNumber(el, false, false);
     });
 
     Event.live('.la_custompart', 'click', function (el) {
@@ -56,6 +76,7 @@ document.observe('dom:loaded', function () {
     Event.live('#lineadd-add', 'click', function (el, event) {
         addLineAddRow($$('.la_row .la_quantity').shift());
         event.stop();
+       
     });
 
 
@@ -70,7 +91,7 @@ document.observe('dom:loaded', function () {
 
     Event.live('.la_delete', 'click', function (el, event) {
         if (lineadd_count > 1) {
-            el.up('.la_row').hide();
+            el.up('.la_row').remove();
             lineadd_count -= 1;
             if (lineadd_count == 1) {
                 $$('.la_delete').each(function (e) {
@@ -82,7 +103,11 @@ document.observe('dom:loaded', function () {
     });
 
     Event.live('#lineadd-submit', 'click', function (el, event) {
-        processLinesAdd(event);
+       
+        if(checkDecimal('la_rows'))
+        {
+            processLinesAdd(event);
+        }
     });
 
     /***********************************************************
@@ -140,13 +165,16 @@ document.observe('dom:loaded', function () {
 
     Event.live('.lines_quantity', 'change', function (el) {
         hideButtons();
-        formatNumber(el, false, false);
+        if (checkDecimal(el.up('tr').readAttribute('id'),1))
+        {
+            //formatNumber(el, false, false);
 //--SF        formatNumber(el, false, true);
         parentRow = el.up('tr');
-        if (parentRow.down('.lines_type').value == 'S') {
+        if (parentRow.down('.lines_type').value == 'S' || parentRow.down('.lines_type').value == 'X' ) {
             sendMsqForLine(parentRow);
         } else {
             recalcLineTotals();
+        }
         }
     });
 
@@ -192,10 +220,14 @@ document.observe('dom:loaded', function () {
  */
 
 function addLineAddRow(el) {
+    
     var newRow = el.up('.la_row').clone(true);
-
+    
+    $(newRow).select('.validation-advice').each(function (errorOccurance) {
+        errorOccurance.remove();
+    });
+    
     lineadd_count += 1;
-
     newRow.writeAttribute('id', 'la_row_' + lineadd_count);
     newRow.down('.lineadd-autocomplete').writeAttribute('id', 'lineadd_autocomplete_' + lineadd_count).checked = false
     if (newRow.down('.la_custompart')) {
@@ -208,6 +240,7 @@ function addLineAddRow(el) {
     newRow.down('.la_name_box').hide();
     newRow.down('.la_name').writeAttribute('id', 'la_name_' + lineadd_count).value = '';
     newRow.down('.la_quantity').writeAttribute('id', 'la_quantity_' + lineadd_count).value = '';
+    newRow.down('.la_quantity').writeAttribute('decimal', '');
     newRow.down('.la_packsize').writeAttribute('id', 'la_pack_' + lineadd_count).hide();
     $('la_rows').insert({bottom: newRow});
     newRow.down('.la_sku').focus();
@@ -225,13 +258,13 @@ function addLineAddRow(el) {
 function processLinesAdd(event) {
 
     hideButtons();
-
     var skudata = [];
     var customdata = [];
     var showConfiguratorMessage = false;
     var errors = [];
 
     $$('.la_row').each(function (el) {
+         
         if (el.visible()) {
             var custom = false;
             var customtick = el.select('.la_custompart').shift();
@@ -243,7 +276,8 @@ function processLinesAdd(event) {
             var name = el.select('.la_name').shift().value;
             var uom = el.select('.la_uom').shift().value;
             var qty = el.select('.la_quantity').shift().value;
-
+            var decimal = el.select('.la_quantity').shift().readAttribute('decimal');
+            
             if (isLineEmpty(el)) {
                 return;
             }
@@ -260,9 +294,9 @@ function processLinesAdd(event) {
                     sendSku = sku + $('la_separator').value + uom;
                 }
 
-                skudata[skudata.length] = {'sku': sku, 'sendSku': sendSku, 'uom': uom, 'qty': qty, 'productid': productid}
+                skudata[skudata.length] = {'sku': sku, 'sendSku': sendSku, 'uom': uom, 'qty': qty,  'decimal': decimal,'productid': productid}
             } else {
-                customdata[customdata.length] = {'sku': name, 'uom': uom, 'qty': qty}
+                customdata[customdata.length] = {'sku': name, 'uom': uom, 'qty': qty,'decimal': decimal}
             }
         }
     });
@@ -277,7 +311,7 @@ function processLinesAdd(event) {
         resetLineAdd();
         if (customdata.length > 0) {
             for (index = 0; index < customdata.length; index++) {
-                addLineRow(true, customdata[index].sku, customdata[index].qty, {});
+                addLineRow(true, customdata[index].sku, customdata[index].qty, {},false,customdata[index].decimal);
             }
             recalcLineTotals();
         }
@@ -336,7 +370,7 @@ function processLinesAdd(event) {
             pData = msqData[index];//msqData[sku];
             pData.sku = getNiceSku(pData, skudata[index].sendSku);
 
-            addLineRow(false, pData.sku, skudata[index].qty, pData);
+            addLineRow(false, pData.sku, skudata[index].qty, pData,false,skudata[index].decimal);
             if (isProductConfigurable(pData)) {
                 showConfiguratorMessage = true;
             }
@@ -344,7 +378,7 @@ function processLinesAdd(event) {
 
         if (customdata.length > 0) {
             for (indexc = 0; indexc < customdata.length; indexc++) {
-                addLineRow(true, customdata[indexc].sku, customdata[indexc].qty, {});
+                addLineRow(true, customdata[indexc].sku, customdata[indexc].qty, {},customdata[indexc].decimal);
             }
         }
 
@@ -468,8 +502,14 @@ function resetLineAdd() {
  * Line Addition
  */
 
-function addLineRow(custom, sku, qty, product, sendMsq) {
-
+function addLineRow(custom, sku, qty, product, sendMsq,decimal) {
+    
+    if(decimal){
+        decimal = decimal;
+    }
+    else{
+        decimal = '';
+    }
     $$('#rfq_lines_table tbody tr:not(.lines_row)').each(function (e) {
         if (typeof e.up('.lines_row') === 'undefined') {
             e.remove();
@@ -489,8 +529,12 @@ function addLineRow(custom, sku, qty, product, sendMsq) {
 
     row.down('.description_display').update(product.name);
     row.down('.lines_product_code').writeAttribute('value', sku);
-
+//    if(truncateZero == 1)
+//    {
+//        qty = parseFloat(qty);
+//    }
     row.down('.lines_quantity').writeAttribute('value', qty);
+    row.down('.lines_quantity').writeAttribute('decimal', decimal);
     row.down('.lines_type').writeAttribute('value', type);
     row.down('.lines_product_json').writeAttribute('value', JSON.stringify(product));
     row.down('.lines_product_id').writeAttribute('value', product.entity_id);
@@ -526,6 +570,7 @@ function addLineRow(custom, sku, qty, product, sendMsq) {
 
         row.down('.lines_ewa_code').writeAttribute('value', '');
 
+        var updateRequired = true;
         if (product.configurator == 1) {
             configureFunction = 'configureEwaProduct';
             show_configuration = true;
@@ -533,12 +578,17 @@ function addLineRow(custom, sku, qty, product, sendMsq) {
                 requires_configuration = true;
             } else {
                 updateLineEwaInfo(row, product, true);
+                updateRequired = false;
             }
         } else if (product.type_id == 'configurable' || !valueEmpty(product.has_options) || product.type_id == 'grouped') {
             configureFunction = 'configureProduct';
             show_configuration = true;
             requires_configuration = true;
         }
+        
+        if(product.ewa_visible_description) {
+           row.down('.description_display').update(product.ewa_visible_description); 
+        }        
 
         if (show_configuration) {
             if (requires_configuration) {
@@ -569,8 +619,10 @@ function addLineRow(custom, sku, qty, product, sendMsq) {
 
     row.down('.lines_is_kit').writeAttribute('value', is_kit);
     row.down('.is_kit_display').update(is_kit);
-    row.down('.product_code_display').update(sku + configure_html);
-
+    
+    if (updateRequired === true) {
+        row.down('.product_code_display').update(sku + configure_html);
+    }
     if (sendMsq === true) {
         sendMsqForLine(row);
     } else {
@@ -628,7 +680,7 @@ function addLinesByJson(jsonData) {
                 product.sku = product.sku.replace($('la_separator').value + product.uom, '');
             }
 
-            addLineRow(false, product.sku, product.qty, product);
+            addLineRow(false, product.sku, product.qty, product,false,product.decimal);
 
             if (product.configurator == 1 || product.type_id == 'configurable' || (product.type_id == 'grouped' && !product.stk_type)) {
                 showConfiguratorMessage = true;
@@ -731,7 +783,7 @@ function sendMsqForLine(line) {
 
 function configureEwaProduct(line_id) {
     var returnurl = $('rfq_ewa_returnurl').value;
-
+    var currentStoreId = $('currentStoreId').value;
     var row = $('lines_' + line_id);
     var data = {
         productId: row.down('.lines_product_id').value,
@@ -740,7 +792,8 @@ function configureEwaProduct(line_id) {
         sku: row.down('.lines_product_code').value,
         qty: row.down('.lines_quantity').value,
         quoteId: $('web_reference').value,
-        lineNumber: getLineNumberById(line_id)
+        lineNumber: getLineNumberById(line_id),
+        currentStoreId: currentStoreId
     };
 
     configurator_line = line_id;
@@ -757,6 +810,9 @@ function updateConfiguratorProductsByJson(jsonData) {
     jsonData = jsonData.evalJSON();
 
     if (jsonData.errors.length > 0) {
+        alert(Translator.translate('Unknown Product for Web Configuration'));
+        var row = $('lines_' + configurator_line);
+        row.down('.product_code_display').down('a').remove();
         $('loading-mask').hide();
         return;
     }
@@ -770,9 +826,8 @@ function updateConfiguratorProductsByJson(jsonData) {
         product.sku = getNiceSku(product, product.sku);
         var row = $('lines_' + configurator_line);
         var qty = row.down('.lines_quantity').value;
-        updateLineEwaInfo(row, product);
-
-        updateLinePrice(row, product);
+        row.down('.lines_product_json').value = JSON.stringify(product);
+        updateLineEwaInfo(row, product, false, jsonData.ewasortorder);
         row = processRowExtra(configurator_line, row, product, false);
         recalcLineTotals();
 
@@ -784,38 +839,69 @@ function updateConfiguratorProductsByJson(jsonData) {
     $('loading-mask').hide();
 }
 
-function updateLineEwaInfo(row, product, newline) {
+function updateLineEwaInfo(row, product, newline, ewasortorder) {
     var br = '<br />';
-    var ewa_text = ''
+    var ewa_text = '';
+    var ewa_html = '';
 
     var rowId = row.readAttribute('id').replace('lines_', '');
 
-    if (newline !== true) {
-        ewa_text = Translator.translate('Edit Configuration');
-    } else {
-        ewa_text = Translator.translate('Configure');
+    row.down('.lines_product_code').value = product.sku;
+    if (row.down('.lines_sku')) {
+        row.down('.lines_sku').value = product.sku;
+    }
+    row.down('.lines_unit_of_measure_code').value = product.uom;
+    if (row.down('.lines_uom')) {
+        row.down('.lines_uom').value = product.uom;
+    }
+    if (product.entity_id != row.down('.lines_product_id').value) {
+        row.down('.lines_product_id').value = product.entity_id;
+        row.down('.lines_product_json').value = JSON.stringify(product);
+    }
+    
+    if (product.configurator != 1) {
+        row.down('.product_code_display').update(product.sku);
+        row.down('.description_display').update(product.name);
+        row.down('.lines_description').value = product.name;
+        row.down('.lines_ewa_title').value = '';
+        row.down('.lines_ewa_sku').value = '';
+        row.down('.lines_ewa_short_description').value = '';
+        row.down('.lines_ewa_description').value = '';
+        row.down('.lines_ewa_code').value = '';
+        row.down('.lines_attributes').value = '';
+        row.down('.lines_quantity').value = product.qty;
+        row.down('.lines_configured').value = '';
+        row.down('.lines_group_sequence').value = '';
+        return;
     }
 
-    var ewa_html = br + '<a href="javascript:configureEwaProduct(\'' + rowId + '\')">' + ewa_text + '</a>';
+    if (product.ewa_configurable == 'Y') {
+        if (newline !== true || !valueEmpty(product.ewa_code)) {
+            ewa_text = Translator.translate('Edit Configuration');
+        } else {
+            ewa_text = Translator.translate('Configure');
+        }
+        var ewa_html = br + '<a href="javascript:configureEwaProduct(\'' + rowId + '\')">' + ewa_text + '</a>';
+    }
+    
     row.down('.product_code_display').update(product.ewa_sku + ewa_html);
 
     var ewa_desc = [];
-
-    if ($('rfq_ewa_show_basedesc').value == 'Y') {
-        ewa_desc.push(product.name);
-    }
-
-    if ($('rfq_ewa_show_title').value == 'Y') {
-        ewa_desc.push(atob(product.ewa_title));
-    }
-    if ($('rfq_ewa_show_sku').value == 'Y') {
-        ewa_desc.push(product.ewa_sku);
-    }
-    if ($('rfq_ewa_show_shortdesc').value == 'Y') {
-        ewa_desc.push(atob(product.ewa_short_description));
-    }
-    if ($('rfq_ewa_show_desc').value == 'Y') {
-        ewa_desc.push(atob(product.ewa_description));
+    if(ewasortorder){
+        // loop through ewa array to display values in correct order 
+        var ewaArray = {base_description: 'rfq_ewa_show_basedesc', ewa_description: 'rfq_ewa_show_desc', ewa_short_description: 'rfq_ewa_show_shortdesc', ewa_title: 'rfq_ewa_show_title', ewa_sku: 'rfq_ewa_show_sku'};
+        var base64 = {base_description: 'no', ewa_description: 'yes', ewa_short_description: 'yes', ewa_title: 'yes', ewa_sku: 'no'};
+        product.base_description = product.name;
+        for(var index in ewasortorder) {    
+            if ($(ewaArray[ewasortorder[index]]).value == 'Y') { 
+                if(base64[index] == 'yes'){    
+                    //unscramble if required
+                    ewa_desc.push(atob(product[index]));
+                }else{                    
+                    ewa_desc.push(product[index]);
+                }
+            }
+        } 
     }
     row.down('.description_display').update(ewa_desc.join(br + br));
     row.down('.lines_ewa_title').value = product.ewa_title;
@@ -830,7 +916,7 @@ function updateLineEwaInfo(row, product, newline) {
     }
     row.down('.lines_configured').value = '';
 
-    formatNumber(row.down('.lines_quantity'));
+    //formatNumber(row.down('.lines_quantity'));
 }
 
 function updateLinePrice(row, product) {
@@ -1015,11 +1101,13 @@ function cloneLines() {
     $$('.lines_select:checked').each(function (e) {
         var row = e.parentNode.parentNode;
         var rowQty = row.down('.lines_quantity').value;
+        var rowDecimal = row.down('.lines_quantity').readAttribute('decimal');
         var rowProduct = row.down('.lines_product_json').value.evalJSON();
         var configured = row.down('.lines_configured').value;
 
         rowProduct.sku = getNiceSku(rowProduct, rowProduct.sku);
         rowProduct.qty = rowQty;
+        rowProduct.decimal = rowDecimal;
         
         var oldId = row.readAttribute('id');
         oldId = oldId.replace('lines_', '');
@@ -1055,11 +1143,12 @@ function cloneLines() {
                 rowProduct.ewa_sku = row.down('.lines_ewa_sku').value;
                 rowProduct.ewa_short_description = row.down('.lines_ewa_short_description').value;
                 rowProduct.ewa_description = row.down('.lines_ewa_description').value;
+                rowProduct.ewa_visible_description = row.down('.description_display').innerHTML;
 
                 rowProduct.ewa_code = cimData.ewa_code;
                 rowProduct.ewa_attributes = cimData.ewa_attributes;
 
-                addLineRow(rowProduct.is_custom, rowProduct.sku, rowQty, rowProduct, true);
+                addLineRow(rowProduct.is_custom, rowProduct.sku, rowQty, rowProduct, true,rowDecimal);
                 recalcLineTotals();
                 $('loading-mask').hide();
                 e.checked = false;
@@ -1068,7 +1157,7 @@ function cloneLines() {
             if (rowProduct.is_custom == 1) {
                 rowProduct.custom_description = row.down('.lines_description').value;
             }
-            addLineRow(rowProduct.is_custom, rowProduct.sku, rowQty, rowProduct, true);
+            addLineRow(rowProduct.is_custom, rowProduct.sku, rowQty, rowProduct, true,rowDecimal);
             e.checked = false;
         }
     });
@@ -1133,7 +1222,7 @@ function recalcLineTotals() {
             price = parseFloat(row.down('.lines_price').value);
             total = parseFloat(row.down('.lines_line_value').value);
 
-            if (row.down('.lines_type').value == 'S') {
+            if (row.down('.lines_type').value == 'S' || row.down('.lines_type').value == 'X') {
                 total = qty * price;
                 row.down('.lines_line_value').value = total;
                 row.down('.lines_line_value_display').update(priceFormatter.formatPrice(total));

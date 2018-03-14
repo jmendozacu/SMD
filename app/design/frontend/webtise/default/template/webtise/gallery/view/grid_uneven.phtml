@@ -31,11 +31,11 @@ $_media = $_gallery->getMediaGalleryImages();
 
                 <?php else: ?>
 
-                    <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>" data-reveal-id="productModal" data-reveal-ajax="true">
+                    <a class="grid-item-link" href="#" data-featherlight="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>">
 
                 <?php endif; ?>
 
-                    <img class="grid-item" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>"/>
+                    <img class="grid-item" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)->resize(430)->setQuality(70)?>"/>
 
                 </a>
 
@@ -55,18 +55,3 @@ $_media = $_gallery->getMediaGalleryImages();
     <?php endif; ?>
 
 </div>
-
-
-<script type="text/javascript">
-    //<![CDATA[
-
-        var grid = $j('.uneven-grid-images').imagesLoaded(function() {
-            grid.masonry({
-                itemSelector: '.grid-item-wrapper',
-                percentPosition: true,
-                gutter: 10
-            });
-        });
-
-    //]>
-</script>

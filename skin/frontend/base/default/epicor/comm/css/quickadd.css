@@ -106,3 +106,13 @@
 .quotes-manage-view a {text-decoration: none;}
 .quotes-manage-view a:hover {text-decoration: none;}
 
+#quickadd-form input.qty[type="text"]
+{
+    width:97% !important;
+    text-align: left;
+}
+
+.la_qty_box input[type=text].qty{
+    text-align: left;
+    width: 60% !important;
+}

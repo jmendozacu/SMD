@@ -1,0 +1,10 @@
+<?php
+/* @var $this Epicor_Cre_Block_Payment_Info */
+?>
+<img src="<?php echo $this->helper('cre')->getCreLogo(); ?>" title="CRE" alt="CRE" />
+<p><strong><?php echo $this->__('Payment Method : '); ?></strong><?php echo $this->getPaymentTitle()?></p>
+<p><strong><?php echo $this->__('Card Number : '); ?></strong><?php echo $this->getCardNumber(); ?> </p>
+<p><strong><?php echo $this->__('Card Type : '); ?></strong><?php echo $this->getCardType(); ?></p>
+<p><strong><?php echo $this->__('Expiry Date : '); ?></strong><?php echo $this->getCcExpMonth() . '/' . $this->getInfo()->getCcExpYear(); ?></p>
+<p><strong><?php echo $this->__('CCV Token : '); ?></strong><?php echo $this->getCcvToken(); ?></p>
+<p><strong><?php echo $this->__('CVV Token : '); ?></strong><?php echo $this->getCvvToken(); ?></p>

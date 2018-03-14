@@ -64,7 +64,7 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
 ?>
 <tr>
     <td>
-        <?php if (!$_item->getProduct()->load()->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
+        <?php if (!$_item->getProduct($_item->getProduct()->getId())->load()->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
         <h2 class="product-name">
         <?php if ($this->hasProductUrl() || $productIsGroupedAndParentVisible): ?>    
             <a href="<?php echo $productUrl ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a>
@@ -107,7 +107,7 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
     </td>
     
     <td>
-        <?php if ($isVisibleProduct): ?>
+        <?php if ($isVisibleProduct && $this->getConfigureUrl(null,array('returnurl' => base64_encode(Mage::helper('core/url')->getCurrentUrl())))): ?>
             <a href="<?php echo $this->getConfigureUrl(null,array('returnurl' => base64_encode(Mage::helper('core/url')->getCurrentUrl()))) ?>" class="remove-for-quotes" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
         <?php elseif ($groupParentId): ?>
             <a href="<?php
@@ -275,14 +275,18 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
         </td>
         <?php endif; ?>
     <?php endif; ?>
-    <?php endif; ?>
-    <?php if($showUom && !$showInColumn) :?>    
+        <?php endif; ?>
+        <?php
+        $commHelper = Mage::helper('epicor_comm');
+        $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+?>
+<?php if($showUom && !$showInColumn) :?>    
         <td class="a-center uom-qty">
     <?php else: ?>
         <td class="a-center">
     <?php endif; ?>
-            <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
-    <?php if($showUom  && !$showInColumn) :?>
+            <input decimal="<?php echo $decimalPlaces; ?>" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $commHelper->truncateZero($this->getQty(), $decimalPlaces); ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+            <?php if($showUom  && !$showInColumn) :?>
          <span class="nobr" style="display:block;">
          <?php 
             $_item->getProduct()->load($_item->getProduct()->getId());

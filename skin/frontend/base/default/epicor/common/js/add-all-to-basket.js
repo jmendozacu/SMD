@@ -5,7 +5,8 @@ document.observe('dom:loaded', function () {
         $('add_all_to_basket').observe('click', function (event) {
 
             var products = 0;
-
+            if(checkDecimal('qop-list'))
+            {
             $$('.addall_qty').each(function (ele) {
                 if (ele.value > 0) {
                     productForm = ele.up();
@@ -31,7 +32,7 @@ document.observe('dom:loaded', function () {
                     }
                 }
             });
-
+            }
             if (products == 0) {
                 event.stop();
             }

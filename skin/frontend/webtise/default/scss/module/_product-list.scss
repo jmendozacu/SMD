@@ -74,7 +74,7 @@ p.product-name {
 .products-list .product-name {
     text-transform: none;
     margin-bottom: 5px;
-    font-size: $f-size-xxl;
+    font-size: 15px;
     font-family: $f-stack-special;
 
     a {
@@ -618,7 +618,7 @@ $productsGridActionHeight: 85px;
 }
 
 .block-layered-nav .block-content > dl > dt {
-    font-size: 18px;
+    font-size: 16px;
     text-transform: none;
 }
 

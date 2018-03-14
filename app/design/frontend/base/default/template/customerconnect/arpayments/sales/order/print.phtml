@@ -1,0 +1,121 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_order = $this->getOrder();
+$paymentOnAccount = $_order->getEccArpaymentsIspayment();
+$_items = $_order->getItemsCollection();
+$count = $_items->count();
+$hideItems = false;
+if(($count ==1) &&($paymentOnAccount)) {
+    foreach ($_items as $_item):
+        if($_item->getData('name') =="NO_PRODUCTS_PAYMENT_ACCOUNT_APPLIED") {
+            $hideItems = true;
+        }
+    endforeach;
+}
+?>
+<h1><?php echo $this->__('AR Payment Reference #%s', $_order->getRealOrderId()) ?></h1>
+<p class="order-date"><?php echo $this->__('AR Payment Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<div class="col2-set">
+    <?php if (!$_order->getIsVirtual()): ?>
+    <div class="col-2">
+    <?php else: ?>
+    <div class="col-1">
+    <?php endif; ?>
+        <h2><?php echo $this->__('Billing Address') ?></h2>
+        <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
+    </div>
+    <div class="col-2">
+        <h2><?php echo $this->__('Payment Method') ?></h2>
+        <?php echo $this->getPaymentInfoHtml() ?>
+    </div>
+</div>
+<div class="col2-set order-info-box">
+    <div class="col-3">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Allocated Amount') ?></h2>
+            </div>
+            <div class="box-content">
+               Total Amount Applied: <?php echo ($_order->getEccArpaymentsAllocatedAmount()) ?  $this->getOrder()->formatPrice($_order->getEccArpaymentsAllocatedAmount()) :"NIL" ;?>
+               <br>
+               Amount Left: <?php echo ($_order->getEccArpaymentsAmountleft()) ? $this->getOrder()->formatPrice($_order->getEccArpaymentsAmountleft()) :"NIL";?>
+               <br>
+               Payment On Account: <?php echo ($_order->getEccArpaymentsIspayment()) ? "Yes" : "No";?>
+               <?php
+                    if($_order->getEccArpaymentsIspayment()):
+               ?>
+               <br>
+               <br>
+               <br><strong>Total Amount Paid: </strong> <span class="price"><?php echo $this->getOrder()->formatPrice($_order->getEccArpaymentsAllocatedAmount())?></span>
+               <?php  endif ?>
+            </div>
+        </div>
+    </div>
+</div>    
+    
+<?php 
+$checkDisputeActive = Mage::getModel('customerconnect/arpayments')->checkDisputeAllowedOrNot();
+if(!$hideItems):
+?>
+<h2><?php echo $this->__('About this payment') ?></h2>
+<table class="data-table" id="my-orders-table">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Invoice No') ?></th>
+            <th><?php echo $this->__('Invoice Date') ?></th>
+            <th><?php echo $this->__('Due Date') ?></th>
+            <th><?php echo $this->__('Invoice Amount') ?></th>
+            <th><?php echo $this->__('Invoice Balance') ?></th>
+            <th><?php echo $this->__('Term Amount') ?></th>
+            <?php 
+            if($checkDisputeActive):
+            ?>             
+            <th><?php echo $this->__('Dispute') ?></th>
+            <?php endif;?>  
+            <th class="a-right"><?php echo $this->__('Payment Amount') ?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <?php echo $this->getChildHtml('order_totals') ?>
+    </tfoot>
+    <?php $_items = $_order->getItemsCollection(); ?>
+    <?php $_count = $_items->count(); ?>
+    <?php foreach ($_items as $_item): ?>
+    <?php if ($_item->getParentItem()) continue; ?>
+    <tbody>
+        <?php echo $this->getItemHtml($_item) ?>
+    </tbody>
+        <?php endforeach; ?>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+<?php endif ?>
+<script type="text/javascript">window.print();</script>

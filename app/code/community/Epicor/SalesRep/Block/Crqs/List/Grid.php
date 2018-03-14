@@ -98,4 +98,28 @@ class Epicor_SalesRep_Block_Crqs_List_Grid extends Epicor_Common_Block_Generic_L
         $this->setCustomColumns($columns);
     }
 
+    protected function _prepareLayout()
+    {
+        $backUrl = $this->getUrl('salesrep/account/index/');
+        $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label' => Mage::helper('adminhtml')->__('Back'),
+                'onclick' => "location.href='$backUrl';",
+                'class' => 'task'
+        )));
+
+        return parent::_prepareLayout();
+    }
+
+    public function getAddButtonHtml()
+    {
+        return $this->getChildHtml('add_button');
+    }
+
+    public function getMainButtonsHtml()
+    {
+        $html = parent::getMainButtonsHtml();
+        $html .= $this->getAddButtonHtml();
+        return $html;
+    }
+
 }

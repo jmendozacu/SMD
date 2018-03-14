@@ -1,0 +1,972 @@
+<?xml version="1.0"?>
+<layout version="0.1.7">
+    <empty>
+    </empty>
+    <default>
+        <reference name="top.links">
+            <action method="addLink" translate="label title">
+                <label>Home</label>
+                <url>/</url>
+                <title>Home</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>1</position>
+            </action>
+            <action method="addLink" translate="label title" ifconfig="Epicor_Comm/brands/show_store_selector">
+                <label>Brand Select</label>
+                <path>epicor_comm/store/selector/</path>
+                <title>brandselect</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>18</position>
+            </action>
+        </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>grouped</type>
+                <block>catalog/product_price</block>
+                <template>epicor_comm/catalog/product/price.phtml</template>
+            </action>
+        </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>bundle</type>
+                <block>bundle/catalog_product_price</block>
+                <template>epicor_comm/catalog/product/price.phtml</template>
+            </action>
+        </reference>
+        <reference name="return_link">
+            <!-- Set the template file to an empty string to prevent output -->
+            <action method="setTemplate">
+                <template></template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>epicor/common/compatibility_fixes.js</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/quickadd.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/styles.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/configurableAddToCart.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/configurableAddToCart.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/locations.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/locations.js</name>
+            </action>
+            <block type="core/template" name="ewasettings" template="epicor_comm/catalog/product/ewasettings.phtml" />
+        </reference>
+        <reference name="cart_sidebar">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/cart/sidebar.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/sidebar/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>simple</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/sidebar/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/cart/sidebar/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/cart/sidebar/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>bundle/checkout_cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/sidebar/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="epicor_comm/catalog_product_ewa_translation" name="ewa.js.translations" />
+        </reference>
+        <reference name="right">
+            <block type="epicor_comm/cart_quickadd" name="epicor_comm.cart.quickadd" template="epicor_comm/cart/quickadd.phtml" after="cart_sidebar" />
+            <block type="epicor_comm/customer_account_masquerade" name="epicor_comm.cart.masquerade" template="epicor_comm/customer/account/masquerade.phtml" after="epicor_comm.cart.quickadd" />
+            <block type="epicor_comm/customer_locationpicker" name="epicor_comm.locationpicker" template="epicor_comm/customer/locationpicker.phtml" after="epicor_comm.cart.masquerade" />
+        </reference>
+        <reference name="wishlist_sidebar">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/sidebar.phtml</template>
+            </action>
+        </reference>
+    </default>
+    <wishlist_index_index>
+        <reference name="customer.wishlist">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/view.phtml</template>
+            </action>
+        </reference>
+        <reference name="customer.wishlist.button.toCart">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/button/tocart.phtml</template>
+            </action>
+        </reference>
+    </wishlist_index_index>
+    <customer_logged_in>
+        <reference name="sale.reorder.sidebar">
+            <action method="setTemplate">
+                <template>epicor_comm/sales/reorder/sidebar.phtml</template>
+            </action>
+        </reference>
+    </customer_logged_in>
+    <epicor_comm_configurator_loadewa>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/catalog_product_ewa" name="ewaform" template="epicor_comm/catalog/product/ewa.phtml" />
+        </reference>
+    </epicor_comm_configurator_loadewa>
+    <epicor_comm_configurator_error>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="ewaerror" template="epicor_comm/catalog/product/ewaerror.phtml" />
+        </reference>
+    </epicor_comm_configurator_error>
+    <epicor_comm_configurator_badurl>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="ewaerror" template="epicor_comm/catalog/product/ewabadurl.phtml" />
+        </reference>
+    </epicor_comm_configurator_badurl>
+    <epicor_comm_configurator_reorderewa2>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="epicor_comm/catalog_product_ewa" name="bankform" template="epicor_comm/catalog/product/ewa.phtml" />
+        </reference>
+    </epicor_comm_configurator_reorderewa2>
+    <epicor_comm_configurator_editewa>
+        <update handle="epicor_comm_configurator_loadewa" />
+    </epicor_comm_configurator_editewa>
+    <catalog_product_view>
+        <reference name="product.info" >
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/view.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_view_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/view/locations.phtml" />
+            <remove name="product.info.availability" />
+        </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>simple</type>
+                <block>catalog/product_price</block>
+                <template>epicor_comm/catalog/product/price.phtml</template>
+            </action>
+        </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>bundle</type>
+                <block>bundle/catalog_product_price</block>
+                <template>epicor_comm/catalog/product/price.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="product.info.addtocart" >
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/view/addtocart.phtml</template>
+            </action>
+        </reference>
+
+    </catalog_product_view>
+    <catalog_category_default>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/list.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_list_configurableaddtocart" name="epicor_comm.configurableaddtocartlist" as="configurableaddtocartlist" template="epicor_comm/catalog/product/list/configurableaddtocartlist.phtml" />
+            <block type="epicor_comm/catalog_product_list_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/list/locations.phtml" />
+        </reference>
+    </catalog_category_default>
+    <catalog_category_view>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/list.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_list_configurableaddtocart" name="epicor_comm.configurableaddtocartlist" as="configurableaddtocartlist" template="epicor_comm/catalog/product/list/configurableaddtocartlist.phtml" />
+            <block type="epicor_comm/catalog_product_list_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/list/locations.phtml" />
+        </reference>
+    </catalog_category_view>
+    <catalog_category_layered>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/list.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_list_configurableaddtocart" name="epicor_comm.configurableaddtocartlist" as="configurableaddtocartlist" template="epicor_comm/catalog/product/list/configurableaddtocartlist.phtml" />
+            <block type="epicor_comm/catalog_product_list_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/list/locations.phtml" />
+        </reference>
+    </catalog_category_layered>
+    <customer_address_index>
+        <reference name="address_book">
+            <action method="setTemplate">
+                <template>epicor_comm/customer/address/book.phtml</template>
+            </action>
+        </reference>
+    </customer_address_index>
+    <catalogsearch_result_index>
+        <reference name="search_result_list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/list.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_list_configurableaddtocart" name="epicor_comm.configurableaddtocartlist" as="configurableaddtocartlist" template="epicor_comm/catalog/product/list/configurableaddtocartlist.phtml" />
+            <block type="epicor_comm/catalog_product_list_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/list/locations.phtml" />
+        </reference>
+    </catalogsearch_result_index>
+    <catalogsearch_advanced_result>
+        <reference name="search_result_list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/list.phtml</template>
+            </action>
+            <block type="epicor_comm/catalog_product_list_locations" name="epicor_comm.locations" as="locations" template="epicor_comm/catalog/product/list/locations.phtml" />
+        </reference>
+    </catalogsearch_advanced_result>
+    <customer_address_form>
+        <reference name="customer_address_edit">
+            <action method="setTemplate">
+                <template>epicor_comm/customer/address/edit.phtml</template>
+            </action>
+        </reference>
+    </customer_address_form>
+
+    <sales_guest_form>
+        <reference name="guest.form">
+            <action method="setTemplate">
+                <template>epicor_comm/sales/guest/form.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_form>
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/productOptions.js</name>
+            </action>
+        </reference>
+        <reference name="product.info">
+            <block before="description" type="catalog/product_view" name="product.moreinfofile" template="epicor_comm/catalog/product/view/moreinfofile.phtml">
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+            <block before="description" type="catalog/product_view" name="product.moreinfofile" template="epicor_comm/catalog/product/view/relateddocuments.phtml">
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+            <block type="epicor_comm/catalog_product_view_configurableaddtocart" name="epicor_comm.configurableaddtocart" as="configurableaddtocart" template="epicor_comm/catalog/product/view/configurableaddtocart.phtml" />
+            <block type="epicor_comm/catalog_product_view_groupedupdatecart" name="epicor_comm.groupedupdatecart" as="groupedupdatecart" template="epicor_comm/catalog/product/view/groupedupdatecart.phtml" />
+
+        </reference>
+        <reference name="product.info.options">
+            <action method="addOptionRenderer">
+                <type>ecc_text</type>
+                <block>epicor_comm/catalog_product_view_options_type_ecc_text</block>
+                <template>epicor_comm/catalog/product/view/options/type/ecc/text.phtml</template>
+            </action>
+        </reference>
+    </catalog_product_view>
+
+    <PRODUCT_TYPE_simple translate="label" module="catalog">
+        <reference name="product.info">
+            <block type="catalog/product_view_type_simple" name="product.info.simple" as="product_type_data" template="epicor_comm/catalog/product/view/type/default.phtml">
+            </block>
+        </reference>
+    </PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_configurable translate="label" module="catalog">
+        <reference name="head">
+            <!--
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/loader.js</file>
+            </action>
+            -->
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action>
+        </reference>
+        <!--
+        <reference name="product.info">
+            <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="epicor_comm/catalog/product/view/type/default.phtml">
+            </block>
+        </reference>
+        -->
+        <reference name="product.info">
+            <block type="core/template" name="product.info.stock.wrapper" template="epicor_comm/catalog/product/view/type/configurable/stockwrapper.phtml">
+                <!--
+                <block type="catalog/product_view_type_configurable" name="product.info.configurable.data" as="product_type_data_n" template="epicor_comm/catalog/product/view/type/default.phtml" />
+                <block type="epicor_comm/catalog_product_view_type_bundle_locations" name="epicor_comm.locations" as="bundle_locations" template="epicor_comm/catalog/product/view/locations.phtml" />
+                -->
+            </block>
+        </reference>
+        <reference name="product.info.container1">
+            <action method="insert">
+                <block>product.info.stock.wrapper</block>
+                <sibling_name>product.info.options.wrapper</sibling_name>
+                <after>1</after>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template" name="customer.account.loader" template="customerconnect/loader.phtml" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_grouped translate="label" module="catalog">
+        <reference name="product.info">
+            <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="epicor_comm/catalog/product/view/type/grouped.phtml">
+                <block type="epicor_comm/catalog_product_view_type_grouped_locations" name="epicor_comm.locations" as="grouped_locations" template="epicor_comm/catalog/product/view/type/grouped/locations.phtml" />
+            </block>
+        </reference>
+    </PRODUCT_TYPE_grouped>
+    <PRODUCT_TYPE_bundle>
+        <reference name="product.info">
+            <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle" as="product_type_data" template="epicor_comm/catalog/product/view/type/default.phtml">
+            </block>
+            <block type="epicor_comm/catalog_product_view_type_bundle_locations" name="epicor_comm.locations" as="bundle_locations" template="epicor_comm/catalog/product/view/locations.phtml" />
+        </reference>
+        <reference name="bundle.tierprices">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/bundle/tierprices.phtml</template>
+            </action>
+        </reference>
+        <reference name="product.info.bundle.options">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/view/type/bundle/options.phtml</template>
+            </action>
+        </reference>
+    </PRODUCT_TYPE_bundle>
+
+    <checkout_cart_index translate="label">
+        <reference name="checkout.cart">
+            <action method="setCartTemplate">
+                <value>epicor_comm/checkout/cart.phtml</value>
+            </action>
+            <action method="chooseTemplate"/>
+            <action method="addItemRender">
+                <type>simple</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/cart/item/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/cart/item/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>epicor_comm/checkout_cart_item_renderer_bundle</block>
+                <template>epicor_comm/checkout/cart/item/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/cart/item/default.phtml</template>
+            </action>
+        </reference>
+        <reference name="additional.product.info">
+            <block type="epicor_comm/checkout_cart_item_comment" name="item_comment" />
+        </reference>
+        <reference name="checkout.cart.totals">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/cart/totals.phtml</template>
+            </action>
+        </reference>
+    </checkout_cart_index>
+    <epicor_comm_onepage_billingpopup>
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/loader.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>epicor_comm/page/addressgrid.phtml</template>
+            </action>
+            <block type="epicor_comm/customer_account_billingaddress_list" name="onepage.billing.popup" output="toHtml"/>
+        </reference>
+    </epicor_comm_onepage_billingpopup>
+    <epicor_comm_onepage_shippingpopup>
+        <reference name="head">
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/loader.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>epicor_comm/page/addressgrid.phtml</template>
+            </action>
+            <block type="epicor_comm/customer_account_shippingaddress_list" name="onepage.shipping.popup" output="toHtml"/>
+        </reference>
+    </epicor_comm_onepage_shippingpopup>
+    <checkout_onepage_index>
+
+        <reference name="head">
+            <action method="addJs">
+                <file>flexitheme/jquery/jquery-1.7.2.min.js</file>
+            </action>
+            <action method="addJs">
+                <file>flexitheme/jquery/jquery.no-conflict.js</file>
+            </action>
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/jquery.maxlength.js</name>
+            </action>
+        </reference>
+        <reference name="checkout.onepage">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage.phtml</template>
+            </action>
+            <block type="checkout/onepage_shipping_dates" name="checkout.onepage.shipping.dates" after="shipping_method" as="shipping_dates" template="epicor_comm/checkout/onepage/shipping_dates.phtml">
+                <block type="checkout/onepage_shipping_dates" name="checkout.onepage.shipping.dates.available.dates" as="shipping_dates.available_dates" template="epicor_comm/checkout/onepage/shipping_dates/available_dates.phtml" />
+            </block>
+        </reference>
+        <reference name="checkout.onepage.shipping">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/shipping.phtml</template>
+            </action>
+        </reference>
+        <reference name="checkout.onepage.billing">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/billing.phtml</template>
+            </action>
+        </reference>
+        <reference name="checkout.progress">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/progress.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+    <checkout_onepage_shipping_dates>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_shipping_dates" name="root" output="toHtml" template="epicor_comm/checkout/onepage/shipping_dates/available_dates.phtml"/>
+    </checkout_onepage_shipping_dates>
+
+    <checkout_onepage_progress>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/progress.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_progress>
+
+    <!-- Individual blocks for Progress steps begins -->
+    <checkout_onepage_progress_shipping_dates>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="epicor_comm/checkout/onepage/progress/shipping_dates.phtml">
+            <action method="setInfoTemplate">
+                <method></method>
+                <template></template>
+            </action>
+        </block>
+    </checkout_onepage_progress_shipping_dates>
+
+    <checkout_onepage_review>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/onepage/review/info.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/onepage/review/item.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/onepage/review/item.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/onepage/review/item.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>epicor_comm/checkout_cart_item_renderer_bundle</block>
+                <template>epicor_comm/checkout/onepage/review/item.phtml</template>
+            </action>
+            <reference name="checkout.onepage.review.info.totals" >
+                <action method="setTemplate">
+                    <template>epicor_comm/checkout/onepage/review/totals.phtml</template>
+                </action>
+            </reference>
+        </reference>
+
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+            <block type="epicor_comm/checkout_cart_item_comment" name="item_comment" />
+        </block>
+    </checkout_onepage_review>
+    <wishlist_index_index translate="label">
+        <reference name="customer.wishlist.item.cart">
+            <action method="setTemplate">
+                <template>epicor_comm/wishlist/item/cart.phtml</template>
+            </action>
+        </reference>
+    </wishlist_index_index>
+    <customer_account_index>
+        <reference name="customer_account_dashboard_top">
+            <action method="setTemplate">
+                <template>epicor_comm/sales/order/recent.phtml</template>
+            </action>
+        </reference>
+    </customer_account_index>
+    <catalog_product_compare_index>
+        <reference name="catalog.compare.list">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/product/compare/list.phtml</template>
+            </action>
+        </reference>
+    </catalog_product_compare_index>
+    <sales_order_history>
+        <reference name="sales.order.history">
+            <action method="setTemplate">
+                <template>epicor_comm/sales/order/history.phtml</template>
+            </action>
+        </reference>
+    </sales_order_history>
+    <checkout_multishipping_addresses translate="label">
+        <reference name="checkout_addresses">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/addresses.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_addresses>
+    <checkout_multishipping_shipping translate="label">
+        <reference name="checkout_shipping">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/shipping.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_shipping>
+    <checkout_multishipping_address_select translate="label">
+        <reference name="checkout_address_select">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/address/select.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_address_select>
+    <checkout_multishipping_address_selectbilling translate="label">
+        <reference name="checkout_address_select">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/address/select.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_address_selectbilling>
+
+
+    <checkout_multishipping_overview translate="label">
+        <reference name="checkout_overview">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/overview.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>default</type>
+                <block>checkout/cart_item_renderer</block>
+                <template>epicor_comm/checkout/multishipping/item/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/multishipping/item/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/multishipping/item/default.phtml</template>
+            </action>
+            <action method="addRowItemRender">
+                <type>grouped</type>
+                <block>checkout/cart_item_renderer_grouped</block>
+                <template>epicor_comm/checkout/multishipping/overview/item.phtml</template>
+            </action>
+            <action method="addRowItemRender">
+                <type>configurable</type>
+                <block>checkout/cart_item_renderer_configurable</block>
+                <template>epicor_comm/checkout/multishipping/overview/item.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_overview>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="epicor_comm" ifconfig="Epicor_Comm/basket_csv_upload/enabled_my_account">
+                <name>Product2CartByCsv</name>
+                <path>epicor_comm/cart/csvupload</path>
+                <label>Add Product to Cart by CSV</label>
+            </action>
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="epicor_comm" ifconfig="epicor_comm_enabled_messages/CRRS_request/active">
+                <name>MyReturns</name>
+                <path>epicor_comm/returns/list</path>
+                <label>My Returns</label>
+                <urlParams></urlParams>
+                <msgType></msgType>
+                <accessFunction>epicor_comm/returns::isReturnsEnabled</accessFunction>
+            </action>
+        </reference>
+    </customer_account>
+    <epicor_comm_returns_list translate="label">
+        <label>Customer Returns</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="epicor_comm/customer_returns_list" name="returns_list" template="epicor_comm/customer/returns/list.phtml" />
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </epicor_comm_returns_list>
+
+    <customer_returns_details>
+        <label>Customer Return Details</label>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>col2-set</value>
+            </action>
+            <block type="customerconnect/customer_returns_details_title" name="returns.title"/>
+            <block type="customerconnect/customer_returns_details_info" name="returns.info" />
+            <block type="customerconnect/customer_returns_details_statusinfo" name="returns.statusinfo" />
+            <block type="epicor_comm/customer_returns_lines" name="returns.lines" />
+            <block type="epicor_comm/customer_returns_attachment_lines" name="returns.attachments" />
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="epicor_common/customer/account/link/back.phtml">
+                <action method="setRefererUrl">
+                    <value>/customerconnect/returns/</value>
+                </action>
+                <action method="setListUrl">
+                    <value>/customerconnect/returns/</value>
+                </action>
+                <action method="setListType">
+                    <value>Returns</value>
+                </action>
+            </block>
+        </reference>
+    </customer_returns_details>
+
+    <epicor_comm_returns_view translate="label">
+        <label>Customer Return Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_returns_details"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Customer Return Details</title>
+            </action>
+        </reference>
+        <reference name="customer.account.link.back">
+            <action method="setRefererUrl">
+                <value>/comm/returns/list/</value>
+            </action>
+            <action method="setListUrl">
+                <value>/comm/returns/list/</value>
+            </action>
+            <action method="setListType">
+                <value>Returns</value>
+            </action>
+        </reference>
+    </epicor_comm_returns_view>
+
+    <epicor_comm_returns_configureproduct>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="epicor_comm/catalog_product_configure" name="product.configure" />
+        </reference>
+    </epicor_comm_returns_configureproduct>
+
+    <epicor_comm_cart_csvupload>
+        <label>Add product to Basket by csv</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="epicor_comm/cart_product_csvupload" name="csvupload" template="epicor_comm/cart/product/csvupload_myaccount.phtml" />
+        </reference>
+    </epicor_comm_cart_csvupload>
+
+    <shipping_tracking_popup translate="label">
+        <reference name="shipping.tracking.popup">
+            <action method="setTemplate">
+                <template>epicor_comm/shipping/tracking/popup.phtml</template>
+            </action>
+        </reference>
+    </shipping_tracking_popup>
+    <paypal_express_review>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/paypal/express.js</name>
+            </action>
+        </reference>
+    </paypal_express_review>
+
+    <!--    <catalog_category_layered translate="label">
+        <reference name="catalog.leftnav">
+            <action method="setTemplate">
+                <template>epicor_comm/catalog/layer/view.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_layered>-->
+
+
+    <catalogsearch_result_index>
+        <reference name="catalogsearch.leftnav">
+            <action method="setTemplate">
+                <tpl>interjar/layerednavsearch/catalog/layer/view.phtml</tpl>
+            </action>
+            <block type="layerednavsearch/catalog_category_view_layered_navigation_search_form" name="layerednav.search" as="layerednav_search" template="interjar/layerednavsearch/form.phtml" />
+        </reference>
+    </catalogsearch_result_index>
+
+
+    <epicor_comm_returns_index>
+        <label>Returns</label>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Returns</title>
+            </action>
+            <action method="addJs">
+                <file>epicor/grid.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/returns.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/common/css/boxes.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/comm/css/returns.css</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/form.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/hash.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/events.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/loader.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/comm/js/quickadd.js</name>
+                <params/>
+            </action>
+            <action method="addJs">
+                <script>varien/product.js</script>
+            </action>
+            <action method="addJs">
+                <script>varien/product_options.js</script>
+            </action>
+            <action method="addJs">
+                <script>varien/configurable.js</script>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <action method="setElementClass">
+                <value>col1-set</value>
+            </action>
+            <block type="epicor_comm/customer_returns" name="customer.returns">
+                <block type="epicor_comm/customer_returns_login" name="customer.returns.login" as="login"/>
+                <block type="epicor_comm/customer_returns_return" name="customer.returns.return" as="return"/>
+                <block type="epicor_comm/customer_returns_products" name="customer.returns.products" as="products">
+                    <block type="epicor_comm/customer_returns_lines" name="customer.returns.products.lines" as="lines"/>
+                </block>
+                <block type="epicor_comm/customer_returns_attachments" name="customer.returns.attachments" as="attachments"/>
+                <block type="epicor_comm/customer_returns_notes" name="customer.returns.notes" as="notes"/>
+                <block type="epicor_comm/customer_returns_review" name="customer.returns.review" as="review"/>
+            </block>
+        </reference>
+    </epicor_comm_returns_index>
+    <epicor_comm_store_selector>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <!--            <action method="setElementClass">
+                <value>col1-set</value>
+            </action> -->
+            <remove name="top.menu" />
+            <remove name="top.links" />
+            <remove name="top.search" />
+            <remove name="footer" />
+            <block type="epicor_comm/store_switcher" name="store_switcher" as="store.switcher" template="epicor_comm/store/selector.phtml" />
+        </reference>
+    </epicor_comm_store_selector>
+    <sales_order_view>
+        <reference name="sales.order.info.buttons">
+            <block type="epicor_comm/sales_order_returnlink" as="returnlink" name="returnlink" />
+        </reference>
+    </sales_order_view>
+
+    <checkout_onepage_success>
+        <reference name="checkout.success">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/success.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_success>
+
+    <checkout_multishipping_success>
+        <reference name="checkout_success">
+            <action method="setTemplate">
+                <template>epicor_comm/checkout/multishipping/success.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_success>
+
+    <sales_order_view>
+    </sales_order_view>
+
+    <epicor_comm_configurableproducts_stockandprice>
+        <block type="core/template" name="product.info.stockandprice" as="product_info_stockandprice" template="epicor_comm/catalog/product/view/type/configurable/stockcontainer.phtml">
+            <block type="catalog/product_view_type_configurable" name="product.info.configurable.data" as="product_type_data" template="epicor_comm/catalog/product/view/type/default.phtml" />
+            <block type="epicor_common/catalog_product_price" name="product.info.configurable.tierprices" as="configurable_tierprices" template="catalog/product/view/tierprices.phtml" />
+            <block type="epicor_comm/catalog_product_view_type_configurable_locations" name="epicor_comm.locations" as="configurable_locations" template="epicor_comm/catalog/product/view/type/configurable/locations.phtml" />
+        </block>
+    </epicor_comm_configurableproducts_stockandprice>
+    <add_returns_footer_link>
+        <reference name="footer_links" >
+            <action method="addLink" translate="label title" module="epicor_comm">
+                <label>Returns</label>
+                <url>epicor_comm/returns</url>
+                <title>Returns</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>40</position>
+            </action>
+        </reference>
+    </add_returns_footer_link>
+
+    <epicor_comm_locations_addtocartfrommyorderswidget translate="title">
+        <update handle="quickorderpad_form_results" />
+        <label>Add to cart from My Orders Widget</label>
+        <reference name="quickorderpad_wrapper" >
+            <action method="setTitle" translate="title">
+                <title>Add to cart from My Orders Widget</title>
+            </action>
+        </reference>
+        <remove name="search" />
+        <remove name="csvupload" />
+    </epicor_comm_locations_addtocartfrommyorderswidget>
+    <epicor_comm_locations_addtocartfromwishlist translate="title">
+        <update handle="quickorderpad_form_results" />
+        <label>Add to cart from Wishlist</label>
+        <reference name="quickorderpad_wrapper" >
+            <action method="setTitle" translate="title">
+                <title>Add to cart from Wishlist</title>
+            </action>
+        </reference>
+        <remove name="search" />
+        <remove name="csvupload" />
+    </epicor_comm_locations_addtocartfromwishlist>
+</layout>

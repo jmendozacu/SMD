@@ -2,6 +2,7 @@
 /* @var $this Epicor_Comm_Block_Customer_Returns_Notes */
 $lengthLimitInUse = $this->noteTabLengthLimit(); 
 $noteTabRequired = $this->noteTabRequired();
+$maxLength=null;
 if($lengthLimitInUse && $noteTabRequired){
     $maxLength = 'maxLength='.'"'.$lengthLimitInUse.'"'; 
 }

@@ -59,7 +59,7 @@ class Epicor_Comm_Block_Adminhtml_Locations_List_Grid extends Mage_Adminhtml_Blo
                 'type' => 'text'
             ),
             'county' => array(
-                'header' => Mage::helper('epicor_comm')->__('County'),
+                'header' => Mage::helper('epicor_comm')->__('State'),
                 'align' => 'left',
                 'index' => 'county',
                 'type' => 'state'
@@ -75,6 +75,27 @@ class Epicor_Comm_Block_Adminhtml_Locations_List_Grid extends Mage_Adminhtml_Blo
                 'align' => 'left',
                 'index' => 'postcode',
                 'type' => 'text'
+            ),
+            'location_visible' => array(
+                'header' => Mage::helper('epicor_comm')->__('Location Visible'),
+                'align' => 'left',
+                'index' => 'location_visible',
+                'type' => 'options',
+                'options'   => Mage::getSingleton('adminhtml/system_config_source_yesno')->toArray()
+            ),
+            'include_inventory' => array(
+                'header' => Mage::helper('epicor_comm')->__('Include Inventory'),
+                'align' => 'left',
+                'index' => 'include_inventory',
+                'type' => 'options',
+                'options'   => Mage::getSingleton('adminhtml/system_config_source_yesno')->toArray()
+            ),
+            'show_inventory' => array(
+                'header' => Mage::helper('epicor_comm')->__('Show Inventory'),
+                'align' => 'left',
+                'index' => 'show_inventory',
+                'type' => 'options',
+                'options'   => Mage::getSingleton('adminhtml/system_config_source_yesno')->toArray()
             ),
             'sort_order' => array(
                 'header' => Mage::helper('epicor_comm')->__('Sort Order'),

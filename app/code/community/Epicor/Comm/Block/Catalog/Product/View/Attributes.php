@@ -2,8 +2,7 @@
 
 class Epicor_Comm_Block_Catalog_Product_View_Attributes extends Mage_Catalog_Block_Product_View_Attributes {
 
-    public function getAdditionalData(array $excludeAttr = array())
-    {
+    public function getAdditionalData(array $excludeAttr = array()) {
         $data = array();
         $product = $this->getProduct();
         $attributes = $product->getAttributes();
@@ -14,7 +13,7 @@ class Epicor_Comm_Block_Catalog_Product_View_Attributes extends Mage_Catalog_Blo
             if ($attribute->getIsVisibleOnFront() && !in_array($attributeCode, $excludeAttr)) {
                 $value = $attribute->getFrontend()->getValue($product);
 
-                if (!$product->hasData($attributeCode) || (string)$value == '') {
+                if (!$product->hasData($attributeCode) || !$value) {
                     $value = '';
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
                     $value = Mage::app()->getStore()->convertPrice($value, true);
@@ -32,11 +31,12 @@ class Epicor_Comm_Block_Catalog_Product_View_Attributes extends Mage_Catalog_Blo
                     $data[$attributeCode] = array(
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'code'  => $attributeCode
+                        'code' => $attributeCode
                     );
                 }
             }
         }
         return $data;
     }
+
 }

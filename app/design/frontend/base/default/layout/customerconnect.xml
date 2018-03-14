@@ -3,7 +3,7 @@
     <default>
         <reference name="right">
             <block type="customerconnect/customer_account_summary" name="right.customer.account.summary" template="customerconnect/customer/account/summary.phtml" after="cart_sidebar" />
-        </reference>
+        </reference>     
     </default>
 
     <!--
@@ -96,6 +96,18 @@
                     <msgtype>CUPS</msgtype>
                 </action>
                 <action method="addLink" translate="label" module="customerconnect">
+                    <name>customerconnect_account_arpayments</name>
+                    <path>customerconnect/arpayments/</path>
+                    <label>Account AR Payment</label>
+                    <url_params></url_params>
+                    <msgtype>CAPS</msgtype>
+                </action>  
+                <action method="addLink" translate="label" module="customerconnect">
+                   <name>customerconnect_account_arpayments_history</name>
+                   <path>customerconnect/arpayments/history/</path>
+                   <label>Account AR Payments Received</label>
+                </action>                  
+                <action method="addLink" translate="label" module="customerconnect">
                     <name>customerconnect_account_shipments</name>
                     <path>customerconnect/shipments/</path>
                     <label>Account Shipments</label>
@@ -152,7 +164,7 @@
                     <label>Account Recent Purchases</label>
                     <url_params></url_params>
                     <msgtype>CPHS</msgtype>
-                </action>    
+                </action> 
             </block>
         </reference>
     </customer_account>
@@ -234,7 +246,8 @@
                 <block type="customerconnect/customer_dashboard_orders" name="customer.dashboard.orders" />
                 <block type="customerconnect/customer_dashboard_invoices" name="customer.dashboard.invoices" />
             </block>
-        </reference>    
+        </reference>  
+         
     </customerconnect_dashboard_index> 
     
     <customerconnect_account_index>
@@ -342,11 +355,12 @@
                 <!--
                 <block type="customerconnect/customer_checkout_savenewaddress" name="customer.checkout.savenewaddress" />
                 -->
-                <block type="customerconnect/customer_account_customaddressallowed" name="customer.account.cusomaddressallowed" />
+                
                 <block type="customerconnect/customer_account_balances_period_list" name="customer.account.periodbalances" />
                 <block type="customerconnect/customer_account_balances_aged_list" name="customer.account.agedbalances" />
                 <block type="customerconnect/customer_account_shippingaddress_list" name="customer.account.shippingaddress" />
                 <block type="customerconnect/customer_account_contacts_list" name="customer.account.contacts" />
+                <block type="customerconnect/customer_account_customaddressallowed" name="customer.account.cusomaddressallowed" />
             </block>
         </reference>    
         <reference name="before_body_end">
@@ -398,7 +412,7 @@
         <reference name="head">
             <action method="setTitle" translate="title">
                 <title>Orders</title>
-            </action>
+            </action>            
         </reference>
         <reference name="my.account.wrapper">
             <!--<block type="customerconnect/customer_erpaccount_filter" name="erpfilter" />-->
@@ -640,7 +654,7 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>epicor/comm/js/quickadd.js</name>
+                <name>epicor/comm/js/quickadd.js?v=1.0.9.1</name>
                 <params/>
             </action>
             <action method="addItem">
@@ -650,7 +664,7 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>epicor/customerconnect/js/rfq/details/lines.js?v=1.0.7.5</name>
+                <name>epicor/customerconnect/js/rfq/details/lines.js?v=1.0.8.5</name>
                 <params/>
             </action>
             <action method="addItem">
@@ -726,6 +740,7 @@
                 </action>
             </block>
             <block type="core/template" name="rfq.overlayclose" template="customerconnect/customer/account/overlayclose.phtml" />
+            <block type="checkout/onepage_billing" as="capture.customer.info"  template="epicor_comm/checkout/onepage/capture_customer_info.phtml"/>
         </reference>
     </customerconnect_rfqs_detail_page>
     
@@ -734,6 +749,13 @@
         <update handle="customer_account"/>
         <update handle="customer_connect"/>
         <update handle="customerconnect_rfqs_detail_page"/>
+        <reference name="head">
+            <action method="addItem">
+                    <type>skin_js</type>
+                    <name>epicor/common/js/capture-details.js?v=1.0.9.0</name>
+                    <params />
+                </action>
+        </reference>        
     </customerconnect_rfqs_details>
     
     <customerconnect_rfqs_update>
@@ -758,6 +780,11 @@
         <reference name="head">
             <action method="setTitle" translate="title">
                 <title>Customer Connect New RFQ</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/common/js/capture-details.js?v=1.0.9.0</name>
+                <params />
             </action>
         </reference>
         <remove name="rfqs.info" />
@@ -800,6 +827,7 @@
                     <value>1</value>
                 </action>
                 <block type="quickorderpad/form_search" name="search" template="quickorderpad/form/search.phtml">
+                    <block type="epicor_lists/quickorderpad_list_selector" name="list.selector" template="epicor/lists/quickorderpad/list/selector.phtml"/>
                     <action method="setSearchUrl">
                         <name>/customerconnect/rfqs/linesearch</name>
                     </action>
@@ -929,5 +957,132 @@
             <block type="customerconnect/customer_recentpurchases_list" name="recentpurchaseslist" />
         </reference>
     </customerconnect_recentpurchases_index>
-    
+    <!--AR PAYMENTS LAYOUT STARTS-->
+    <customerconnect_arpayments_index>
+        <label>Account AR Payment</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>AR Payment</title>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>epicor/customerconnect/js/arpayments/arpayments.js</name>
+                <params/>
+            </action>   
+            <action method="addJs">
+                <name>varien/accordion.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/opcheckout.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>epicor/customerconnect/css/arpayments.css</name>
+                <params/>
+            </action>                        
+        </reference>
+        <reference name="content">
+            <remove name="checkout.onepage" />
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="epicor_common/protected" name="protected_content">
+                <block type="customerconnect/customer_arpayments_aged" name="customer.arpayments.agedbalances" />
+                <block type="customerconnect/customer_arpayments_list" name="arpaymentslist" />
+            </block>            
+        </reference>
+    </customerconnect_arpayments_index>
+    <customerconnect_arpayments_review>
+        <block name="root" type="core/template"/>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerconnect/customer_arpayments_review_arpayment" name="arpayments_review_arpayment" template="customerconnect/arpayments/review.phtml"/>
+            <block type="checkout/onepage_payment" name="checkoutonepagearpayment"  template="customerconnect/arpayments/checkout/payment.phtml">
+                <block type="checkout/onepage_payment_methods" name="checkoutpayments"  as="methods" template="customerconnect/arpayments/checkout/methods.phtml"/>
+            </block>   
+            <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="customerconnect/arpayments/checkout/onepage/review.phtml"/> 
+        </block>
+    </customerconnect_arpayments_review>
+    <customerconnect_arpayments_invoicedetails>
+        <block name="root" type="core/template"/>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerconnect/customer_arpayments_details_title" name="invoices.title"/>
+            <block type="customerconnect/customer_arpayments_details_billing" name="invoices.billing"/>
+            <block type="customerconnect/customer_arpayments_details_shipping" name="invoices.shipping"/>   
+            <block type="customerconnect/customer_arpayments_details_data" name="invoices.data" />  
+            <block type="customerconnect/customer_arpayments_details_lines" name="invoices.lines">  
+                <block type="customerconnect/customer_arpayments_details_totals" name="tfoot" />  
+            </block>   
+            <block type="customerconnect/customer_account_dashboard" name="customer.account.link.back" template="customerconnect/arpayments/invoices/dispute.phtml"/>
+        </block>        
+    </customerconnect_arpayments_invoicedetails>
+    <checkout_onepage_savearpayment>
+       <block name="root" type="core/template"/>
+    </checkout_onepage_savearpayment>  
+    <sales_arpayments_email_order_items>
+        <block type="sales/order_email_items" name="items" template="customerconnect/arpayments/email/order/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>customerconnect/arpayments/email/order/items/order/default.phtml</template></action>
+            <block type="core/template" name="order_totals_wrapper" as="order_totals" template="email/order/totals/wrapper.phtml">
+                <block type="sales/order_totals" name="order_totals" template="customerconnect/arpayments/email/order/totals.phtml">
+                    <action method="setLabelProperties"><value>colspan="3" align="right" style="padding:3px 9px"</value></action>
+                    <action method="setValueProperties"><value>align="right" style="padding:3px 9px"</value></action>
+                </block>
+            </block>
+        </block>
+        <block type="core/text_list" name="additional.product.info" />      
+    </sales_arpayments_email_order_items>
+    <customerconnect_arpayments_history>
+        <label>Account AR Payments Order History</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_arpayments_history" name="customer_arpayments_history" />
+        </reference>
+    </customerconnect_arpayments_history>   
+    <customerconnect_arpayments_view>
+        <label>Account AR Payments Order Details</label>
+        <update handle="customer_account"/>
+        <update handle="customer_connect"/>
+        <reference name="my.account.wrapper">
+            <block type="customerconnect/customer_arpayments_info" as="arpaymentsinfo" name="sales.order.arpaymentsinfo">
+                <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons" template="customerconnect/arpayments/sales/order/info/buttons.phtml"/>
+            </block>            
+            <block type="customerconnect/customer_arpayments_view" name="customer_arpayments_view">
+                <block type="sales/order_items" name="order_items" template="customerconnect/arpayments/sales/order/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>customerconnect/arpayments/sales/order/items/renderer/default.phtml</template></action>
+                    <block type="sales/order_totals" name="order_totals" template="customerconnect/arpayments/sales/order/totals.phtml">
+                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
+                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                    </block>
+                </block>                
+            </block>    
+        </reference>
+    </customerconnect_arpayments_view>  
+    <customerconnect_arpayments_print>
+        <label>AR Payment Print View</label>
+        <reference name="content">
+            <block type="customerconnect/customer_arpayments_print" name="sales.order.print" template="customerconnect/arpayments/sales/order/print.phtml">
+                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>customerconnect/arpayments/sales/order/items/renderer/default.phtml</template></action>
+                <block type="sales/order_totals" name="order_totals" template="customerconnect/arpayments/sales/order/totals.phtml">
+                    <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
+                    <action method="setValueProperties"><value>class="last a-right"</value></action>
+                </block>
+            </block>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" />
+    </customerconnect_arpayments_print>    
+    <checkout_onepage_successarorder>
+        <label>One Page Checkout Success</label>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="customerconnect"><title>AR Payments Success Payment</title></action>
+        </reference>        
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/onepage_success" name="checkout.success" template="customerconnect/arpayments/checkout/success.phtml"/>
+        </reference>        
+    </checkout_onepage_successarorder>                      
+     <!--AR PAYMENTS LAYOUT ENDS-->
 </layout> 

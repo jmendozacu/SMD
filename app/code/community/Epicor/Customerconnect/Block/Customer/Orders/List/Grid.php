@@ -15,7 +15,8 @@ class Epicor_Customerconnect_Block_Customer_Orders_List_Grid extends Epicor_Comm
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_orders');
         $this->setDefaultSort('order_number');
         $this->setDefaultDir('desc');
@@ -65,6 +66,7 @@ class Epicor_Customerconnect_Block_Customer_Orders_List_Grid extends Epicor_Comm
                     'filter' => false,
                     'sortable' => false,
                     'renderer' => new Epicor_Customerconnect_Block_Customer_Dashboard_Orders_Renderer_Reorder(),
+                    'is_system' => true
                 );
             }
         }

@@ -18,11 +18,11 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Renderer_Partnumb
         $index = $this->getColumn()->getIndex();
         $productCode = $this->htmlEscape($row->getData($index));
         $productCode = $helper->getAttributeValueFromLineByDescription($row , array('ewaSku', 'ewa_sku', 'ewa sku')) ?: $productCode;
-        
+        $configurable = $helper->getAttributeValueFromLineByDescription($row , array('configurable')) ?: 'Y';
         $html = $productCode;
 
         if (Mage::registry('rfqs_editable')) {
-            if (($row->getGroupSequence() || $row->getEwaCode()) && $row->getProduct()->getConfigurator()) {
+            if ($configurable == 'Y' && ($row->getGroupSequence() || $row->getEwaCode()) && $row->getProduct()->getConfigurator()) {
                 $html .= '<br /><a href="javascript: configureEwaProduct(\'' . $row->getUniqueId() . '\')">';
                 $html .= $this->__('Edit Configuration');
                 $html .= '</a>';

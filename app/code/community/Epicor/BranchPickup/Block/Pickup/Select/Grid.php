@@ -30,17 +30,25 @@ class Epicor_BranchPickup_Block_Pickup_Select_Grid extends Mage_Adminhtml_Block_
     
     protected function _prepareLayout()
     {
+        $helper = Mage::helper('epicor_branchpickup');
+        $selectedBranch = $helper->getSelectedBranch();
+        $defaultLocationCode = Mage::helper('epicor_comm/locations')->getDefaultLocationCode();
         
         $urlRedirect = $this->getUrl('*/*/removebranchpickup', array(
             '_current' => true,
             'contract' => $this->getRequest()->getParam('contract')
         ));
-        $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-            'label' => Mage::helper('adminhtml')->__('Remove Selected Branch Pickup'),
-            'onclick' => "location.href='$urlRedirect';",
-            'class' => 'task'
-        )));
-        
+        $buttonLabel = Mage::helper('adminhtml')->__('Remove Selected Branch Pickup');
+        if (($selectedBranch != $defaultLocationCode) && ($helper->getLocationStyle() == 'inventory_view')) {
+            $buttonLabel = Mage::helper('adminhtml')->__('Move To Default Branch');
+        }
+        if (($selectedBranch != $defaultLocationCode) || ($helper->getLocationStyle() != 'inventory_view')) {
+            $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label' => $buttonLabel,
+                'onclick' => "location.href='$urlRedirect';",
+                'class' => 'task'
+            )));
+        }        
         return parent::_prepareLayout();
     }
     
@@ -92,10 +100,11 @@ class Epicor_BranchPickup_Block_Pickup_Select_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
         $locationIds = $this->_getSelected();
-        $collection  = Mage::getModel('epicor_comm/location')->getCollection();
-        $collection->addFieldToFilter('code', array(
-            'in' => $locationIds
-        ));
+        $collection  = Mage::getModel('epicor_comm/location')->getCollection()
+                    ->addFieldToFilter('code', array(
+                        'in' => $locationIds
+                        ))
+                    ->addFieldToFilter('location_visible', 1);
         $collection->getSelect()->order('sort_order ASC');
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -129,13 +138,11 @@ class Epicor_BranchPickup_Block_Pickup_Select_Grid extends Mage_Adminhtml_Block_
             'filter_index' => 'name'
         ));
         
-        $this->addColumn('address1', array(
+       $this->addColumn('street', array(
             'header' => Mage::helper('epicor_comm')->__('Street'),
             'width' => '150',
-            'index' => 'address1',
-            'filter_index' => 'address1',
+            'filter_condition_callback' => array($this, '_streetFilter'),
             'renderer' => new Epicor_BranchPickup_Block_Pickupsearch_Select_Renderer_Street(),
-            'filter' => false,
             'sortable' => false,               
         ));
         
@@ -225,5 +232,21 @@ class Epicor_BranchPickup_Block_Pickup_Select_Grid extends Mage_Adminhtml_Block_
         return $this->getUrl('*/*/selectgrid', array(
             '_current' => true
         ));
+    }
+    
+    /**
+     * enable search for street column(WSO-4177)
+     */
+    protected function _streetFilter($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+        $this->getCollection()->getSelect()->where(
+            "address1 like ?
+            OR address2 like ?
+            OR address3 like ?"
+        , "%$value%");
+        return $this;
     }
 }

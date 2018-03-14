@@ -16,8 +16,7 @@ class Epicor_Comm_Block_Adminhtml_Sales_Returns_Grid extends Mage_Adminhtml_Bloc
         $collection = Mage::getModel('epicor_comm/customer_return')->getCollection();
         /* @var $collection Epicor_Comm_Model_Mysql4_Customer_Return_Collection */
         $table = $collection->getTable('epicor_comm/customer_erpaccount');
-
-        $collection->getSelect()->joinLeft(array('cc' => $table), 'entity_id=erp_account_id', array('customer_account_name' => 'name'), null, 'left');
+        $collection->getSelect()->joinLeft(array('cc' => $table), 'entity_id=erp_account_id', array('name'), null, 'left');
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -47,12 +46,11 @@ class Epicor_Comm_Block_Adminhtml_Sales_Returns_Grid extends Mage_Adminhtml_Bloc
             'index' => 'customer_reference',
                 )
         );
-
+        //access the column from the linked table
         $this->addColumn(
-                'customer_short_code', array(
+                'name', array(
             'header' => Mage::helper('epicor_comm')->__('Erp Account'),
-            'index' => 'customer_account_name',
-            'renderer' => new Epicor_Comm_Block_Adminhtml_Sales_Returns_Renderer_Erpaccount(),
+            'index' => 'name',
                 )
         );
 
@@ -89,6 +87,9 @@ class Epicor_Comm_Block_Adminhtml_Sales_Returns_Grid extends Mage_Adminhtml_Bloc
             'header' => Mage::helper('epicor_comm')->__('Status'),
             'index' => 'returns_status',
             'renderer' => new Epicor_Comm_Block_Adminhtml_Sales_Returns_Renderer_Status(),
+            'type' => 'options',
+            'options' => $this->getRmaStatus(),
+            'filter_condition_callback' => array($this, '_statusFilter'),
                 )
         );
 
@@ -97,7 +98,8 @@ class Epicor_Comm_Block_Adminhtml_Sales_Returns_Grid extends Mage_Adminhtml_Bloc
             'header' => Mage::helper('epicor_comm')->__('Created'),
             'index' => 'rma_date',
             'align' => 'center',
-            'type' => 'date',
+            'type' => 'datetime',
+            'renderer' => new Epicor_Comm_Block_Adminhtml_Sales_Returns_Renderer_Rmadate(),    
                 )
         );
 
@@ -127,6 +129,40 @@ class Epicor_Comm_Block_Adminhtml_Sales_Returns_Grid extends Mage_Adminhtml_Bloc
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/view', array('id' => $row->getId()));
+    }
+    /* method added for status column filter */
+
+    protected function _statusFilter($collection, $column) {
+        $filterroleid = $column->getFilter()->getValue();
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+        if ($filterroleid == 'awaiting') {
+            $collection->addFieldToFilter('returns_status', ['null' => true]);
+            $collection->addFieldToFilter('submitted', array('eq' => 1));
+        } elseif ($filterroleid == 'not_submit') {
+            $collection->addFieldToFilter('returns_status', ['null' => true]);
+            $collection->addFieldToFilter('submitted', array('eq' => 0));
+        } else {
+            $this->getCollection()->addFieldToFilter('returns_status', array('eq' => $filterroleid));
+        }
+        return;
+    }
+
+    /* method to get select option list for status column filter */
+
+    public function getRmaStatus() {
+        $rolename = array();
+        $statusCollection = Mage::getModel('customerconnect/erp_mapping_rmastatus')->getCollection()->addFieldToSelect(array('status', 'code'));
+        foreach ($statusCollection as $status):
+            $rolename[$status->getCode()] = $status->getStatus();
+        endforeach;
+        /* awaiting submission and not submitted text is getting displayed through renderer method 
+         * as per exist code we have to alter the collection query so we have addeed these two values
+         * refer class Epicor_Comm_Model_Customer_Return getStatusDisplay() 
+         *          */
+        $customisedStatus = array('awaiting' => 'Awaiting Submission', 'not_submit' => 'Not Submitted');
+        return array_merge($rolename, $customisedStatus);
     }
 
 }

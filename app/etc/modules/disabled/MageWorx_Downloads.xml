@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ * File Downloads & Product Attachments Extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_Downloads
+ * @copyright  Copyright (c) 2015 MageWorx (http://www.mageworx.com/)
+ */
+-->
+<config>
+    <modules>
+        <MageWorx_Downloads>
+            <active>true</active>
+            <codePool>community</codePool>
+            <extension_name><![CDATA[File Downloads & Product Attachments]]></extension_name>
+            <url>http://www.mageworx.com/file-downloads-and-product-attachments-magento-extension.html</url>
+            <url_m2>http://www.mageworx.com/magento-2-product-attachments.html</url_m2>
+            <depends>
+                <MageWorx_All />
+            </depends>
+        </MageWorx_Downloads>
+    </modules>
+</config>

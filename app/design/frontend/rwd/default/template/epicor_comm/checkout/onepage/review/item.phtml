@@ -29,10 +29,14 @@
  */
 ?>
 <?php
-$unit_price_precision = Mage::getStoreConfig('checkout/options/unit_price_precision') ? : 2;
-$unit_price_tax_precision = Mage::getStoreConfig('checkout/options/unit_price_tax_precision') ? : 2;
-$row_total_precision = Mage::getStoreConfig('checkout/options/row_total_precision') ? : 2;
-$row_total_tax_precision = Mage::getStoreConfig('checkout/options/row_total_tax_precision') ? : 2;
+$from = Mage::App()->getRequest()->getParam('payment');
+if (isset($from['arpaymentpage']) == "true") {
+    return;
+}
+$unit_price_precision = Mage::getStoreConfig('checkout/options/unit_price_precision') ?: 2;
+$unit_price_tax_precision = Mage::getStoreConfig('checkout/options/unit_price_tax_precision') ?: 2;
+$row_total_precision = Mage::getStoreConfig('checkout/options/row_total_precision') ?: 2;
+$row_total_tax_precision = Mage::getStoreConfig('checkout/options/row_total_tax_precision') ?: 2;
 $_item = $this->getItem();
 
 $helper = $this->helper('epicor_comm');
@@ -48,30 +52,31 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
 ?>
 <tr>
     <td>
-        <?php if (!$_item->getProduct()->load()->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
-        <h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
+        <?php if (!$_item->getProduct()->load($_item->getProduct()->getId())->getConfigurator() || $ewaHelper->getEwaDisplay('base_description')): ?>
+            <h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
         <?php endif; ?>
         <?php if ($_options = $this->getOptionList()): ?>
             <dl class="item-options">               
                 <?php foreach ($_options as $_option) : ?>  
                     <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>                    
-                    <?php  if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_' || $ewaHelper->getEwaDisplay($_option['option_type'])) : ?>                                  
+                    <?php if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_' || $ewaHelper->getEwaDisplay($_option['option_type'])) : ?>                                  
                         <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>    
-                         <?php if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_'): ?>
+                        <?php if (!isset($_option['option_type']) || substr($_option['option_type'], 0, 4) != 'ewa_'): ?>
                             <dt><?php echo $this->htmlEscape($this->__($_option['label'])) ?></dt>
-                         <?php endif; ?>    
-                        <dd id="checkout_item_options_<?php echo $_option['option_type'] ?>" <?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
-                            <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                        <?php endif; ?>    
+                        <dd id="checkout_item_options_<?php if (isset($_option['option_type'])):echo $_option['option_type'];
+            endif; ?>" <?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+            <?php if (isset($_formatedOptionValue['full_view'])): ?>
                                 <div class="truncated_full_value">
                                     <dl class="item-options">
                                         <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
                                         <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
                                     </dl>
                                 </div>
-                            <?php endif; ?>
+                        <?php endif; ?>
                         </dd>                    
                     <?php endif; ?>
-                <?php endforeach; ?>                
+            <?php endforeach; ?>                
             </dl>
         <?php endif; ?>
         <?php if ($addtInfoBlock = $this->getProductAdditionalInformationBlock()): ?>
@@ -90,18 +95,18 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
             ?>
         </td>
     <?php endif; ?>
-    <?php if ($this->getShowLocations() && $this->getShowLocationsColumn()) : ?>
+        <?php if ($this->getShowLocations() && $this->getShowLocationsColumn()) : ?>
         <td>
             <?php
             echo $this->__($_item->getEccLocationName());
             ?>
         </td>
     <?php endif; ?>
-    <?php if ($listEnabled) : ?>
+        <?php if ($listEnabled) : ?>
         <td class="a-left">
-            <?php 
-             echo $this->__($contractHelper->getContractTitle($_item->getEccContractCode())); 
-             ?>
+            <?php
+            echo $this->__($contractHelper->getContractTitle($_item->getEccContractCode()));
+            ?>
         </td>
     <?php endif; ?>        
     <?php if ($showPrices) : ?>
@@ -199,22 +204,26 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
             </td>
         <?php endif; ?>
     <?php endif; ?>
+    <?php
+    $commHelper = Mage::helper('epicor_comm');
+    $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+    ?>
         <?php if ($showUom && !$showInColumn): ?>
-        <td class="a-center uom-qty" data-rwd-label="<?php echo $this->__('Qty') ?>"><?php echo $_item->getQty() ?> 
+        <td class="a-center uom-qty" data-rwd-label="<?php echo $this->__('Qty') ?>"><?php echo $commHelper->truncateZero($_item->getQty(), $decimalPlaces); ?>
             <?php
             $_item->getProduct()->load($_item->getProduct()->getId());
             echo ' x ' . $this->__($_item->getProduct()->getPackSize());
             ?>
         <?php else: ?>
-        <td class="a-center" data-rwd-label="<?php echo $this->__('Qty') ?>"><?php echo $_item->getQty() ?> 
-    <?php endif; ?>
+        <td class="a-center" data-rwd-label="<?php echo $this->__('Qty') ?>"><?php echo $commHelper->truncateZero($_item->getQty(), $decimalPlaces); ?>
+        <?php endif; ?>
         <?php if ($this->getShowLocations() && !$this->getShowLocationsColumn()) : ?>
             <br /><?php
             echo $this->__('From'), ': ';
             echo $this->__($_item->getEccLocationName());
             ?>
-        <?php endif; ?>
-        </td>
+    <?php endif; ?>
+    </td>
     <?php if ($showPrices) : ?>
         <!-- sub total starts here -->
             <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

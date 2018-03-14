@@ -10,41 +10,6 @@
 class Epicor_Comm_ConfiguratorController extends Mage_Core_Controller_Front_Action
 {
 
-    public function editewaAction()
-    {
-        $helper = Mage::helper('epicor_comm/configurator');
-        /* @var $helper Epicor_Comm_Helper_Configurator */
-        $this->loadLayout();
-
-        $productId = Mage::app()->getRequest()->getParam('productId');
-        $return = Mage::app()->getRequest()->getParam('return');
-        $address = Mage::app()->getRequest()->getParam('address');
-
-        $quoteId = Mage::app()->getRequest()->getParam('quoteId');
-        $itemId = Mage::app()->getRequest()->getParam('itemId');
-
-        $cimData = array(
-            'ewa_code' => Mage::app()->getRequest()->getParam('ewaCode'),
-            'group_sequence' => Mage::app()->getRequest()->getParam('groupSequence'),
-            'quote_id' => !empty($quoteId) ? $quoteId : null,
-            'line_number' => Mage::app()->getRequest()->getParam('lineNumber'),
-            'delivery_address' => $helper->getDeliveryAddressFromRFQ($address),
-            'item_id' => $itemId
-        );
-
-        Mage::register('EWAReturn', $return);
-        
-        $cim = $helper->sendCim($productId, $cimData);
-
-        if ($cim->isSuccessfulStatusCode()) {
-            Mage::register('EWAData', $cim->getResponse()->getConfigurator());
-            Mage::register('EWASku', $cim->getProductSku());
-            Mage::register('CIMData', new Varien_Object($cimData));
-        }
-
-        $this->renderLayout();
-    }
-
     public function badurlAction()
     {
         $this->loadLayout();
@@ -68,46 +33,6 @@ class Epicor_Comm_ConfiguratorController extends Mage_Core_Controller_Front_Acti
         $helper->reorderProduct($productId, $groupSequence);
 
         $this->_redirect('checkout/cart');
-    }
-
-    public function loadewaAction()
-    {
-        $helper = Mage::helper('epicor_comm/configurator');
-        /* @var $helper Epicor_Comm_Helper_Configurator */
-        
-        $this->loadLayout();
-        
-        $productId = Mage::app()->getRequest()->getParam('productId');
-        $return = Mage::app()->getRequest()->getParam('return');
-        $location = Mage::app()->getRequest()->getParam('location');
-        $address = Mage::app()->getRequest()->getParam('address');
-        $quoteId = Mage::app()->getRequest()->getParam('quoteId');
-        $lineNumber = Mage::app()->getRequest()->getParam('lineNumber');
-        
-        Mage::register('EWAReturn', $return);
-        Mage::register('location_code', $location);
-        
-        $product = Mage::getModel('catalog/product')->load($productId);
-        $cim = Mage::getModel('epicor_comm/message_request_cim');
-        /* @var $cim Epicor_Comm_Model_Message_Request_Cim */
-        $cim->setProductSku($product->getSku());
-        $cim->setProductUom($product->getUom());
-        $cim->setQuoteId(!empty($quoteId) ? $quoteId : null);
-        $cim->setLineNumber($lineNumber);
-        $cim->setDeliveryAddress($helper->getDeliveryAddressFromRFQ($address));
-        $cim->sendMessage();
-        
-        $cimData = array(
-            'quote_id' => $cim->getQuoteId(),
-            'line_number' => $cim->getLineNumber(),
-        );
-
-        if ($cim->isSuccessfulStatusCode())
-            Mage::register('EWAData', $cim->getResponse()->getConfigurator());
-            Mage::register('EWASku', $product->getSku());
-            Mage::register('CIMData', new Varien_Object($cimData));
-
-        $this->renderLayout();
     }
 
     public function ewacssAction()
@@ -138,5 +63,26 @@ class Epicor_Comm_ConfiguratorController extends Mage_Core_Controller_Front_Acti
                 //]]>
                     </script>
                     ';
+    }
+    /*
+     * This is executed from the quickadd block and checks if the product is a configurator
+     */
+    public function configuratorcheckAction()
+    {
+        $productId = $this->getRequest()->getParam('productId');
+        if(!$productId){            
+            $productSku = $this->getRequest()->getParam('sku');
+
+            //get the product id of the sku supplied
+            $product = Mage::helper('epicor_comm')->findProductBySku($productSku);
+            $productId = $product ? $product->getId() : ''; 
+        }
+       
+        $configurator = $productId ? Mage::getResourceModel('catalog/product')->getAttributeRawValue($productId, 'configurator', Mage::app()->getStore()) : 0;
+        
+        //$configurator will only contain an array(empty) if field has never been set, otherwise it will contain 0 or 1
+        //ensure value returned is not an array or string 
+        $configurator = is_array($configurator)? 0 : (int)$configurator;
+        $this->getResponse()->setBody(json_encode(array('configurator' => $configurator,'productId'=>$productId, 'type' => 'success'))); 
     }
 }

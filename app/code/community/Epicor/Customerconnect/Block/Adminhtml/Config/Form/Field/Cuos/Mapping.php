@@ -31,6 +31,8 @@ class Epicor_Customerconnect_Block_Adminhtml_Config_Form_Field_Cuos_Mapping exte
             $this->addOption('order_address_telephone_number', $this->__('orderAddress > telephoneNumber'));
             $this->addOption('order_address_fax_number', $this->__('orderAddress > faxNumber'));
             $this->addOption('contracts_contract_code', $this->__('contract > contractCode'));
+            $this->addOption('additional_reference', $this->__('Additional Reference'));
+            $this->addOption('required_date', $this->__('Required Date'));
         }
         return parent::_toHtml();
     }

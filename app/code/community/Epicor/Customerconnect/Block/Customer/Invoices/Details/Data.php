@@ -10,7 +10,9 @@ class Epicor_Customerconnect_Block_Customer_Invoices_Details_Data extends Epicor
         $helper = Mage::helper('customerconnect');
         /* @var $helper Epicor_Customerconnect_Helper_Data */
         $erp_account_number = $helper->getErpAccountNumber();
-
+        $session = Mage::getSingleton('customer/session');
+        $customer = $session->getCustomer();
+        $allowTaxExemptRef=Mage::helper('epicor_comm')->isTaxExemptionAllowed($customer->getStoreId(),$customer->getErpaccountId());                        
         $order_requested = $helper->urlEncode($helper->encrypt($erp_account_number . ']:[' . $invoices->getOurOrderNumber()));
 
         $renderer = new Epicor_Customerconnect_Block_List_Renderer_Linkorder();
@@ -34,7 +36,9 @@ class Epicor_Customerconnect_Block_Customer_Invoices_Details_Data extends Epicor
         if (Mage::getStoreConfigFlag('epicor_lists/global/enabled')) {
             $this->_infoData[$this->__('Contract : ')] = $invoices->getContractCode() ? Mage::helper('epicor_comm')->retrieveContractTitle($invoices->getContractCode()) : null;
         }
-
+        if ( $allowTaxExemptRef) {
+            $this->_infoData[$this->__('Tax Exempt Reference :')] = $invoices->getTaxExemptReference();
+        }
         $this->setTitle($this->__('Invoice Information :'));
     }
     

@@ -2,181 +2,200 @@
 jQuery.noConflict();
 
 (function( $ ) {
-
-    var selectedTags = {};
-    var filteredTags = []; // Flat array of tags to filter
-
+    
     $(document).ready(function () {
 
-        $('.tag-link').each(function () {
-            $(this).on('click', function () {
-                var tagId = $(this).data('tag-id').toString();
-                $(this).addClass('selected');
-                if ($.inArray(tagId, filteredTags) < 0) {
-                    filteredTags.push(tagId);
+        // Variables
+        var $filters = $('.tag-category'),
+            $selectedFilters = $('#selectedTags'),
+            filterSelector = '.tag-link',
+            hideClass = 'no-display',
+            removeTemplate = '<span class="remove">X</span>',
+            $grid = $('.gallery-wrapper > .row'),
+            masonryConfig = {
+                itemSelector: '.grid-item-wrapper',
+                percentPosition: true,
+                gutter: 0
+            },
+            isotopeConfig = {
+                itemSelector: '.grid-item-wrapper',
+                // layout mode options
+                masonry: masonryConfig
+            },
+            $noItemsText = $('#noImagesMatch');
+        
+        // Init masonry after images have loaded
+        $grid.imagesLoaded(function(){
+            $grid.isotope(isotopeConfig);
+        });
+        
+        // Functions
+        function handleFilter($filter) {
+            var $clone = $filter.clone(),
+                category = $filter.data('category'),
+                $selectedFilterGroup = $selectedFilters.find('#selectedCategory' + category);
+            addSelectedFilter($clone, $selectedFilterGroup);
+            hideFilter($filter);
+        }
+
+        function handleSelectedFilter($selectedFilter) {
+            var $selectedFilterGroup = $selectedFilter.parent(),
+                category = $selectedFilter.data('category'),
+                filter = $selectedFilter.data('tag-id'),
+                $filterGroup = $('#tagCategory' + category),
+                $filter = $filterGroup.find(filterSelector + '[data-tag-id= ' + filter + ']');
+            removeSelectedFilter($selectedFilter);
+            showFilter($filter);
+        }
+
+        function addSelectedFilter($clone, $selectedFilterGroup) {
+            // Insert cloned filter into selected filter group
+            $clone.appendTo($selectedFilterGroup);
+            // Modify and return cloned filter
+            return $clone
+                .addClass('selected-tag')
+                .append($(removeTemplate));
+        }
+
+        function hideFilter($filter) {
+            // Hide original filter
+            return $filter.addClass(hideClass);
+        }
+
+        function removeSelectedFilter($selectedFilter) {
+            // Remove selected filter
+            return $selectedFilter.remove();
+        }
+
+        function showFilter($filter) {
+            // Show original filter
+            return $filter.removeClass(hideClass);
+        }
+
+        function updateSelectedFilters() {
+            var $selectedFilterGroups = $selectedFilters.find('.selected-tag-category'),
+                hasFilter = false;
+            // Loop over selected filter groups
+            $.each($selectedFilterGroups, function() {
+                var $selectedFilterGroup = $(this);
+                // Check selected filter group for filters
+                if($selectedFilterGroup.children(filterSelector).length > 0) {
+                    // Show filter group
+                    $selectedFilterGroup.removeClass(hideClass);
+                    // Set flag
+                    hasFilter = true;
+                    // Return
+                    return $selectedFilterGroup;
                 }
-                if($(this).data('category') in selectedTags) {
-                    if(selectedTags[$(this).data('category')].indexOf(tagId) >= 0){
-                        return;
-                    }
-                    selectedTags[$(this).data('category')].push(tagId);
-                }else {
-                    selectedTags[$(this).data('category')] = [];
-                    selectedTags[$(this).data('category')].push(tagId);
-                }
-                handleImageDisplays();
-                addFilter($(this));
-                initMasonry();
+                // Hide selected filter group as no filters
+                return $selectedFilterGroup.addClass(hideClass);
             });
-        });
-
-    });
-
-    $(document).on('click', '.selected-tag', function() {
-        var tag = $(this);
-        var index = selectedTags[tag.data('category')].indexOf(tag.data('tag-id').toString());
-        if(index > -1) {
-            selectedTags[tag.data('category')].splice(index, 1);
+            // Check if at least one filter selected
+            if (hasFilter) {
+                // Show selected filters
+                return $selectedFilters.removeClass(hideClass);
+            }
+            // Hide selected filters
+            return $selectedFilters.addClass(hideClass);
         }
-        removeFilter(tag);
-    });
 
-    $(document).on('click', '#resetLink', function(){
-        // Reset All Filters
-        resetFilter();
-    });
+        function filterItems() {
+            var $item = $(this),
+                itemCategories = $item.data('tag-ids').split(','),
+                filterCategories = getCurrentFilterCategories();
+            return setContainsSubset(itemCategories, filterCategories);
+        }
 
-    function handleImageDisplays() {
-        var atLeastOne = false; // Could potentially use this to show a "No Images match your filters" notice
-        $('.grid-item-wrapper').each(function() {
-            var image = $(this);
-            var tags = image.data('tag-ids');
-            if(tags) {
-                tags = tags.split(',');
-                // In this loop we can loop through filteredTags
-                // And make sure each filtered tag is in the images tags
-                // If its missing any, we can set a flag an then use that to hide the image
-                var flag = false;
-                for ( var i = 0; i < filteredTags.length; i++ ) {
-                    if ($.inArray(filteredTags[i], tags) < 0) {
-                        flag = true;
-                    }
+        function getCurrentFilterCategories() {
+            var $currentFilters = $selectedFilters.find(filterSelector),
+                filterCategories = [];
+            $.each($currentFilters, function() {
+                return filterCategories.push($(this).data('tag-id').toString());
+            });
+            return filterCategories;
+        }
+        
+        function setContainsSubset(set, subSet) {
+            var matches = [];
+            // Loop over each item in subset
+            $.each(subSet, function(){
+                // Check whether subset item in set
+                matches.push($.inArray(this.valueOf(), set) > -1);
+            });
+            // Check whether any of the matches missed
+            return $.inArray(false, matches) > -1 ? false : true;
+        }
+
+        function handleNoItems(items) {
+            if (items.length > 0) {
+                // Hide no items text
+                return $noItemsText.addClass(hideClass);
+            }
+            // Show no items text
+            return $noItemsText.removeClass(hideClass);
+        }
+
+        // Listen for filter events
+        $filters
+            .on('click', filterSelector,
+                function(event) {
+                    var $filter = $(event.currentTarget);
+                    handleFilter($filter);
+                    updateSelectedFilters();
+                    // Update gallery items
+                    $grid.isotope({ filter: filterItems });
                 }
-                // If we have a flag here then we need to make sure the image is hidden
-                if (flag) {
-                    if (!image.hasClass('no-display')) {
-                        image.addClass('no-display');
-                    }
-                } else {
-                    // If we don't have a flag, make sure its shown
-                    if (image.hasClass('no-display')) {
-                        image.removeClass('no-display');
-                    }
-                    atLeastOne = true;
+            );
+        // Listen for selected filter events
+        $selectedFilters
+            .on('click', filterSelector,
+                function(event) {
+                    var $selectedFilter = $(event.currentTarget);
+                    handleSelectedFilter($selectedFilter);
+                    updateSelectedFilters();
+                    // Update gallery items
+                    $grid.isotope({ filter: filterItems });
                 }
+            )
+            .on('click', '#resetLink',
+                function(event) {
+                     var $currentFilters = $selectedFilters.find(filterSelector);
+                    // Loop over current selected filters
+                    $.each($currentFilters, function() {
+                        handleSelectedFilter($(this));
+                    });
+                    updateSelectedFilters();
+                    // Update gallery items
+                    $grid.isotope({ filter: filterItems });
+                }
+            );
+        // Listen Isotope events on the gallery
+        $grid
+            .on('arrangeComplete',
+                function( event, filteredItems ) {
+                    handleNoItems(filteredItems);
+                }
+            );
+        
+        // Move tag navigtion above gallery on mobile
+        var $beInspired = $('.cms-be-inspired'),
+            $galleryWrapper = $beInspired.find('.main .gallery-wrapper'),
+            $tagNavigation = $beInspired.find('.tag-navigation'),
+            $sidebarPlaceholder = $('<div id="js-tag-navigation-placeholder"/>').insertBefore($tagNavigation),
+            $mainPlaceholder = $('<div id="js-tag-gallery-wrapper-placeholder"/>').insertBefore($galleryWrapper);
+        
+        enquire.register('screen and (max-width: 770px)', {
+            match: function () {
+                $tagNavigation
+                    .detach()
+                    .insertBefore($mainPlaceholder);
+            },
+            unmatch: function () {
+                $tagNavigation
+                    .detach()
+                    .insertBefore($sidebarPlaceholder);
             }
         });
-        handleNoImagesNotice(atLeastOne);
-    }
-
-    function handleNoImagesNotice(atLeastOne) {
-        var noImagesNotice = $('#noImagesMatch');
-        if (atLeastOne) {
-            if (!noImagesNotice.hasClass('no-display')) {
-                noImagesNotice.addClass('no-display');
-            }
-        } else {
-            if (noImagesNotice.hasClass('no-display')) {
-                noImagesNotice.removeClass('no-display');
-            }
-        }
-    }
-
-    function resetImages() {
-        $('.grid-item-wrapper').each(function() {
-            var image = $(this);
-            if(image.hasClass('no-display')) {
-                image.removeClass('no-display');
-            }
-        });
-    }
-
-    function removeFilter(tag) {
-        var selectedElWrapper = $('#selectedTags');
-        var selectedEl = $('#selectedCategory'+tag.data('category'));
-        var index = selectedTags[tag.data('category')].indexOf(tag.data('tag-id').toString());
-        if(index > -1) {
-            selectedTags[tag.data('category')].splice(index, 1);
-        }
-        selectedEl.find($('#tag'+tag.data('tag-id'))).remove();
-        if(selectedTags[tag.data('category')].length == 0) {
-            if (!selectedEl.hasClass('no-display')) {
-                selectedEl.addClass('no-display');
-            }
-        }
-        var flag = false;
-        for (var key in selectedTags) {
-            if(selectedTags[key].length > 0) {
-                flag = true;
-            }
-        }
-        removeTagFromFilteredArray(tag.data('tag-id').toString());
-        if(!flag) {
-            selectedElWrapper.addClass('no-display');
-            resetImages();
-        } else {
-            handleImageDisplays();
-        }
-        initMasonry();
-    }
-
-    function initMasonry() {
-        $('.uneven-grid-images').masonry({
-            itemSelector: '.grid-item-wrapper',
-            percentPosition: true,
-            gutter: 10
-        });
-    }
-
-    function removeTagFromFilteredArray(tagId) {
-        var index = filteredTags.indexOf(tagId);
-        if (index > -1) {
-            filteredTags.splice(index, 1);
-        }
-    }
-
-    function addFilter(tag) {
-        var selectedElWrapper = $('#selectedTags');
-        var selectedEl = $('#selectedCategory'+tag.data('category'));
-        if(tag.data('tag-title')) {
-            if(selectedElWrapper.hasClass('no-display')) {
-                selectedElWrapper.removeClass('no-display');
-            }
-            if(selectedEl.hasClass('no-display')) {
-                selectedEl.removeClass('no-display');
-            }
-            var selectedHtml = '';
-            if(tag.data('swatch')) {
-                selectedHtml = '<img class="selected-tag swatch" data-category="'+tag.data('category')+'" src="'+tag.data('swatch-url')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '" width="40" height="40"/>';
-            }else {
-                selectedHtml = '<p class="selected-tag" data-category="'+tag.data('category')+'" data-tag-id="' + tag.data('tag-id') + '" id="tag' + tag.data('tag-id') + '">' + tag.data('tag-title') + '<span class="remove">x</span></p>';
-            }
-            selectedEl.append(selectedHtml);
-        }
-    }
-
-    function resetFilter() {
-        var elSelectedWrapper = $('#selectedTags');
-        $('.selected-tag-category', elSelectedWrapper).each(function(){
-            if(!$(this).hasClass('no-display')) {
-                var firstThis = $(this);
-                var selectedTagsChosen = $('.selected-tag', firstThis);
-                selectedTagsChosen.each(function(){
-                    var chosenTag = $(this);
-                    removeFilter(chosenTag);
-                });
-            }
-        });
-    }
+    });
 
 })( jQuery );

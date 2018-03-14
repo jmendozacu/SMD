@@ -15,7 +15,8 @@ class Epicor_Customerconnect_Block_Customer_Shipments_List_Grid extends Epicor_C
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_shipments');
         $this->setDefaultSort('shipment_date');
         $this->setDefaultDir('desc');

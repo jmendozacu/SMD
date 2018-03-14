@@ -63,7 +63,8 @@ class Epicor_HostingManager_Block_Adminhtml_Nginxlog_Grid extends Epicor_Common_
             'header' => Mage::helper('flexitheme')->__('Name'),
             'align' => 'left',
             'index' => 'filename',
-            'type' => 'text'
+            'type' => 'text',
+            'condition' => 'LIKE'
         );
 
         $columns['size'] = array(

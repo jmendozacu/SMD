@@ -57,6 +57,7 @@ class Epicor_Comm_StoreController extends Mage_Core_Controller_Front_Action
     public function selectAction()
     {
         $helper = Mage::helper('epicor_comm');
+        $redirectHelper = Mage::helper('epicor_common/redirect');
         /* @var $helper Epicor_Comm_Helper_Data */
         $storeId = Mage::app()->getRequest()->getParam('store');
         

@@ -136,7 +136,8 @@
 			tpl: {
 				wrap     : '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
 				image    : '<img class="fancybox-image" src="{href}" alt="" />',
-				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0"' + ($.browser.msie ? ' allowtransparency="true"' : '') + '></iframe>',
+				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0")></iframe>',
+//				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0"' + ($.browser.msie ? ' allowtransparency="true"' : '') + '></iframe>',
 				error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
 				closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',
 				next     : '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
@@ -1686,14 +1687,16 @@
 			this.overlay.width(width).height('100%');
 
 			// jQuery does not return reliable result for IE
-			if ($.browser.msie) {
-				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
+                        // .browser no longer supported
+//			if ($.browser.msie) {
+//				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
+//
+//				if (D.width() > offsetWidth) {
+//					width = D.width();
+//				}
 
-				if (D.width() > offsetWidth) {
-					width = D.width();
-				}
-
-			} else if (D.width() > W.width()) {
+//			} else{
+                        if (D.width() > W.width()) {
 				width = D.width();
 			}
 

@@ -24,8 +24,6 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
         } elseif ($customer->isSupplier()) {
             $dashboard = 'supplierconnect';
         }
-
-        //var_dump($dashboard);exit;
         Mage::app()->getResponse()
                 ->setRedirect(Mage::getUrl(Mage::getConfig()->getNode("global/xml_{$dashboard}_dashboard/path")));
         Mage::app()->getResponse()->sendResponse();
@@ -48,13 +46,20 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
     {
         $customerSession = Mage::getSingleton('customer/session');
         /* @var $customerSession Mage_Customer_Model_Session */
-        if (strpos($customerSession->getBeforeAuthUrl(), 'checkout/onepage') == true) {     //reset setBeforeAuthUrl value to calling url if set by guest or registered user
+        // This check no longer works as http_referer is not populated, so commented out       
+        $redirectAjaxCheck = Mage::helper('epicor_common/redirect');
+        /* @var $helper Epicor_Common_Helper_Redirect */   
+        $isAjax       = $redirectAjaxCheck->checkIsAjaxPage(); 
+        if (strpos($customerSession->getBeforeAuthUrl(), 'checkout/onepage') == true && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) && !$isAjax) {     
             $customerSession->setBeforeAuthUrl($_SERVER['HTTP_REFERER']);
         }
-
-        if (strpos($customerSession->getBeforeAuthUrl(), 'onepage') == false &&
-                strpos($customerSession->getBeforeAuthUrl(), 'multishipping') == false &&
-                strpos($customerSession->getBeforeAuthUrl(), 'comm') == false) {
+        
+        $url = parse_url($customerSession->getBeforeAuthUrl());
+        $cmsPageId=NULL;      
+        if (strpos($url['path'], 'onepage') == false &&
+                strpos($url['path'], 'multishipping') == false &&
+                strpos($url['path'], 'comm') == false) {
+            $lastPageB4Login = $customerSession->getBeforeAuthUrl();
             if (Mage::getStoreConfigFlag('customer/startup/redirect_dashboard')) {
                 $customerSession->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
             } else if (Mage::getStoreConfig('epicor_common/login/landing_page') == 'cms_page') {
@@ -66,6 +71,7 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
                     }
                 }
             }
+            Mage::dispatchEvent('add_final_redirect_url_to_redirect_array', array('cms_page_id' => $cmsPageId, 'last_page_before_login'=>$lastPageB4Login));
         }
 
 

@@ -219,7 +219,7 @@ function validateProductConditions(callbackFunction) {
             productConditions.rowUpdate();
             callbackFunction();
         }
-    } else {
+    }else {
         callbackFunction();
     }
 }        

@@ -38,25 +38,26 @@ class Epicor_ProductFeed_Block_Frontend_Google_Feed extends Mage_Core_Block_Temp
             $category = Mage::getModel('catalog/category')->load($cat_id);
             
             $pathInStore = $category->getPathInStore();
-            $pathIds = array_reverse(explode(',', $pathInStore));
+            if($pathInStore){                
+                $pathIds = array_reverse(explode(',', $pathInStore));
+                $categories = $category->getParentCategories();
+                $path = array();
+                foreach($pathIds as $pathId) {
+                    if (isset($categories[$pathId]))
+                    {
+                        $path[] = Mage::helper('productfeed/google')->xmlSafeString($categories[$pathId]->getName());
+                    }
+                    else
+                    { $path[] = $pathId;
 
-            $categories = $category->getParentCategories();
-            $path = array();
-            foreach($pathIds as $pathId) {
-                if (isset($categories[$pathId]))
-                {
-                    $path[] = Mage::helper('productfeed/google')->xmlSafeString($categories[$pathId]->getName());
+                    }
                 }
-                else
-                { $path[] = $pathId;
-                    
-                }
-            }
-            if(count($path) > 0)
-                $paths[] = join(' &gt; ', $path);
-            
-            if(count($paths) >= 10)
-                break;
+                if(count($path) > 0)
+                    $paths[] = join(' &gt; ', $path);
+
+                if(count($paths) >= 10)
+                    break;
+            }    
         }
         return $paths;
     }
@@ -121,17 +122,17 @@ class Epicor_ProductFeed_Block_Frontend_Google_Feed extends Mage_Core_Block_Temp
     
     public function validate()
     {
-        $count=0;
-        if ($this->_product->getMpn())
-            $count++;
-        if ($this->_product->getEan())
-            $count++;
-        if ($this->_product->getBrand())
-            $count++;  
-         if (count($this->_product->getCategoryIds())==0)
-            $count=0;
-         
-        return $count>1;
+        // Mpn, Brand and category must be present to be included. gtin priority: upc, ean, ISBN
+        if($this->_product->getBrand() && $this->_product->getMpn() && count($this->_product->getCategoryIds()) > 0){            
+            $gtinValues = array('isbn', 'ean', 'upc');
+            foreach($gtinValues as $value){
+                if($this->_product->getData($value)){
+                        $this->_product->setGtin($this->_product->getData($value));
+                }
+            }
+            return true;
+        }
+        return false; 
     }
     
     public function getProductUrl()

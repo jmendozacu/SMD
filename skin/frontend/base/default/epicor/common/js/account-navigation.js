@@ -4,7 +4,7 @@
  */
 
 document.observe('dom:loaded', function() { 
-    
+   
     $$('.block-account .block-content').invoke('hide');
 
     $$('.block-account').invoke('observe', 'mouseover', function(event) {
@@ -14,4 +14,4 @@ document.observe('dom:loaded', function() {
     $$('.block-account').invoke('observe', 'mouseout', function(event) {
             this.select('.block-content')[0].hide();
     });	
-});
+})    

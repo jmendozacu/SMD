@@ -29,19 +29,29 @@
 $helpers             = Mage::helper('epicor_branchpickup');
 /* @var $helper Epicor_BranchPickup_Helper_Data */
 $getSelected         = $helpers->getCustomerAllowedLocations();
+//if ($helpers->getSelectedBranch() && ($helpers->getLocationStyle() == 'inventory_view')) {
+//    $locationCode = array($helpers->getSelectedBranch());
+//    $getSelected = array_intersect_key($getSelected, array_flip($locationCode));
+//}
 $selectedBranch      = $helpers->getSelectedBranch();
 $details             = $helpers->getPickupAddress($selectedBranch);
 $helperBranchPickup  = Mage::helper('epicor_branchpickup/branchpickup');
 /* @var $helper Epicor_BranchPickup_Helper_Branchpickup */
 $branchpickupEnabled = $helpers->isBranchPickupAvailable();
+$ischeckCheckoutPage = $helperBranchPickup->checkCheckoutPage();
+$checkoutPage=false;
+if($ischeckCheckoutPage){
+  $checkoutPage = true;    
+}
+$selectbranchUpdate = Mage::getUrl('branchpickup/pickup/updateSelectedBranch',array('checkout'=>$checkoutPage), $helperBranchPickup->issecure());
 $cartPopupurl        = Mage::getUrl('branchpickup/pickup/cartpopup', $helperBranchPickup->issecure());
 $selectbranch        = Mage::getUrl('branchpickup/pickup/selectbranchajax', $helperBranchPickup->issecure());
 $saveshippingbranch  = Mage::getUrl('branchpickup/pickup/savelocationquote', $helperBranchPickup->issecure());
 $branchSearchPopup   = Mage::getUrl('branchpickup/pickup/pickupsearchgrid', $helperBranchPickup->issecure());
 $firstName = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getFirstname();
 $lastName = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getLastname();
-$fname = $details['firstname'];
-$lname = $details['lastname'];
+$fname =(isset( $details['firstname'])) ?$details['firstname']:null;
+$lname = (isset( $details['lastname'])) ?$details['lastname']:null;
 $isLoggedIn          = Mage::helper('customer')->isLoggedIn();
 if (($branchpickupEnabled) && (count($getSelected) > 0)): 
 ?><div class="box-info box-account col-1">
@@ -50,7 +60,7 @@ if (($branchpickupEnabled) && (count($getSelected) > 0)):
     </div>
         <ul class="form-list">
             <li>
-
+<?php if($helpers->getLocationStyle() == 'location_view'): ?>
     <div id="branchpickup-address-search-button">    
         <button type="button" class="scalable button" id="branchpickup-address-search" onclick="LocationSearchSelector.openpopup('ecc_location_searchaddress','<?php echo $branchSearchPopup?>'); return false;">
             <span>
@@ -58,11 +68,12 @@ if (($branchpickupEnabled) && (count($getSelected) > 0)):
             </span>
         </button>
     </div>  
-                <div class="input-box branch_pickup">
+<?php endif; ?>
+                <div class="input-box branch_pickup" <?php if ($helpers->getSelectedBranch() && ($helpers->getLocationStyle() == 'inventory_view')): ?> onclick="togglerelatedLocationspopup('click');" <?php endif; ?>>
                     <select name="branch_pickup" id="branch_pickup" class="required-entry validate-select" title="<?php echo $this->__('Select a Branch'); ?>" onchange="onchangeBranchPickup()">
-                        <option value="">Select Pickup Location</option>
+                        <?php if(!$helpers->getSelectedBranch() && ($helpers->getLocationStyle() != 'inventory_view')): ?><option value="">Select Pickup Location</option><?php endif; ?>
                         <?php foreach ($getSelected as $code => $branches): ?>
-                            <option <?php if ($code == $selectedBranch): ?>selected="selected" <?php endif; ?>value="<?php echo $code; ?>"><?php echo $branches->getName(); ?></option>
+                            <option <?php if ($code == $selectedBranch): ?>selected="selected"  <?php else: ?> <?php if($helpers->getLocationStyle() == 'inventory_view') :?> hidden <?php endif;?> <?php endif;?> value="<?php echo $code; ?>" ><?php echo $branches->getName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <div><span id="brancherrormsg" style="display: none;color:red;clear: both;">Please select a pickup location</span></div>
@@ -88,7 +99,11 @@ if (($branchpickupEnabled) && (count($getSelected) > 0)):
                     <input type="hidden" name="btelephone" id="btelephone" value="<?php echo $details['telephone']; ?>">
                     <input type="hidden" name="bfax" id="bfax" value="<?php echo $details['fax']; ?>">
                     <input type="hidden" name="bmobile_number" id="bmobile_number" value="<?php echo $details['mobile_number']; ?>">
-                    <input type="hidden" name="locationerror" id="locationerror" value="<?php echo Mage::getUrl('branchpickup/pickup/location',$helperBranchPickup->issecure()) ?>">                    
+                    <input type="hidden" name="locationerror" id="locationerror" value="<?php echo Mage::getUrl('branchpickup/pickup/location',$helperBranchPickup->issecure()) ?>">
+                    <?php if (Mage::getStoreConfig('epicor_comm_locations/global/showselectedlocation')): ?>
+                    <input type="hidden" name="selectedbranchUpdate" id="selectedbranchUpdate" value="<?php echo $selectbranchUpdate; ?>" />
+                    <?php endif; ?>
+                    <input type="hidden" name="locationStyle" id="locationStyle" value="<?php echo $helpers->getLocationStyle(); ?>" />
                 </div>
   
             </li>   
@@ -118,8 +133,13 @@ if (($branchpickupEnabled) && (count($getSelected) > 0)):
             }              
         } else if ((shippingMethodOpc) && (selectedShipping == "normalshipping")) {
             $('checkout-step-shipping_method').show();
-            if ($('s_method_epicor_branchpickup_epicor_branchpickup')) {
-               $('s_method_epicor_branchpickup_epicor_branchpickup').checked=false;
+            var inputs = $$('input[name="shipping_method"]');
+            if (inputs.length =="2") {
+                for(var i=0;i<inputs.length;i++) {
+                   if(inputs[i].value !="epicor_branchpickup_epicor_branchpickup")  {
+                     $(inputs[i].id).checked = true;
+                   }
+                }                
             }
             if (labelMethod) {
                 $(labelMethod).hide();

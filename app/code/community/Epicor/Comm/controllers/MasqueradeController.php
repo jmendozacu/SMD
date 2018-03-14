@@ -25,6 +25,9 @@ class Epicor_Comm_MasqueradeController extends Mage_Core_Controller_Front_Action
             // reset branch pickup data
             Mage::helper('epicor_branchpickup')->selectBranchPickup(null);
             Mage::helper('epicor_branchpickup')->resetBranchLocationFilter();
+            $sessionHelper = Mage::helper('epicor_lists/session');
+            /* @var $sessionHelper Epicor_Lists_Helper_Session */
+            $sessionHelper->setValue('ecc_selected_branchpickup', null);
             
             if (isset($data['masquerade_as'])) {
                 if ($customer->canMasqueradeAs($data['masquerade_as'])) {

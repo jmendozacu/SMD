@@ -25,14 +25,35 @@
  */
 ?>
 <?php $_item = $this->getItem() ?>
+<?php $_shipment = $_item->getShipment() ?>
+<?php $orderItemId = $_item->getOrderItemId() ?>
+<?php $_order=$this->getOrder() ?>
+<?php $getTrackingInformation = Mage::registry('sou_tracking_info');?>
+<?php $helper = Mage::helper('customerconnect');
+      /* @var $helper Epicor_Customerconnect_Helper_Data */ 
+      $getGlobalUrl = $helper->generateGlobalReturnUrl();
+      $ewaHelper = Mage::helper('epicor_comm/configurator');
+      /* @var $helper Epicor_Comm_Helper_Configurator */    
+      //echo $_item->getProduct()->getData();
+      $storeId  = Mage::app()->getStore()->getStoreId();
+      $getConfigurator = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProductId(), 'configurator', $storeId);
+?>
+<?php $getOptions = $this->getItemOptions(); ?>
+<?php $checkOptions = $ewaHelper->getEwaOptions($getOptions);   ?>
 <tr>
-    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;">
-        <strong><?php echo $this->htmlEscape($_item->getName()) ?></strong>
-        <?php if ($this->getItemOptions()): ?>
+    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;border-bottom:1px dotted #CCCCCC;">
+        <?php if (!$getConfigurator || $ewaHelper->getEwaDisplay('base_description')): ?>
+            <strong><?php echo $this->htmlEscape($_item->getName()) ?></strong>
+        <?php endif; ?>
+        <?php if ($checkOptions): ?>
         <dl style="margin:0; padding:0;">
-            <?php foreach ($this->getItemOptions() as $option): ?>
-            <dt><strong><em><?php echo $option['label'] ?></em></strong></dt>
-            <dd style="margin:0; padding:0 0 0 9px;"><?php echo nl2br($option['value']) ?></dd>
+            <?php foreach ($checkOptions as $option): ?>
+            <?php  if (!isset($option['option_type']) || substr($option['option_type'], 0, 4) != 'ewa_' || $ewaHelper->getEwaDisplay($option['option_type'])) : ?>
+                <?php if (!isset($option['option_type']) || substr($option['option_type'], 0, 4) != 'ewa_'): ?>
+                    <dt><strong><em><?php echo $option['label'] ?></em></strong></dt>
+                <?php endif; ?>
+                <dd style="margin:0; padding:0 0 0 9px;"><?php echo nl2br($option['value']) ?></dd>
+            <?php endif; ?>
             <?php endforeach; ?>
         </dl>
         <?php endif; ?>
@@ -41,8 +62,50 @@
             <?php echo $addInfoBlock->setItem($_item->getOrderItem())->toHtml(); ?>
         <?php endif; ?>
         <?php echo $this->htmlEscape($_item->getDescription()) ?>
+        <?php if ($_shipment && $_shipment->getAllTracks()): ?>
+             <?php $i=0; foreach ($getTrackingInformation as $_itemShip): $i++ ?>
+             <?php 
+                if($orderItemId == $_itemShip['shipmentItemId']):
+                   $methodMode   = $helper->getMappingShippingCode($_itemShip['methodCode']); 
+                   $methodCode  = $methodMode['method'];
+                   $methodUrl   = $methodMode['methodurl'];
+                   if($methodCode && $methodUrl && $_itemShip['trackingNumber'] && !$_itemShip['url']) {
+                      $trackingMethodUrl  = $helper->formatTrackingUrl($methodUrl,$_itemShip['trackingNumber']); 
+                      $_itemShip['url']   = $trackingMethodUrl;
+                   }
+             ?>
+             <dl style="margin:0; padding:0;">
+                <?php 
+                   echo (($_itemShip['trackingNumber']) && ($methodCode)) ? "<br><dd style='margin:0; padding:0 0 0 9px;'><strong>Method: <em>".$methodCode ."</em></strong></dd>" :  "";
+                   if($_itemShip['trackingNumber']) :
+                       echo "<dd style='margin:0; padding:0 0 0 9px;'>Tracking Number: " . $this->escapeHtml($_itemShip['trackingNumber'])."</dd>";
+                   endif;
+                   if(($_itemShip['trackingNumber']) && (!$_itemShip['url']) && ($getGlobalUrl)) :
+                       $globalCombinedUrl =  $helper->formatTrackingUrl($getGlobalUrl,$_itemShip['trackingNumber']); 
+                   ?>
+                   <dd style='margin:0; padding:0 0 0 9px;'> 
+                        Tracking Url: <a href="<?php echo $this->escapeHtml($globalCombinedUrl) ?>"><?php echo $this->escapeHtml($globalCombinedUrl) ?></a> 
+                   </dd>
+                   <br>
+                   <?php
+                   endif;
+                   if(($_itemShip['trackingNumber']) && ($_itemShip['url'])) :
+                   ?>
+                   <dd style='margin:0; padding:0 0 0 9px;'> 
+                   Tracking Url: <a href="<?php echo $this->escapeHtml($_itemShip['url']) ?>"><?php echo $this->escapeHtml($_itemShip['url']) ?></a>   
+                   <br>
+                   </dd>
+                   <?php
+                   endif;
+                   ?>                
+                <?php    
+                endif;
+                ?>
+             </dl>
+             <?php endforeach ?>
+        <?php endif; ?>
     </td>
-    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getSku($_item->getSku())) ?></td>
-    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getUom($_item->getSku())) ?></td>
-    <td align="center" valign="top" style="font-size:11px; padding:3px 9px;"><?php echo $_item->getQty()*1 ?></td>
+    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getSku($_item->getSku())) ?></td>
+    <td align="left" valign="top" style="font-size:11px; padding:3px 9px;border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getUom($_item->getSku())) ?></td>
+    <td align="center" valign="top" style="font-size:11px; padding:3px 9px;border-bottom:1px dotted #CCCCCC;"><?php echo $_item->getQty()*1 ?></td>
 </tr>

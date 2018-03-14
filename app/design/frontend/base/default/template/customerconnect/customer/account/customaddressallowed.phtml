@@ -6,10 +6,13 @@
 $options = Mage::getModel('epicor_comm/config_source_yesnonulloption')->toOptionArray();
 $customer = Mage::getSingleton('customer/session')->getCustomer();
 /* @var $customer Epicor_Comm_Model_Customer */
+$helper = Mage::helper('epicor_common');
+/* @var $helper Epicor_Comm_Helper_Data */
 
-$customAddressAllowed = Mage::helper('epicor_common')->customerAddressPermissionCheck('create', 'erpaccount');
+$userCanCreateShipSettings = $helper->canCreateShippingAddress();
+$userCanCreateBillSettings = $helper->canCreateBillingAddress();
 ?>
-<div class="col-1 box-info box-account">
+<div class="col-1 box-info box-account" style="width: 100%">
     <div class="box-head">
         <h2><?php echo $this->__('Contact Address Creation') ?></h2>
         <button id="custom_address_allowed_button" class="scalable" type="submit">Update</button>
@@ -18,11 +21,19 @@ $customAddressAllowed = Mage::helper('epicor_common')->customerAddressPermission
         <form action="<?php echo $this->getUrl('*/*/saveCusomAddress') ?>" method="post" id="role_edit_form">
             <?php echo $this->getBlockHtml('formkey') ?>
             <fieldset id="erp_custom_address_allowed">
-                <label for="erp_custom_address_allowed"><?php echo $this->__('Can Contacts Create Addresses?') ?></label>
-                <select name="custom_address_allowed" id="custom_address_allowed" class="select">
+                <label for="allow_shipping_address_create"><?php echo $this->__('Can Contacts Create Shipping Addresses?') ?></label>
+                <select name="allow_shipping_address_create" id="allow_shipping_address_create" class="select">
                     <?php foreach ($options as $key => $value): ?>
                         <?php if ($value['value'] != ''): ?>
-                            <option value="<?php echo $value['value'] ?>" <?php if ($customAddressAllowed == $value['value']) : ?>selected='selected'<?php endif; ?>><?php echo $value['label'] ?></option>
+                            <option value="<?php echo $value['value'] ?>" <?php if ($userCanCreateShipSettings == $value['value']) : ?>selected='selected'<?php endif; ?>><?php echo $value['label'] ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+                &nbsp;&nbsp;&nbsp;<label for="allow_billing_address_create"><?php echo $this->__('Can Contacts Create Billing Addresses?') ?></label>&nbsp;&nbsp;&nbsp;
+                <select name="allow_billing_address_create" id="allow_billing_address_create" class="select">
+                    <?php foreach ($options as $key => $value): ?>
+                        <?php if ($value['value'] != ''): ?>
+                            <option value="<?php echo $value['value'] ?>" <?php if ($userCanCreateBillSettings == $value['value']) : ?>selected='selected'<?php endif; ?>><?php echo $value['label'] ?></option>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
@@ -36,13 +47,14 @@ $customAddressAllowed = Mage::helper('epicor_common')->customerAddressPermission
 <script>
     $('custom_message_allowed_failure_response').hide();
     $("custom_address_allowed_button").observe('click', function () {
-        var newValue = $("custom_address_allowed").value;
+        var newValue = $("allow_shipping_address_create").value;
+        var newValue1 = $("allow_billing_address_create").value;
         var url = location.protocol + '//' + location.hostname + '/customerconnect/account/saveCustomAddressAllowed'
         url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');
         $('loading-mask').show();
         this.ajaxRequest = new Ajax.Request(url, {
             method: 'post',
-            parameters: {customAddressAllowed: newValue},
+            parameters: {allowShippingAddressCreate: newValue,allowBillingAddressCreate:newValue1},
             onComplete: function (request) {
                 this.ajaxRequest = false;
             }.bind(this),

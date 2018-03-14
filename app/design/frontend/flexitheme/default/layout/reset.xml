@@ -12,15 +12,7 @@
         </reference>
     </print>
     <default>
-        <reference name="head">
-
-            <!-- jQuery -->
-            <action method="addJs">
-                <script>flexitheme/jquery/jquery-1.7.2.min.js</script>
-            </action>
-            <action method="addJs">
-                <script>flexitheme/jquery/jquery.no-conflict.js</script>
-            </action>
+        <reference name="head">          
 
             <!-- jQuery plugins -->
             <action method="addJs">
@@ -67,6 +59,7 @@
         <remove name="epicor_currency"/>
         <remove name="store_language"/>
         <remove name="epicor_comm.cart.masquerade"/>
+        <remove name="epicor_comm.branchpickup"/>
 <!--        <reference name="left">
             <block type="flexitheme/frontend_template_currency" name="epcor_currency" before="-" template="page/template/currency.phtml"/>
         </reference>     -->

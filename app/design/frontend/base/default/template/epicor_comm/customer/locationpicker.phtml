@@ -30,6 +30,21 @@
                             <p class="note sml-text"><?php echo $this->__('Choose one or more locations to filter by.') ?></p>    
                             <?php endif; ?>
                         </li>
+                        <?php $groups = $this->getGroupLocations(); ?>
+                        <?php if($groups->getSize() > 0): ?>
+                        <?php $groupSelected = $this->isGroupSelected(true); ?>
+                        <li class="wide">
+                            <div class="input-box">
+                                <label for="location_groups" ><?php echo $this->__('Location Groups') ?></label>
+                                <select name="location_groups" id="location_groups">
+                                    <option value=""><?php echo $this->__('-- No Selection --'); ?></option>
+                                    <?php foreach ($groups as $group): ?>
+                                    <option value="<?php echo $group->getId(); ?>" <?php if($groupSelected == $group->getId()): ?>selected="selected"<?php endif; ?>><?php echo $group->getGroupName(); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </li>
+                        <?php endif; ?>
                     </ul>
                     <div class="buttons-set actions">
                         <input type="hidden" name="return_url" value="<?php echo $this->getReturnUrl(); ?>" />

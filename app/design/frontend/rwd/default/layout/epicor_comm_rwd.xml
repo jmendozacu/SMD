@@ -7,6 +7,10 @@
                 <name>epicor/comm/css/rwd-styles.css</name>
                 <params/>
             </action>
+            <action method="addItem">
+                <type>skin_js</type>            
+                <name>epicor/comm/js/minicart.js</name>               
+            </action>
         </reference>
         <reference name="minicart_content">
             <action method="setTemplate">

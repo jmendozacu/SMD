@@ -4,4 +4,14 @@
         ewaProduct.badUrlTimeout = <?php echo Mage::getStoreConfig('Epicor_Comm/ewa_options/badurltimeout') ?: 25000; ?>;
         ewaProduct.ewaLoadTimeout = <?php echo Mage::getStoreConfig('Epicor_Comm/ewa_options/ewaloadtimeout') ?: 60000; ?>;
     });
+
+<?php
+if (Mage::getStoreConfig('epicor_comm_enabled_messages/global_request/truncated_trailing_zeros')) {
+    ?>
+            var truncateZero = 1;
+    <?php } else { ?>
+            var truncateZero = 0;
+        <?php
+    }
+?>
 </script>

@@ -18,7 +18,7 @@ $showQty = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
 $showPrices = true;//$this->getHidePrices() ? false : $showPrices;
 $locHelper = $this->helper('epicor_comm/locations');
 /* @var $locHelper Epicor_Comm_Helper_Locations */
-
+$currentStoreId = Mage::app()->getStore()->getStoreId();
 $_product->setMainProductIsSaleable(true);
     ?>
     <h3 class="locations_header"><?php echo $this->__('Locations'); ?></h3>
@@ -49,8 +49,11 @@ $_product->setMainProductIsSaleable(true);
                     <td>
                         <?php echo $location->getName(); ?>
                         <?php if ($_product->isSaleable()) : ?>   
-                            <?php
-                            switch ($_product->getStockType()):
+                                <?php
+                                $commHelper = Mage::helper('epicor_comm');
+                                $decimalPlaces = $commHelper->getDecimalPlacesView(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+
+        switch ($_product->getStockType()):
                                 case 'bool':
                                     ?>
                                     <?php if ($_product->isAvailable()): ?>
@@ -64,8 +67,8 @@ $_product->setMainProductIsSaleable(true);
                                     <img src="<?php echo $_img['src'] ?>" alt="<?php echo $_img['alt'] ?>" title="<?php echo $_img['title'] ?>" />        
                                     <?php break; ?> 
                                 <?php case 'level': ?>
-                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $_product->getStockLevel() ?></span></p>
-                                    <?php break; ?>         
+                                                    <p class="availability in-stock"><?php echo $this->__('Stock:') ?> <span><?php echo $commHelper->truncateZero($_product->getStockLevel(), $decimalPlaces) ?></span></p>
+                                                    <?php break; ?>         
                             <?php endswitch; ?>  
                         <?php else: ?>            
                             <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>  
@@ -78,16 +81,18 @@ $_product->setMainProductIsSaleable(true);
                         </td>
                     <?php endif; ?>
                         <td class="a-center">
-                    <?php if ($showQty && $_product->isSaleable()): ?>
-                        
-                            <input type="hidden" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][location_code]" value="<?php echo $location->getLocationCode() ?>" />
-                            <input type="text" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][qty]" maxlength="12" value="<?php echo $this->getEditQty(); ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-                            <?php if ($_product->getConfigurator()): ?>
+                                <?php
+                                if ($showQty && $_product->isSaleable()):
+                                    ?>
+        <?php $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId())); ?>
+                                    <input type="hidden" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][location_code]" value="<?php echo $location->getLocationCode() ?>" />
+                                    <input decimal = "<?php echo $decimalPlaces; ?>" type="text" name="products[<?php echo $_product->getParentId() ?>][multiple][<?php echo $x; ?>][qty]" maxlength="12" value="<?php echo $this->getEditQty(); ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                    <?php if ($_product->getConfigurator()): ?>
                                 <div class="configurable_addtocart">  
                                     <?php $buttonTitle = $this->__('Configure Product'); ?>
                                     <div class="add-to-cart">
-                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="ewaProduct.submit({sku: '<?php echo $_product->getSku(); ?>', productId: '<?php echo $_product->getId(); ?>', location: '<?php echo $location->getLocationCode() ?>'}, false);"><span><span><?php echo $buttonTitle ?></span></span></button>
-                                        <?php echo $this->getChildHtml('', true, true) ?>
+                                                    <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="ewaProduct.submit({sku: '<?php echo $_product->getSku(); ?>',currentStoreId:'<?php echo $currentStoreId; ?>', productId: '<?php echo $_product->getId(); ?>', location: '<?php echo $location->getLocationCode() ?>'}, false);"><span><span><?php echo $buttonTitle ?></span></span></button>
+                                                    <?php echo $this->getChildHtml('', true, true) ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -101,3 +106,26 @@ $_product->setMainProductIsSaleable(true);
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('super-product-table')</script>
+    <script type="text/javascript">
+           //<![CDATA[
+<?php
+if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')):
+    if (!$_product->isAvailable()):
+        ?>
+                                       $$('.btn-cart').each(
+                                   function (e) {
+                                          e.setStyle({display:'none'});
+                                       }
+                                     );
+    <?php else: ?>
+                                  $$('.btn-cart').each(
+                                   function (e) {
+                                          e.setStyle({display:'block'});
+                                       }
+                                     );
+    <?php
+    endif;
+endif;
+?>
+           //]]>
+    </script>

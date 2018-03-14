@@ -2,7 +2,7 @@
 
 /**
  * RFQ Details page redirector
- * 
+ *
  * @category   Epicor
  * @package    Epicor_Customerconnect
  * @author     Epicor Websales Team

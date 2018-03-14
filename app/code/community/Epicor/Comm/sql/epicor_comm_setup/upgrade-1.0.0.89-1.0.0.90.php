@@ -13,6 +13,9 @@ if (is_array($erp)) {
     $erp = array_pop($erp);
 }
 
+//set multi shipping to false for all new installs
+$config->saveConfig('shipping/option/checkout_multiple', 0);
+
 if ($erp == 'p21' || $erp == 'e10') {
     
     

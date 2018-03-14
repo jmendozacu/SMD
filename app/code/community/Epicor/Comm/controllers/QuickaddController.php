@@ -19,13 +19,52 @@ class Epicor_Comm_QuickaddController extends Mage_Core_Controller_Front_Action
     public function addAction()
     {
         $data = $this->getRequest()->getPost();
+        $locHelper = Mage::helper('epicor_comm/locations');
+        $locEnabled = $locHelper->isLocationsEnabled();
+        if ($data && isset($data['sku'])) {
+            $productId = isset($data['product_id']) ? $data['product_id'] : '';
+            $product = $this->_initProduct($data['sku'], $productId);
+        }
+    
         
-        if(Mage::helper('epicor_comm/locations')->isLocationsEnabled()){        
+        
+        if($locEnabled){
             /* @var $helper Epicor_Comm_Helper_Locations */
             $stockVisibility = Mage::getStoreConfig('epicor_comm_locations/global/stockvisibility');
             if(!$data['location_code'] || in_array($stockVisibility, (array('all_source_locations', 'default')))){                 // if default location code required         
-                $defaultLocationCode = Mage::helper('epicor_comm/locations')->getDefaultLocationCode();       
+                $branchHelper = Mage::helper('epicor_branchpickup');
+                $defaultLocationCode = ($branchHelper->getSelectedBranch()) ? $branchHelper->getSelectedBranch() : Mage::helper('epicor_comm/locations')->getDefaultLocationCode();
+                $selectedBranch = $branchHelper->getSelectedBranch();
+                if ($branchHelper->isBranchPickupAvailable() && $selectedBranch) {
+                    $defaultLocationCode = $branchHelper->getSelectedBranch();
+                }
                 $data['location_code'] = $defaultLocationCode;   
+                $allowed = array_keys($locHelper->getCustomerAllowedLocations());
+                if ($selectedBranch && (!$locHelper->getLocation($selectedBranch)->getLocationVisible() || !in_array($selectedBranch, $allowed))) {
+                    $error = $this->__('Product %s cannot be added to cart as it is not valid', $data['sku']);
+                    Mage::getSingleton('core/session')->addError($error);
+                    $this->_redirectReferer();
+                    return;
+                }
+            }
+            
+            $proHelper = Mage::helper('epicor_comm/product');
+            
+            if (isset($data['super_group']) && !empty($data['super_group']) && $data['super_group'] != "") {
+                $_product = Mage::getModel('catalog/product')->load($data['super_group']);
+                $newQty = $proHelper->getCorrectOrderQty($_product, $data['qty'], $locEnabled, $data['location_code']);
+            } else if ($product) {
+                $newQty = $proHelper->getCorrectOrderQty($product, $data['qty'], $locEnabled, $data['location_code']);
+            }
+            //Minimum and Maximum Qty check for product
+            if ($newQty['qty'] != $data['qty']) {
+                $data['qty'] = $newQty['qty'];
+                $message = $newQty['message'];
+                Mage::getSingleton('checkout/session')->addSuccess($message);
+                if ($newQty['qty'] == 0) {
+                    $this->_redirectReferer();
+                    return;
+                }
             }
 
         }
@@ -57,66 +96,85 @@ class Epicor_Comm_QuickaddController extends Mage_Core_Controller_Front_Action
         }
         
         $redirect = '';
-        if ($data && isset($data['sku'])) {            
-            try {
-                
-                
-                
-                $productId = isset($data['product_id']) ? $data['product_id'] : '';
-                $product = $this->_initProduct($data['sku'], $productId);
-
-                if ($product) {
-                    $this->_checkProduct($product, $data['qty']);
-
-                    if ($product->isSaleable()) {
-                        $productHelper = Mage::helper('epicor_comm/product');
-                        /* @var $productHelper Epicor_Comm_Helper_Product */
-
-                        if ($product->getConfigurator() || $product->getTypeId() == 'configurable' || $productHelper->productHasCustomOptions($product)) {
-                            $error = $this->__('Product %s requires configuration before it can be added to the Cart', $product->getSku());
-                            Mage::getSingleton('core/session')->addError($error);
-                            $redirect = $product->getUrlModel()->getUrl($product, array('_query' => array('qty' => $data['qty'])));
-                            #$redirect = $product->getProductUrl();
-                        } else if ($product->getTypeId() == 'grouped' && (!isset($data['super_group']) || empty($data['super_group']))) {
-                            $error = $this->__('Product %s cannot be added to the cart, please choose a child product', $product->getSku());
-                            Mage::getSingleton('core/session')->addError($error);
-                            $redirect = $product->getProductUrl();
-                        } else {
-                            if ($data['target'] == 'basket') {
-                                $cart = Mage::getSingleton('checkout/cart');
-                                /* @var $cart Mage_Checkout_Model_Cart */
-
-                                if (isset($data['super_group'])) {
-                                    $data['super_group'] = array(
-                                        $data['super_group'] => $data['qty']
-                                    );
-                                }
-                                $cart->getQuote()->addOrUpdateLine($product, $data);
-                                Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
-                                $cart->save();
-                                $message = $this->__('%s was successfully added to your shopping cart.', $product->getName());
-                                Mage::getSingleton('checkout/session')->addSuccess($message);
-                            } else if ($data['target'] == 'wishlist') {
-                                $this->_addToWishlist($product, $data['qty']);
-                            } else {
-                                Mage::getSingleton('core/session')->addError('Could not process add request, no destination chosen');
-                            }
-                        }
-                    } else {
-                        Mage::getSingleton('core/session')->addError('Product not currently available');
+        try {
+            if ($product) {
+                if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+                    $collectionData[$product->getEntityId()] = $product;
+                    $location_code=(isset($data['location_code']))?$data['location_code']:null;
+                    $allow = Mage::helper('epicor_comm')->createMsqRequest($collectionData, 'quickadd', '', '', $location_code);
+                    if (!$allow) {
+                        $error = $this->__('Product %s currently out of stock', $product->getSku());
+                        Mage::getSingleton('core/session')->addError($error);
+                        $this->_redirectReferer();
+                        return;
                     }
                 } else {
-                    Mage::getSingleton('core/session')->addError('Product SKU does not exist');
+                    $this->_checkProduct($product, $data['qty']);
                 }
-            } catch (Exception $e) {
-                // store the error in the session here
-                if (!Mage::registry('quote_session_error_set')) {
-                    $session = Mage::getSingleton('core/session');
-                    /* @var $session Mage_Core_Model_Session */
-                    $session->addError($e->getMessage());
+                if($product->getTypeId() == 'grouped' && isset($data['super_group']) && !$product->getStockItem()->getBackorders()){
+                    $newclass=new Epicor_Comm_Block_Catalog_Product_View_Type_Grouped_Locations();
+                    $primary = $newclass->getPrimaryItems($product); 
+                    $uomBeforeLoc = $newclass->getPrimarySort() == 'uom' ? true : false;
+                    foreach ($primary as $prime) {
+                                          $secondary = $newclass->getSecondaryItems($product, $prime);
+                        foreach ($secondary as $second){
+                            $childProduct = $uomBeforeLoc ? $prime : $second;
+                           $is_salable=$childProduct->isAvailable();
+                           if($data['super_group']==$childProduct->getEntityId()){
+                               $product->setData('is_salable', $is_salable);
+                           }
+                        }
+                    }
                 }
+                if ($product->IsSalable()) {
+                    $productHelper = Mage::helper('epicor_comm/product');
+                    /* @var $productHelper Epicor_Comm_Helper_Product */
+
+                    if ($product->getConfigurator() || $product->getTypeId() == 'configurable' || $productHelper->productHasCustomOptions($product)) {
+                        $error = $this->__('Product %s requires configuration before it can be added to the Cart', $product->getSku());
+                        Mage::getSingleton('core/session')->addError($error);
+                        $redirect = $product->getUrlModel()->getUrl($product, array('_query' => array('qty' => $data['qty'])));
+                        #$redirect = $product->getProductUrl();
+                    } else if ($product->getTypeId() == 'grouped' && (!isset($data['super_group']) || empty($data['super_group']))) {
+                        $error = $this->__('Product %s cannot be added to the cart, please choose a child product', $product->getSku());
+                        Mage::getSingleton('core/session')->addError($error);
+                        $redirect = $product->getProductUrl();
+                    } else {
+                        if ($data['target'] == 'basket') {
+                            $cart = Mage::getSingleton('checkout/cart');
+                            /* @var $cart Mage_Checkout_Model_Cart */
+
+                            if (isset($data['super_group'])) {
+                                $data['super_group'] = array(
+                                    $data['super_group'] => $data['qty']
+                                );
+                            }
+                            $cart->getQuote()->addOrUpdateLine($product, $data);
+                            Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
+                            $message = $this->__('%s was successfully added to your shopping cart.', $product->getName());
+                            Mage::getSingleton('checkout/session')->addSuccess($message);
+                            $cart->save();
+                        } else if ($data['target'] == 'wishlist') {
+                            $this->_addToWishlist($product, $data['qty']);
+                        } else {
+                            Mage::getSingleton('core/session')->addError('Could not process add request, no destination chosen');
+                        }
+                    }
+                } else {
+                    Mage::getSingleton('core/session')->addError('Product not currently available');
+                }
+            } else {
+                Mage::getSingleton('core/session')->addError('Product SKU does not exist');
+            }
+        } catch (Exception $e) {
+            // store the error in the session here
+            if (!Mage::registry('quote_session_error_set')) {
+                $session = Mage::getSingleton('core/session');
+                /* @var $session Mage_Core_Model_Session */
+                $session->addError($e->getMessage());
             }
         }
+        
 
         if (empty($redirect)) {
             $this->_redirectReferer();

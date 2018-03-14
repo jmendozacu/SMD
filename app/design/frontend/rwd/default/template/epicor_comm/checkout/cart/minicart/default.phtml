@@ -139,18 +139,23 @@
                 <?php // EPICOR ECC < END ?>
                 <tr class="qty-wrapper">
                     <th><?php echo $this->__('Qty'); ?></th>
-                    <td>
+                    <td id="qty-<?php echo $_item->getId(); ?>">
+                        <?php
+                        $commHelper = Mage::helper('epicor_comm');
+                        $decimalPlaces = $commHelper->getDecimalPlaces(Mage::getResourceModel('catalog/product')->getAttributeRawValue($_item->getProduct()->getId(), 'decimal_places', Mage::app()->getStore()->getStoreId()));
+?>
                         <input
                             id="qinput-<?php echo $_item->getId(); ?>"
                             data-link="<?php echo $this->getAjaxUpdateUrl() ?>"
                             data-item-id="<?php echo $_item->getId(); ?>"
                             data-cart-item-id="<?php echo $_item->getSku(); ?>"
                             class="qty cart-item-quantity input-text" name=""
-                            value="<?php echo $this->getQty()?>"
+                            value="<?php echo $commHelper->truncateZero($this->getQty(), $decimalPlaces) ?>"
+                            decimal="<?php echo $decimalPlaces; ?>"
                             <?php if ($this->isOnCheckoutPage()) echo 'disabled'; ?>
                             />
 
-                        <button id="qbutton-<?php echo $_item->getId(); ?>"
+                        <button check="qty-<?php echo $_item->getId(); ?>" id="qbutton-<?php echo $_item->getId(); ?>"
                                 data-item-id="<?php echo $_item->getId(); ?>"
                                 disabled="disabled"
                                 data-update
@@ -163,7 +168,7 @@
             </tbody>
         </table>
 
-        <?php if ($isVisibleProduct): ?>
+        <?php if ($isVisibleProduct && $this->getConfigureUrl()): ?>
         <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Edit item')) ?>" class="btn-edit">
             <?php echo $this->__('Edit item')?>
         </a>

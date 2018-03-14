@@ -8,6 +8,11 @@
  */
 ?>
 <?php /** @var $this Mage_Shipping_Block_Tracking_Popup */ ?>
+<?php
+    $helper = Mage::helper('customerconnect');
+    /* @var $helper Epicor_Customerconnect_Helper_Data */ 
+    $getGlobalUrl = $helper->getGlobalReturnUrl();
+?>
 <?php $_results = $this->getTrackingInfo(); ?>
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('Tracking Information'); ?></h1>
@@ -100,28 +105,94 @@
                             <td class="value"><?php echo $track->getWeight(); ?></td>
                         </tr>
                         <?php endif; ?>
+                    <tr style="border:0px !important">
+                        <th class="" style="border:0px !important;background: none"></th>
+                        <td style="border:0px !important"></td>
+                    </tr>                          
                     <?php endif; ?>
                 <?php elseif(isset($track['title']) && isset($track['number']) && $track['number']): ?>
                     <!--if the tracking is custom value-->
-                    <?php if(isset($track['url']) && !empty($track['url'])) : ?>
+                    <?php
+                     if(!empty($track['carrier_code'])) :
+                        $methodMode   = $helper->getMappingShippingCode($track['carrier_code']);
+                        $methodCode  = $methodMode['method'];
+                        $methodUrl   = $methodMode['methodurl'];    
+                        if($methodCode) {
+                           $shipment = $methodCode;  
+                           $track['title'] = $methodCode;
+                        }
+                        if($methodCode && $methodUrl && $track['track_number'] && !$track['url']) {
+                           $trackingMethodUrl = $helper->formatTrackingUrl($methodUrl,$track['track_number']); 
+                           $track['url']   = $trackingMethodUrl;
+                           $track['title'] = $methodCode;
+                        }                        
+                      endif;   
+                    ?>
                     <tr>
                         <th class="label"><?php echo $this->__('Tracking Number:'); ?></th>
                         <td class="value"><?php echo $this->escapeHtml($track['number']); ?></td>
                     </tr>
+                    <?php if(!empty($methodCode) && !empty($track['carrier_code'])) : ?>
+                    <tr>
+                        <th class="label"><?php echo $this->__('Method:'); ?></th>
+                        <td class="value"><?php echo $this->escapeHtml($methodCode); ?></td>
+                    </tr>                    
+                    <?php endif; ?>
+                    <?php if(isset($track['url']) && !empty($track['url'])) : ?>
                     <tr>
                         <th class="label"><?php echo $this->__('Track:'); ?></th>
                         <td class="value"><a href="<?php echo $this->escapeHtml($track['url']); ?>" onclick="this.target='_blank'"><?php echo $this->escapeHtml($track['url']); ?></a></td>
                     </tr>
+                    <?php endif; ?>
+                    <?php if((empty($track['url'])) && (!empty($track['number'])) && (!empty($getGlobalUrl))) : ?>
+                    <tr>
+                        <th class="label"><?php echo $this->__('Track:'); ?></th>
+                        <?php $trackingUrls = $helper->formatTrackingUrl($getGlobalUrl,$track['number']); ?>
+                        <td class="value"><a href="<?php echo $this->escapeHtml($trackingUrls); ?>" onclick="this.target='_blank'"><?php echo $this->escapeHtml($trackingUrls); ?></a></td>
+                    </tr>
+                    <?php endif; ?>                    
                     <tr>
                         <th class="label"><?php echo $this->__('Shipment For:'); ?></th>
                         <td class="value"><?php echo nl2br($this->escapeHtml($track['description'])); ?></td>
                     </tr>
-                    <?php else: ?>
+                    <tr style="border:0px !important">
+                        <th class="" style="border:0px !important;background: none"></th>
+                        <td style="border:0px !important"></td>
+                    </tr>                      
+
+                    
+                    <?php elseif(isset($track['title']) && (!$track['number']) && !$track['number']): ?>
+                    <!--if the tracking is custom value-->
+                    <?php
+                     if(!empty($track['carrier_code'])) :
+                        $methodMode   = $helper->getMappingShippingCode($track['carrier_code']);
+                        $methodCode  = $methodMode['method'];
+                        $methodUrl   = $methodMode['methodurl'];    
+                        if($methodCode) {
+                           $shipment = $methodCode;  
+                           $track['title'] = $methodCode;
+                        }
+                        if($methodCode && $methodUrl && $track['track_number'] && !$track['url']) {
+                           $trackingMethodUrl = $helper->formatTrackingUrl($methodUrl,$track['track_number']); 
+                           $track['url']   = $trackingMethodUrl;
+                           $track['title'] = $methodCode;
+                        }                        
+                      endif;   
+                    ?>
+                    <?php if(!empty($methodCode) && !empty($track['carrier_code'])) : ?>
                     <tr>
-                        <th class="label"><?php echo ($track['title'] ? $this->escapeHtml($track['title']) : $this->__('N/A')); ?>:</th>
-                        <td class="value"><?php echo (isset($track['number']) ? $this->escapeHtml($track['number']) : ''); ?></td>
-                    </tr>
+                        <th class="label"><?php echo $this->__('Method:'); ?></th>
+                        <td class="value"><?php echo $this->escapeHtml($methodCode); ?></td>
+                    </tr>                    
                     <?php endif; ?>
+                    <tr>
+                        <th class="label"><?php echo $this->__('Shipment For:'); ?></th>
+                        <td class="value"><?php echo nl2br($this->escapeHtml($track['description'])); ?></td>
+                    </tr>
+                    <tr style="border:0px !important">
+                        <th class="" style="border:0px !important;background: none"></th>
+                        <td style="border:0px !important"></td>
+                    </tr>                    
                 <?php endif; ?>
                 </tbody>
             </table>

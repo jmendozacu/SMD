@@ -1,8 +1,8 @@
 <?php
 
 /**
- * RFQ lines grid 
- * 
+ * RFQ lines grid
+ *
  * @category   Epicor
  * @package    Epicor_Customerconnect
  * @author     Epicor Websales Team
@@ -73,7 +73,7 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Grid extends Epic
         Mage::dispatchEvent('epicor_customerconnect_crq_detail_lines_get_data_after', array(
             'block' => $this,
             'lines' => $lineData,
-                )
+            )
         );
 
         $this->setCustomData($lineData->getData());
@@ -226,7 +226,7 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Grid extends Epic
         Mage::dispatchEvent('epicor_customerconnect_crq_detail_lines_grid_columns_after', array(
             'block' => $this,
             'columns' => $cols
-                )
+            )
         );
 
         return $cols->getData();
@@ -280,7 +280,7 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Grid extends Epic
                     <span class="lines_price_display"></span>
                 </td>
                 <td class="a-center ">
-                    <input type="text" class="lines_quantity" value="" name="" />
+                    <input type="text" decimal ="" class="qty lines_quantity" value="" name="" />
                 </td>
                 <td class="a-left ">
                     <input type="text" class="lines_request_date" value="" name="" id="_request_date" />
@@ -314,8 +314,8 @@ class Epicor_Customerconnect_Block_Customer_Rfqs_Details_Lines_Grid extends Epic
             </tr>
             <tr class="lines_row attachment" id="line_attachments_row_template" style="display:none">
                 <td colspan="12" class="shipping-row">'
-                . $block->toHtml()
-                . '</td>
+            . $block->toHtml()
+            . '</td>
             </tr>
             </table>
         </div>';

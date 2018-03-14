@@ -27,7 +27,10 @@ class Epicor_QuickOrderPad_Block_Form_Search extends Mage_Core_Block_Template
     public function showOnlyInStockTickbox()
     {
         $showOnlyInTickbox = false;
-        if(!Mage::getStoreConfigFlag('epicor_comm_enabled_messages/msq_request/products_always_in_stock')){            
+              
+        $configHelper = Mage::helper('epicor_comm/messaging_msqconfig');
+        /* @var $configHelper Epicor_Comm_Helper_Messaging_Msqconfig */
+        if(!$configHelper->getConfigFlag('products_always_in_stock')  && Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')){            
             if(class_exists('Epicor_Search_Model_Mysql4_Fulltext')){
                 $showOnlyInTickbox = true;
             }

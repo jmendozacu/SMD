@@ -8,7 +8,7 @@
         <xs:complexContent>					
             <xs:extension base="requestBody">
                 <xs:all>
-                    <xs:element name="product ">
+                    <xs:element name="product">
                         <xs:complexType>
                             <xs:all>
                                 <xs:element type="brands" name="brands"/>

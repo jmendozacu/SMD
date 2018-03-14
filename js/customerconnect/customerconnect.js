@@ -1,12 +1,11 @@
 var overlayOpen = false;
 
-document.observe('dom:loaded', function () {
-    // display hand on hover
-    if ($('customer_account_contacts_list')) {
+var customerConnect = {
+    contactsEdit: function(select) {
+        if ($('customer_account_contacts_list')) {
 
-        $('customer_account_contacts_list').select('.action-select').invoke('observe', 'change', function () {
-            var action_value = this[this.selectedIndex].text;
-            var trValue = this.up('tr');
+            var action_value = select[select.selectedIndex].text;
+            var trValue = select.up('tr');
             var details = trValue.select('input.details')[0].value;
 
             if (action_value == 'Delete') {
@@ -31,14 +30,14 @@ document.observe('dom:loaded', function () {
             else if (action_value == 'Edit') {
                 editContactAction(trValue);
             }
-            this.selectedIndex = false;
-        });
-    }
-    if ($('customer_account_shippingaddress_list')) {
-
-        $('customer_account_shippingaddress_list').select('.action-select').invoke('observe', 'change', function () {
-            var action_value = this[this.selectedIndex].text;
-            var trValue = this.up('tr');
+            select.selectedIndex = false;
+        
+        }
+    },
+    shippingEdit: function(select) {
+        if ($('customer_account_shippingaddress_list')) {
+            var action_value = select[select.selectedIndex].text;
+            var trValue = select.up('tr');
             var details = trValue.select('input.details')[0].value;
 
             if (action_value == 'Delete') {
@@ -50,11 +49,13 @@ document.observe('dom:loaded', function () {
             } else if (action_value == 'Edit') {
                 editShippingAddressAction(trValue);
             }
-            this.selectedIndex = false;
-
-        });
+            select.selectedIndex = false;
+        }
     }
+};
 
+document.observe('dom:loaded', function () {
+    // display hand on hover
     if ($('billing_address_update')) {
         $('billing_address_update').observe('click', function (event) {
 

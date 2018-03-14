@@ -13,7 +13,8 @@ class Epicor_Customerconnect_Block_Customer_List_Contracts_List_Grid extends Epi
 
     public function __construct() {
         parent::__construct();
-
+        
+        $this->setFooterPagerVisibility(true);
         $this->setId('customerconnect_customer_list_contracts_list_grid');
         $this->setDefaultSort('account_number');
         $this->setMessageBase('customerconnect');

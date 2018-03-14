@@ -207,6 +207,31 @@ class Epicor_Comm_DataController extends Mage_Core_Controller_Front_Action
             $this->clearcacheAction();
         }
     }
+    
+    
+    public function enabletestmoduleAction()
+    {
+        if (file_exists('svnupdate.sh')) {
+            echo '<pre>';
+            echo shell_exec("sed -i 's/false/true/' ./app/etc/modules/Test_Custommessage.xml");
+            echo shell_exec('rm -r ./var/cache/*');
+            echo shell_exec('redis-cli flushall');
+            echo '</pre>';
+            $this->clearcacheAction();
+        }
+    }
+
+    public function disabletestmoduleAction()
+    {
+        if (file_exists('svnupdate.sh')) {
+            echo '<pre>';
+            echo shell_exec("sed -i 's/true/false/' ./app/etc/modules/Test_Custommessage.xml");
+            echo shell_exec('rm -r ./var/cache/*');
+            echo shell_exec('redis-cli flushall');
+            echo '</pre>';
+            $this->clearcacheAction();
+        }
+    }    
 
     public function clearcacheAction()
     {

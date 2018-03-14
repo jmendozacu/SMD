@@ -1,0 +1,141 @@
+/* 
+    Document   : style
+    Created on : 1/09/2017
+    Description: CSS for AR Payments
+    Purpose of the stylesheet follows.
+*/
+
+#selectarpaymentsdetails{
+    position:fixed;
+    width:750px;
+    height:85% !important;
+    left:50%;
+    top:40%;
+    margin:-250px 0 0 -538px !important; 
+    z-index:1000;
+    background:#fff;
+    border:1px solid #999;
+    overflow-y:auto;
+    overflow-x:hidden;
+    
+}
+
+#selectarpaymentsdetails > div {
+    padding: 0 5px;
+    margin:0;
+}
+
+#selectarpaymentsdetails > div.content-header {
+    border:none;
+    background:#6f8992;
+    color:#fff;
+}
+
+#selectarpaymentsdetails > div.content-header h3 {
+    color:#fff;
+    padding:0;
+}
+
+#customerconnect_arpayments_table tfoot tr.totals {
+    height: 68px;
+}
+
+#customerconnect_arpayments_table tfoot tr.totals th.arpay-noalign {
+    vertical-align: top;
+}
+
+.artdtotal {
+    text-align: right;
+}
+
+table.atpaymenttable tr td,table.atpaymenttable tr.even{
+    border:0px !important;
+    background: #d7e5ef none repeat scroll 0 0 !important;
+}
+
+table.atpaymenttable{
+    border:0px !important;
+    background: none !important;
+}
+
+.col-1, .col-2 {
+    padding: 20px;
+    /*width: 50% !important;*/
+    float:left;
+}
+
+#arpaymentinformation li span.label {
+    /*width: 140px;*/
+    text-align: left;
+}
+
+#selectarpaymentsdetails h1 {
+    text-align: left; 
+}
+
+#arpaymentinformation li span.value {
+    display: block;
+    float: left;
+    font-size: 13px;
+    width: 56%;
+    text-align: left;
+}
+
+.disable_aged_grid,.disable_check_arpayment {
+    display: none;
+}
+
+#selectarpaymentsdetails  h2 {
+    text-align: left;
+    padding-left:0px;
+}
+
+.showbuttonar {
+    display:block !important;
+}
+
+#loading-mask-arpayments {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left:0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    color:#d85909;
+    font-size:1.1em;
+    font-weight:bold;
+    text-align:center;
+    opacity:0.80;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /* IE8 */
+    z-index:500;
+    
+    }
+#loading-mask-arpayments .loader {
+    position:fixed;
+    top:45%;
+    left:50%;
+    width:150px;
+    margin-left:-105px;
+    padding:15px 30px;
+    background:#fff4e9;
+    border:2px solid #f1af73;
+    color:#d85909;
+    font-weight:bold;
+    text-align:center;
+    z-index:1000;
+    }
+    
+#window-overlay-arpayments {
+    position:fixed;
+    background:rgba(0, 0, 0, 0.35);
+    height:100%;
+    left:0;
+    top:0;
+    width:100%;
+    z-index:990;
+}    
+
+#checkout-step-payment {
+    text-align: left;
+    paddin-left:10px;
+}

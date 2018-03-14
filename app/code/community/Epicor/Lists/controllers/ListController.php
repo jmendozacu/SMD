@@ -198,7 +198,7 @@ class Epicor_Lists_ListController extends Epicor_Customerconnect_Controller_Abst
     {
         $this->loadEntity();
         $this->loadLayout();
-        $products = $this->getRequest()->getParam('list_id');
+        $products = $this->getRequest()->getParam('products');
         $this->getLayout()->getBlock('list_products')->setSelected($products);
         $this->renderLayout();
     }
@@ -207,7 +207,7 @@ class Epicor_Lists_ListController extends Epicor_Customerconnect_Controller_Abst
     {
         $this->loadEntity();
         $this->loadLayout();
-        $products = $this->getRequest()->getParam('list_id');
+        $products = $this->getRequest()->getParam('products');
         $this->getLayout()->getBlock('list_products')->setSelected($products);
         $this->renderLayout();
     }
@@ -509,7 +509,31 @@ class Epicor_Lists_ListController extends Epicor_Customerconnect_Controller_Abst
         $frontendHelper = Mage::helper('epicor_lists/frontend_restricted');
         /* @var $frontendHelper Epicor_Lists_Helper_Frontend_Restricted */
         $addressId = $this->getRequest()->getParam('addressid');
-        $removeProducts = $frontendHelper->checkProductAddress($addressId);
+        if ($frontendHelper->listsEnabled()) {
+            $removeProducts = $frontendHelper->checkProductAddress($addressId);
+        } else {
+            $removeProducts = array();
+        }
+        /* check item out of stock using msq */
+        if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+            $quote = Mage::getSingleton('checkout/cart');
+            $cartItems = $quote->getItems();
+            $msqRemoveItems = (Mage::helper('epicor_comm')->createMsqRequest($cartItems, 'reorder'))?Mage::helper('epicor_comm')->createMsqRequest($cartItems, 'reorder'):array();
+            foreach ($msqRemoveItems as $removeItem) {
+                if (!in_array($removeItem, $removeProducts)) {
+                    $removeProducts[] = $removeItem;
+                }
+            }
+        }
+        $helper = Mage::helper('epicor_branchpickup');        
+        /* @var $helper Epicor_BranchPickup_Helper_Data */        
+        $selectedBranch = $helper->getSelectedBranch();        
+        if((empty($removeProducts)) && ($selectedBranch)) {
+            $helperBranch               = Mage::helper('epicor_branchpickup/branchpickup');
+            /* @var $helper Epicor_BranchPickup_Helper_Branchpickup */
+            $removeBranch = $helperBranch->removeBranchPickup();            
+        }         
+        /* end */
         $this->sendAjaxResponse($removeProducts, $addressId);
     }
 
@@ -524,6 +548,14 @@ class Epicor_Lists_ListController extends Epicor_Customerconnect_Controller_Abst
         /* @var $frontendHelper Epicor_Lists_Helper_Frontend_Restricted */
         $addressId = $this->getRequest()->getParam('addressid');
         $removeProducts = $frontendHelper->checkProductAddressNew($addressId, 'shipping');
+        $helper = Mage::helper('epicor_branchpickup');        
+        /* @var $helper Epicor_BranchPickup_Helper_Data */        
+        $selectedBranch = $helper->getSelectedBranch();        
+        if((empty($removeProducts)) && ($selectedBranch)) {
+            $helperBranch               = Mage::helper('epicor_branchpickup/branchpickup');
+            /* @var $helper Epicor_BranchPickup_Helper_Branchpickup */
+            $removeBranch = $helperBranch->removeBranchPickup();            
+        }        
         $this->sendAjaxResponse($removeProducts, $addressId);
     }
     
@@ -546,8 +578,12 @@ class Epicor_Lists_ListController extends Epicor_Customerconnect_Controller_Abst
             $listHelper = Mage::helper('epicor_lists/frontend_restricted');
             /* @var $listHelper Epicor_Lists_Helper_Frontend_Restricted */
             $listHelper->setRestrictionAddress($addressId);
-            $helper = Mage::helper('epicor_lists');
-            $resetBranchPickup = $helper->resetLocationFilter();
+            $helpers = Mage::helper('epicor_branchpickup');
+            /* @var $helper Epicor_BranchPickup_Helper_Data */
+            if ($helpers->getLocationStyle() != 'inventory_view') {
+                $helper = Mage::helper('epicor_lists');
+                $resetBranchPickup = $helper->resetLocationFilter();
+            }
         }
     }
     

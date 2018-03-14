@@ -7,6 +7,24 @@
         </epicor_config>    
     </tabs>
     <sections>
+        <shipping translate="label" module="shipping">
+            <groups>
+                <option translate="label">
+                    <fields>
+                        <soudefaulturl translate="label">
+                            <label>Global Tracking Url</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-trackurl</validate>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Changing this setting will not change existing shipments.( e.g. http://yourdomain.com/{{TNUM}} - URL should contain this value {{TNUM}})</comment>
+                        </soudefaulturl>  
+                    </fields>
+                </option>
+            </groups>
+        </shipping>        
         <customer translate="label" module="customer">
             <class>separator-top</class>
             <label>Customer Configuration</label>
@@ -128,6 +146,34 @@
                                 <active>1</active>
                             </depends>
                         </guests_logged_in>
+                        <b2c_erp_accounts translate="label">
+                            <label><![CDATA[Disabled for B2C ERP accounts]]></label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_comm/config_source_customer_disablefunctionality</source_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <can_be_empty>1</can_be_empty>
+                            <sort_order>121</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_erp_accounts>
+                        <b2b_erp_accounts translate="label">
+                            <label><![CDATA[Disabled for B2B ERP accounts]]></label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>epicor_comm/config_source_customer_disablefunctionality</source_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <can_be_empty>1</can_be_empty>
+                            <sort_order>122</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2b_erp_accounts>
                     </fields>
                 </disabled_functionality>
                 <address>
@@ -1180,6 +1226,40 @@
                             <config_path>Epicor_Comm/ewa_options/ewa_sku</config_path>
                         </ewa_sku>
                         -->
+                        <quote_display_heading translate="label">
+                            <label>Quote Display Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </quote_display_heading>
+                        <quote_display_fields>
+                            <label>Ewa Column Sort Order</label>
+                            <frontend_model>epicor_comm/adminhtml_config_form_field_ewaQuoteDisplayOptions</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </quote_display_fields>
+                        <cart_display_heading translate="label">
+                            <label>Cart Display Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cart_display_heading>
+                        <cart_display_fields>
+                            <label>Ewa Column Sort Order</label>
+                            <frontend_model>epicor_comm/adminhtml_config_form_field_ewaCartDisplayOptions</frontend_model>
+                            <backend_model>epicor_comm/config_backend_serialized_array</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cart_display_fields>
                         <debug>
                             <label>Debug Mode</label>
                             <frontend_type>select</frontend_type>
@@ -1509,8 +1589,19 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Leave blank for default value</comment>
+                            <comment>Leave blank for default value (0 - 4)</comment>
+                            <validate>validate-digits validate-digits-range digits-range-0-4</validate>
                         </qtydecimals>
+                        <truncated_trailing_zeros>
+                            <label>Truncated Trailing Zeros</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model> 
+                            <sort_order>550</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Removes Trailing Zeros from Quantity (5.00 -> 5)</comment>
+                        </truncated_trailing_zeros>
                         <qtyroundingmode>
                             <label>Rounding Method Used on Quantity Value when Altering the Number of Decimal Points</label>
                             <frontend_type>select</frontend_type>
@@ -1748,6 +1839,7 @@
                         </autosync_language>
                         <autosync_start_date translate="label">
                             <label>Start Date</label>
+                            <comment><![CDATA[ Times shown here are not adjusted for daylight saving ]]></comment>
                             <frontend_type>text</frontend_type>
                             <frontend_model>epicor_comm/adminhtml_config_datetime</frontend_model>
                             <sort_order>835</sort_order>
@@ -1772,6 +1864,7 @@
                         </autosync_next_date_from_in_syn>
                         <autosync_next_rundate translate="label">
                             <label>Next Run Date</label>
+                            <comment><![CDATA[ Times shown here are not adjusted for daylight saving ]]></comment>
                             <frontend_type>text</frontend_type>
                             <frontend_model>epicor_comm/adminhtml_config_datetime</frontend_model>
                             <sort_order>845</sort_order>
@@ -2096,6 +2189,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </timeout>
+                        <automate_cnc_request translate="label">
+                            <label>Automated CNC Message Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>650</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </automate_cnc_request>
+                        <send_automate_cnc_request translate="label">
+                            <label>Send CUAU after CNC</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>651</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_automate_cnc_request>
                         <logging_heading translate="label">
                             <label>Logging</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -2998,59 +3107,11 @@
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <active>1</active>
                             </depends>
                         </msq_settings_header>
-                        <msq_quantity_breaks>
-                            <label>Include quantity breaks</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>210</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <active>1</active>
-                            </depends>
-                        </msq_quantity_breaks>
-                        <products_always_in_stock>
-                            <label>Products Always In Stock</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>220</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <active>1</active>
-                            </depends>
-                        </products_always_in_stock>	
-                        <cusomterpriceused translate="label">
-                            <label>Display Customer Price as Base Price</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>230</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <active>1</active>
-                            </depends>
-                            <comment>If set to No you will see base price as the regular price and customer price as the special price</comment>
-                        </cusomterpriceused>
-                        <update_prices_stock translate="label">
-                            <label>Update Prices or Stock</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>epicor_comm/config_source_msqupdatetypes</source_model>
-                            <sort_order>240</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <active>1</active>
-                            </depends>
-                        </update_prices_stock>	
                         <att_cdata translate="label">
                             <label>Attribute Values use CDATA</label>
                             <comment><![CDATA[This will wrap <attribute> values in CDATA]]>
@@ -3074,12 +3135,145 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </msq_for_non_erp_products>
+                        <b2c_msq_settings_header translate="label">
+                            <label>Default ERP Account Settings - (Guest Shoppers - Logged in and Not Logged in)</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_msq_settings_header>
+                        <b2c_active>
+                            <label>Active</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>310</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_active>
+                        <b2c_msq_quantity_breaks>
+                            <label>Include quantity breaks</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>320</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_msq_quantity_breaks>
+                        <b2c_products_always_in_stock>
+                            <label>Products Always In Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_products_always_in_stock>	
+                        <b2c_cusomterpriceused translate="label">
+                            <label>Display Customer Price as Base Price</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>340</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                            <comment>If set to No you will see base price as the regular price and customer price as the special price</comment>
+                        </b2c_cusomterpriceused>
+                        <b2c_update_prices_stock translate="label">
+                            <label>Update Prices or Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_msqupdatetypes</source_model>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2c_update_prices_stock>
+                        <b2b_msq_settings_header translate="label">
+                            <label>ERP Account Message Settings - (Shoppers associated with an ERP Account)</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </b2b_msq_settings_header>
+                        <msq_quantity_breaks>
+                            <label>Include quantity breaks</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>410</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </msq_quantity_breaks>
+                        <products_always_in_stock>
+                            <label>Products Always In Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>420</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </products_always_in_stock>	
+                        <cusomterpriceused translate="label">
+                            <label>Display Customer Price as Base Price</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>430</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                            <comment>If set to No you will see base price as the regular price and customer price as the special price</comment>
+                        </cusomterpriceused>
+                        <update_prices_stock translate="label">
+                            <label>Update Prices or Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_msqupdatetypes</source_model>
+                            <sort_order>440</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </update_prices_stock>
                         <msq_stk_settings_header translate="label">
                             <label>Automated MSQ Message Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>500</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <active>1</active>
                             </depends>
@@ -3156,6 +3350,7 @@
                             <sort_order>700</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </logging_heading>
                         <log_all_requests translate="label">
                             <label>Log all Requests</label>
@@ -3172,6 +3367,7 @@
                             <sort_order>800</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </error_heading>
                         <error_action>
                             <label>Action</label>
@@ -3239,6 +3435,7 @@
                             <sort_order>900</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </warning_heading>
                         <warning_magento_notifcation translate="label">
                             <label>Send Magento Admin Notification</label>
@@ -3502,6 +3699,22 @@
                                 <warning_magento_notifcation>1</warning_magento_notifcation>
                             </depends>
                         </warning_severity>
+                         <message_heading translate="label">
+                            <label>Notifications</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1000</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </message_heading>
+                        <notify_qty_change translate="label">
+                            <label>Notify Quantity Change</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1001</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </notify_qty_change>
                     </fields>
                 </bsv_request>
                 <gor_request translate="label">
@@ -3541,6 +3754,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </timeout>
+                        <gor_sent_indicator>
+                            <label>ERP Order Status for Orders Created while GOR Disabled</label>
+                            <comment><![CDATA[<strong>Order Not Sent:</strong> Orders will be sent to ERP once GOR re-enabled<br /><strong>Never Send:</strong> GOR will never be sent for this order]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_gorsentindicator</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>0</active>
+                            </depends>
+                        </gor_sent_indicator>
                         <gor_settings translate="label">
                             <label>GOR ERP Response Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -5699,17 +5925,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </reject_none_matching_branding>
-                        <cus_update_addresses>
-                            <label>Update Default Addresses</label>
-                            <frontend_type>select</frontend_type>
-                            <comment><![CDATA[Automatically update default Magento addresses whenever a CUS message is received.]]>
-                            </comment>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cus_update_addresses>
                         <cus_min_order>
                             <label>Minimum Order Options</label>
                             <frontend_type>select</frontend_type>
@@ -5726,28 +5941,33 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </cus_settings_header>
-                        <cus_edit_addresses>
-                            <label>Allow Address Edits</label>
+                        <allow_shipping_address_create>
+                            <label>Allow Shipping Address Creation</label>
                             <frontend_type>select</frontend_type>
-                            <comment><![CDATA[Allow customers to edit the default addresses.]]>
-                            </comment>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
+                            <sort_order>82</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </cus_edit_addresses>
-                        <cus_create_addresses>
-                            <label>Allow Address Creation</label>
+                        </allow_shipping_address_create>
+                        <allow_billing_address_create>
+                            <label> Allow Billing Address Creation</label>
                             <frontend_type>select</frontend_type>
-                            <comment><![CDATA[Allow customers to create additional (non-default) addresses.]]>
-                            </comment>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>80</sort_order>
+                            <sort_order>84</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </cus_create_addresses>
+                        </allow_billing_address_create>                                                                                                
+                        <cus_default_address_override>
+                            <label>Allow Default Shipping Address Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>81</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cus_default_address_override>
                         <field_heading translate="label">
                             <label>Options</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -6023,7 +6243,16 @@
                             <sort_order>514</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                        </po_mandatory>                       
+                        </po_mandatory>
+                        <shopper_default_addresses>
+                            <label>Shopper Default Addresses</label>
+                            <comment><![CDATA[ If set to No, then the address selected for a customer as the default address will not be reset to the ERP Account default address ]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>515</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </shopper_default_addresses>               
                     </fields>
                 </cus_mapping>
                 <cxr_mapping translate="label">
@@ -6174,6 +6403,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
+                       <field_heading translate="label">
+                            <label>Overwritten on Update</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </field_heading>
+                        <product_category_postion translate="label">
+                            <label>Product / Category Position</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_category_postion>
                     </fields>
                 </sgp_mapping>
                 <stg_mapping translate="label">
@@ -6382,6 +6627,23 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </attributes_visible>
+                        <default_attribute_set translate="label">
+                            <label>Default Attribute Set</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_defaultattributeset</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </default_attribute_set>
+                        <newproductcode_delete>
+                            <label>Honor Delete Flag for Renamed SKUs</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Applies to STKs with a populated newProductCode</comment>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newproductcode_delete>
                         <field_heading translate="label">
                             <label>Overwritten on Update</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -6444,7 +6706,15 @@
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                        </shortdescription_update>
+                        </shortdescription_update>                        
+                        <product_manage_stock_update>
+                            <label>Product Manage Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </product_manage_stock_update>
                         <free_stock_update>
                             <label>Product Free Stock</label>
                             <frontend_type>select</frontend_type>
@@ -6510,6 +6780,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </manufacturers_update>
+                        <attributeset_update>
+                            <label>Product Attributes Set</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>255</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </attributeset_update>
                         <product_attributes_update>
                             <label>Product Attributes</label>
                             <frontend_type>select</frontend_type>
@@ -6630,6 +6908,126 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </locations_update>
+                        <location_stock_status translate="label">
+                            <label>Location Stock Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>391</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_stock_status>    
+                        <location_free_stock translate="label">
+                            <label>Location Free Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>392</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_free_stock>  
+                        <location_minimum_order_qty translate="label">
+                            <label>Location Min Order Qty</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>393</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_minimum_order_qty>
+                        <location_maximum_order_qty translate="label">
+                            <label>Location Max Order Qty</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>394</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_maximum_order_qty> 
+                        <location_lead_time_days translate="label">
+                            <label>Location Lead Time Days</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>395</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_lead_time_days>
+                        <location_lead_time_text translate="label">
+                            <label>Location Lead Time Text</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>396</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_lead_time_text>   
+                        <location_supplier_brand translate="label">
+                            <label>Location Supplier Brand</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>397</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_supplier_brand> 
+                        <location_tax_code translate="label">
+                            <label>Location Tax Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>398</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_tax_code> 
+                        <location_manufacturers translate="label">
+                            <label>Location Manufacturers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>399</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_manufacturers>
+                        <location_pricing translate="label">
+                            <label>Location Pricing</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>399</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <locations_update>1</locations_update>
+                            </depends>
+                        </location_pricing>                                                                                                                                                                                                                                                
                         <metainformation_update>
                             <label>Meta Information</label>
                             <frontend_type>select</frontend_type>
@@ -6648,6 +7046,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </cost_update>
+                        <decimal_places_update>
+                            <label>Decimal Places</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>550</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </decimal_places_update>
                         
                         <debugperformance_heading translate="label">
                             <label>Debug Settings</label>
@@ -6792,6 +7199,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
+                        <soushipping translate="label">
+                            <label>Send Shipping Emails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </soushipping>
                     </fields>
                 </sou_mapping>
                 <creu_mapping translate="label">
@@ -7012,6 +7428,30 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </postcode_update>
+                        <location_visible_update translate="label"> 
+                            <label>Location Visible</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>181</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </location_visible_update>
+                        <include_inventory_update translate="label"> 
+                            <label>Include Inventory</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>182</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </include_inventory_update>
+                        <show_inventory_update translate="label"> 
+                            <label>Show Inventory</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>183</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </show_inventory_update>
                         <telephone_update translate="label"> 
                             <label>Telephone Number</label>
                             <frontend_type>select</frontend_type>
@@ -7074,7 +7514,7 @@
                             <label>Purchase Order Number Mandatory?</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>3</sort_order>
+                            <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -7082,12 +7522,55 @@
                         <max_po_length>
                             <label>Maximum Purchase Order Number Length</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
+                            <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Leave blank for no limit</comment>
                         </max_po_length>
+                        <additional_reference translate="label">
+                            <label>Additional Reference</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Epicor_Comm_Model_Config_Source_Additionalreference</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </additional_reference>
+                        <additional_reference_length>
+                            <label>Maximum Additional Reference Length</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <backend_model>epicor_comm/config_backend_integer</backend_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave blank for no limit</comment>
+                            <depends>
+                            <additional_reference separator="|">
+                                <value>yes|b2b|b2bm|b2c|b2cm|m</value>
+                            </additional_reference>
+                            </depends>
+                        </additional_reference_length>
+                        <shipstatus translate="label">
+                            <label>Shipstatus</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Epicor_Comm_Model_Config_Source_Shipstatus</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </shipstatus>
+                        <requireddate translate="label">
+                            <label>Required date</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Epicor_Comm_Model_Config_Source_Requireddate</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                           
+                        </requireddate>
                         <show_comments translate="label">
                             <label>Allow Comment on Checkout</label>
                             <frontend_type>select</frontend_type>
@@ -7228,6 +7711,26 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </row_total_tax_precision>
+                        <allow_tax_exempt>
+                            <label>Allow Tax Exempt In Checkout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allow_tax_exempt>
+                        <max_tax_exempt_length>
+                            <label>Tax Exempt Reference Length</label>
+                            <frontend_type>text</frontend_type>
+                             <validate>validate-number</validate>
+                            <backend_model>epicor_comm/config_backend_integer</backend_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Leave blank for no limit</comment>
+                        </max_tax_exempt_length>
                     </fields>                  
                 </options>
                 <basket_csv_upload translate="label">
@@ -7302,6 +7805,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </display_order_number_b2c>
+                        <display_order_number_arpayments translate="label">                            
+                            <label>Display Web and ERP Order Numbers for AR Payments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_erpwebboth</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_order_number_arpayments>                        
                     </fields>
                 </general> 
                 <reorder>
@@ -7315,6 +7827,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </sku_reorderable>
+                        <cart_merge_action translate="label">
+                            <label>Cart Merge Action</label>
+                            <source_model>epicor_comm/config_source_cartmergeaction</source_model>
+                            <frontend_type>select</frontend_type>                           
+                            <sort_order>30</sort_order>                            
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <allow>1</allow>
+                            </depends>
+                        </cart_merge_action>
                     </fields> 
                 </reorder>        
                 <order_credit_memo translate="label">
@@ -8564,6 +9088,46 @@
                             </depends>
                         </locations_to_include>
                     </fields>
+                    <fields>
+                        <style>
+                            <label>Style</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_locationstyle</source_model>
+                            <backend_model>epicor_comm/config_backend_locationstyle</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </style>
+                    </fields>
+                    <fields>
+                        <showlocationpicker>
+                            <label>Show Location Picker</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </showlocationpicker>
+                    </fields>
+                    <fields>
+                        <showselectedlocation>
+                            <label>Show Selected Location</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </showselectedlocation>
+                    </fields>
                 </global>
                 <frontend>
                     <label>Frontend Config</label>
@@ -8833,6 +9397,131 @@
                         </truncate_trailing_zeros>
                     </fields>
                 </weights>
+                <product_related_document_sync>
+                    <label>ERP Product Related Document Sync</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <fields>
+                        <sync_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sync_enabled>
+                        <products_per_run>
+                            <label>Products Per Run</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </products_per_run>
+                    </fields>
+                </product_related_document_sync>
+                <non_erp_products>
+                    <label>Non Erp Product Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <options>
+                            <label>Options</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>epicor_comm/config_source_nonerpproductoptions</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </options>
+                        <proxy_sku>
+                            <label>Proxy SKU</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                 <enabled>1</enabled>
+                                 <options>proxy</options>
+                            </depends>
+                        </proxy_sku>
+                        <administration_email>
+                            <label>Admistration Email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </administration_email>
+                        <cc_email_to_user>
+                            <label>Copy User On Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </cc_email_to_user>
+                        <checkout_text>
+                            <label>Checkout Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </checkout_text>
+                        <cart_text>
+                            <label>Cart Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </cart_text>
+                        <rfq_text>
+                            <label>Quote Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </rfq_text>
+                    </fields>
+                </non_erp_products>
             </groups>
         </epicor_product_config>
     </sections>

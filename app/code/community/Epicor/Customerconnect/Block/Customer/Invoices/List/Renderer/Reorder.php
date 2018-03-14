@@ -23,7 +23,7 @@ class Epicor_Customerconnect_Block_Customer_Invoices_List_Renderer_Reorder
             $helper = Mage::helper('customerconnect');
             /* @var $helper Epicor_Customerconnect_Helper_Data */
 
-            $html = '<a href="' . $helper->getInvoiceReorderUrl($row) . '">' . $this->__('Reorder') . '</a>';
+            $html = '<a href="' . $helper->getInvoiceReorderUrl($row) . '" class="link-reorder reorder-button">' . $this->__('Reorder') . '</a>';
         }
 
         return $html;

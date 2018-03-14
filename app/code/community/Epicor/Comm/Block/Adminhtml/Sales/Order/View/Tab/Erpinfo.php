@@ -43,6 +43,7 @@ implements Mage_Adminhtml_Block_Widget_Tab_Interface {
 		return array(
 			'0' => 'Order Not Sent',
 			'1' => 'Order Sent',
+			'2' => 'Never Send',
 			'3' => 'Erp Error',
 		);
 	}

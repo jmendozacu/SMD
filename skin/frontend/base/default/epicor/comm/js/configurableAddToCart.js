@@ -15,7 +15,7 @@ Epicor.ewaProduct.prototype = {
     badUrlTimer: null,
     errorTimer: null,
     prefix: '',
-    initialize: function() {
+    initialize: function () {
         if (Mage.Cookies.path != "/") {
             ewaProduct.prefix = Mage.Cookies.path;
         }
@@ -24,30 +24,42 @@ Epicor.ewaProduct.prototype = {
         this.warningMessage = Translator.translate('Warning: Your changes will be lost if you close. Click OK if you are you sure you want to close without saving.');
     },
     submit: function (data, returnurl) {
-        var ewaUrl = this.buildEwaUrl(ewaProduct.prefix + '/comm/configurator/loadewa', data);
+        data['action'] = 'load';
+        var ewaUrl = this.buildEwaUrl(ewaProduct.prefix + '/eccProcessEwa.php', data);
         this.buildWindow(ewaUrl, returnurl);
     },
     edit: function (data, returnurl) {
-        var ewaUrl = this.buildEwaUrl(ewaProduct.prefix + '/comm/configurator/editewa', data);
+        data['action'] = 'edit';
+        var ewaUrl = this.buildEwaUrl(ewaProduct.prefix + '/eccProcessEwa.php', data);
         this.buildWindow(ewaUrl, returnurl);
     },
     buildEwaUrl: function (ewaUrl, data) {
-    
+        i = 1;
         for (var key in data) {
             if (data[key] != undefined && data[key] != '' && data[key] != 0) {
-                ewaUrl += '/' + key + '/' + data[key];
+                if (i == 1)
+                    ewaUrl += '?' + key + '=' + data[key];
+                else
+                    ewaUrl += '&' + key + '=' + data[key];
             }
+            i++;
         }
-        
+
         var address = this.getAddress();
         if (address) {
-            ewaUrl += '/address/' + encodeURIComponent(Object.toJSON(address));
+           // ewaUrl += '/address/' + encodeURIComponent(Object.toJSON(address));
+            for (var key in address) {
+                if (address[key] != undefined && address[key] != '' && address[key] != 0) {
+                    ewaUrl += '&' + key + '=' + address[key];
+                }
+                
+            }
         }
         return ewaUrl;
     },
-    buildWindow: function(url, returnurl, error) {
-        
-        if(error === undefined){
+    buildWindow: function (url, returnurl, error) {
+
+        if (error === undefined) {
             error = false;
         }
         ewaProduct.loaded = false;
@@ -57,7 +69,7 @@ Epicor.ewaProduct.prototype = {
 
         // create Close link
         var closeBtn = new Element('a');
-        if(error) {
+        if (error) {
             closeBtn.href = 'ewaProduct.closepopup("ewaWrapper")';
         } else {
             closeBtn.href = 'javascript:if(confirm(ewaProduct.warningMessage)){ewaProduct.closepopup("ewaWrapper");}';
@@ -82,11 +94,11 @@ Epicor.ewaProduct.prototype = {
         var myIframe = new Element('iframe');
 
         if (returnurl) {
-            url = url + '/return/' + returnurl;
+            url = url + '&return=' + returnurl;
         }
 
         myIframe.src = url;
-        if(!error) {
+        if (!error) {
             myIframe.writeAttribute('onload', 'clearTimeout(ewaProduct.badUrlTimer);clearTimeout(ewaProduct.errorTimer);ewaProduct.errorTimer = setTimeout("ewaProduct.autoreveal()",' + this.ewaLoadTimeout + ');');
             this.badUrlTimer = setTimeout("ewaProduct.badUrl()", this.badUrlTimeout);
         }
@@ -103,7 +115,7 @@ Epicor.ewaProduct.prototype = {
         // show EWA Wrapper
         $(document.body).insert(wrappingDiv);
     },
-    badUrl: function() {
+    badUrl: function () {
         if (!this.loaded) {
             if (this.live) {
                 this.closepopup('ewaWrapper');
@@ -113,7 +125,7 @@ Epicor.ewaProduct.prototype = {
             }
         }
     },
-    redirect: function(url) {
+    redirect: function (url) {
         this.closepopup('ewaWrapper');
 
         if (url == '')
@@ -121,7 +133,7 @@ Epicor.ewaProduct.prototype = {
         else
             location.replace(url);
     },
-    closepopup: function(popup) {
+    closepopup: function (popup) {
         if ($(popup)) {
             $(popup).remove();
         }
@@ -133,7 +145,7 @@ Epicor.ewaProduct.prototype = {
                 'position': 'absolute'
             });
     },
-    autoreveal: function() {
+    autoreveal: function () {
         if (!this.loaded) {
             if (this.live) {
                 this.closepopup('ewaWrapper');
@@ -143,7 +155,7 @@ Epicor.ewaProduct.prototype = {
             }
         }
     },
-    onMessage: function(event) {
+    onMessage: function (event) {
         clearTimeout(ewaProduct.badUrlTimer);
         clearTimeout(ewaProduct.errorTimer);
         ewaProduct.loaded = true;
@@ -185,20 +197,20 @@ Epicor.ewaProduct.prototype = {
         });
 
     },
-    getAddress: function() {
+    getAddress: function () {
         var content = $('delivery-address-content');
         if (content != '' && content != null) {
             var serialized = Form.serialize(content, true);
             var address = {};
-            for (var index in serialized){
-                var newIndex = index.replace('delivery_address[', '').replace(']','');
-                if(newIndex != 'old_data'){
+            for (var index in serialized) {
+                var newIndex = index.replace('delivery_address[', '').replace(']', '');
+                if (newIndex != 'old_data') {
                     address[newIndex] = serialized[index];
                 }
             }
             var contactName = '';
-            $$('#rfq_contacts_table .contacts_row').each(function(e){
-                if(e.visible()){
+            $$('#rfq_contacts_table .contacts_row').each(function (e) {
+                if (e.visible()) {
                     var nameColumn = e.down('.last');
                     var select = nameColumn.down('select ');
                     if (select) {
@@ -218,7 +230,7 @@ Epicor.ewaProduct.prototype = {
 };
 var ewaProduct = null;
 
-document.observe('dom:loaded', function() {
+document.observe('dom:loaded', function () {
     ewaProduct = new Epicor.ewaProduct();
     if (window.attachEvent)
         window.attachEvent('onmessage', ewaProduct.onMessage);

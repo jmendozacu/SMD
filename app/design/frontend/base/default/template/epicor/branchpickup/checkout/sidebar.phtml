@@ -32,14 +32,20 @@
 $postValues = Mage::App()->getRequest()->getParam('removeval');
 $branch     = Mage::App()->getRequest()->getParam('branch');
 $removeIds  = json_decode($postValues,true);
-$helperBranchPickup  = Mage::helper('epicor_branchpickup/branchpickup');
+$helperBranchPickup = Mage::helper('epicor_branchpickup/branchpickup');
 ?>
 <div class="block block-cart branchmaincontainer">
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-content">
-    <div class="actions" id="branchpictionactions">
-        <p class="block-subtitle"><?php echo $this->__('The following items are not available from your selected pickup branch') ?></p>
-        <br>
+        <div class="actions" id="branchpictionactions">
+            <?php
+            $msg = '';
+            if (!Mage::getStoreConfigFlag('cataloginventory/options/show_out_of_stock')) {
+                $msg = " Or May be out of stock";
+            }
+            ?>
+            <p class="block-subtitle"><?php echo $this->__('The following items are not available from your selected pickup branch' . $msg) ?></p>
+            <br>
         <p class="block-subtitle error">Would you like to delete these item(s)?</p>
         <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Cancel')) ?>" class="button" onclick="cartPage.closepopup()"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
         <form method="post" action="<?php echo Mage::getUrl('branchpickup/pickup/removeitemsincart',$helperBranchPickup->issecure()) ?>">

@@ -104,3 +104,141 @@ textarea.line_comment {
 #masquerade_end{
     padding: 37px 50px;
 }
+
+/*ERP ship status help*/
+.status_help >img{height:20px; margin:-2px;}
+.status_help,a.status_help {
+	position: relative;
+	cursor: pointer;
+	font: normal normal 85% sans-serif;
+	color: white;
+	text-shadow: #FFFF 0 -1px;
+	display: inline-block;
+        margin:-2px;
+
+}
+#requireddatelabelmain{font-weight: inherit;margin:2px;width:36%;}
+.shipstatusmain{ width: 100%;}
+.form-list .shipstatusmain{width: 100%;}
+.form-list .defaultshipstatus{font-weight: inherit;margin:2px;width: 16%;}
+.form-list #ship_status_erpcodedefault{width: 24%;}
+.statusrequireddatelabel{width: 13%;margin:3px;font-weight: inherit;display: inline-block;}
+.statusrequireddateinput{height: 24px;width: 40%;}
+#ship_status_erpcode{ height: 24px;width: 40%;}
+.form-list .inputdaterwd{width: 40%;height: 23px;}
+.inputrequired{height: 16px;width: 53%;}
+#requireddatecalenderimg{float: right;margin-right: 326px;width: 16px;height: 16px;}
+
+a.status_help > i {
+	text-align: center;
+	line-height: 150%;
+	color: black;
+	text-shadow: white 0 1px;
+	background: #FFFF;
+	background-clip: padding-box;
+	border: 1px solid #111;
+	position: absolute;
+	width: 250px;
+	left: 110%;
+	margin-left:5px;
+	padding: 10px 0;
+  bottom:0%;
+	margin-bottom: -25px;
+	visibility:hidden;
+	opacity:0;
+	-webkit-transition: opacity 0.5s linear;
+	-moz-transition: opacity 0.5s linear;
+	-ms-transition: opacity 0.5s linear;
+	-o-transition: opacity 0.5s linear;
+	transition: opacity 0.5s linear;
+}
+a.status_help > i:before, a.status_help > i:after {
+	content: "";
+	position: absolute;
+	border-bottom: 10px solid transparent;
+	border-right:10px solid transparent;
+	top: 50%;
+	left: 0%;
+	margin-left: -10px;
+}
+a.status_help > i:before {
+	border-top: 10px solid transparent;
+	border-left: 10px solid transparent;
+	border-bottom:10px solid transparent;
+	margin-left: -22px;
+	z-index: 1;
+}
+a.status_help > i:after{
+	border-top: 10px solid transparent;
+	border-left: 10px solid transparent;
+	border-bottom:10px solid transparent;
+	margin-left: -18px;
+	z-index: 1;
+}
+a.status_help:hover > i {
+	visibility: visible;
+	opacity: 1;
+}
+
+.tracking-table-popup tr th {font-size: 9px; font-weight: bold}
+
+
+.fancybox-skin{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.fancybox-skin button {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ed6502 #a04300 #a04300 #ed6502;
+    padding: 1px 7px 2px 7px;
+    background: #ffac47 url(../../common/css/images/btn_bg.gif) repeat-x 0 100%;
+	
+    color: #fff;
+    font: bold 12px arial, helvetica, sans-serif;
+    cursor: pointer;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+.fancybox-skin .button:hover{
+    background: #f77c16 url(images/btn_over_bg.gif) repeat-x 0 0;
+}
+.fancybox-skin button#no-thanks-button{
+    float:right !important;
+    margin-right:38px !important;
+}
+.fancybox-skin p#no-thanks-container{
+    height:30px;
+}
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+#capture_details_wrapper {
+    margin: 0 auto;
+    text-align:left;
+    padding:5px;
+    position:fixed;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #666;
+    overflow:hidden;
+}
+
+#capture_details_wrapper .col-1{
+    float:left;
+    width:49%;
+}
+#capture_details_wrapper .col-2{
+    float:left;
+    width:49%;
+}

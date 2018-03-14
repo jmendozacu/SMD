@@ -264,7 +264,7 @@ class Epicor_Customerconnect_Block_Customer_Address extends Mage_Directory_Block
         $helper = Mage::helper('epicor_common');
         /* @var $helper Epicor_Comm_Helper_Data */
 
-        return $helper->customerAddressPermissionCheck('create');
+        return $helper->createShippingAddress();
     }
 
     public function isErpAddress()

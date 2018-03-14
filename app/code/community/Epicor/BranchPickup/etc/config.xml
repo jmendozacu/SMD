@@ -147,7 +147,16 @@
                         <method>checkBranchSelected</method>
                     </epicor_lists_frontend_contracts_contractSelect_afterbranchpickup>
                 </observers>
-            </epicor_lists_contract_select_after>         
+            </epicor_lists_contract_select_after>      
+            <catalog_product_collection_load_before>
+                <observers>
+                    <epicor_branchpickup_filter_products>
+                        <type>singleton</type>                          
+                        <class>Epicor_BranchPickup_Model_Observer_Frontend_BranchPickup</class>
+                        <method>filterProducts</method>
+                    </epicor_branchpickup_filter_products>
+                </observers>
+            </catalog_product_collection_load_before>   
         </events>
         <blocks>
             <epicor_branchpickup>
@@ -163,6 +172,12 @@
         </layout>
     </frontend>
     <global>
+        <ecc_version_info>
+            <Epicor_BranchPickup>
+                <version>1.0.9.1</version>
+                <released>2018-01-26</released>
+            </Epicor_BranchPickup>
+        </ecc_version_info>
         <helpers>
             <epicor_branchpickup>
                 <class>Epicor_BranchPickup_Helper</class>
@@ -183,11 +198,6 @@
                 <class>Epicor_BranchPickup_Model</class>
                 <resourceModel>branchpickup_mysql4</resourceModel>
             </epicor_branchpickup>
-            <catalog_resource>
-                <rewrite>
-                    <category_flat>Epicor_BranchPickup_Model_Catalog_Resource_Category_Flat</category_flat>
-                </rewrite>
-            </catalog_resource>            
         </models>
         <resources>
             <epicor_branchpickup_setup>
@@ -221,5 +231,14 @@
                 <cus_branch_pickup>1</cus_branch_pickup>
             </cus_mapping>
         </epicor_comm_field_mapping>
+        <epicor_comm_locations>
+            <global>
+                <redirecttobranchpickup>1</redirecttobranchpickup>
+                <showlocationpicker>1</showlocationpicker>
+                <showselectedlocation>0</showselectedlocation>
+		<showbranchpickupblock>0</showbranchpickupblock>
+                <style>location_view</style>
+            </global>
+        </epicor_comm_locations>
     </default>
 </config>
