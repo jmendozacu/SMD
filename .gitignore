@@ -1,6 +1,3 @@
-/.modman/
-
-/app/etc/local.xml
 
 /media/*
 !/media/.htaccess
