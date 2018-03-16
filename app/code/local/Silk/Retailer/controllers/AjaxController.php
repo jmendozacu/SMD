@@ -40,6 +40,12 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
         if(empty($customerId)){
             $data['status'] = 'login';
             $data['url'] = Mage::getUrl('customer/account/login');
+	
+		$sess = Mage::getSingleton('core/session')
+                        ->setData('addProduct',(int)$this->getRequest()->getParam('product'))
+			->setData('flag','wishlist');
+
+
             $json = Mage::helper('core')->jsonEncode($data);
             $this->getResponse()->setBody($json);
             return;
@@ -84,22 +90,28 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
 
     public function addBasketAction()
     {
-	$flag = false;
         $cart = Mage::getSingleton('checkout/cart');
-	//Mage::log(var_dump($this->getRequest()),null, 'json_data.log');
         $params  = $this->getRequest()->getParams();
-	//Mage::log(var_dump($params),null, 'json_data.log');
+	//Mage::log($params['qty'],null, 'json_data.log',true);
         $retailerHp = Mage::helper('silk_retailer');
-	if(count($params['amp;qty'])){
-		$params['qty'] = $params['amp;qty'];
-		$flag = true;
-	}	
 	//$parentSku = $params['parentId'];
-
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         if(empty($customerId)){
             $data['status'] = 'login';
             $data['url'] = Mage::getUrl('customer/account/login');
+	/**	 $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($params['product']);
+		$cart->addProduct($product, $params['qty']);
+		$cart->save();
+	**/
+		$sess = Mage::getSingleton('core/session')
+			->setData('addProduct',$params['product'])
+			->setData('parentId',$params['parentId'])
+			->setData('flag','cart');
+		//Mage::log($sess->getData('addProduct').'add',null, 'json_data.log', true);
+		//$sess->unsetData('addProduct');
+		//Mage::log($sess->getData('addProduct'),null, 'json_data.log', true);
         } else if (empty($params['qty']) || empty($params['product'])) {
             $data['status'] = 'Failed';
             $data['error'] = 'Wrong Params1';
@@ -132,6 +144,7 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                 $data['error'] = 'Wrong Params2';
             }
         }
+/**
 	if($flag){
 		//$this->_redirect($product->getUrlPath());
 		$parentProduct = Mage::getModel('catalog/product')->load($params['amp;parentId']);
@@ -140,6 +153,7 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
 		$flag = false;
 		return;
 	}
+**/
         $json = Mage::helper('core')->jsonEncode($data);
         $this->getResponse()->setBody($json);
 	//$this->_redirect($product->getUrlPath());
@@ -192,6 +206,7 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
         // if not allow guest action
+	/**
         if (!Mage::getStoreConfigFlag(Mage_Checkout_Helper_Data::XML_PATH_GUEST_CHECKOUT, Mage::app()->getStore()->getStoreId()) &&
             !Mage::getSingleton('customer/session')->isLoggedIn()) {
             if ($this->getRequest()->isAjax()) {
@@ -209,7 +224,7 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                 return $this->_redirect('/customer/account/login');
             }
         }
-
+	**/
         return $this;
     }
 

@@ -684,7 +684,7 @@ p.sku {
  * ============================================ */
 .price-box {
   margin: 7px 0;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 .price-box p {
@@ -702,13 +702,13 @@ p.sku {
 
 .price-box .price,
 .price {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 .price-box .price-label {
   color: #A0A0A0;
   white-space: nowrap;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 .price-box .minimal-price-link {

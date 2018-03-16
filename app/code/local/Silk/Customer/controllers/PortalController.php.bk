@@ -1,0 +1,45 @@
+<?php
+include_once("Epicor/B2b/controllers/PortalController.php");
+class Silk_Customer_PortalController extends Epicor_B2b_PortalController {
+
+    public function loginAction()
+    {
+        if ($this->_getSession()->isLoggedIn()) {
+            if ($this->getRequest()->getParam('access') != 'denied') {
+                $this->_redirect($this->_getSuccessUrl());
+                return;
+            }
+        }
+        if (Mage::getStoreConfigFlag('epicor_b2b/registration/reg_portaltype')) {
+            $customHandle = 'USE_PORTAL';
+        } else {
+            $customHandle = 'USE_ONE_COLUMN';
+        }
+        $this->loadLayout(null, false);
+        $update = $this->getLayout()->getUpdate();
+        $update->addHandle($customHandle);
+        if (Mage::app()->useCache('layout')) {
+            $cacheId = $update->getCacheId() . $customHandle;
+            $update->setCacheId($cacheId);
+            if (!Mage::app()->loadCache($cacheId)) {
+                foreach ($update->getHandles() as $handle) {
+                    $update->merge($handle);
+                }
+                $update->saveCache();
+            } else {
+                //load updates from cache
+                $update->load();
+            }
+        } else {
+//load updates
+            $update->load();
+        }
+        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('catalog/session');
+        $this->renderLayout();
+    }
+
+}
+
+?>

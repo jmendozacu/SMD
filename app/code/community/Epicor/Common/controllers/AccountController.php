@@ -45,6 +45,52 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
     protected function _loginPostRedirect()
     {
         $customerSession = Mage::getSingleton('customer/session');
+
+
+	//silk
+        $sessionProduct = Mage::getSingleton('core/session');
+        if($customerSession->isLoggedIn()) {
+                if($sessionProduct->getData('addProduct') != null) {
+                        $product = Mage::getModel('catalog/product')
+                                ->setStoreId(Mage::app()->getStore()->getId())
+                                ->load($sessionProduct->getData('addProduct'));
+
+			if($sessionProduct->getData('flag')=='cart') {
+                        	$cart = Mage::getSingleton('checkout/cart');
+                        	$cart->addProduct($product, 1);
+                        	$cart->save();
+			}
+			else{
+				$wishlist = Mage::getModel('wishlist/wishlist');
+        			$wishlist->loadByCustomer($customerSession->getCustomerId(), true);
+				$buyRequest = new Varien_Object();
+				Mage::log($sessionProduct->getData('addProduct'),null,'json_data.log');
+            			$result = $wishlist->addNewItem($product, $buyRequest);
+            			if (is_string($result)) {
+                			Mage::throwException($result);
+            			}
+            			$wishlist->save();
+			}
+			$parentProd = Mage::getModel('catalog/product')
+				->setStoreId(Mage::app()->getStore()->getId())
+				->load($sessionProduct->getData('parentId'));
+			if($sessionProduct->getData('flag')!='cart'){
+				$this->_redirect($product->getUrlPath());
+			}
+			else{
+				$this->_redirect($parentProd->getUrlPath());
+			}
+                        Mage::getSingleton('core/session')->unsetData('addProduct');
+			//$customerSession->setBeforeAuthUrl($parentProd->getUrlPath());
+			//Mage::log($sessionProduct->getData('parentId'), null, 'json_data.log',true);
+			Mage::getSingleton('core/session')->unsetData('parentId');
+			Mage::getSingleton('core/session')->unsetData('flag');
+			return;
+                }
+
+        }
+	//silk
+
         /* @var $customerSession Mage_Customer_Model_Session */
         // This check no longer works as http_referer is not populated, so commented out       
         $redirectAjaxCheck = Mage::helper('epicor_common/redirect');
@@ -58,7 +104,7 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
         $cmsPageId=NULL;      
         if (strpos($url['path'], 'onepage') == false &&
                 strpos($url['path'], 'multishipping') == false &&
-                strpos($url['path'], 'comm') == false) {
+                strpos($url['path'], '/comm') == false) {
             $lastPageB4Login = $customerSession->getBeforeAuthUrl();
             if (Mage::getStoreConfigFlag('customer/startup/redirect_dashboard')) {
                 $customerSession->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
@@ -75,6 +121,9 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
         }
 
 
+        if( ! Mage::getSingleton('customer/session')->isLoggedIn()){
+            $customerSession->setBeforeAuthUrl(Mage::getUrl('customer/account/login'));
+        }
 
         parent::_loginPostRedirect();
     }

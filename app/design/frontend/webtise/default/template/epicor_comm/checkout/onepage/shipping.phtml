@@ -199,6 +199,25 @@
             <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> title="<?php echo $this->__('Use Billing Address') ?>" onclick="shipping.setSameAsBilling(this.checked)" class="checkbox" /><label for="shipping:same_as_billing"><?php echo $this->__('Use This Address') ?></label>
 	<?php endif; ?>
         </li>
+
+	<?php
+	    $requiredDate = Mage::helper('epicor_comm')->requiredDate(null, $storeId);
+            $requiredDateVisible = $requiredDate['visible'];
+            if ($requiredDateVisible && (Mage::getSingleton('customer/session')->isLoggedIn() && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B')):
+                ?>
+                <li class="fields">
+                    <div class="field">
+                        <label for="required_date" id="requireddatelabelmain" ><?php echo $this->__('Required Date') ?></label>
+                        <?php
+                        $hrequiredDate = ($this->getQuote()->getRequiredDate() != "0000-00-00") ? $this->getQuote()->getRequiredDate() : null;
+                        $helperRequiredDate = Mage::helper('customerconnect')->getLocalDate($hrequiredDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                        ?>
+                        <input type="text" class="inputrequired" name="required_date" id="required_date" value="<?php echo $helperRequiredDate; ?>" title="<?php echo $this->__('Select Required Date'); ?> "/>
+                        <img title="Select date" id="required_date_trig_check" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle"/>
+                    </div>
+                </li>
+	<?php endif; ?>
+
     </ul>
     <div class="buttons-set" id="shipping-buttons-container">
         <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
