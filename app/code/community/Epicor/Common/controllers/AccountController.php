@@ -183,7 +183,80 @@ class Epicor_Common_AccountController extends Mage_Customer_AccountController
         if ($this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         }
+
+	$customerSession = Mage::getSingleton('customer/session');
+        $sessionProduct = Mage::getSingleton('core/session');
+
         return $successUrl;
     }
-   
+
+	//silk
+protected function _successProcessRegistration(Mage_Customer_Model_Customer $customer)
+    {
+        $session = $this->_getSession();
+        if ($customer->isConfirmationRequired()) {
+            /** @var $app Mage_Core_Model_App */
+            $app = $this->_getApp();
+            /** @var $store  Mage_Core_Model_Store*/
+            $store = $app->getStore();
+            $customer->sendNewAccountEmail(
+                'confirmation',
+                $session->getBeforeAuthUrl(),
+                $store->getId(),
+                $this->getRequest()->getPost('password')
+            );
+            $customerHelper = $this->_getHelper('customer');
+            $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.',
+                $customerHelper->getEmailConfirmationUrl($customer->getEmail())));
+            $url = $this->_getUrl('*/*/index', array('_secure' => true));
+        } else {
+            $session->setCustomerAsLoggedIn($customer);
+            $url = $this->_welcomeCustomer($customer);
+        }
+
+	$customerSession = $session;
+        $sessionProduct = Mage::getSingleton('core/session');
+        if($customerSession->isLoggedIn()) {
+                if($sessionProduct->getData('addProduct') != null) {
+                        $product = Mage::getModel('catalog/product')
+                                ->setStoreId(Mage::app()->getStore()->getId())
+                                ->load($sessionProduct->getData('addProduct'));
+                        if($sessionProduct->getData('flag')=='cart') {
+                                $cart = Mage::getSingleton('checkout/cart');
+                                $cart->addProduct($product, '1');
+				$cart->getQuote()->setTotalsCollectedFlag(false);
+                                $cart->save();
+                        }
+                        else{
+                                $wishlist = Mage::getModel('wishlist/wishlist');
+                                $wishlist->loadByCustomer($customerSession->getCustomerId(), true);
+                                $buyRequest = new Varien_Object();
+                                Mage::log($sessionProduct->getData('addProduct'),null,'json_data.log');
+                                $result = $wishlist->addNewItem($product, $buyRequest);
+                                if (is_string($result)) {
+                                        Mage::throwException($result);
+                                }
+                                $wishlist->save();
+                        }
+
+                        $parentProd = Mage::getModel('catalog/product')
+                                ->setStoreId(Mage::app()->getStore()->getId())
+                                ->load($sessionProduct->getData('parentId'));
+                        if($sessionProduct->getData('flag')!='cart'){
+                                $this->_redirect($product->getUrlPath());
+                        }
+                        else{
+                                $this->_redirect($parentProd->getUrlPath());
+                        }
+
+                        Mage::getSingleton('core/session')->unsetData('addProduct');
+                        Mage::getSingleton('core/session')->unsetData('parentId');
+                        Mage::getSingleton('core/session')->unsetData('flag');
+                }
+        }
+
+        //$this->_redirectSuccess($url);
+        return $this;
+    }
+	//silk   
 }

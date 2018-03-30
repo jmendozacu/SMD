@@ -14,7 +14,7 @@ class Silk_EpicorMenu_Block_Customer_Orders_Details_Parts_Renderer_Expand extend
         
         $row->setUniqueId(uniqid());
         if ($shipments) {
-            $html = '<span class="plus-minus" id="shipments-' . $row->getUniqueId() . '">+ Click to Expand</span>';
+            $html = '<span class="plus-minus" id="shipments-' . $row->getUniqueId() . '">+ Click for Shipments</span>';
         }
         return $html;
     }

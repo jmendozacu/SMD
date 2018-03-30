@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Silk_Eccext>
+            <version>0.1.0</version>
+        </Silk_Eccext>
+    </modules>
+	<global>
+		<events>
+			<curs_request_convert2xml_after>
+			<observers>
+				<silk_ext_curs>
+					<type>singleton</type>
+                        		<class>Silk_Eccext_Model_Observer</class>
+                        		<method>filterAccountReturn</method>
+				</silk_ext_curs>
+			</observers>
+			</curs_request_convert2xml_after>
+		</events>
+	</global>
+</config>

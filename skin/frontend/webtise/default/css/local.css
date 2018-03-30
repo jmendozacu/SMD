@@ -18,3 +18,12 @@ button:not(.button), .form-button{
 .pager.filter-actions.a-right{
 	padding-top:5px;
 }
+.grid .hor-scroll tr.filter {
+	background:#C0C0C0;
+}
+.my-account button, .form-button {
+	background:#C0C0C0 !important;
+}
+.my-account button:hover, .form-button:hover {
+	background:#cacaca !important;
+}

@@ -3,7 +3,6 @@
 #map {
     float: right;
     min-height: 500px;
-    width: 75%;
 }
 /* Optional: Makes the sample page fill the window. */
 #description {
@@ -89,11 +88,11 @@
 
 }
 #left {
-    width: 25%;
+    
     float: left;
 }
 #addressInput {
-    width: 60%;
+    
 }
 
 /* ########################################################## */
@@ -208,3 +207,51 @@
     width: 100%;
   }
 }
+
+/*Retailer page*/
+.top-retailer-search {
+    margin-bottom: 20px;
+}
+
+.top-retailer-search input {
+    border: 1px solid #aaa;
+    width: 100%!important;
+}
+
+.retailer-points ul {
+    padding: 30px;
+}
+
+.retailer-points ul li {
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 15px;
+}
+ 
+.retailer-points .left-container {
+    max-height: 500px;
+    overflow: scroll;
+    width: 100%;
+}
+
+.retailer-points .map-container {
+    width: 100%;
+}
+
+@media all and (min-width: 500px) {
+    .retailer-points .left-container {
+        width: 50%;
+    }
+
+    .retailer-points .map-container {
+            width: 50%;
+    }
+}
+
+@media all and (min-width: 700px) {
+    .retailer-points .left-container {
+        width: 25%;
+    }
+    .retailer-points .map-container {
+        width: 75%;
+    }
+} 

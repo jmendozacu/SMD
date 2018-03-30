@@ -1,4 +1,3 @@
-
 document.observe('dom:loaded', function(element) {
 
     Event.live('.expand-row', 'mouseover', function(element) {
@@ -9,7 +8,7 @@ document.observe('dom:loaded', function(element) {
         id = element.down(".plus-minus").readAttribute('id');
         if ($('row-' + id)) {
             $('row-' + id).toggle();
-            element.down(".plus-minus").innerHTML == '-' ? element.down(".plus-minus").innerHTML = '+ Click for Shipments' : element.down(".plus-minus").innerHTML = '-';
+            element.down(".plus-minus").innerHTML == '-' ? element.down(".plus-minus").innerHTML = '+ Click to Expand2' : element.down(".plus-minus").innerHTML = '-';
         }
     });
     

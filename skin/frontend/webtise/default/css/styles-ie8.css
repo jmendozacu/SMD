@@ -497,7 +497,7 @@ select,
 table,
 textarea {
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -531,7 +531,7 @@ h1, .h1 {
   margin: 0;
   margin-bottom: 0.7em;
   color: #717274;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 28px;
   font-weight: 400;
   font-style: normal;
@@ -544,7 +544,7 @@ h2, .h2 {
   margin: 0;
   margin-bottom: 0.5em;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 24px;
   font-weight: 400;
   font-style: normal;
@@ -557,7 +557,7 @@ h3, .h3 {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
@@ -570,7 +570,7 @@ h4, .h4 {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -583,7 +583,7 @@ h5, .h5 {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   font-weight: bold;
   font-style: normal;
@@ -596,7 +596,7 @@ h6, .h6 {
   margin: 0;
   margin-bottom: 5px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: bold;
   font-style: normal;
@@ -645,7 +645,7 @@ h6, .h6 {
 .page-title h2,
 .product-name h1,
 .product-name .h1 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 400;
   color: #717274;
   border-bottom: 1px solid #EDEDED;
@@ -679,7 +679,7 @@ h6, .h6 {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -754,7 +754,7 @@ body:not(.customer-account) .block:first-child .block-title {
 }
 .block-account li,
 .block-cms-menu li {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 7px 0;
   text-transform: uppercase;
 }
@@ -879,6 +879,9 @@ body > .gallery-wrapper img {
 .tag-navigation .tag-link .selected {
   border: 1px solid #000000;
 }
+.tag-navigation .reset-link {
+  cursor: pointer;
+}
 
 .cms-page-view .block:first-child .block-title, .contacts-index-index .block:first-child .block-title {
   margin-bottom: 0 !important;
@@ -929,9 +932,9 @@ body > .gallery-wrapper img {
   border: 0;
   color: #ffffff;
   display: inline-block;
-  font-size: 21px;
+  font-size: 18px;
   font-weight: normal;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   line-height: 24px;
   padding: 7px 15px;
   text-align: center;
@@ -1001,7 +1004,7 @@ a.button:hover {
 .button2 span span {
   color: #717274;
   display: inline-block;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   height: 30px;
   line-height: 30px;
   text-decoration: underline;
@@ -1106,7 +1109,7 @@ a.button:hover {
 .breadcrumbs li {
   float: left;
   font-size: 12px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   text-transform: uppercase;
 }
 
@@ -1154,7 +1157,7 @@ a.button:hover {
   content: 'X';
   color: #717274;
   font-size: 10px;
-  font-family: Arial, "goudy-old-style", serif;
+  font-family: Arial, "Lato", sans-serif;
   font-weight: bold;
   height: 20px;
   line-height: 20px;
@@ -1427,7 +1430,7 @@ a.button:hover {
  */
 .promo-msg {
   color: #717274;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 10px;
   text-align: center;
   text-transform: uppercase;
@@ -1642,7 +1645,7 @@ a.button:hover {
  * Price Box - Standard
  */
 .price-box {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 7px 0;
 }
 
@@ -1661,12 +1664,12 @@ a.button:hover {
 
 .price-box .price,
 .price {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 .price-box .price-label {
   color: #A0A0A0;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   white-space: nowrap;
 }
 
@@ -1753,7 +1756,7 @@ span.weee {
  * Item Options
  * ============================================ */
 .item-options {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
 }
 .item-options:after {
@@ -1959,7 +1962,7 @@ span.weee {
 .toolbar,
 .pager {
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   line-height: 30px;
 }
@@ -2080,7 +2083,7 @@ span.weee {
 }
 .pager .amount {
   float: left;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 0 15px 0 0;
   white-space: nowrap;
   font-size: 21px;
@@ -2120,7 +2123,7 @@ span.weee {
   border: 0;
   color: #717274;
   display: inline-block;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   height: 30px;
   padding: 0;
@@ -2347,7 +2350,7 @@ body.customer-account .data-table .show-details .summary-collapse:hover:before {
 
 .amount {
   float: left;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 0 15px 0 0;
   white-space: nowrap;
   font-size: 21px;
@@ -2446,7 +2449,7 @@ form .legend {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
@@ -2489,7 +2492,7 @@ li.centinel-logos div.input-box img {
 label {
   display: inline-block;
   font-size: 13px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: 600;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2503,7 +2506,7 @@ span.required:after {
   content: ' *';
   color: #DF280A;
   font-weight: normal;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
 }
 
@@ -2816,7 +2819,7 @@ form .form-instructions {
 }
 
 .data-table th {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   line-height: 1.4;
   text-transform: none;
   white-space: nowrap;
@@ -2932,7 +2935,7 @@ body {
 
 .header-language-container,
 .page-header {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 /* ============================================ *
@@ -3141,7 +3144,7 @@ a.skip-link {
 }
 #header-nav a {
   color: #717274;
-  font-size: 21px;
+  font-size: 20px;
   text-transform: none;
 }
 
@@ -3159,7 +3162,7 @@ a.skip-link {
 .nav-primary a {
   color: #636363;
   display: block;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   line-height: 30px;
   position: relative;
   text-decoration: none;
@@ -3262,6 +3265,10 @@ a.skip-link {
   display: block;
 }
 
+#header-nav a {
+  font-size: 19px;
+}
+
 /* ============================================ *
  * Search - Skip Link
  * ============================================ */
@@ -3323,8 +3330,9 @@ a.skip-link {
 }
 
 #search {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   height: 40px;
+  max-height: 40px;
   padding-right: 40px;
   width: 100%;
 }
@@ -3465,7 +3473,7 @@ a.skip-link {
   color: #FFF;
   display: inline-block;
   font-size: 11px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   height: 22px;
   line-height: 22px;
   position: relative;
@@ -3544,7 +3552,7 @@ a.skip-link {
 
 /* Subtotal */
 .cart-menu .subtotal {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 24px;
   line-height: 1.2;
   padding: 0 15px 15px;
@@ -3600,7 +3608,7 @@ a.skip-link {
  */
 .footer,
 .footer button {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 
 .footer {
@@ -3633,7 +3641,7 @@ a.skip-link {
 .footer .links a {
   color: #ffffff;
   font-size: 14px;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 .footer .block-title a:hover,
 .footer .links a:hover {
@@ -3702,7 +3710,7 @@ a.skip-link {
 .footer address {
   color: #ffffff;
   font-size: 14px;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   padding: 15px 0;
   text-align: center;
   width: 100%;
@@ -3826,7 +3834,7 @@ body .promos > li {
 .promos span {
   color: #FFF;
   display: block;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 20px;
   position: absolute;
@@ -3933,6 +3941,253 @@ body .promos > li {
   right: 30px;
   width: 42px;
 }
+.gallery-wrapper .image-holder {
+  min-height: 300px;
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.gallery-wrapper .image-holder img {
+  display: none;
+}
+@media all and (min-width: 770px) {
+  .gallery-wrapper .image-holder {
+    background: none;
+  }
+  .gallery-wrapper .image-holder img {
+    display: block;
+  }
+}
+
+/* ============================================ *
+ * Category Landing Pages
+ * ============================================ */
+.category-image {
+  position: relative;
+}
+
+.categorylandingMainblock {
+  border: 1px solid #E2E2E2;
+  padding: 7px;
+}
+
+.gallery-wrapper .text-overlay-content {
+  position: absolute;
+  right: 1%;
+  bottom: 5%;
+  background: white;
+  padding: 7px;
+  opacity: 0.7;
+  text-align: center;
+}
+.gallery-wrapper .slide-wrapper {
+  position: relative;
+}
+.gallery-wrapper .image-holder {
+  min-height: 300px;
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.gallery-wrapper .image-holder img {
+  display: none;
+}
+@media all and (min-width: 770px) {
+  .gallery-wrapper .image-holder {
+    background: none;
+  }
+  .gallery-wrapper .image-holder img {
+    display: block;
+  }
+}
+.gallery-wrapper h3 {
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+.gallery-wrapper p {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.category-subcategories-top {
+  align-items: center;
+  border-bottom: 2px solid #b4b4b4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.category-subcategories-top .left {
+  margin-bottom: 10px;
+}
+
+.category-subcategories-top h2 {
+  font-size: 21px;
+  margin-bottom: 0;
+  text-transform: capitalize;
+}
+
+.category-subcategories-top .view-all-button {
+  background-color: #e6e6e6;
+  color: #737373;
+  font-size: 18px;
+}
+
+.category-subcategories-top .view-all-button:hover {
+  background-color: #ffffff;
+  color: #737373;
+}
+
+.catblocks {
+  float: left;
+  padding: 0 0 20px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.catblocks li {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-right: 2.66667% !important;
+  position: relative;
+  width: 22% !important;
+}
+
+.catblocks li:hover {
+  border-color: #717274;
+}
+
+.catblocks li img {
+  max-width: 100%;
+  width: 100%;
+}
+
+.catblocks li a span {
+  color: #717274;
+  display: block;
+  font-family: "Lato", sans-serif;
+  font-size: 15px;
+  padding: 5px 10px;
+  text-align: center;
+  text-transform: none;
+  text-align: center;
+  width: 100%;
+}
+
+.catblocks li:hover, .catblocks li a:hover {
+  opacity: 0.75;
+  text-decoration: none;
+}
+
+.catblocklinks a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.catlandingbottomPromoblock {
+  border: 1px solid #E2E2E2;
+  float: left;
+  margin-bottom: 100px;
+  width: 100%;
+}
+
+.catalog-category-view div.categoryland-caption {
+  color: #000000;
+  display: block;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36px;
+  margin: 0;
+  position: absolute;
+  text-align: center;
+}
+
+.catalog-category-view div.categoryland-caption span.blue-big-text {
+  color: #3399CC;
+  font-size: 50px;
+  font-weight: 800;
+  padding: 0 0 0 8px;
+}
+
+.catalog-category-view div.categoryland-caption span.blue-big-text {
+  padding: 0 !important;
+}
+
+.catalog-category-view div.categoryland-caption span.three-dots {
+  background: url(../images/bg_threeDots.png) no-repeat center center;
+  display: block;
+  height: 20px;
+}
+
+.catalog-category-view div.categoryland-caption p.desc {
+  color: #656565;
+  font: italic 18px/28px Georgia, "Times New Roman", Times, serif;
+}
+
+.cms-home #homepage-main-slides div.slides_control div div.slideshow-caption a.link:hover,
+.cms-home #homepage-main-slides div.slides_control div div.slideshow-caption span.link:hover {
+  color: #1189C5;
+  text-decoration: underline;
+}
+
+.cms-home #homepage-main-slides div.slides_control div div.slideshow-caption span.blue-big-text,
+.catalog-category-view div.categoryland-caption span.blue-big-text {
+  color: #3399CC;
+  font-size: 50px;
+  font-weight: 800;
+  padding: 0 0 0 8px;
+}
+
+.catalog-category-view div.categoryland-caption span.blue-big-text {
+  padding: 0 !important;
+}
+
+.cms-home #homepage-main-slides div.slides_control div div.slideshow-caption span.three-dots,
+.catalog-category-view div.categoryland-caption span.three-dots {
+  background: url(../images/bg_threeDots.png) no-repeat center center;
+  display: block;
+  height: 20px;
+}
+
+.cms-home #homepage-main-slides div.slides_control div div.slideshow-caption p.desc,
+.catalog-category-view div.categoryland-caption p.desc {
+  color: #656565;
+  font: italic 18px/28px Georgia, "Times New Roman", Times, serif;
+}
+
+.subcategories-wrapper {
+  border-top: 2px solid #b4b4b4;
+  padding-top: 20px;
+}
+.subcategories-wrapper .slick-list {
+  margin: 20px;
+}
+.subcategories-wrapper .subcategory-title {
+  font-size: 16px;
+}
+
+.subcategory-products .subcategory-product {
+  padding: 5px;
+}
+.subcategory-products .subcategory-product:hover p,
+.subcategory-products .subcategory-product:hover a {
+  opacity: 0.75;
+  text-decoration: none;
+}
+.subcategory-products .product-title {
+  text-align: center;
+  font-size: 15px;
+}
+.subcategory-products img {
+  max-width: 100%;
+}
+.subcategory-products img:hover {
+  opacity: 0.75;
+}
 
 /* ================================================= *
  * General Product List Styles (not module-specific)
@@ -3965,7 +4220,7 @@ p.product-name {
   margin: 0;
   margin-bottom: 0.5em;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 24px;
   font-weight: 400;
   font-style: normal;
@@ -3973,7 +4228,7 @@ p.product-name {
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
   font-size: 13px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: normal;
   line-height: 1.4;
 }
@@ -3997,8 +4252,8 @@ p.product-name a:hover {
 .products-list .product-name {
   text-transform: none;
   margin-bottom: 5px;
-  font-size: 18px;
-  font-family: "goudy-old-style", serif;
+  font-size: 15px;
+  font-family: "Lato", sans-serif;
 }
 .products-grid .product-name a,
 .products-list .product-name a {
@@ -4406,7 +4661,7 @@ p.product-name a:hover {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -4452,7 +4707,7 @@ p.product-name a:hover {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -4536,7 +4791,7 @@ p.product-name a:hover {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -4566,7 +4821,7 @@ p.product-name a:hover {
 }
 
 .block-layered-nav .block-content > dl > dt {
-  font-size: 18px;
+  font-size: 16px;
   text-transform: none;
 }
 
@@ -4592,6 +4847,7 @@ body:not(.customer-account) .block:first-child .block-title {
 }
 
 /* ============================================ *
+ * Catalog - Product
  * Catalog - Product
  * ============================================ */
 .product-view .product-essential .extra-info .ratings .rating-box,
@@ -4898,6 +5154,9 @@ body:not(.customer-account) .block:first-child .block-title {
 .add-to-box .buttons li {
   display: inline-block;
 }
+.add-to-box .buttons button {
+  font-size: 18px !important;
+}
 
 .product-view .add-to-links {
   clear: both;
@@ -4976,14 +5235,12 @@ body:not(.customer-account) .block:first-child .block-title {
 .toggle-tabs li span:after {
   content: '\f105';
   font-family: FontAwesome;
-  margin-left: 5px;
+  font-size: 20px;
+  margin-left: 10px;
   width: 10px;
 }
 .toggle-tabs li.current.down span:after {
   content: '\f107';
-  font-family: FontAwesome;
-  margin-left: 5px;
-  width: 10px;
 }
 
 .collateral-tabs dd h2 {
@@ -5105,7 +5362,7 @@ body:not(.customer-account) .block:first-child .block-title {
 
 .grouped-items-table .name-wrapper {
   color: #717274;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 .grouped-items-table .qty-wrapper {
   padding-top: 7px;
@@ -5314,7 +5571,7 @@ body:not(.customer-account) .block:first-child .block-title {
   margin: 0;
   margin-bottom: 0.5em;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 24px;
   font-weight: 400;
   font-style: normal;
@@ -5365,6 +5622,10 @@ body:not(.customer-account) .block:first-child .block-title {
 .block-related .link-wishlist {
   display: none;
 }
+.block-related .item:hover img,
+.block-related .item:hover a {
+  opacity: 0.75;
+}
 
 /* -------------------------------------------- *
  * Upsell Products
@@ -5374,6 +5635,14 @@ body:not(.customer-account) .block:first-child .block-title {
   border-top: 1px solid #BCBCBC;
   margin-top: 20px;
   padding-top: 20px;
+}
+.box-up-sell h2,
+.block-related h2 {
+  font-size: 18px !important;
+}
+.box-up-sell .product-name,
+.block-related .product-name {
+  font-size: 15px;
 }
 .box-up-sell .ratings,
 .block-related .ratings {
@@ -5512,6 +5781,10 @@ button#product-addtocart-button {
 
 .product-view .add-to-cart {
   border-bottom: none;
+}
+
+.sendfriend-product-send .col-right {
+  display: none;
 }
 
 /* ============================================ *
@@ -5881,7 +6154,7 @@ button#product-addtocart-button {
 }
 
 .cart-table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 .cart-table th,
 .cart-table td,
@@ -5898,7 +6171,7 @@ button#product-addtocart-button {
 .cart-table thead th,
 .cart-table tbody td {
   background-color: transparent;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   padding: 10px 5px;
 }
 .cart-table tr {
@@ -5914,7 +6187,7 @@ button#product-addtocart-button {
 }
 .cart-table span.or {
   font-size: 9px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   padding: 0 5px;
   text-transform: uppercase;
 }
@@ -5948,7 +6221,7 @@ button#product-addtocart-button {
   width: 38px;
 }
 .cart-table .product-cart-sku {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-style: italic;
   font-size: 12px;
   margin: 5px 0 12px;
@@ -6082,7 +6355,7 @@ button#product-addtocart-button {
   margin-top: 4px;
 }
 .shipping .form-list label {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   font-weight: 400;
   text-transform: uppercase;
@@ -6096,13 +6369,13 @@ button#product-addtocart-button {
   margin-bottom: 10px;
 }
 .shipping .sp-methods label {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-style: italic;
   min-width: 100px;
 }
 .shipping .sp-methods label span {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: bold;
   font-style: normal;
 }
@@ -6128,7 +6401,7 @@ button#product-addtocart-button {
   clear: both;
 }
 .cart .cart-totals table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   margin-bottom: 20px;
   text-transform: uppercase;
@@ -6156,7 +6429,7 @@ button#product-addtocart-button {
 }
 .cart .cart-totals table tfoot strong span,
 .cart .cart-totals table tfoot span.price {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 .cart .cart-totals table tfoot strong {
   font-weight: 400;
@@ -6180,7 +6453,7 @@ button#product-addtocart-button {
 #discount-coupon-form label,
 .cart .giftcard label {
   display: inline-block;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: 400;
   min-width: 105px;
@@ -6263,13 +6536,13 @@ button#product-addtocart-button {
   width: 100% !important;
 }
 .shipping h2 {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 20px;
   font-weight: 300;
   text-transform: none;
 }
 .shipping .form-list label {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   text-transform: none;
 }
@@ -6635,7 +6908,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -6651,7 +6924,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   color: #636363;
 }
 .block-progress dd {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-style: italic;
   margin-bottom: 10px;
   padding-left: 15px;
@@ -6667,7 +6940,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   clear: both;
   font-style: italic;
   float: left;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   margin: 0 0 3px 0;
   padding: 0;
@@ -7132,6 +7405,136 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   cursor: default;
 }
 
+.layerednavsearch {
+  margin-bottom: 10px;
+}
+.layerednavsearch .layerednavsearch-form {
+  margin-bottom: 10px;
+}
+.layerednavsearch .layerednavsearch-search-term {
+  background-color: #f5f5f5;
+}
+.layerednavsearch .clear-search {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  color: #636363;
+  padding: 5px;
+}
+.layerednavsearch .clear-search:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sidebar .block.block-layered-nav {
+  border-bottom: none;
+}
+
+.block-layered-nav .block-content {
+  margin-top: 15px;
+  padding-top: 0;
+}
+
+.block-layered-nav .block-content > dl > dt {
+  cursor: pointer;
+  border-bottom-width: 0;
+  padding-left: 24px !important;
+}
+
+.block-layered-nav .block-content > dl > dt:hover {
+  color: #717274;
+}
+
+.block-layered-nav .block-content > dl > dt:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #717274;
+  border-right: none;
+}
+
+.block-layered-nav .block-content > dl > dt.last {
+  border-bottom-width: 1px;
+}
+
+.block-layered-nav .block-content > dl > dd {
+  display: none;
+}
+
+.block-layered-nav .block-content.accordion-open > dl > dt.current {
+  border-bottom-width: 1px;
+}
+
+.block-layered-nav .block-content.accordion-open > dl > dt.current:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-top: 4px solid #717274;
+  border-bottom: none;
+  left: 6px;
+  top: 50%;
+  margin-top: -3px;
+}
+
+.block-layered-nav .block-content.accordion-open > dl > dd.current {
+  display: block;
+}
+
+.block-layered-nav .block-subtitle {
+  display: none;
+}
+
+#narrow-by-list,
+#narrow-by-list2 {
+  margin-top: 10px;
+}
+#narrow-by-list dt,
+#narrow-by-list2 dt {
+  background-color: #fff;
+  border-bottom: 1px solid #636363;
+}
+#narrow-by-list dt.last,
+#narrow-by-list2 dt.last {
+  border-bottom: none;
+}
+
+.block-layered-nav .actions a {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px;
+}
+.block-layered-nav .currently {
+  margin-top: 10px;
+}
+.block-layered-nav .currently .block-subtitle {
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.block-layered-nav dl ol > li > a,
+.block-layered-nav dl ol > li > span {
+  margin: 5px;
+  padding: 7px;
+}
+
+.block-layered-nav dl ol > li > a {
+  background-color: #f5f5f5;
+  color: #636363;
+  padding: 5px 10px;
+}
+
+.block-layered-nav dl ol > li > a:hover {
+  background: #eeeeee;
+  text-decoration: none;
+}
+
 /* ============================================ *
  * Customer
  * ============================================ */
@@ -7210,7 +7613,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 .opc #opc-login p:not(.required) {
   color: #A0A0A0;
   font-style: italic;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
 }
 
@@ -7232,7 +7635,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   display: block;
 }
 .remember-me-popup p {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 .remember-me-popup .remember-me-popup-close {
   font-size: 12px;
@@ -7310,7 +7713,7 @@ body.customer-account .data-table {
   margin-top: 5px;
 }
 body.customer-account .data-table td a {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-style: normal;
   font-size: 13px;
   text-transform: uppercase;
@@ -7398,7 +7801,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .dashboard .box-account p,
 .dashboard .box-account address {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-style: italic;
 }
 .dashboard .col2-set .col-1,
@@ -7450,7 +7853,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .dashboard .box-reviews li .details .ratings strong {
   float: left;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   margin-right: 5px;
 }
@@ -7463,7 +7866,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
  * Address Book
  * ============================================ */
 .my-account .addresses-list {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 .my-account .addresses-list .col-1,
 .my-account .addresses-list .col-2 {
@@ -7505,7 +7908,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 
 .order-date {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   text-transform: uppercase;
 }
 
@@ -7537,7 +7940,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .order-info-box .box-title h2 {
   font-size: 14px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: bold;
   line-height: 1.5;
 }
@@ -7546,11 +7949,11 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .order-info-box .box-content {
   float: left;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 .order-info-box .box-content td,
 .order-info-box .box-content th {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   line-height: 1.3;
 }
 .order-info-box .box-content th {
@@ -7560,7 +7963,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
   padding-left: 15px;
 }
 .order-info-box .box-content strong {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-weight: normal;
   text-transform: uppercase;
 }
@@ -7633,7 +8036,7 @@ body.newsletter-manage-index .my-account .form-list {
   border-bottom: 1px solid #ffffff;
   font-size: 20px;
   font-weight: 400;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   padding: 10px 10px 10px 24px;
   text-transform: none;
 }
@@ -7661,6 +8064,90 @@ body.newsletter-manage-index .my-account .form-list {
 
 .main-container .sidebar .block-account {
   width: 300px;
+}
+
+.two-forms {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.two-forms .restrained {
+  margin: auto;
+  max-width: 365px;
+}
+.two-forms .align-right {
+  text-align: right !important;
+}
+.two-forms .form-left {
+  width: 98%;
+}
+.two-forms .form-right {
+  width: 98%;
+  margin-top: 20px;
+}
+.two-forms .form-left, .two-forms .form-right {
+  width: 48%;
+  margin-top: 0;
+}
+.two-forms form h2 {
+  font-size: 18px;
+  margin-bottom: 0;
+  background-color: #cacaca;
+  padding: 16px;
+  text-align: left;
+  max-width: 470px;
+  margin: auto;
+}
+.two-forms .title {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+.two-forms .registered-users {
+  padding: 0 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cacaca;
+  margin-top: 0 !important;
+  min-height: 600px;
+}
+.two-forms .form-instructions {
+  text-align: left;
+  margin: 0 auto !important;
+  margin-bottom: 20px !important;
+}
+.two-forms .button,
+.two-forms .button span span {
+  margin-top: 20px !important;
+  text-transform: uppercase !important;
+  font-size: 14px !important;
+}
+.two-forms .contact-details,
+.two-forms .register-details {
+  padding-top: 60px;
+}
+.two-forms .contact-details .details-title,
+.two-forms .register-details .details-title {
+  text-align: left;
+}
+.two-forms .contact-details .buttons-set,
+.two-forms .register-details .buttons-set {
+  padding-bottom: 20px;
+}
+.two-forms .contact-details .buttons-set:first-of-type,
+.two-forms .register-details .buttons-set:first-of-type {
+  text-align: right !important;
+}
+.two-forms .contact-details li,
+.two-forms .register-details li {
+  text-align: left;
+  padding-left: 25px;
+}
+.two-forms .notice-text {
+  padding-top: 40px;
+  text-align: left !important;
 }
 
 /* ============================================ *
@@ -7813,7 +8300,7 @@ div.paypal-logo span > img {
   margin-bottom: 0;
 }
 #customer-reviews .review-heading .pager .count-container .limiter label {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 10px;
   text-transform: uppercase;
 }
@@ -7829,7 +8316,7 @@ div.paypal-logo span > img {
   color: #636363;
 }
 #customer-reviews h3 {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: normal;
   text-transform: uppercase;
@@ -7843,7 +8330,7 @@ div.paypal-logo span > img {
 }
 #customer-reviews .fieldset h4 {
   border-bottom: 1px solid #CCCCCC;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: normal;
   padding-bottom: 5px;
@@ -7853,7 +8340,7 @@ div.paypal-logo span > img {
   display: none;
 }
 #customer-reviews .fieldset .form-list {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: normal;
   margin: 10px 0;
@@ -7888,7 +8375,7 @@ div.paypal-logo span > img {
   width: 470px;
 }
 #customer-reviews dl {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: normal;
   margin-bottom: 10px;
@@ -7898,12 +8385,12 @@ div.paypal-logo span > img {
   text-transform: uppercase;
 }
 #customer-reviews dl dd {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   margin: 10px 0;
 }
 #customer-reviews dl dd .ratings-table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   width: 100%;
 }
@@ -7919,7 +8406,7 @@ div.paypal-logo span > img {
 }
 #customer-reviews dl dd .review-meta {
   color: #717274;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 10px;
   font-weight: normal;
   text-transform: uppercase;
@@ -7969,7 +8456,7 @@ div.paypal-logo span > img {
  * Ratings - Global
  * ============================================ */
 .ratings-table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -8233,16 +8720,6 @@ div.paypal-logo span > img {
   -webkit-text-stroke-color: #fff;
 }
 
-.gallery-wrapper .sub-banner-line {
-  height: 2px;
-  background-color: #DEDEDE;
-  width: 100%;
-  display: block;
-  max-width: 1370px;
-  margin: 15px auto;
-  padding: 0;
-}
-
 /* ============================================ *
  * Wishlist
  * ============================================ */
@@ -8250,7 +8727,7 @@ div.paypal-logo span > img {
   text-align: center;
 }
 #wishlist-table.clean-table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
   width: 100%;
@@ -8263,13 +8740,13 @@ div.paypal-logo span > img {
   vertical-align: top;
 }
 #wishlist-table.clean-table thead th {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
 }
 #wishlist-table .product-name {
   font-size: 16px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin-bottom: 0;
   text-transform: uppercase;
 }
@@ -8278,13 +8755,13 @@ div.paypal-logo span > img {
 }
 #wishlist-table .wishlist-sku {
   font-size: 11px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin: 5px 0;
 }
 #wishlist-table textarea {
   border: 1px solid #C0C0C0;
   font-size: 11px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   height: 45px;
   width: 100%;
 }
@@ -8354,7 +8831,7 @@ div.paypal-logo span > img {
   white-space: normal;
 }
 #wishlist-table .price-box {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
 }
 #wishlist-table .price-box .price {
@@ -8460,7 +8937,7 @@ div.paypal-logo span > img {
 }
 .header-minicart .block-subtitle {
   color: #717274;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
@@ -8677,7 +9154,7 @@ div.paypal-logo span > img {
 .product-review .product-img-box p.label {
   border-bottom: 1px solid #CCCCCC;
   font-size: 16px;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin-top: 20px;
   padding-bottom: 10px;
   text-transform: uppercase;
@@ -8690,11 +9167,11 @@ div.paypal-logo span > img {
   color: #3399CC;
   font-size: 16px;
   font-weight: 600;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   padding-bottom: 10px;
 }
 .product-review .ratings-table {
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
 }
 .product-review .ratings-table th {
   padding-right: 10px;
@@ -8709,14 +9186,14 @@ div.paypal-logo span > img {
   border-bottom: 1px solid #CCCCCC;
   font-size: 16px;
   font-weight: 400;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin-top: 20px;
   padding: 10px 0;
   text-transform: uppercase;
 }
 .product-review .ratings-description dd {
   color: #737373;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
 }
 
@@ -8744,7 +9221,7 @@ div.paypal-logo span > img {
 .cms-page-view .std p,
 .cms-no-route .std p {
   color: #636363;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 16px;
   line-height: 24px;
 }
@@ -8759,7 +9236,7 @@ div.paypal-logo span > img {
 .cms-page-view .std li,
 .cms-no-route .std li {
   color: #636363;
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-style: italic;
   line-height: 24px;
@@ -8772,7 +9249,7 @@ div.paypal-logo span > img {
 }
 
 .contentmanager-index-view .ct-view p {
-  font-family: "lato", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .cms-no-route .std img {
@@ -8793,7 +9270,7 @@ div.paypal-logo span > img {
 .cms-home .std .messages li,
 .cms-no-route .std .messages li {
   font-style: normal;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   list-style: none;
   margin-left: 0;
 }
@@ -8805,7 +9282,7 @@ div.paypal-logo span > img {
   margin: 0;
   margin-bottom: 10px;
   color: #636363;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -8903,7 +9380,7 @@ div.paypal-logo span > img {
  * ============================================ */
 .price-box .minimal-price-link .label {
   color: #CF5050;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -9277,7 +9754,7 @@ body[class*="checkout-multishipping-"] .checkout-progress > li {
   border-bottom: 1px solid #CCCCCC;
   border-right: 1px solid #CCCCCC;
   float: left;
-  font-family: "goudy-old-style", serif;
+  font-family: "Lato", sans-serif;
   margin-bottom: 10px;
   padding: 8px 1% 6px;
   text-align: center;
@@ -9414,6 +9891,97 @@ body[class*="checkout-multishipping-"] #review-buttons-container {
 #review-order-form > div:nth-child(3) > div.divider {
   clear: both;
   width: 100%;
+}
+
+/* Slider */
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.slick-list:focus {
+  outline: none;
+}
+.slick-list.dragging {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.slick-track {
+  position: relative;
+  left: 0;
+  top: 0;
+  display: block;
+}
+.slick-track:before, .slick-track:after {
+  content: "";
+  display: table;
+}
+.slick-track:after {
+  clear: both;
+}
+.slick-loading .slick-track {
+  visibility: hidden;
+}
+
+.slick-slide {
+  float: left;
+  height: 100%;
+  min-height: 1px;
+  display: none;
+}
+[dir="rtl"] .slick-slide {
+  float: right;
+}
+.slick-slide img {
+  display: block;
+}
+.slick-slide.slick-loading img {
+  display: none;
+}
+.slick-slide.dragging img {
+  pointer-events: none;
+}
+.slick-initialized .slick-slide {
+  display: block;
+}
+.slick-loading .slick-slide {
+  visibility: hidden;
+}
+.slick-vertical .slick-slide {
+  display: block;
+  height: auto;
+  border: 1px solid transparent;
+}
+
+.slick-arrow.slick-hidden {
+  display: none;
 }
 
 /* ============================================ *

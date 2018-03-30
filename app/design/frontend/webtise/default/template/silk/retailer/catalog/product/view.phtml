@@ -159,7 +159,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                 <?php //echo $this->getChildHtml('alert_urls') ?>
 
                 <div class="short-description">
-		<!--
+        <!--
                     <strong><?php echo $this->__($_product->getSkuHeader()) ?></strong>
                     <ul>
                         <?php foreach ($_product->getSkusDetailed() as $sku): ?>
@@ -180,7 +180,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                         <div
                             class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
                     <?php endif; ?>
-		-->
+        -->
                 </div>
                 <?php
                 $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
@@ -225,26 +225,20 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
 
 
                     <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
-			<div class="poqty" style="display:block">
-				<?php if($_product->getData('poqtyone')>0): ?>
-				<span>New Stock Due: </span>
-				<?php echo $_product->getData('poqtyone').' '.($_product->getUom()=='M'?'Meters':'Each'); ?>
-				<span>on</span>
-				<?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
-				<?php endif; ?>
-			</div>
-			<?php endif; ?>
+             
+            <?php endif; ?>
 
                     <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
                         <?php if ($showAddToCart) : ?>
                             <div class="add-to-box">
-                                <?php if (!$_product->isSaleable()): ?>
+                                <?php if ($_product->getStockLevel()<=0 && (Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
+                                <?php //if (!$_product->isSaleable() && (Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
                                     <p class="availability out-of-stock">
-                                        <span><?php echo $this->__('Product currently unavailable') ?></span></p>
+                                        <span><?php //echo $this->__('Product currently unavailable') ?></span></p>
                                          <?php echo $this->getChildHtml('alert_urls') ?>
                                 <?php endif; ?>
-	
+    
                                     <?php if ($reconfigureCart): ?>
                                         <?php echo $this->getChildHtml('groupedupdatecart') ?>
                                     <?php else: ?>
@@ -266,7 +260,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                     <?php echo $this->getChildHtml('sharing') ?>
                                     <?php $newOnClick = $measureId ? "ewaProduct.addContent({sku: '{$measureSku}', productId: '{$measureId}', qty: ''}, false);" : ""; ?>
                                     <ul class="buttons">
-					<?php if ($_product->isSaleable()): ?>
+                    <?php if ($_product->isSaleable()): ?>
                                         <li>
                                             <?php if ($measureId && $measureSku && (Mage::getSingleton('customer/session')->isLoggedIn()) && (Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B')) : ?>
                                                 <?php
@@ -315,13 +309,13 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                 ?>
                                                 <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
                                                     
-							<?php if($_product->getOrderFab()): ?>
-								<button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
-							<?php endif; ?>
+                            <?php if($_product->getOrderFab()): ?>
+                                <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
+                            <?php endif; ?>
                                                 <?php endif; ?>
                                             <?php endif; // if ($_product->getConfigurator()) : ?>
                                         </li>
-					<?php endif; ?>
+                    <?php endif; ?>
                                         <li>
                                             <button type="button" class="order_fabric_but ajax-wishlist button button-secondary"><?php echo $this->__('Add to Favourites') ?></button>
                                             <?php $sample = $_product->getIdBySku($_product->getSample()) ?>
@@ -337,10 +331,10 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                     <?php endif; ?>
                                     <?php echo $this->getChildHtml('addto') ?>
                                 <?php //else: ?>
-				<!--
+                <!--
                                     <p class="availability out-of-stock">
                                         <span><?php //echo $this->__('Product currently unavailable') ?></span></p> -->
-					 <?php //echo $this->getChildHtml('alert_urls') ?>
+                     <?php //echo $this->getChildHtml('alert_urls') ?>
                                 <?php //endif; ?>
                             </div>
                             <?php echo $this->getChildHtml('extra_buttons') ?>
@@ -530,8 +524,8 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
     $j('.ajax-sample').click(function () {
         var product_id = <?php echo $_product->getIdBySku($_product->getSample()); ?>;
         var qty = 1;
-	var parentId = <?php echo $_product->getId(); ?>;
-	//var dataSet = {'product':product_id, 'qty':qty};
+    var parentId = <?php echo $_product->getId(); ?>;
+    //var dataSet = {'product':product_id, 'qty':qty};
         $j.ajax({
             type: "GET",
             url: '/retailer/ajax/addBasket',
@@ -641,7 +635,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     jQuery('#basket_box .curMetre').text(data.qty + '<?php echo $_product->getUom() ?>' + ' X' + data.name);
                     jQuery('#basket_box .msg_title').text('<?php echo $this->__('Added to your Basket') ?>');
                     jQuery('#basket_box .action_button').show();
-			jQuery('#your_metre').val('');
+            jQuery('#your_metre').val('');
                 } else if (data.status == 'login') {
                     window.location.href=data.url;
                 } else if (data.status == 'Failed') {
