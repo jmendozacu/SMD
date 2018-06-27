@@ -39,7 +39,11 @@
 
     <!--Email-->
     <?php if ($this->canEmailToFriend()): ?>
-        <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>" class="link-email-friend" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Email to a Friend')) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
+        <li>
+            <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>" class="link-email-friend" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Email to a Friend')) ?>">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+            </a>
+        </li>
     <?php endif; ?>
 
     <!--Facebook-->

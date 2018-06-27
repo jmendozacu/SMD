@@ -27,15 +27,38 @@
  * Header
  * ============================================ */
 
+.page-header {
+    background-color: $c-iliv-grey;
+    margin: 0 auto;
+}
+
 @include bp(min-width, $bp-medium + 1) {
 
     .page-header {
-        max-width: $max-container-width;
-        margin: 0 auto;
         padding: 0 $trim;
     }
 
     .page-header-container {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        position: relative;
+        margin: auto;
+        max-width: $max-container-width;
+    }
+
+    .page-header-right {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
         position: relative;
     }
 
@@ -45,6 +68,49 @@
 .page-header {
     font-family: $f-stack-special;
 }
+
+//Header Links
+.page-header-right {
+    .header-links {
+        ul {
+            align-items: center;
+            display: flex;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        li {
+            padding-right: 10px;
+            padding-left: 10px;
+            text-transform: uppercase;
+        }
+
+        a {
+            font-size: 12px;
+        }
+    }
+
+    .account-cart-wrapper span {
+        font-size: 11px;
+    }
+}
+
+
+@include bp(max-width, $bp-xlarge) {
+    .page-header-right {
+
+        .header-links {
+            a {
+                font-size: 11px;
+            }
+        }
+
+        .account-cart-wrapper span {
+            font-size: 10px;
+        }
+    }
+}
+
 
 /* ============================================ *
  * Language switcher + welcome message
@@ -119,7 +185,7 @@
 
 .logo {
     float: left;
-    min-width: 100px;
+    min-width: 200px;
     min-height: 44px;
     padding: $gap;
     text-align: center;
@@ -129,6 +195,16 @@
         display: block;
         max-height: 100px;
         max-width: 100%;
+        width: 180px;
+    }
+
+    @media all and (max-width:1350px ) and (min-width:$bp-medium) {
+        width: 150px;
+        min-width: 0;
+
+        img {
+            width: 150px;
+        }
     }
 }
 
@@ -136,13 +212,20 @@
     opacity: 0.8;
 }
 
+
+
 // ---------------------------------------------
 
 @include bp(max-width, $bp-medium) {
 
     .logo {
 
-        img { max-height: 65px; }
+        img {
+
+            margin: 0 auto;
+            max-height: 65px;
+
+        }
 
     }
 
@@ -153,7 +236,7 @@
     line-height: 44px;
     padding: 0 5px;
     font-size: 18px;
-    
+
 }
 
 /* ============================================ *
@@ -173,8 +256,22 @@
 
     .skip-links {
         border: 0;
-    }
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        width: 100%;
 
+        a,
+        span {
+            color: $c-bronze;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 /* -------------------------------------------- *
@@ -182,8 +279,8 @@
  */
 
 .skip-link {
-    background: $c-white;
-    color: $c-text;
+    background: $c-iliv-grey;
+    color: $c-bronze;
     float: left;
     height: 44px;
     line-height: 42px;
@@ -198,6 +295,10 @@ a.skip-link {
 
 .skip-link:not(.skip-active):hover {
     opacity: 0.8;
+}
+
+.skip-link .label {
+    color: $c-bronze;
 }
 
 // ---------------------------------------------
@@ -306,7 +407,7 @@ a.skip-link {
     #header-account li a,
     .nav-primary a.level0 {
         border-bottom: 1px solid $c-module-border;
-        color: $c-text;
+        color: $c-bronze;
         line-height: 30px;
         padding: 0 15px 0 25px;
         text-align: left;
@@ -326,14 +427,24 @@ a.skip-link {
 
 }
 
-.account-cart-wrapper {
-    position: absolute;
-    right:0;
-    top:0;
-
-    @include bp(max-width, $bp-medium) {
-        position: static;
+.wrapper {
+    &-header {
+        background-color: $c-iliv-grey;
+        .skip-account {
+            background-color: $c-iliv-grey;
+            .icon {
+                background-image: url("../images/user.svg");
+                background-size: contain;
+                background-position: center center;
+                background-repeat: no-repeat;
+                width: 25px;
+                height: 25px;
+            }
+        }
+        .skip-content {
+            span {
+                color: $c-bronze;
+            }
+        }
     }
 }
-
-

@@ -222,3 +222,59 @@
     font-size: $f-size-s;
     padding: 10px 15px 15px;
 }
+.social-link {
+    display: none;
+}
+
+.header-minicart {
+    width: 20%;
+}
+.header-minicart .skip-cart {
+    width: 100%;
+}
+
+.header-minicart .fa-shopping-cart,
+.fa-user {
+    display: inherit!important;
+    font-size: 18px!important;
+}
+
+.header-minicart  .count {
+    background: rgba($c-iliv-grey,.4);
+}
+
+.skip-link .label,
+.header-minicart .label {
+    font-size: 14px!important;
+}
+
+@media all and (min-width: 500px) {
+
+    .header-minicart {
+        width: 25%;
+
+        & .count {
+            background: $c-iliv-grey;
+            color: $c-bronze;
+        }
+    }
+}
+
+@include bp(min-width, $bp-large) {
+
+    .header-minicart,
+    .header-minicart .skip-cart,
+    .social-link {
+        width: inherit;
+    }
+
+    .skip-link .label,
+    .header-minicart .label {
+        font-size: 11px!important;
+    }
+
+    .social-link {
+        display: inherit!important;
+    }
+}
+

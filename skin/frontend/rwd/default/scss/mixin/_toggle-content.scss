@@ -56,13 +56,14 @@
 
             > span {
                 background-color: #FFFFFF;
+                color: $c-text;
                 z-index: 5;
             }
         }
 
         li.current span,
         li:hover span {
-            color: $c-action;
+            color: $c-text;
         }
 
         li:first-child {
@@ -150,10 +151,10 @@
             border-bottom-width: 0;
 
             &:hover {
-                color: $c-action;
+                color: $c-text;
             }
             &:after {
-                @include triangle(right, 4px, $c-action);
+                @include triangle(right, 4px, $c-text);
             }
             &.last {
                 border-bottom-width: 1px;

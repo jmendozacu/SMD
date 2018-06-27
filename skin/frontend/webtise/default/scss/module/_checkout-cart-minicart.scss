@@ -31,7 +31,8 @@
     display: inline-block;
 
     @include bp(max-width, $bp-medium) {
-        display: block;
+        display: flex;
+        justify-content: space-around;
     }
 
     .minicart-message {

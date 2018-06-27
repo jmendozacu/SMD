@@ -100,11 +100,6 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
                 </li>
             <?php endif; ?>
 
-            <?php if ($this->helper('wishlist')->isAllowInCart() && $isVisibleProduct) : ?>
-                <li>
-                    <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move to wishlist'); ?></a>
-                </li>
-            <?php endif ?>
         </ul>
     </td>
 
@@ -316,11 +311,19 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
         <?php endif; ?>
     <?php endif; ?>
     <td class="product-cart-actions " data-rwd-label="<?php echo $this->__('Qty'); ?>">
-        <input type="text" pattern="\d*" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
-        <?php if ($showUom && !$showInColumn) : 
+        <div class="qty-box">
+            <a class="decrement_qty" href="javascript:void(0)">
+                <i class="fa fa-minus-square" width="16" height="16"></i>
+            </a>
+            <input type="text" pattern="\d*" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+            <a class="increment_qty" href="javascript:void(0)">
+               <i class="fa fa-plus-square" width="16" height="16"></i>
+            </a>
+        </div>
+        <?php if ($showUom && !$showInColumn) :
             $_item->getProduct()->load($_item->getProduct()->getId()); ?>
-            <span class="uom-qty"> x <?php echo $this->__($_item->getProduct()->getPackSize()); ?></span>
-                
+            <span class="uom-qty"><?php echo $this->__($_item->getProduct()->getPackSize()); ?></span>
+
         <?php endif;?>
         <?php if ($this->getShowLocations() && !$this->getShowLocationsColumn()) : ?>
             <br /><?php
@@ -328,8 +331,6 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
             echo $this->__($_item->getEccLocationName());
             ?>
         <?php endif; ?>
-        <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update'); ?>" class="button btn-update"><span><span><?php echo $this->__('Update'); ?></span></span>
-        </button>
 
         <ul class="cart-links">
             <?php if ($isVisibleProduct): ?>
@@ -351,13 +352,7 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
                 </li>
             <?php endif; ?>
 
-            <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
-                <li>
-                    <?php if ($isVisibleProduct): ?>
-                        <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move to wishlist'); ?></a>
-                    <?php endif ?>
-                </li>
-            <?php endif ?>
+
         </ul>
 
     </td>
@@ -463,5 +458,3 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
         <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item') ?>" class="btn-remove btn-remove2 remove-for-quotes"><?php echo $this->__('Remove Item') ?></a>
     </td>
 </tr>
-
-

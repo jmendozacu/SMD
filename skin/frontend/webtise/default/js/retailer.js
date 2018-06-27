@@ -340,10 +340,3 @@ var googleRetailer = {
         document.getElementById(googleRetailer.options.containerId).innerHTML = html;
     }
 };
-
-// one
-//googleRetailer.init().createMap().autocompleteAddress();
-// tow
-//googleRetailer.options.renderStyle = 'form';
-//googleRetailer.options.containerId = 'retailer-list';
-//googleRetailer.init().searchNearByZip('SW11');

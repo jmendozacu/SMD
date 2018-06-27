@@ -34,7 +34,7 @@
 <?php $_priceDisplay = ($this->helper('tax')->displayCartBothPrices()) ? 'display-both-prices' : 'display-single-price'; ?>
 <div class="cart <?php echo $_priceDisplay; ?>">
     <div class="page-title title-buttons">
-        <h1><?php echo $this->__('My Basket') ?></h1>
+        <h1><?php echo $this->__('Shopping Cart') ?></h1>
         <?php if(!$this->hasError()): ?>
         <ul class="checkout-types top">
         <?php foreach ($this->getMethods('top_methods') as $method): ?>
@@ -64,17 +64,17 @@
         <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
             <thead>
                 <tr>
-                    <th rowspan="<?php echo $mergedCells; ?>" class="cart-image-head"><span class="nobr"></span></th>
+                    <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product') ?></span></th>
 
-                    <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Product Name') ?></th>
+                    <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
 
                     <th class="a-center cart-price-head" colspan="<?php echo $mergedCells; ?>">
 <!--                            <div class="cart-price-placeholder">-->
-                            <span class="nobr"><?php echo $this->__('Unit Price') ?></span>
+                            <span class="nobr"><?php echo $this->__('Price') ?></span>
 <!--                            </div>-->
                     </th>
 
-                    <th rowspan="<?php echo $mergedCells; ?>" class="a-center cart-actions-head">
+                    <th rowspan="<?php echo $mergedCells; ?>" class="a-center">
                         <?php echo $this->__('Qty') ?>
 
                         <?php /*if ($this->helper('wishlist')->isAllowInCart()) : ?>
@@ -112,6 +112,8 @@
 
                         <button type="submit" name="update_cart_action" data-cart-item-update value="update_qty" title="<?php echo $this->quoteEscape($this->__('Update Shopping Cart')); ?>" class="button2 btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
 
+                        <span class="or">-<?php echo $this->__('or'); ?>-</span>
+
                         <?php if($this->getContinueShoppingUrl()): ?>
                             <button type="button" title="<?php echo $this->quoteEscape($this->__('Continue Shopping')) ?>" class="button2 btn-continue" onclick="setLocation('<?php echo Mage::helper('core')->quoteEscape($this->getContinueShoppingUrl()) ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
                         <?php endif; ?>
@@ -139,29 +141,24 @@
                         <![endif]-->
                     </td>
                 </tr>
-
             </tfoot>
-
             <tbody>
             <?php foreach($this->getItems() as $_item): ?>
                 <?php echo $this->getItemHtml($_item) ?>
             <?php endforeach ?>
             </tbody>
-
         </table>
-
         <script type="text/javascript">decorateTable('shopping-cart-table')</script>
     </form>
 
     <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
-
     <div class="cart-forms">
         <?php /* Extensions placeholder */ ?>
         <?php echo $this->getChildHtml('checkout_cart_widget') ?>
+        <?php echo $this->getChildHtml('coupon') ?>
         <?php echo $this->getChildHtml('checkout.cart.extra') ?>
-
+        <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>
-    <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     <div class="cart-totals-wrapper">
         <div class="cart-totals">
             <?php echo $this->getChildHtml('totals'); ?>
@@ -176,4 +173,5 @@
             <?php endif; ?>
         </div>
     </div>
+    <?php echo $this->getChildHtml('crosssell') ?>
 </div>

@@ -186,6 +186,10 @@ body .promos > li {
     font-size: 24px;
   }
 }
+.cms-index-index .slick-list {
+  margin: 0 !important;
+}
+
 /* -------------------------------------------- *
  * New Products Section
  */
@@ -201,7 +205,7 @@ body .promos > li {
 .cms-index-index h2.subtitle {
   border-bottom: 1px solid #CCCCCC;
   border-top: 1px solid #CCCCCC;
-  color: #717274;
+  color: #2c2d2a;
   font-weight: 600;
   padding: 6px 0;
   text-align: center;
@@ -321,12 +325,18 @@ body .promos > li {
 }
 
 .category-subcategories-top {
-  align-items: center;
-  border-bottom: 2px solid #b4b4b4;
+  align-items: flex-start;
+  border-bottom: 2px solid #2c2d2a;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding-bottom: 10px;
   margin-bottom: 30px;
+}
+
+.category-subcategories-top .left {
+  margin-bottom: 10px;
 }
 
 .category-subcategories-top h2 {
@@ -336,14 +346,17 @@ body .promos > li {
 }
 
 .category-subcategories-top .view-all-button {
-  background-color: #e6e6e6;
-  color: #737373;
-  font-size: 18px;
+  background: #e6e6e6;
+  color: #2c2d2a;
+  padding: 5px 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  min-width: 150px;
 }
 
 .category-subcategories-top .view-all-button:hover {
-  background-color: #ffffff;
-  color: #737373;
+  background: #e6e6e6;
+  color: #2c2d2a;
 }
 
 .catblocks {
@@ -388,14 +401,13 @@ body .promos > li {
 }
 
 .catblocks li a span {
-  color: #717274;
+  color: #2c2d2a;
   display: block;
   font-family: "Lato", sans-serif;
   font-size: 15px;
   padding: 5px 10px;
   text-align: center;
   text-transform: none;
-  text-align: center;
   width: 100%;
 }
 
@@ -481,7 +493,7 @@ body .promos > li {
 }
 
 .subcategories-wrapper {
-  border-top: 2px solid #b4b4b4;
+  border-top: 2px solid #2c2d2a;
   padding-top: 20px;
 }
 .subcategories-wrapper .slick-list {
@@ -508,4 +520,8 @@ body .promos > li {
 }
 .subcategory-products img:hover {
   opacity: 0.75;
+}
+.subcategory-products button,
+.subcategory-products .slick-arrow {
+  background-color: transparent !important;
 }

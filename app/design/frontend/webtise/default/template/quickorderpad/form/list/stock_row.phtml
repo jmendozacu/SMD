@@ -36,7 +36,7 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
 
                 <?php case 'level': ?>
 			<?php if(Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
-                            <p class="availability in-stock"><span><?php echo ((float) $loopProduct->getStockLevel()> 0)?$loopProduct->getStockLevel():"Out of stock" ?></span></p>
+                            <p class="availability in-stock"><span><?php echo ((float) $loopProduct->getStockLevel()> 0)?number_format($loopProduct->getStockLevel(),2,'.',''):"Out of stock" ?></span></p>
 			<?php endif; ?>
                     
                     <?php break; ?>

@@ -233,7 +233,7 @@
         </span>
     </div>
 </form>
-
+<?php //Mage::log("test",null, 'json_data.log',true);?>
 <?php if($requiredDateVisible && (Mage::getSingleton('customer/session')->isLoggedIn() && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B')):?>
 <script type="text/javascript">
 
@@ -247,8 +247,12 @@
                 button: 'required_date_trig_check',
                 align: "Bl",
                 singleClick: true,
+		cont:"sample2",
                 disableFunc: function (date) {
                     var now = new Date();
+			if (date.getDay() == 6 || date.getDay()==0) {
+            			return true;
+      	  		}
                     if (date.getFullYear() < now.getFullYear()) {
                         return true;
                     }
@@ -258,7 +262,7 @@
                         }
                     }
                     if (date.getMonth() == now.getMonth()) {
-                        if (date.getDate() < now.getDate()) {
+                        if (date.getDate() <= now.getDate()) {
                             return true;
                         }
                     }

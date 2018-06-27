@@ -61,11 +61,11 @@ foreach ($groups as $group) {
     <ul class="check-list attribute-list">
         <?php foreach ($attributeInfo as $attribute): ?>
             <?php
-                $attrValue = $_product->getResource($product)
-                    ->getAttribute($attribute['code'])
-                    ->getFrontend()
-                    ->getValue($_product);
-                ?>
+            $attrValue = $_product->getResource($product)
+                ->getAttribute($attribute['code'])
+                ->getFrontend()
+                ->getValue($_product);
+            ?>
             <?php if(!empty($attrValue)): ?>
                 <li>
                     <strong><?php echo $attribute['label'] . ': ' ?></strong><?php echo $attrValue ?>

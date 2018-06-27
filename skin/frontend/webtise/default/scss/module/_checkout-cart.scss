@@ -158,12 +158,13 @@
     .cart-table {
 
         thead {
-            background: $c-module-background;
-            border: 1px solid $c-table-border;
-            border-bottom: none;
+
+            border-bottom: 2px solid $c-table-border;
+            border-top: 1px solid $c-table-border;
 
             th {
-                border-right: 1px solid $c-table-border;
+
+                text-transform: uppercase;
 
                 &:first-child {
                     border-right: none;
@@ -175,13 +176,16 @@
         }
 
         tbody {
-            border: 1px solid $c-table-border;
-            border-bottom: none;
+            border: none;
+
+            tr {
+                border-bottom: 2px solid $c-table-border;
+            }
 
             td {
-                border: 1px solid $c-table-border;
-                border-bottom: none;
+                border: none;
                 padding-top: 20px;
+                vertical-align: middle;
 
                 &.product-cart-image {
                     border-right: 1px solid $c-white !important;
@@ -215,10 +219,10 @@
     h1 {
         border-bottom: none;
         float: left;
-        font-size: 30px;
+        font-size: 23px;
         margin-bottom: 6px;
         margin-right: 10px;
-        text-transform: none;
+        text-transform: uppercase;
     }
 }
 
@@ -1045,7 +1049,6 @@
 
 .cart-table .product-cart-image .product-image img {
     max-width: 90px;
-    margin-left: 10px;
 }
 
 .cart-forms, .cart-totals-wrapper, .crosssell {
@@ -1119,12 +1122,108 @@
     }
 }
 
-.btn-remove2 {
-    background: url(../images/close.png) no-repeat;
-    background-position: top left;
-    height: 28px;
-    width: 28px;
+.checkout-cart-index {
+    .product-cart-image {
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .product-cart-info {
+        .input-box {
+            textarea {
+                border: 1px solid  $c-iliv-grey;
+            }
+        }
+    }
+
+    .product-cart-price,
+    .product-cart-total {
+        .price {
+            font-weight: $font-weight-black;
+        }
+    }
+
+    .product-cart-actions {
+        input {
+            border: none;
+            margin-bottom: 0!important;
+        }
+    }
+    .qty-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        input {
+            border: 1px solid $c-iliv-grey;
+            height: 25px!important;
+            margin: 0 5px;
+        }
+    }
+    .fa-plus-square,
+    .fa-minus-square {
+        font-size: 25px;
+    }
+    .btn-remove2 {
+        text-indent: 0;
+        background-image: none;
+
+        &::before {
+            content: '\f014';
+            color: $c-iliv-grey;
+            font-size: 18px;
+            font-family: $c-fontAwesome;
+        }
+    }
+    #shopping-cart-table .cart-footer-actions {
+        text-align: left;
+
+        .btn-continue,
+        .btn-update {
+            background-color: $c-iliv-grey!important;
+            padding: 5px 10px;
+            color: $c-white;
+            border: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: $font-weight-normal;
+        }
+    }
+    .cart-totals-wrapper {
+        margin-right: 14%;
+        .cart-totals {
+            background-color: $c-white;
+            border: none;
+        }
+    }
+    .checkout-types.bottom {
+        .btn-proceed-checkout {
+            background-color: $c-iliv-grey!important;
+            padding: 5px 10px;
+            color: $c-white;
+            border: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: $font-weight-normal;
+        }
+    }
+    .cart-totals-wrapper {
+        tfoot {
+            border-bottom: 2px solid $c-iliv-grey!important;
+        }
+        td {
+            text-align: center!important;
+        }
+        strong {
+            font-size: 18px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
 }
+
 
 .button2 {
     border: 2px solid $c-gray !important;

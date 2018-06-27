@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<layout>
+    <catalog_category_layered translate="label">
+        <reference name="catalog.leftnav">
+            <action method="setTemplate">
+                <tpl>interjar/layerednavsearch/catalog/layer/view.phtml</tpl>
+            </action>
+            <block type="layerednavsearch/catalog_category_view_layered_navigation_search_form" name="layerednav.search" as="layerednav_search" template="interjar/layerednavsearch/form.phtml" />
+        </reference>
+    </catalog_category_layered>
+</layout>

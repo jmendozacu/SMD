@@ -33,8 +33,13 @@
 ?>
 <?php
 $_filters = $this->getActiveFilters();
-$_renderers = $this->getParentBlock()->getChild('state_renderers')->getSortedChildren();
+//$_renderers = $this->getParentBlock()->getChild('state_renderers')->getSortedChildren();
 ?>
+<?php if($this->getParentBlock()): ?>
+    <?php
+    $parentBlock = $this->getParentBlock()->getChild('state_renderers');
+    $_renderers = (is_object($parentBlock)) ? $parentBlock->getSortedChildren(): ''; ?>
+<?php endif; ?>
 <?php if(!empty($_filters)): ?>
 <div class="currently">
     <p class="block-subtitle"><?php echo $this->__('Currently Shopping by:') ?></p>

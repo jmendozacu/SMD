@@ -1328,4 +1328,46 @@ $j(document).ready(function() {
         $j('#collateral-tabs').slideToggle();
         $j('#collateral-tabs dd.current').show();
     });
+
+    // Increase / Decrease Cart Quantity
+    $j('.increment_qty').click(function() {
+        var oldVal = $j(this).parent().find("input").val();
+        if ( parseFloat(oldVal) >= 1 ) {
+            var newVal = parseFloat(oldVal) + 1;
+            $j(this).parent().find("input").val(newVal);
+        }
+    });
+
+    $j('.decrement_qty').click(function() {
+        var oldVal = $j(this).parent().find("input").val();
+        if ( parseFloat(oldVal) >= 2 ) {
+            var newVal = parseFloat(oldVal) - 1;
+            $j(this).parent().find("input").val(newVal);
+        }
+    });
+
+    // Move Header links on mobile / desktop
+    function moveHeaderIcons () {
+        var size = $j( window ).width();
+        if (size > 768) {
+            var container = $j('.footer-container .links #top');
+            container.detach();
+            $j('.skip-links #header-links').append(container);
+        } else {
+            var container2 = $j('.skip-links #header-links #top');
+            container2.detach();
+            $j('.footer-container .links').append(container2);
+        }
+    }
+
+    moveHeaderIcons();
+
+    $j(window).resize(function(){
+        moveHeaderIcons();
+    });
+
+    // Header Dropdown Close Link
+    $j('#header-account .skip-link-close').on("click", function(){
+        $j('.account-cart-wrapper a').trigger("click");
+    });
 });

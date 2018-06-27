@@ -71,7 +71,6 @@
             display: block;
         }
     }
-
     h3 {
         margin-bottom: 0;
         text-transform: uppercase;
@@ -83,12 +82,18 @@
 }
 
 .category-subcategories-top {
-    align-items: center;
-    border-bottom: 2px solid $c-medium-grey;
+    align-items: flex-start;
+    border-bottom: 2px solid $c-button-fixed-text;
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding-bottom: 10px;
     margin-bottom: 30px;
+}
+
+.category-subcategories-top .left {
+    margin-bottom: 10px;
 }
 
 .category-subcategories-top h2 {
@@ -98,14 +103,17 @@
 }
 
 .category-subcategories-top .view-all-button {
-    background-color: #e6e6e6;
-    color: #737373;
-    font-size: 18px;
+    background: $c-button-fixed;
+    color: $c-button-fixed-text;
+    padding: 5px 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    min-width: 150px;
 }
 
 .category-subcategories-top .view-all-button:hover {
-    background-color: #ffffff;
-    color: #737373;
+    background: $c-button-fixed;
+    color: $c-button-fixed-text;
 }
 
 .catblocks {
@@ -152,14 +160,13 @@
 }
 
 .catblocks li a span {
-    color: $c-gray;
+    color: $c-text;
     display: block;
     font-family: $f-stack-sans;
     font-size: 15px;
     padding: 5px 10px;
     text-align: center;
     text-transform: none;
-    text-align: center;
     width: 100%;
 }
 
@@ -246,7 +253,7 @@
 
 //Subcategories Slider
 .subcategories-wrapper {
-    border-top: 2px solid $c-medium-grey;
+    border-top: 2px solid $c-iliv-grey;
     padding-top: 20px;
 
     .slick-list {
@@ -278,4 +285,10 @@
             opacity: 0.75;
         }
     }
+
+    button,
+    .slick-arrow {
+        background-color: transparent!important;
+    }
+
 } 

@@ -57,7 +57,7 @@
     .product-shop .product-name .h1,
     .product-img-box .product-name h1 {
         border: 0;
-        color: $c-action;
+        color: $c-h1;
         margin-bottom: 10px;
     }
 
@@ -334,7 +334,11 @@
 .product-collateral,
 .product-view .block-related,
 .box-collateral {
+    color: $c-text;
     margin-bottom: $box-spacing;
+    span {
+        color: $c-text;
+    }
 }
 
 .product-view {
@@ -466,10 +470,6 @@
 
     }
 
-    button {
-        font-size: 18px!important;
-    }
-
 }
 
 .product-view .add-to-links {
@@ -504,6 +504,10 @@
 
 .product-view .sharing-links {
 
+    .fa {
+        color: $c-iliv-grey;
+    }
+
     &:after {
         @include clearfix;
     }
@@ -517,9 +521,7 @@
         height: 26px;
         width: 26px;
         &.link-email-friend {
-            @include image-replacement;
-            @extend .icon-sprite;
-            display: block;
+           font-size: 18px;
         }
         &.social-link {
             display: inline-block;
@@ -529,21 +531,6 @@
     }
     a:hover {
         opacity: 0.8;
-    }
-    a.link-wishlist {
-        background-position: 0 -225px;
-    }
-    a.link-compare {
-        background-position: 0 -250px;
-    }
-    a.link-email-friend {
-        background-position: 0 (-325px + 3px);
-    }
-    a.link-facebook {
-        background-position: 0 -425px;
-    }
-    a.link-twitter {
-        background-position: 0 (-375px + 3px);
     }
 }
 
@@ -563,6 +550,7 @@
 
 .toggle-tabs li {
     span {
+        color: $c-text;
         display: flex!important;
         &:after {
             content: '\f105';
@@ -924,6 +912,18 @@
         }
     }
 
+    .slick-arrow {
+        background-color: transparent!important;
+    }
+
+    .slick-prev {
+        left:-5px;
+    }
+
+    .slick-next {
+        right: -15px;
+    }
+
     .block-subtitle {
         margin-bottom: $element-spacing;
     }
@@ -1023,7 +1023,7 @@
             max-width: 100%;
         }
     }
-    
+
     h2 {
         display: none;
     }
@@ -1076,10 +1076,6 @@ h2.cross {
         margin: 0 auto;
         max-width: 220px;
         width: 60%;
-
-        img {
-            width: 100%;
-        }
     }
 }
 
@@ -1102,7 +1098,7 @@ h2.cross {
 }
 
 .box-up-sell,
-.block-related { 
+.block-related {
     ul,
     li {
         position: relative;
@@ -1132,7 +1128,7 @@ h2.cross {
 
 @include bp(max-width, $bp-small) {
     .box-up-sell,
-    .block-related { 
+    .block-related {
         h2 {
             text-align: center;
         }
@@ -1142,7 +1138,7 @@ h2.cross {
 .slick-prev, .slick-next {
     border: none;
     font-size: 0;
-    height: 19px;
+    height: 21px;
     position: absolute;
     text-indent: 6000px;
     top: 37%;
@@ -1150,12 +1146,12 @@ h2.cross {
 }
 
 .slick-prev {
-    background: url(../images/left-slick.png) no-repeat;
+    background: url(../images/left-slick.svg) no-repeat;
     left: 0;
 }
 
 .slick-next {
-    background: url(../images/right-slick.png) no-repeat;
+    background: url(../images/right-slick.svg) no-repeat;
     right: 0;
 }
 
@@ -1205,7 +1201,7 @@ button#product-addtocart-button {
         margin-left: 0;
         margin-top: 10px;
     }
-    
+
     .more-views li {
         display: inline-block;
         width: 23%;

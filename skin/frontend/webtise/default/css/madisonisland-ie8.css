@@ -162,6 +162,10 @@ body .promos > li {
   font-size: 24px;
 }
 
+.cms-index-index .slick-list {
+  margin: 0 !important;
+}
+
 /* -------------------------------------------- *
  * New Products Section
  */
@@ -177,7 +181,7 @@ body .promos > li {
 .cms-index-index h2.subtitle {
   border-bottom: 1px solid #CCCCCC;
   border-top: 1px solid #CCCCCC;
-  color: #717274;
+  color: #2c2d2a;
   font-weight: 600;
   padding: 6px 0;
   text-align: center;
@@ -225,4 +229,22 @@ body .promos > li {
   height: 94px;
   right: 30px;
   width: 42px;
+}
+.gallery-wrapper .image-holder {
+  min-height: 300px;
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.gallery-wrapper .image-holder img {
+  display: none;
+}
+@media all and (min-width: 770px) {
+  .gallery-wrapper .image-holder {
+    background: none;
+  }
+  .gallery-wrapper .image-holder img {
+    display: block;
+  }
 }

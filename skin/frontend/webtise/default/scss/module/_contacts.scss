@@ -28,9 +28,85 @@
  * ============================================ */
 
 .contacts-index-index {
+    .contact-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-title {
+        h1 {
+            border-bottom: 1px solid $c-gray;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+    }
+
+    .left-content {
+        width: 100%;
+
+        form {
+            padding: 0!important;
+        }
+
+        label {
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .input-box {
+
+            input {
+                width: 100%;
+            }
+        }
+
+        .buttons-set {
+            border-top: none;
+            margin: 0;
+        }
+
+        .button-iliv {
+            background: $c-button-fixed;
+            color: $c-button-fixed-text;
+            padding: 5px 10px;
+            font-size: 9px;
+            text-transform: uppercase;
+            width: 125px;
+        }
+
+        .address {
+            margin-top: 20px;
+        }
+    }
+
+    .right-content {
+        width: 100%;
+
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media all and (min-width:500px) {
+        .contact-wrapper {
+            flex-direction: row;
+        }
+
+        .left-content {
+            padding: 15px;
+            padding-left: 0;
+            width: 30%;
+        }
+
+        .right-content {
+            padding: 15px;
+            padding-right: 0;
+            width: 70%;
+        }
+    }
+
     .buttons-set {
-        margin-left: $trim;
-        max-width: 435px;
 
         p.required {
             float: left;
@@ -42,7 +118,7 @@
 
             button {
                 float: left;
-                margin-left: 0px;
+                margin-left: 0;
             }
 
             p.required {

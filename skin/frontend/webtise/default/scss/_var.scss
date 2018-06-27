@@ -93,9 +93,20 @@ $c-orange: #F3793B;
 $c-red: #CF5050;
 $c-yellow: #FFDD15;
 $c-black: #000000;
+$c-black-lighter: #0e0714;
 $c-gray: #717274;
 $c-white: #ffffff;
 $c-medium-grey: #b4b4b4;
+$c-bronze: #ad8261;
+$c-grey-dark: #737373;
+$c-iliv-grey: #2c2d2a;
+$c-iliv-grey-light: #e6e6e6;
+$c-button-fixed: $c-iliv-grey-light;
+$c-text: $c-iliv-grey;
+$c-button-fixed-text: $c-text;
+$c-iliv-dropdown-background: #565751;
+$c-highlight-grey: #919190;
+
 
 // =============================================
 // Base Colors
@@ -103,17 +114,16 @@ $c-medium-grey: #b4b4b4;
 
 // Text
 
-$c-text: #636363;
 $c-text-gray: #A0A0A0;
 $c-text-white: #E6E6E6;
 $c-background: #cacaca;
 // Primary font color for headings and other non-link text
-$c-text-primary: $c-blue;
+$c-text-primary: $c-text;
 
 
 // Interaction
 
-$c-action: $c-blue;
+$c-action: $c-text;
 $c-stimulus: darken($c-blue, 15%);
 $c-subtle: #A0A0A0;
 
@@ -133,6 +143,9 @@ $c-dark: #676157;
 // Global Elements
 
 $c-divider-border: #ECECEC;
+
+//Font Awesome
+$c-fontAwesome: 'FontAwesome';
 
 // =============================================
 // Element Colors
@@ -154,7 +167,7 @@ $c-button-subtle: #ECECEC;
 
 // Forms
 
-$c-input-border: #C0C0C0;
+$c-input-border: $c-iliv-grey;
 $c-input-border-focus: $c-blue;
 
 $c-input-placeholder: $c-text-gray;
@@ -165,7 +178,7 @@ $c-fieldset-border-light: #EDEDED;
 
 // Headings
 
-$c-h1: $c-blue;
+$c-h1: $c-text;
 $c-h2: $c-text;
 $c-h3: $c-text;
 $c-h4: $c-text;
@@ -195,7 +208,7 @@ $c-module-border-highlight: $c-blue;
 // Table
 
 $c-table-background: #f5f5f5;
-$c-table-border: #C0C0C0;
+$c-table-border: $c-iliv-grey;
 
 $c-table-zebra-odd: #F8F7F5;
 $c-table-zebra-even: #EEEDED;
@@ -246,3 +259,8 @@ $f-size-xxs: 11px;
 
 $b-line-height: 1.5;
 $b-margin-bottom: 1.5em;
+
+//Font Weight
+$font-weight-light: 100;
+$font-weight-normal: 400;
+$font-weight-black: 900;

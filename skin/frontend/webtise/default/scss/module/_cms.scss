@@ -183,3 +183,25 @@
         padding-left: 0;
     }
 }
+
+
+//A-Z Reduced
+
+.azreduced-nav {
+
+    border-bottom: 1px solid $c-iliv-grey;
+    margin-bottom: 0;
+
+    ul {
+        margin-left: 0;
+        width: 20%;
+    }
+
+    li {
+        text-align: center!important;
+    }
+}
+
+.contentmanager-contenttype-a-z-reduced .reduced-a h3 {
+    border-top: none;
+}

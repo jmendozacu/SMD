@@ -140,6 +140,7 @@ h6, .h6 { @include h6; }
 .product-name h1,
 .product-name .h1 {
     @include pageTitle;
+    color: $c-text;
     font-weight: 400;
 }
 
@@ -321,26 +322,55 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart .buttons-set .button,
 .cart-table .button,
 .sidebar .actions .button,
-.button.button-secondary {
-    background: $c-button-secondary;
-    color: $c-text;
-    padding: 7px 15px;
+.button.button-secondary,
+.cart-table .product-cart-actions .button,
+.btn-checkout {
+    background: $c-button-fixed;
+    color: $c-button-fixed-text;
+    padding: 5px 10px;
+    font-size: 9px;
+    text-transform: uppercase;
+    min-width: 150px;
 
     &:hover {
-        background: $c-button-secondary-hover;
-        cursor: pointer;
+        background: $c-button-fixed;
+        color: $c-button-fixed-text;
     }
 
     &:active {
-        background: $c-button-secondary-active;
-        color: $c-text;
+        background: $c-button-fixed;
+        color: $c-button-fixed-text;
     }
 
     &:focus {
-        background: $c-button-secondary-active;
-        color: $c-text;
+        background: $c-button-fixed;
+        color: $c-button-fixed-text;
         outline: none;
     }
+}
+
+.product-view,
+.checkout-cart-index,
+.wishlist-index-index,
+.my-account,
+.customer-wishlist-item-car,
+.checkout-types {
+    .button {
+        background: $c-button-fixed!important;
+        color: $c-button-fixed-text;
+        padding: 5px 10px;
+        font-size: 9px;
+        text-transform: uppercase;
+        min-width: 150px;
+        &:hover {
+            background: $c-button-fixed!important;
+            color: $c-button-fixed-text;
+        }
+    }
+}
+
+.skip-content .search-button {
+    min-width: 0;
 }
 
 .sidebar .actions button.button {
@@ -355,6 +385,13 @@ body > .gallery-wrapper {
 
     }
 
+    .slick-slider {
+
+        .button,
+        button {
+            background-color: transparent!important;
+        }
+    }
 }
 
 .tag-navigation {
@@ -831,6 +868,14 @@ a.button:hover {
     padding: 0 7px;
 }
 
+.main-container {
+    padding-top: 0!important;
+}
+
+.cms-index-index .main-container {
+    padding-top: 30px!important;
+}
+
 @include bp(max-width, $bp-medium) {
 
     .breadcrumbs {
@@ -976,7 +1021,7 @@ a.button:hover {
     }
 }
 .footer-container {
-    background: $c-gray;
+    background: $c-iliv-grey;
     max-width: 100%;
 
     .footer {
@@ -996,7 +1041,7 @@ a.button:hover {
 }
 
 .footer-container {
-    padding-top: 0px;
+    padding-top: 0;
 }
 
 /* -------------------------------------------- *

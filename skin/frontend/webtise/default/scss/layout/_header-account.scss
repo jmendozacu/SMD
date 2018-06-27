@@ -31,19 +31,7 @@
  * Skip Link - Account
  */
 
-.skip-account {
 
-    &:not(.skip-active):hover {
-        .icon {
-            background-position: -50px+4px (-50px + ($toolbar-icon-padding-offset/2) + 2px);
-        }
-    }
-
-    .icon {
-        @extend .icon-sprite;
-        background-position: -0px+4px (-50px + ($toolbar-icon-padding-offset/2) + 2px);
-    }
-}
 
 // ---------------------------------------------
 
@@ -58,28 +46,25 @@
         width: auto;
     }
 
-    .skip-account:hover {
-    }
-
     #header-account.skip-active {
         @include menu;
         display: block;
         position: absolute;
-        right: 0;
+        right: 140px;
         top: 40px;
         width: 200px;
         z-index: 200;
     }
 
     #header-account a {
-        color: $c-text;
+        color: $c-bronze;
         display: block;
         line-height: 2;
         padding: 5px 10px;
     }
 
     #header-account a:hover {
-        color: $c-action;
+        color: $c-bronze;
     }
 
 }
@@ -104,3 +89,40 @@
     color: $c-action;
 }
 
+.skip-links {
+    .header-minicart {
+        .fa {
+            display: none;
+        }
+    }
+}
+
+@include bp(min-width, $bp-medium) {
+    .skip-links {
+        .fa {
+            color: $c-bronze;
+            font-size: 18px;
+        }
+        .fa-user {
+            margin-right: 5px;
+        }
+        .header-minicart {
+            .fa {
+                display: inherit;
+            }
+        }
+    }
+}
+
+#header-account {
+    .skip-link-close {
+        color: $c-black;
+        font-size: 23px;
+        padding: 0;
+        padding-right: 15px;
+        text-align: right;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

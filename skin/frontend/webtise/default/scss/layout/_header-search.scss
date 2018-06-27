@@ -59,19 +59,15 @@
     padding: 20px;
 }
 
+
+
 // ---------------------------------------------
 
 @include bp(min-width, $bp-medium + 1) {
 
     #header-search {
         display: block; // Force visibility
-        height: 50px;
         padding: 0;
-        position: absolute;
-        right: 0;
-        top: 55px;
-        width: 20%;
-
     }
 
 }
@@ -79,16 +75,10 @@
 @media all and (max-width:1350px ) and (min-width:$bp-medium) {
     #header-search {
         top: 88px;
+        margin-bottom: 20px;
+        width: 150px;
     }
 }
-
-
-@media all and (min-width: $bp-xlarge) {
-    #header-search {
-        width: 14%;
-    }
-}
-
 
 /* ============================================ *
  * Search Input
