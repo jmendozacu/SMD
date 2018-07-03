@@ -87,6 +87,9 @@ $listEnabled = $contractHelper->contractsEnabled();
         <?php if($_item->getEccLineComment()) : ?>
             <p><strong><?php echo $this->__('Comments'); ?>:</strong> <?php echo $this->htmlEscape($_item->getEccLineComment()); ?></p>
         <?php endif; ?>
+        <?php if($_item->getSilkDeliveryDate()) : ?>
+            <p><strong><?php echo $this->__('Required Date'); ?>:</strong> <?php echo $this->htmlEscape($_item->getSilkDeliveryDate()); ?></p>
+        <?php endif; ?>
     </td>
     <?php // $skuUom = explode#$this->getSku();?>  
     <!--<td><?php // echo $this->htmlEscape(Mage::helper('core/string')->splitInjection($this->getSku())) ?></td>-->
