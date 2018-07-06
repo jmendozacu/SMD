@@ -64,9 +64,7 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
 
             <?php
                 $quantity = $_product->getData("poqtyone");
-                //$stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
-                //$stock =  $stock->getQty();
-		$stock = $_product->getStockLevel();
+		        $stock = $_product->getStockLevel();
             ?>
 
             <?php if (($stock + $quantity) <= 0 ): ?>
@@ -74,47 +72,9 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
                 <!-- -10 -100 -->
                 <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
                 <?php echo $this->__('Please contact our customer services team on +44 (0) 1772651199 for further stock assistance.'); ?>
-
-            <?php elseif (($stock<=0) && ($quantity == '' )): ?>
-
-                <!-- -10 0 -->
-                <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
-                <?php echo $this->__('Please contact our customer services team on +44 (0) 1772651199 for further stock assistance..'); ?>
-
-            <?php elseif (($stock>0) && ($quantity == '' )): ?>
-
+            <?php else : ?>
                 <!-- 10 0 -->
-                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock,2,'.',''); ?></span>
-
-            <?php elseif(($stock<=0) && ($stock+$quantity)>0): ?>
-
-                <!-- -10 1000 -->
-                <div class="poqty" style="display:block">
-
-                <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
-
-                <span>New Stock Due: </span>
-
-                <?php echo $stock+$quantity.' '.($_product->getUom()=='M'?'Meters':'Each'); ?>
-                <span>on</span>
-                <?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
-
-                </div>
-
-                <!-- Default -->
-            <?php else: ?>
-
-                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock,2,'.',''); ?></span>
-
-                <div class="poqty" style="display:block">
-
-                    <span>New Stock Due: </span>
-                    <?php echo $_product->getData('poqtyone').' '.($_product->getUom()=='M'?'Meters':'Each'); ?>
-                    <span>on</span>
-                    <?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
-
-                </div>
-
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock + $quantity, 2,'.',''); ?></span>
             <?php endif; ?>
 
             <?php break; ?>

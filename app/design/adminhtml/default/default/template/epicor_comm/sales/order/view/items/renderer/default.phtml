@@ -40,6 +40,9 @@
         <?php if($_item->getEccLineComment()) : ?>
             <p><strong><?php echo $this->__('Comments'); ?>:</strong> <?php echo $this->escapeHtml($_item->getEccLineComment()); ?></p>
         <?php endif; ?>
+        <?php if($_item->getSilkDeliveryDate()) : ?>
+            <p><strong><?php echo $this->__('Required Date'); ?>:</strong> <?php echo $this->escapeHtml($_item->getSilkDeliveryDate()); ?></p>
+        <?php endif; ?>
     </td>
     <td class="a-center"><?php echo $_item->getStatus() ?></td>
     <td class="a-right"><?php echo $this->displayPriceAttribute('original_price') ?></td>

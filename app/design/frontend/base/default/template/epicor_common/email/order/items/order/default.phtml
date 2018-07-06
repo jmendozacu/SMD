@@ -66,6 +66,9 @@ $getConfigurator = Mage::getResourceModel('catalog/product')->getAttributeRawVal
         <?php if($_item->getEccLineComment()) : ?>
             <p><strong><?php echo $this->__('Comments'); ?>:</strong> <?php echo $this->escapeHtml($_item->getEccLineComment()); ?></p>
         <?php endif; ?>
+        <?php if($_item->getSilkDeliveryDate()) : ?>
+            <p><strong><?php echo $this->__('Required Date'); ?>:</strong> <?php echo $this->escapeHtml($_item->getSilkDeliveryDate()); ?></p>
+        <?php endif; ?>
     </td>
     <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getSku($_item->getSku())) ?></td>
     <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape(Mage::helper('epicor_common/data')->getUom($_item->getSku())) ?></td>

@@ -227,7 +227,10 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
 
                     <?php endif; ?>
-
+                    <?php 
+                    $quantity = $_product->getData("poqtyone");
+                    $stock = $_product->getStockLevel();
+                    ?>
                     <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
                         <?php if ($showAddToCart) : ?>
@@ -293,7 +296,9 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                     }
                                                 }
                                                 ?>
-                                                <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick?>"><?php echo $this->__('Order Fabric') ?></button>
+                                                    <?php if (($stock + $quantity) > 0):?>
+                                                    <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick?>"><?php echo $this->__('Order Fabric') ?></button>
+                                                    <?php endif;?>
                                             <?php else: // // if ($_product->getConfigurator()) : ?>
                                                 <?php
                                                 if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
@@ -309,7 +314,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                 ?>
                                                 <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
 
-                                                    <?php if($_product->getOrderFab()): ?>
+                                                    <?php if($_product->getOrderFab() && ($stock + $quantity) > 0): ?>
                                                         <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
@@ -370,7 +375,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
             <div class="order-fabric">
                 <span><?php echo $this->__('Enter Your Requirements') ?></span>
                 <div style="width: 100%;margin: 20px 0px;">
-                    <input type="number" max="10000" id="your_metre"/>
+                    <input type="number" max="10000" id="your_metre" data-max="<?php echo $stock + $quantity;?>"/>
                     <span><?php echo $_product->getUom() ?></span>
                     <!--                <button-->
                     <!--                    onclick="document.cookie='userMetre='+ jQuery('#your_metre').val();jQuery('.curMetre').text(jQuery('#your_metre').val())">--><?php //echo $this->__('Confirm') ?><!--</button>-->
@@ -622,6 +627,15 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
     $j('.ajax-basket').click(function () {
         var product_id = <?php echo $_product->getId();?>;
         var qty = jQuery('#your_metre').val();
+        var max = jQuery("#your_metre").data("max");
+        if (qty > max) {
+            jQuery("#your_metre").addClass("input-text validation-failed");
+            jQuery("#your_metre").parent().append('<div class="validation-advice">Maximum qty allowed is 1%.</div>'.replace('1%', max));
+            return;
+        } else {
+            jQuery("#your_metre").removeClass("input-text validation-failed");
+            jQuery("#order-fabric .validation-advice").remove();
+        }
         $j.ajax({
             type: "GET",
             url: '/retailer/ajax/addBasket',

@@ -166,4 +166,34 @@ class Silk_Retailer_Model_Observer
             $emailTemplate->sendTransactional($templateCode, $senderInfo, $toInfo['email'], $toInfo['name'], $params, $storeId);
         }
     }
+
+    public function addSilkDeliveryDate($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        $quoteItem = $observer->getEvent()->getQuoteItem();
+        if ($quoteItem->getQty() > $product->getStockLevel()) {
+            $silkDeliveryDate = $product->getData('poqtyonedate');
+        } else {
+            $leadTime = (int) $product->getLeadTime();
+            $silkDeliveryDate = Mage::getModel('core/date')->date('Y-m-d', strtotime("+{$leadTime}day"));
+        }
+        $quoteItem->setSilkDeliveryDate($silkDeliveryDate);
+    }
+
+    public function addSilkDeliveryDateToOrder($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        $comments = Mage::app()->getRequest()->getPost('cart');
+        if (!empty($comments)) {
+            foreach ($comments as $itemId => $itemInfo) {
+                $item = $order->getItemByQuoteItemId($itemId);
+                if (isset($itemInfo['silk_delivery_date'])) {
+                    $item->setSilkDeliveryDate($itemInfo['silk_delivery_date']);
+                }
+                if ($item->getId()) {
+                    $item->save();
+                }
+            }
+        }
+    }
 }
