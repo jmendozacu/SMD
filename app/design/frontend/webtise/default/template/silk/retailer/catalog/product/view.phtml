@@ -539,11 +539,17 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                 if (data.status == 'Success') {
                     jQuery.get('<?php echo Mage::getUrl('retailer/ajax/refreshMiniCart') ?>', function(minicart){
                         jQuery('.header-minicart').html(minicart);
+                        jQuery('.header-minicart').append(
+                            '<a target="_blank" class="social-link" href="https://www.facebook.com/ilivhome/"><i class="fa fa-facebook" aria-hidden="true"></i></a>' +
+                            '<a target="_blank" class="social-link" href="https://www.instagram.com/ilivhome/"><i class="fa fa-instagram" aria-hidden="true"></i></a>' +
+                            '<a target="_blank" class="social-link" href="https://twitter.com/ilivhome"><i class="fa fa-twitter" aria-hidden="true"></i></a>' +
+                            '<a target="_blank" class="social-link" href="https://www.linkedin.com/company/2648527/"><i class="fa fa-linkedin" aria-hidden="true"></i></a>'
+                        );
                         initLinks();
                     });
 
                     jQuery('#basket_box').css('display', 'block');
-                    jQuery('#basket_box .curMetre').text(data.qty + '<?php echo strtolower($_product->getUom()) ?>' + ' of ' + data.name);
+                    jQuery('#basket_box .curMetre').text(data.name);
                     jQuery('#basket_box .msg_title').text('<?php echo $this->__('Added to your Basket') ?>');
                     jQuery('#basket_box .action_button').show();
                 } else if (data.status == 'login') {
@@ -632,7 +638,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                         initLinks();
                     });
                     jQuery('#basket_box').css('display', 'block');
-                    jQuery('#basket_box .curMetre').text(data.qty + '<?php echo strtolower($_product->getUom()) ?>' + ' of ' + data.name);
+                    jQuery('#basket_box .curMetre').text(data.name);
                     jQuery('#basket_box .msg_title').text('<?php echo $this->__('Added to your Basket') ?>');
                     jQuery('#basket_box .action_button').show();
                     jQuery('#your_metre').val('');

@@ -1,0 +1,37 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+?>
+<?php /** @var Amasty_Gdpr_Block_Checkbox_Checkout $this */ ?>
+
+<ol class="checkout-agreements" id="amprivacy-checkbox">
+    <li class="">
+        <p class="agree field-row">
+            <input type="checkbox"
+                   id="amgdpr_agree"
+                   name="amgdpr_agree"
+                   value="1"
+                   title="<?= $this->quoteEscape($this->__('Accept privacy policy')) ?>"
+                   class="checkbox required-entry"/><label for="amgdpr_agree"><?= $this->getConsentText() ?></label>
+        </p>
+    </li>
+</ol>
+<script>
+    $('amgdpr_agree').observe('change', function () {
+        var input = $('amgdpr_agree-payment');
+        if (!input) {
+            input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('id', 'amgdpr_agree-payment');
+            input.setAttribute('name', 'amgdpr_agree');
+            document.getElementById(payment.form).appendChild(input);
+        }
+
+        input.removeAttribute('disabled');
+
+        input.value = +this.checked;
+    });
+</script>

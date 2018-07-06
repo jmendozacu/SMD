@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+-->
+<layout>
+    <adminhtml_amgdpr_policy_edit>
+        <reference name="head">
+            <action method="setCanLoadTinyMce"><value>1</value></action>
+        </reference>
+        <update handle="editor"/>
+        <reference name="left">
+            <block type="adminhtml/store_switcher" name="store_switcher" template="store/switcher.phtml" />
+        </reference>
+    </adminhtml_amgdpr_policy_edit>
+</layout>

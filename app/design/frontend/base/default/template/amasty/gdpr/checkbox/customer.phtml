@@ -1,0 +1,19 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+?>
+<?php /** @var Amasty_Gdpr_Block_Checkbox_Customer $this */ ?>
+<li class="control field-row" id="amprivacy-checkbox">
+    <div class="input-box">
+        <input type="checkbox"
+               name="amgdpr_agree"
+               title="<?= $this->quoteEscape($this->__('Accept privacy policy')) ?>"
+               value="1"
+               id="amgdpr_agree"
+               class="checkbox required-entry"/>
+    </div>
+    <label for="amgdpr_agree"><?= $this->getConsentText() ?></label>
+</li>

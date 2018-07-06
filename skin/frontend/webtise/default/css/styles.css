@@ -3559,8 +3559,17 @@ body {
 .page-header-right .header-links a {
   font-size: 12px;
 }
+.page-header-right .account-cart-wrapper {
+  display: flex;
+}
 .page-header-right .account-cart-wrapper span {
   font-size: 11px;
+}
+.page-header-right .header-minicart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -12619,6 +12628,10 @@ body[class*="checkout-multishipping-"] #review-buttons-container {
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+}
+
+.slick-initialized .slick-list {
+  margin: 20px;
 }
 
 .slick-track {

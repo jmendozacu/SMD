@@ -1,0 +1,20 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+?>
+<?php
+
+/**@var $this Mage_Core_Block_Template */
+
+$useDefault = $this->getUseDefault();
+?>
+<div>
+    <input id="use_default" type="checkbox" name="use_default" value="links_title"
+           onclick="toggleValueElements(this, this.parentNode.parentNode)" <?= $useDefault ? 'checked="checked"' : '' ?> />
+    <label class="normal" for="use_default">
+        <?= $this->__('Use Default Value') ?>
+    </label>
+</div>

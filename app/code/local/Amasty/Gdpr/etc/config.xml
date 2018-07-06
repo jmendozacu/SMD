@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+-->
+<config>
+    <modules>
+        <Amasty_Gdpr>
+            <version>1.1.0</version>
+        </Amasty_Gdpr>
+    </modules>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Amasty_Gdpr after="Mage_Adminhtml">Amasty_Gdpr_Adminhtml</Amasty_Gdpr>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <global>
+        <helpers>
+            <amgdpr>
+                <class>Amasty_Gdpr_Helper</class>
+            </amgdpr>
+        </helpers>
+        <blocks>
+            <amgdpr>
+                <class>Amasty_Gdpr_Block</class>
+            </amgdpr>
+            <customer>
+                <rewrite>
+                    <account_navigation>Amasty_Gdpr_Block_Account_Navigation</account_navigation>
+                </rewrite>
+            </customer>
+        </blocks>
+        <models>
+            <amgdpr>
+                <class>Amasty_Gdpr_Model</class>
+                <resourceModel>amgdpr_resource</resourceModel>
+            </amgdpr>
+            <amgdpr_resource>
+                <class>Amasty_Gdpr_Model_Resource</class>
+                <entities>
+                    <consentLog>
+                        <table>amasty_gdpr_consent_log</table>
+                    </consentLog>
+                    <consentQueue>
+                        <table>amasty_gdpr_consent_queue</table>
+                    </consentQueue>
+                    <deleteRequest>
+                        <table>amasty_gdpr_delete_request</table>
+                    </deleteRequest>
+                    <privacyPolicy>
+                        <table>amasty_gdpr_privacy_policy</table>
+                    </privacyPolicy>
+                    <policyContent>
+                        <table>amasty_gdpr_privacy_policy_content</table>
+                    </policyContent>
+                    <actionLog>
+                        <table>amasty_gdpr_action_log</table>
+                    </actionLog>
+                </entities>
+            </amgdpr_resource>
+        </models>
+        <resources>
+            <amgdpr_setup>
+                <setup>
+                    <module>Amasty_Gdpr</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amgdpr_setup>
+        </resources>
+        <template>
+            <email>
+                <amgdpr_anonymisation_notification_template translate="label" module="amgdpr">
+                    <label>Amasty GDPR Anonymisation</label>
+                    <file>amasty/gdpr/anonymisation.html</file>
+                    <type>html</type>
+                </amgdpr_anonymisation_notification_template>
+                <amgdpr_consent_notification_template translate="label" module="amgdpr">
+                    <label>Amasty GDPR Consent Request</label>
+                    <file>amasty/gdpr/consent.html</file>
+                    <type>html</type>
+                </amgdpr_consent_notification_template>
+                <amgdpr_deletion_notification_template translate="label" module="amgdpr">
+                    <label>Amasty GDPR Deny Deletion</label>
+                    <file>amasty/gdpr/deny_deletion.html</file>
+                    <type>html</type>
+                </amgdpr_deletion_notification_template>
+                <amgdpr_deletion_notification_admin_template translate="label" module="amgdpr">
+                    <label>Amasty GDPR Deletion for Administrator</label>
+                    <file>amasty/gdpr/deletion_admin_notification.html</file>
+                    <type>html</type>
+                </amgdpr_deletion_notification_admin_template>
+            </email>
+        </template>
+    </global>
+
+    <crontab>
+        <jobs>
+            <amgdpr_send_consent_emails>
+                <schedule>
+                    <cron_expr>*/1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>amgdpr/consentQueue::sendEmails</model>
+                </run>
+            </amgdpr_send_consent_emails>
+        </jobs>
+    </crontab>
+
+    <frontend>
+        <translate>
+            <modules>
+                <Amasty_Gdpr>
+                    <files>
+                        <default>Amasty_Gdpr.csv</default>
+                    </files>
+                </Amasty_Gdpr>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <amgdpr>
+                    <file>amasty/gdpr.xml</file>
+                </amgdpr>
+            </updates>
+        </layout>
+        <routers>
+            <amgdpr>
+                <use>standard</use>
+                <args>
+                    <module>Amasty_Gdpr</module>
+                    <frontName>gdpr</frontName>
+                </args>
+            </amgdpr>
+        </routers>
+        <events>
+            <customer_session_init>
+                <observers>
+                    <ambase_upds>
+                        <type>singleton</type>
+                        <class>amgdpr/observer_checkDisabledCustomers</class>
+                        <method>execute</method>
+                    </ambase_upds>
+                </observers>
+            </customer_session_init>
+            <customer_register_success>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_customerRegistration</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </customer_register_success>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_blockRender</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </core_block_abstract_to_html_after>
+            <controller_action_postdispatch_amscheckoutfront_onepage_checkout>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_oSCSave</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </controller_action_postdispatch_amscheckoutfront_onepage_checkout>
+            <controller_action_postdispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_oSCSave</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveOrder>
+            <controller_action_predispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_oSCValidate</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveOrder>
+            <model_load_after>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_blockNotice</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </model_load_after>
+        </events>
+    </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Gdpr>
+                    <files>
+                        <default>Amasty_Gdpr.csv</default>
+                    </files>
+                </Amasty_Gdpr>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <amgdpr>
+                    <file>amasty/gdpr.xml</file>
+                </amgdpr>
+            </updates>
+        </layout>
+        <events>
+            <model_config_data_save_before>
+                <observers>
+                    <amasty_gdpr>
+                        <class>amgdpr/observer_settingSave</class>
+                        <method>execute</method>
+                    </amasty_gdpr>
+                </observers>
+            </model_config_data_save_before>
+        </events>
+    </adminhtml>
+
+    <default>
+        <amgdpr>
+            <eea_countries>AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IS,IE,IT,LV,LI,LT,LU,MT,NL,NO,PL,PT,RO,SK,SI,ES,SE,GB,CH</eea_countries>
+            <anonymisation_notification>
+                <from>general</from>
+                <template>amgdpr_anonymisation_notification_template</template>
+            </anonymisation_notification>
+            <consent_notification>
+                <from>general</from>
+                <template>amgdpr_consent_notification_template</template>
+            </consent_notification>
+            <deletion_notification>
+                <admin>0</admin>
+                <admin_template>amgdpr_deletion_notification_admin_template</admin_template>
+                <from>general</from>
+                <template>amgdpr_deletion_notification_template</template>
+            </deletion_notification>
+            <privacy_checkbox>
+                <eea_only>1</eea_only>
+                <consent_text><![CDATA[I have read and accept the <a href="#">privacy policy</a>]]></consent_text>
+                <display_at_registration>1</display_at_registration>
+                <display_at_checkout>1</display_at_checkout>
+            </privacy_checkbox>
+            <cookie_policy>
+                <enabled>0</enabled>
+                <notification_text><![CDATA[<p style="margin: 0px 20px;">The Website uses cookies. By continuing to use this website, your consent to our use of these cookies. <a href="/cookie-policy" target="_blank">Find out more</a></p>]]></notification_text>
+            </cookie_policy>
+        </amgdpr>
+    </default>
+</config>

@@ -1,0 +1,60 @@
+//
+// Styles for privacy policy popup
+// ___________________________________________________
+
+.amprivacy-policy {
+    & {
+        position: fixed;
+        top: 15%;
+        left: 50%;
+        padding: 20px;
+        height: 70%;
+        max-width: 600px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        background: #f9f9f9;
+        border: 1px solid #c9c9c9;
+        color: #000;
+        z-index: 9999;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .title {
+        padding: 10px 0;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .cross {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .content {
+        padding: 20px;
+        height: 70%;
+        line-height: 19px;
+        overflow-y: scroll;
+        border: 1px solid #d9d9d9;
+        background: white;
+    }
+
+    .button {
+        margin: 25px auto;
+        max-width: 200px;
+        display: block;
+    }
+}
+
+#amprivacy-checkbox {
+    & {
+        cursor: pointer;
+    }
+
+    &.checkout-agreements {
+        margin-top: 12px;
+    }
+}

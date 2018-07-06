@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+?>
+<?php
+/**@var $this Amasty_Gdpr_Block_Popup*/
+?>
+
+<div class="amprivacy-policy" id="amprivacy-popup" style="display: none">
+    <div class="title"><?= $this->__('Privacy Policy') ?></div>
+    <div class="cross">&times;</div>
+    <div class="content">
+        <?= $this->getText() ?>
+    </div>
+    <div class="button" data-role="accept-policy">
+        <?= $this->__('I have read and accept') ?>
+    </div>
+</div>

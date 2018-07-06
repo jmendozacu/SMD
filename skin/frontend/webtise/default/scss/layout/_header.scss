@@ -90,8 +90,19 @@
         }
     }
 
+    .account-cart-wrapper {
+        display: flex;
+    }
+
     .account-cart-wrapper span {
         font-size: 11px;
+    }
+
+    .header-minicart {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
     }
 }
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+-->
+<config>
+    <menu>
+        <customer>
+            <children>
+                <amgdpr translate="title" module="amgdpr">
+                    <title>GDPR</title>
+                    <sort_order>100</sort_order>
+                    <children>
+                        <action_log translate="title" module="amgdpr">
+                            <title>Action Log</title>
+                            <action>adminhtml/amgdpr_actionLog</action>
+                            <sort_order>10</sort_order>
+                        </action_log>
+                        <consent_log translate="title" module="amgdpr">
+                            <title>Customers With Consent</title>
+                            <action>adminhtml/amgdpr_consent</action>
+                            <sort_order>20</sort_order>
+                        </consent_log>
+                        <without_consent_log translate="title" module="amgdpr">
+                            <title>Customers Without Consent</title>
+                            <action>adminhtml/amgdpr_withoutConsent</action>
+                            <sort_order>30</sort_order>
+                        </without_consent_log>
+                        <consent_queue translate="title" module="amgdpr">
+                            <title>Customers Consents Email Queue</title>
+                            <action>adminhtml/amgdpr_consentQueue</action>
+                            <sort_order>40</sort_order>
+                        </consent_queue>
+                        <requests translate="title" module="amgdpr">
+                            <title>Delete Requests</title>
+                            <action>adminhtml/amgdpr_request/index</action>
+                            <sort_order>50</sort_order>
+                        </requests>
+                        <privacy_policy translate="title" module="amgdpr">
+                            <title>Privacy Policy</title>
+                            <action>adminhtml/amgdpr_policy</action>
+                            <sort_order>60</sort_order>
+                        </privacy_policy>
+                    </children>
+                </amgdpr>
+            </children>
+        </customer>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <amgdpr translate="title" module="amgdpr">
+                                        <title>GDPR</title>
+                                    </amgdpr>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <customer>
+                        <children>
+                            <amgdpr translate="title" module="amgdpr">
+                                <title>GDPR</title>
+                                <children>
+                                    <action_log translate="title" module="amgdpr">
+                                        <title>Action Log</title>
+                                    </action_log>
+                                    <consent_log translate="title" module="amgdpr">
+                                        <title>Consent Requests</title>
+                                    </consent_log>
+                                    <without_consent_log translate="title" module="amgdpr">
+                                        <title>Customers Without Consent</title>
+                                    </without_consent_log>
+                                    <consent_queue translate="title" module="amgdpr">
+                                        <title>Customers Consents Email Queue</title>
+                                    </consent_queue>
+                                    <requests translate="title" module="amgdpr">
+                                        <title>Delete Requests</title>
+                                    </requests>
+                                    <privacy_policy translate="title" module="amgdpr">
+                                        <title>Privacy Policy</title>
+                                    </privacy_policy>
+                                </children>
+                            </amgdpr>
+                        </children>
+                    </customer>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

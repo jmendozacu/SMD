@@ -1,0 +1,35 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+?>
+<?php
+/** @var $this Amasty_Gdpr_Block_Settings */
+
+$settings = $this->getPrivacySettings();
+?>
+
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+
+<?php foreach ($settings as $i => $setting): ?>
+    <form class="settings-form" method="post" action="<?= $setting['action']?>" id="settings-form-<?= $i ?>">
+        <div class="title"><?= $this->escapeHtml($setting['title']) ?></div>
+        <p class="content">
+            <?= $setting['content'] ?>
+        </p>
+        <?php if ($setting['hasCheckbox']): ?>
+            <label class="accept">
+                <input type="checkbox" class="required-entry" name="confirmation-<?= $i ?>" >
+                <?= $this->escapeHtml($setting['checkboxText']) ?>
+            </label>
+        <?php endif; ?>
+        <button type="submit" class="button submit">
+            <?= $this->escapeHtml($setting['submitText']) ?>
+        </button>
+    </form>
+    <script>
+        new VarienForm('settings-form-<?= $i ?>');
+    </script>
+<?php endforeach; ?>

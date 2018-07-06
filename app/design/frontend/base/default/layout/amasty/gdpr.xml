@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Gdpr
+ */
+-->
+<layout version="1.0">
+    <amgdpr_popup>
+        <reference name="before_body_end">
+            <block type="amgdpr/popup" name="privacy_policy_popup" template="amasty/gdpr/popup.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/amasty/gdpr/popup.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/amasty/amgdpr/main.js</name><params/></action>
+        </reference>
+    </amgdpr_popup>
+    <amgdpr_customer_settings>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/amasty/gdpr/settings.css</stylesheet></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="amgdpr/settings" name="privacy_settings" template="amasty/gdpr/settings.phtml"/>
+        </reference>
+    </amgdpr_customer_settings>
+    <customer_account_create>
+        <update handle="amgdpr_popup" />
+        <reference name="form.additional.info">
+            <block type="amgdpr/checkbox_customer"/>
+        </reference>
+    </customer_account_create>
+     <checkout_onepage_index>
+         <update handle="amgdpr_popup" />
+     </checkout_onepage_index>
+     <oscheckout_index_index>
+         <update handle="amgdpr_popup" />
+     </oscheckout_index_index>
+     <firecheckout_index_index>
+         <update handle="amgdpr_popup" />
+     </firecheckout_index_index>
+     <opc_index_index>
+         <update handle="amgdpr_popup" />
+     </opc_index_index>
+</layout>
