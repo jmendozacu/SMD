@@ -7,8 +7,8 @@
 				<stylesheet>css/local.css</stylesheet>
 			</action>
 			<action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
-			<action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
-			<action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+			<!-- <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+			<action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action> -->
 		</reference>
 	</default>	
 
@@ -40,5 +40,10 @@
 	<reference name="customer_connect_navigation">
 	</reference>
 	</customer_account>
-
+	<checkout_onepage_index translate="label">
+		<reference name="head">
+			<action method="removeItem"><type>js</type><name>calendar/calendar.js</name></action>
+			<action method="removeItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+		</reference>
+	</checkout_onepage_index>
 </layout>
