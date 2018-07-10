@@ -74,7 +74,7 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
                 <?php echo $this->__('Please contact our customer services team on +44 (0) 1772651199 for further stock assistance.'); ?>
             <?php else : ?>
                 <!-- 10 0 -->
-                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock + $quantity, 2,'.',''); ?></span>
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock, 2,'.',''); ?></span>
             <?php endif; ?>
 
             <?php break; ?>
