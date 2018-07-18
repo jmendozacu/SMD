@@ -131,8 +131,13 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                 }
 
                 if ($validateSample) {
-                    $cart->addProduct($product, $params['qty']);
-                    $cart->save();
+                    try {
+                        $cart->addProduct($product, $params['qty']);
+                        $cart->save();
+                    } catch (\Exception $e) {
+                        $data['status'] = 'Failed';
+                        $data['error'] = $e->getMessage();
+                    }
 			//$this->_redirect($product->getUrlPath());
 			//return;
                 } else {
