@@ -1584,11 +1584,11 @@
                     <inbox>Epicor_Comm_Model_Adminnotification_Inbox</inbox>
                 </rewrite>    
             </adminNotification>
-            <cataloginventory>
+            <!-- <cataloginventory>
                 <rewrite>
                     <stock_item>Epicor_Comm_Model_Cataloginventory_Stock_Item</stock_item>
                 </rewrite>
-            </cataloginventory>
+            </cataloginventory> -->
             
         </models>     
         <resources>

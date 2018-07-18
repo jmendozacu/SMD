@@ -654,7 +654,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     window.location.href=data.url;
                 } else if (data.status == 'Failed') {
                     jQuery('#basket_box').css('display', 'block');
-                    jQuery('#basket_box .curMetre').text(data.error);
+                    jQuery('#basket_box .curMetre').parent().text(data.error);
                     jQuery('#basket_box .msg_title').text(' ');
                     jQuery('#basket_box .action_button').hide();
                 } else {
