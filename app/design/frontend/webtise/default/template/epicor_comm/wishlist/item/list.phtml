@@ -78,7 +78,6 @@
 <?php endforeach; ?>
 //]]>
 function addWItemToCartPlugin(obj, itemId) {
-    debugger;
     var order_qty = jQuery(obj).parent().find("input.input-text.qty").val();
     var max_quantity = jQuery(obj).parent().find("input[name='max_quantity']").val();
     if (parseInt(order_qty) > parseInt(max_quantity)) {
