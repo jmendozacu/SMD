@@ -44,6 +44,7 @@ $locHelper = Mage::helper('epicor_comm/locations');
         <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
                 <input type="text" class="input-text qty validate-not-negative-number" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" />
+                <input type="hidden" value="<?php echo ($product->getStockLevel() + $product->getData("poqtyone")); ?>" name="max_quantity"/>
             <?php endif; ?>
             <?php if ($product->isSaleable()): ?>
                 <?php if($locationsEnabled || $groupOrConfigurable): ?>
@@ -53,7 +54,7 @@ $locHelper = Mage::helper('epicor_comm/locations');
                             </button>
                         </a>
                 <?php else: ?>
-                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId() ?>);" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCartPlugin(this, <?php echo $item->getId() ?>);" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if ($product->getIsSalable()): ?>

@@ -52,6 +52,7 @@ $showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_i
                 <form method="post" action="<?php echo $this->getAddToCartUrl($_product); ?>" class="addtobasketform">
                     <input type="hidden" value="<?php echo $this->getReturnUrl(); ?>" name ="return_url"/>                    
                     <input type="hidden" value="<?php echo $_product->getId(); ?>" name="product">
+                    <input type="hidden" value="<?php echo ($_product->getStockLevel() + $_product->getData("poqtyone")); ?>" name="max_quantity"/>
                     <?php if ($addHiddenLoc): ?>
                         <input type="hidden" value="<?php echo $_product->getRequiredLocation(); ?>" name="location_code"/>
                     <?php endif; ?>
