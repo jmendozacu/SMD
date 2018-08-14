@@ -60,7 +60,7 @@ $listHelper = Mage::helper('epicor_lists/frontend');
         }
         jQuery(".addtobasketform .validation-advice").remove();
         if (order_qty > max_quantity) {
-            jQuery(this).append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
+            jQuery(this).append('<div class="validation-advice" style="white-space: normal;word-wrap: break-word;">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
             return false;
         } else {
             return true;
