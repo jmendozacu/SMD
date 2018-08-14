@@ -381,8 +381,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     <!--                    onclick="document.cookie='userMetre='+ jQuery('#your_metre').val();jQuery('.curMetre').text(jQuery('#your_metre').val())">--><?php //echo $this->__('Confirm') ?><!--</button>-->
                 </div>
                 <button class="ajax-basket button"><?php echo $this->__('Add To Basket') ?></button>
-                <button class="button button-secondary"
-                        onclick="window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + jQuery('#your_metre').val()"><?php echo $this->__('Quick Buy') ?></button>
+                <button class="button button-secondary ajax-quickbuy"><?php echo $this->__('Quick Buy') ?></button>
             </div>
         </div>
 
@@ -624,7 +623,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
         var max = jQuery("#your_metre").data("max");
         if (qty > max) {
             jQuery("#your_metre").addClass("input-text validation-failed");
-            jQuery("#your_metre").parent().append('<div class="validation-advice">Maximum qty allowed is 1%.</div>'.replace('1%', max));
+            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('1%', max));
             return;
         } else {
             jQuery("#your_metre").removeClass("input-text validation-failed");
@@ -664,6 +663,20 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
             complete: function () {
             }
         });
+    });
+
+    $j('.ajax-quickbuy').click(function () {
+        var qty = jQuery('#your_metre').val();
+        var max = jQuery("#your_metre").data("max");
+        if (qty > max) {
+            jQuery("#your_metre").addClass("input-text validation-failed");
+            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
+            return;
+        } else {
+            jQuery("#your_metre").removeClass("input-text validation-failed");
+            jQuery("#order-fabric .validation-advice").remove();
+        }
+        window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + qty;
     });
 
 

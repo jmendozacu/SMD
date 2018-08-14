@@ -174,7 +174,7 @@ class Silk_Retailer_Model_Observer
         if ($quoteItem->getQty() > $product->getStockLevel()) {
             $silkDeliveryDate = $product->getData('poqtyonedate');
         } else {
-            $leadTime = (int) $product->getLeadTime();
+            $leadTime = (int) Mage::getStoreConfig('epicor_comm_enabled_messages/gor_request/daystoship');
             $silkDeliveryDate = Mage::getModel('core/date')->date('Y-m-d', strtotime("+{$leadTime}day"));
         }
         $quoteItem->setSilkDeliveryDate($silkDeliveryDate);
@@ -188,7 +188,7 @@ class Silk_Retailer_Model_Observer
             foreach ($comments as $itemId => $itemInfo) {
                 $item = $order->getItemByQuoteItemId($itemId);
                 if (isset($itemInfo['silk_delivery_date'])) {
-                    $item->setSilkDeliveryDate($itemInfo['silk_delivery_date']);
+                    $item->setEccLineComment($itemInfo['ecc_line_comment'] . " --- " . $itemInfo['silk_delivery_date']);
                 }
                 if ($item->getId()) {
                     $item->save();
