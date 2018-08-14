@@ -673,13 +673,12 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
     $j('.ajax-quickbuy').click(function () {
         var qty = jQuery('#your_metre').val();
         var max = jQuery("#your_metre").data("max");
+        jQuery("#your_metre").removeClass("input-text validation-failed");
+        jQuery("#order-fabric .validation-advice").remove();
         if (qty > max) {
             jQuery("#your_metre").addClass("input-text validation-failed");
             jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
             return;
-        } else {
-            jQuery("#your_metre").removeClass("input-text validation-failed");
-            jQuery("#order-fabric .validation-advice").remove();
         }
         window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + qty;
     });
