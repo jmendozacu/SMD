@@ -523,6 +523,12 @@ $productsGridActionHeight: 85px;
 }
 
 @include bp(max-width, $bp-medium) {
+    .block-subtitle--filter {
+        &.active::after{
+            padding: 0!important;
+        }
+    }
+
     .sidebar .block.block-layered-nav {
         border-bottom: none;
     }

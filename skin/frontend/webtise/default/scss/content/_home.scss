@@ -239,7 +239,7 @@ body .promos > li {
         position: absolute;
         text-indent: -6000px;
         top: 45%;
-        z-index: 999999;
+        z-index: 999;
 
         &:hover {
             opacity: 0.50;
@@ -265,7 +265,6 @@ body .promos > li {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-
         img {
             display: none;
         }

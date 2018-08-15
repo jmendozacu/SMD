@@ -39,7 +39,7 @@ class Interjar_CollectionsCategory_Block_Category_View extends Mage_Catalog_Bloc
             ->addCategoryFilter($category)
             ->addAttributeToSelect('*')
             ->addUrlRewrite($category->getId())
-            ->setPageSize(8)
+            ->setPageSize(11)
             ->setCurPage(1);
         if ($productCollection->getSize()) {
 

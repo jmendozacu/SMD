@@ -21,7 +21,7 @@
                 <?php foreach($_products as $_product): ?>
                     <li class="product column large-6">
                         <h4 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getName(); ?>"><?php echo $_product->getName(); ?></a></h4>
-                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getName() ?>" class="product-image"><img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image', $_product->getSmallImage())->resize(250); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getName() ?>" class="product-image"><img data-src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image', $_product->getSmallImage())->resize(250); ?>" src="" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
                         <?php if($_product->isSaleable()): ?>
                             <a class="product-button" href="<?php echo $_product->getProductUrl()?>"><?php echo $this->__('Buy Now') ?></a>
                         <?php endif; ?>

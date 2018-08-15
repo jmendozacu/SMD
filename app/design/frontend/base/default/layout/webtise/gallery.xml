@@ -13,7 +13,6 @@
             <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/isotope.pkgd.min.js</name></action>
             <action method="addItem"><type>skin_js</type><name>js/webtise/gallery/gallery-filters.js</name></action>
             <action method="addItem"><type>skin_css</type><name>css/webtise/gallery.css</name></action>
-            <action method="addItem"><type>skin_css</type><name>css/webtise/featherlight.min.css</name></action>
         </reference>
 
         <reference name="content">

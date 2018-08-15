@@ -104,3 +104,23 @@
 .uneven-grid-images .grid-item-wrapper img {
     width: 100%;
 }
+
+#tagCategory1 {
+    .tag-links {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    li {
+        margin: 0;
+
+        img {
+            margin: 5px;
+        }
+    }
+}
+
+#selectedTags {
+    img {
+        margin: 5px;
+    }
+}

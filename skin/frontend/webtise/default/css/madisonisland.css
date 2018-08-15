@@ -236,7 +236,7 @@ body .promos > li {
   position: absolute;
   text-indent: -6000px;
   top: 45%;
-  z-index: 999999;
+  z-index: 999;
 }
 .gallery-wrapper .slick-prev:hover,
 .gallery-wrapper .slick-next:hover {

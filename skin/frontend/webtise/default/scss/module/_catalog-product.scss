@@ -1191,6 +1191,12 @@ button#product-addtocart-button {
     border-bottom: none;
 }
 
+.detail-attributes {
+    .attributes-label {
+        width: 250px!important;
+    }
+}
+
 @include bp(max-width, $bp-small) {
     button#product-addtocart-button,
     a.favs {

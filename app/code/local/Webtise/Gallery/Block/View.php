@@ -8,6 +8,8 @@
 
 class Webtise_Gallery_Block_View extends Mage_Core_Block_Template
 {
+    const CACHE_GALLERY_KEY = 'webtise_gallery_cache_';
+
     /**
      * Current page for Galleries
      *
@@ -58,11 +60,14 @@ class Webtise_Gallery_Block_View extends Mage_Core_Block_Template
      * @param $image
      * @return bool
      */
-    public function hasLink($image) {
-        $_galleryId = $this->getData('gallery_id');
-        $_gallery = Mage::getModel('gallery/gallery')->load($_galleryId);
-        $imageLink = $image->getImageSpecificUrl();
-        if($_gallery->getIsGenericUrl() == '1' || $imageLink) {
+    public function hasLink($_gallery, $image) {
+        if (is_object($image)) {
+            $imageLink = $image->getImageSpecificUrl();
+            if($_gallery->getIsGenericUrl() == '1' || $imageLink) {
+                return true;
+            }
+            return false;
+        } else if ($_gallery->getIsGenericUrl() == '1') {
             return true;
         }
         return false;
@@ -125,4 +130,35 @@ class Webtise_Gallery_Block_View extends Mage_Core_Block_Template
         return implode(',', $this->getImageTags($image)->getAllIds());
     }
 
+    /**
+     * Get cached version of gallery images collection
+     *
+     * @param int $_galleryId
+     */
+    public function initGalleryPage($_galleryId)
+    {
+        $storeId = Mage::app()->getStore()->getId();
+        $cacheKey = self::CACHE_GALLERY_KEY . $_galleryId . '_' . $storeId;
+        if (false !== ($dataFromCache = Mage::app()->loadCache($cacheKey))) {
+            $mediaFromCache = unserialize($dataFromCache);
+            $this->setData('gallery_images', $mediaFromCache['gallerycollection']);
+            $this->setData('gallery_object', $mediaFromCache['galleryobject']);
+        } else {
+            $_gallery = Mage::getModel('gallery/gallery')->load($_galleryId);
+            $_media = $_gallery->getMediaGalleryImages();
+            $this->setData('gallery_images', $_media);
+            $this->setData('gallery_object', $_gallery);
+            $galleryData = clone $_media;
+            //Save to cache:
+            try {
+                $data = array();
+                $data['galleryobject'] = $_gallery;
+                $data['gallerycollection'] = $_media;
+                Mage::app()->saveCache(serialize($data), $cacheKey, array('BLOCK_HTML'), 60*60*24);
+            } catch (Exception $exception) {
+                Mage::log('Error: Saving cache of gallery because: ' . $exception->getMessage());
+            }
+        }
+        return $this;
+    }
 }

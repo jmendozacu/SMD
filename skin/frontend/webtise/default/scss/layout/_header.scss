@@ -92,6 +92,26 @@
 
     .account-cart-wrapper {
         display: flex;
+
+        @include bp(max-width, $bp-xlarge) {
+
+            .skip-account {
+                width: 50%;
+            }
+
+            .header-minicart {
+                width: 50%;
+            }
+
+            .minicart-wrapper {
+                background-color: $c-fieldset-border-light;
+                position: absolute;
+                top: 153px;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+        }
     }
 
     .account-cart-wrapper span {

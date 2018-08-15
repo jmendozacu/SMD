@@ -1,7 +1,8 @@
 <?php
 $_galleryId = $this->getData('gallery_id');
-$_gallery = Mage::getModel('gallery/gallery')->load($_galleryId);
-$_media = $_gallery->getMediaGalleryImages();
+$_init = $this->initGalleryPage($_galleryId);
+$_gallery = $this->getData('gallery_object');
+$_media = $this->getData('gallery_images');
 ?>
 
 <div class="gallery-wrapper text-center gallery-<?php echo $_gallery->getId() ?> <?php echo $_gallery->getGalleryClass(); ?>">
@@ -16,35 +17,35 @@ $_media = $_gallery->getMediaGalleryImages();
 
     <div class="uneven-grid-images row">
 
+        <?php if(!empty($_media)): ?>
+            <?php foreach($_media as $image): ?>
 
-        <?php foreach($_media as $image): ?>
+                <div class="grid-item-wrapper" data-tag-ids="<?php echo (string) $image->getTagIds(); ?>">
 
-            <div class="grid-item-wrapper" data-tag-ids="<?php echo $this->getTagIds($image); ?>">
-
-                <?php if($this->hasProductLink($image)): ?>
+                    <?php if($this->hasProductLink($image)): ?>
 
                     <a class="grid-item-link product" href="<?php echo $this->getImageLink($image, $_gallery)?>" data-reveal-id="productModal" data-reveal-ajax="true">
 
-                <?php elseif($this->hasLink($image)): ?>
+                        <?php elseif($this->hasLink($_gallery, $image)): ?>
 
-                    <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
+                        <a class="grid-item-link" href="<?php echo $this->getImageLink($image, $_gallery) ?>">
 
-                <?php else: ?>
+                            <?php else: ?>
 
-                    <a class="grid-item-link" href="#" data-featherlight="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>">
+                            <a class="grid-item-link" href="#" data-featherlight="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)?>">
 
-                <?php endif; ?>
+                                <?php endif; ?>
 
-                    <img class="grid-item" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)->resize(430)->setQuality(70)?>"/>
+                                <img data-id="<?php echo $count; ?>" src="<?php echo Mage::helper('gallery/gallery_image')->init($_gallery, 'image', $image->getFile())->keepTransparency(true)->keepFrame(false)->resize(430)->setQuality(70)?>" class="grid-item" />
 
-                </a>
+                            </a>
 
-            </div>
+                </div>
 
-        <?php endforeach; ?>
+                <?php endforeach; ?>
+        <?php endif; ?>
 
-
-        <p class="no-images-match <?php if($_media): ?>no-display<?php endif; ?>" id="noImagesMatch"><?php echo $this->__('There are no images matching you\'re filters.') ?></p>
+        <p class="no-images-match <?php if($_media): ?>no-display<?php endif; ?>" id="noImagesMatch"><?php echo $this->__('There are no images matching your filters.') ?></p>
 
     </div>
 
