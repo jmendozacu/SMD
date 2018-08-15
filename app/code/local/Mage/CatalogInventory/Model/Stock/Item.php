@@ -412,7 +412,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getBackorders()
     {
-        return false;
+        return Mage_CatalogInventory_Model_Stock::BACKORDERS_NO;
         $helper = Mage::helper('epicor_comm');
         /* @var $helper Epicor_Comm_Helper_Data */
 
@@ -607,7 +607,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($result->getHasError()) {
             return $result;
         }
-
+        
         if (!$this->getManageStock()) {
             return $result;
         }

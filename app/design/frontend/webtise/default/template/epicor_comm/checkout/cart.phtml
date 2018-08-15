@@ -58,6 +58,11 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
 <?php if ($displayContractDrop): ?>
     <input type="hidden" value="<?php echo Mage::getUrl('epicor_lists/cart/contractselectgrid'); ?>" name="line_contract_select_url" id="line_contract_select_url"/>
 <?php endif; ?>
+<style>
+.col-main > .messages {
+    display: none;
+}
+</style>
 <div class="cart <?php echo $_priceDisplay; ?>">
     <div class="page-title title-buttons">
         <h1><?php echo $this->__('Shopping Basket') ?></h1>
