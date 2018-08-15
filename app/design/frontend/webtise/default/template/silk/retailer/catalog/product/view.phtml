@@ -631,7 +631,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
         jQuery("#order-fabric .validation-advice").remove();
         if (qty > max) {
             jQuery("#your_metre").addClass("input-text validation-failed");
-            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('1%', max));
+            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max));
             return;
         }
         $j.ajax({
@@ -671,16 +671,42 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
     });
 
     $j('.ajax-quickbuy').click(function () {
+        var product_id = <?php echo $_product->getId();?>;
         var qty = jQuery('#your_metre').val();
         var max = jQuery("#your_metre").data("max");
         jQuery("#your_metre").removeClass("input-text validation-failed");
         jQuery("#order-fabric .validation-advice").remove();
         if (qty > max) {
             jQuery("#your_metre").addClass("input-text validation-failed");
-            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
+            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max));
             return;
         }
-        window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + qty;
+        $j.ajax({
+            type: "GET",
+            url: '/retailer/ajax/addBasket',
+            data: {'product': product_id, 'qty': qty},
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            error: function (e) {
+            },
+            success: function (data) {
+                if (data.status == 'Success') {
+                    window.location.href = '/checkout/onepage';
+                } else if (data.status == 'login') {
+                    window.location.href=data.url;
+                } else if (data.status == 'Failed') {
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').parent().text(data.error);
+                    jQuery('#basket_box .msg_title').text(' ');
+                    jQuery('#basket_box .action_button').hide();
+                } else {
+                    console.log('wrong');
+                }
+            },
+            complete: function () {
+            }
+        });
     });
 
 

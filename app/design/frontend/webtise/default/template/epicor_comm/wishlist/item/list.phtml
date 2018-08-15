@@ -81,7 +81,7 @@ function addWItemToCartPlugin(obj, itemId) {
     var order_qty = jQuery(obj).parent().find("input.input-text.qty").val();
     var max_quantity = jQuery(obj).parent().find("input[name='max_quantity']").val();
     if (parseInt(order_qty) > parseInt(max_quantity)) {
-        jQuery(obj).parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>');
+        jQuery(obj).parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max_quantity));
         return;
     } else {
         jQuery(".validation-advice").remove();
