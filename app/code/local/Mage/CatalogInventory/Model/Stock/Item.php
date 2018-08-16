@@ -620,11 +620,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $result->setItemUseOldQty(true);
             return $result;
         }
-        
+        $_product = Mage::getModel('catalog/product')->load($this->getProductId());
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
             $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
+            $itemMessage = Mage::helper('cataloginventory')->__('Sorry but your order quantity exceeds the available maximum quantity of %s UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.', ($_product->getData("poqtyone") + $_product->getStockLevel()));
             $result->setHasError(true)
-                ->setMessage($message)
+                ->setMessage($itemMessage)
                 ->setQuoteMessage($message)
                 ->setQuoteMessageIndex('qty');
             return $result;
