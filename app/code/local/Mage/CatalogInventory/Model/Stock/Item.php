@@ -467,7 +467,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (Mage::app()->getStore()->isAdmin()) {
             return true;
         }
-        $_product = Mage::getModel('catalog/product')->load($this->getProductId());
+        $_product = $this->getProduct();
+        $helper = Mage::helper('epicor_comm/messaging');
+        $helper->sendMsq($_product, 'product_details');
         if ($_product->getData("poqtyone") + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
@@ -620,7 +622,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $result->setItemUseOldQty(true);
             return $result;
         }
-        $_product = Mage::getModel('catalog/product')->load($this->getProductId());
+        $_product = $this->getProduct();
+        $helper = Mage::helper('epicor_comm/messaging');
+        $helper->sendMsq($_product, 'product_details');
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
             $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
             $itemMessage = Mage::helper('cataloginventory')->__('Sorry but your order quantity exceeds the available maximum quantity of %s UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.', ($_product->getData("poqtyone") + $_product->getStockLevel()));
