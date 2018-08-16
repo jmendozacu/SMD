@@ -464,11 +464,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function checkQty($qty)
     {
-        if (!$this->getManageStock() || Mage::app()->getStore()->isAdmin()) {
+        if (Mage::app()->getStore()->isAdmin()) {
             return true;
         }
-        $poqtyone = Mage::getModel('catalog/product')->load($this->getProductId())->getData("poqtyone");
-        if ($poqtyone + $this->getQty() - $this->getMinQty() - $qty < 0) {
+        $_product = Mage::getModel('catalog/product')->load($this->getProductId());
+        if ($_product->getData("poqtyone") + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
@@ -608,9 +608,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
         
-        if (!$this->getManageStock()) {
-            return $result;
-        }
+        // if (!$this->getManageStock()) {
+        //     return $result;
+        // }
 
         if (!$this->getIsInStock()) {
             $result->setHasError(true)
