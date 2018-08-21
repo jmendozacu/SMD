@@ -53,8 +53,10 @@ $listHelper = Mage::helper('epicor_lists/frontend');
 </div>
 <script>
     jQuery(".addtobasketform").submit(function(e){
+        e.preventDefault();
         var max_quantity = parseInt(jQuery(this).find("input[name='max_quantity']").val());
         var order_qty = parseInt(jQuery(this).find("input[name='qty']").val());
+        var product_id = parseInt(jQuery(this).find("input[name='product']").val());
         if (order_qty == 0 ) {
             return false;
         }
@@ -63,7 +65,30 @@ $listHelper = Mage::helper('epicor_lists/frontend');
             jQuery(this).append('<div class="validation-advice" style="white-space: normal;word-wrap: break-word;">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max_quantity));
             return false;
         } else {
-            return true;
+            var self = this;
+            jQuery.ajax({
+                type: "GET",
+                url: '/retailer/ajax/addBasket',
+                data: {'product': product_id, 'qty': order_qty},
+                dataType: 'json',
+                beforeSend: function () {
+                },
+                error: function (e) {
+                },
+                success: function (data) {
+                    if (data.status == 'Success') {
+                        setLocation('/checkout/cart/');
+                    } else if (data.status == 'login') {
+                        window.location.href=data.url;
+                    } else if (data.status == 'Failed') {
+                        jQuery(self).append('<div class="validation-advice" style="white-space: normal;word-wrap: break-word;">' + data.error+ '</div>');
+                    } else {
+                        console.log('wrong');
+                    }
+                },
+                complete: function () {
+                }
+            });
         }
     });
 </script>
