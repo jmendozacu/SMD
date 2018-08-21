@@ -79,9 +79,12 @@
 //]]>
 function addWItemToCartPlugin(obj, itemId) {
     var order_qty = jQuery(obj).parent().find("input.input-text.qty").val();
-    var max_quantity = jQuery(obj).parent().find("input[name='max_quantity']").val();
+    var max_quantity_data = jQuery(obj).parent().find("input[name='max_quantity']").val().split('|');
+	var max_quantity = max_quantity_data[0];
+	var uom = max_quantity_data[1];
     if (parseInt(order_qty) > parseInt(max_quantity)) {
-        jQuery(obj).parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of # UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max_quantity));
+	max_quantity = max_quantity + uom;
+        jQuery(obj).parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of #. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max_quantity));
         return;
     } else {
         jQuery(".validation-advice").remove();
