@@ -468,9 +468,24 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return true;
         }
         $_product = $this->getProduct();
+	if($_product == null){
+		if ($this->getQty() - $this->getMinQty() - $qty < 0) {
+            		switch ($this->getBackorders()) {
+                		case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
+                		case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
+                    		break;
+                	default:
+                    		return false;
+                    	break;
+            		}
+        	}
+       		return true;
+	}
+	$_proPoqtyone = Mage::getModel('catalog/product')->load($_product->getData('id'))->getData('poqtyone');
         $helper = Mage::helper('epicor_comm/messaging');
         $helper->sendMsq($_product, 'product_details');
-        if ($_product->getData("poqtyone") + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
+        if ($_proPoqtyone + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
+        //if ($_product->getData("poqtyone") + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
@@ -479,7 +494,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                     return false;
                     break;
             }
-        }
+	}
         return true;
     }
 
@@ -623,11 +638,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
         $_product = $this->getProduct();
+	$_pro = Mage::getModel('catalog/product')->load($_product->getId());
+	$poqtyStock = $_pro->getData('poqtyone');
+	$uom = $_pro->getUom();
         $helper = Mage::helper('epicor_comm/messaging');
         $helper->sendMsq($_product, 'product_details');
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
             $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
-            $itemMessage = Mage::helper('cataloginventory')->__('Sorry but your order quantity exceeds the available maximum quantity of %s UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.', ($_product->getData("poqtyone") + $_product->getStockLevel()));
+            $itemMessage = Mage::helper('cataloginventory')->__('Sorry but your order quantity exceeds the available maximum quantity of %s. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.', ($poqtyStock + $_product->getStockLevel().$uom));
+            //$itemMessage = Mage::helper('cataloginventory')->__('Sorry but your order quantity exceeds the available maximum quantity of %s UOM. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.', ($_product->getData("poqtyone") + $_product->getStockLevel()));
             $result->setHasError(true)
                 ->setMessage($itemMessage)
                 ->setQuoteMessage($message)

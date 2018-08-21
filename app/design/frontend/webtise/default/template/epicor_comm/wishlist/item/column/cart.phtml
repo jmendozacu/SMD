@@ -27,6 +27,7 @@
 /* @var Mage_Wishlist_Model_Item $item */
 $item = $this->getItem();
 $product = $item->getProduct();
+$propoqtyone = Mage::getModel('catalog/product')->load($product->getId())->getData('poqtyone');
 $helper = Mage::helper('epicor_comm/messaging');
 $helper->sendMsq($product, 'product_details');
 
@@ -46,7 +47,7 @@ $locHelper = Mage::helper('epicor_comm/locations');
         <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
                 <input type="text" class="input-text qty validate-not-negative-number" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" />
-                <input type="hidden" value="<?php echo ($product->getStockLevel() + $product->getData("poqtyone")); ?>" name="max_quantity"/>
+                <input type="hidden" value="<?php echo ($product->getStockLevel() + $propoqtyone)."|".($product->getUom()); ?>" name="max_quantity"/>
             <?php endif; ?>
             <?php if ($product->isSaleable()): ?>
                 <?php if($locationsEnabled || $groupOrConfigurable): ?>
