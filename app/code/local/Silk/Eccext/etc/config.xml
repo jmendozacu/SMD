@@ -19,4 +19,15 @@
 			</curs_request_convert2xml_after>
 		</events>
 	</global>
+	<frontend>
+        <routers>
+            <wishlist>
+                <args>
+                    <modules>
+                        <Silk_Eccext before="Magento_Wishlist">Silk_Eccext</Silk_Eccext>
+                    </modules>
+                </args>
+	        </wishlist>
+        </routers>
+    </frontend>
 </config>
