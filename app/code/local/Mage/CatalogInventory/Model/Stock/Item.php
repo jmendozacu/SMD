@@ -468,20 +468,20 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return true;
         }
         $_product = $this->getProduct();
-	if($_product == null){
-		if ($this->getQty() - $this->getMinQty() - $qty < 0) {
-            		switch ($this->getBackorders()) {
-                		case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
-                		case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
-                    		break;
-                	default:
-                    		return false;
-                    	break;
-            		}
-        	}
-       		return true;
-	}
-	$_proPoqtyone = Mage::getModel('catalog/product')->load($_product->getData('id'))->getData('poqtyone');
+	    if($_product == null){
+            if ($this->getQty() - $this->getMinQty() - $qty < 0) {
+                switch ($this->getBackorders()) {
+                    case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
+                    case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
+                        break;
+                default:
+                        return false;
+                    break;
+                }
+            }
+            return true;
+        }
+	    $_proPoqtyone = Mage::getModel('catalog/product')->load($_product->getId())->getData('poqtyone');
         $helper = Mage::helper('epicor_comm/messaging');
         $helper->sendMsq($_product, 'product_details');
         if ($_proPoqtyone + $_product->getStockLevel() - $this->getMinQty() - $qty < 0) {
@@ -494,7 +494,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                     return false;
                     break;
             }
-	}
+	    }
         return true;
     }
 
@@ -638,9 +638,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
         $_product = $this->getProduct();
-	$_pro = Mage::getModel('catalog/product')->load($_product->getId());
-	$poqtyStock = $_pro->getData('poqtyone');
-	$uom = $_pro->getUom();
+        $_pro = Mage::getModel('catalog/product')->load($_product->getId());
+        $poqtyStock = $_pro->getData('poqtyone');
+        $uom = $_pro->getUom();
         $helper = Mage::helper('epicor_comm/messaging');
         $helper->sendMsq($_product, 'product_details');
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
