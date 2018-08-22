@@ -40,11 +40,10 @@
             onSelect: function(cal) { cal.hide() },
             showTime: false,
             disabled: function (date) {
-                var now = new Date("<?php echo Mage::getModel('core/date')->date('d-m-Y', strtotime($silkDeliveryDate));?>");
-                if (date.getDay() == 6 || date.getDay()==0) {
-            			return true;
-      	  		}
+                var now = new Date("<?php echo Mage::getModel('core/date')->date('Y-m-d', strtotime($silkDeliveryDate));?>");
+                //var now = new Date("<?php echo Mage::getModel('core/date')->date('d-m-Y', strtotime($silkDeliveryDate));?>");
                 if (date.getFullYear() < now.getFullYear()) {
+			
                     return true;
                 }
                 if (date.getFullYear() == now.getFullYear()) {
@@ -57,6 +56,9 @@
                         return true;
                     }
                 }
+                if (date.getDay() == 6 || date.getDay()==0) {
+            		return true;
+      	  	}
             },
         });
         cal.manageFields("required_date_trig_<?php echo $this->getItem()->getId() ?>", "silk_delivery_date_<?php echo $this->getItem()->getId();?>", "%d-%m-%Y");
