@@ -118,7 +118,7 @@ $ewaHelper = Mage::helper('epicor_comm/configurator');
         <?php endif; ?>
 
         <div class="product-cart-sku">
-            <span class="label"><?php echo $this->__('SKU'); ?>:</span> <?php echo $this->escapeHtml($_item->getOptionByType('ewa_sku') ?: $helper->removeUOMSeparator($_item->getSku())); ?>
+            <span class="label"><?php echo $this->__('SKU'); ?>:</span> <?php echo $this->escapeHtml($_item->getSku()); ?>
         </div>
 
         <?php if ($_options = $this->getOptionList()): ?>

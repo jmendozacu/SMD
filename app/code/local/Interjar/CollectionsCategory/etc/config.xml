@@ -16,6 +16,11 @@
                 <class>Interjar_CollectionsCategory_Helper</class>
             </collectionscategory>
         </helpers>
+        <models>
+            <collectionscategory>
+                <class>Interjar_CollectionsCategory_Model</class>
+            </collectionscategory>
+        </models>
         <page>
             <layouts>
                 <collections_category_view translate="label">
@@ -25,6 +30,17 @@
                 </collections_category_view>
             </layouts>
         </page>
+        <resources>
+            <collectionscategory_setup>
+                <setup>
+                    <module>Interjar_CollectionsCategory</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </collectionscategory_setup>
+        </resources>
     </global>
     <frontend>
         <layout>
@@ -44,4 +60,11 @@
             </collectionscategory>
         </routers>
     </frontend>
+    <default>
+        <collectionscategory>
+            <general>
+                <subcategory_product_limit>10</subcategory_product_limit>
+            </general>
+        </collectionscategory>
+    </default>
 </config>

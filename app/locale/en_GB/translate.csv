@@ -41,3 +41,7 @@
 "Zip/Post Code","Postcode"
 "Zip/Postal Code","Postcode"
 "Zip/Postal Code:","Postcode"
+"Billing Information","Billing Address"
+"Shipping Information","Shipping Address"
+"Shipping Method","Shipping Information"
+"Shipping  &amp; Handling :","Shipping :"

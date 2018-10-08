@@ -10,35 +10,36 @@
 			<!-- <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
 			<action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action> -->
 		</reference>
-	</default>	
+	</default>
 
 	<catalog_category_landing>
 		<reference name="content">
-		    <block type="core/template" name="catalog.subcategories" template="catalog/category/view/subcategories.phtml" />
+			<block type="core/template" name="catalog.subcategories" template="catalog/category/view/subcategories.phtml" />
 		</reference>
 	</catalog_category_landing>
 
 	<wishlist_index_index>
-	<reference name="customer.wishlist.items">
-            <action method="setTemplate">
-                <template>epicor_comm/wishlist/item/list.phtml</template>
-            </action>
-	</reference>
-	<reference name="customer.wishlist.item.cart">
-            <action method="setTemplate">
-                <template>epicor_comm/wishlist/item/column/cart.phtml</template>
-            </action>
-	</reference>
-        <reference name="customer.wishlist.button.toCart">
-            <action method="setTemplate">
-                <template>epicor_comm/wishlist/button/tocart.phtml</template>
-            </action>
-	</reference>
+		<remove name="customer.wishlist.item.remove" />
+		<reference name="customer.wishlist.items">
+			<action method="setTemplate">
+				<template>epicor_comm/wishlist/item/list.phtml</template>
+			</action>
+		</reference>
+		<reference name="customer.wishlist.item.cart">
+			<action method="setTemplate">
+				<template>epicor_comm/wishlist/item/column/cart.phtml</template>
+			</action>
+		</reference>
+		<reference name="customer.wishlist.button.toCart">
+			<action method="setTemplate">
+				<template>epicor_comm/wishlist/button/tocart.phtml</template>
+			</action>
+		</reference>
 	</wishlist_index_index>
-	
+
 	<customer_account>
-	<reference name="customer_connect_navigation">
-	</reference>
+		<reference name="customer_connect_navigation">
+		</reference>
 	</customer_account>
 	<checkout_onepage_index translate="label">
 		<reference name="head">

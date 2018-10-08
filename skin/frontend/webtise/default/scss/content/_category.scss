@@ -265,8 +265,31 @@
 }
 
 .subcategory-products {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media all and (min-width: $bp-medium) {
+        justify-content: flex-start;
+    }
+
     .subcategory-product {
         padding: 5px;
+        width: 50%;
+
+        @media all and (min-width: $bp-small) {
+            width: 25%;
+        }
+
+        @media all and (min-width: $bp-medium) {
+            width: 20%;
+        }
+
+        @media all and (min-width: $bp-large) {
+            width: 20%;
+        }
+
         &:hover {
             p,
             a {
@@ -290,5 +313,12 @@
     .slick-arrow {
         background-color: transparent!important;
     }
+
+    .slick-list,
+    .slick-track {
+        width: 100%;
+    }
+
+
 
 } 

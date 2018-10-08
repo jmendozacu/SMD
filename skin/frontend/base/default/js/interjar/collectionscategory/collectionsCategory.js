@@ -1,4 +1,4 @@
-function loadNewProducts(category) {
+function loadNewProducts(category, pageSize) {
     var buttonClass = '.slick-next-' + category;
     var sliderClass = '.' + category + '-subcategorySlider';
     var sliderEl = jQuery(sliderClass)[0];
@@ -11,7 +11,7 @@ function loadNewProducts(category) {
             url: "/collections/update/products",
             data: {
                 category_id: category,
-                bunch: 8,
+                bunch: pageSize,
                 page: page
             }
         })

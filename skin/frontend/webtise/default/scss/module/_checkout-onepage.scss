@@ -68,9 +68,17 @@
  */
 
 .opc .section .step-title {
+    background-color: $c-iliv-grey!important;
     border-top: 1px solid $c-divider-border;
     position: relative;
     width: 100%;
+
+    h2,
+    .number {
+        color: $c-bronze!important;
+        font-family: $font-lato!important;
+        text-transform: uppercase!important;
+    }
 
     @include not-selectable;
 
@@ -280,6 +288,9 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 
         li {
             margin: 0 0 8px;
+        }
+        select {
+            margin-top: 0;
         }
     }
 
@@ -639,6 +650,9 @@ li.section {
     border-bottom: 0;
     .step-title {
         background: #F5F5F5;
+        h2 {
+            color: $c-bronze!important;
+        }
     }
     &.active {
         border-bottom: 1px solid #DEDEDE;
@@ -649,7 +663,7 @@ li.section {
             padding: 0 10px;
 
             h2 {
-                color: #fff !important;
+                color: $c-bronze!important;
             }
         }
     }
@@ -660,7 +674,7 @@ li.section {
 }
 
 .opc .section.allow.active .step-title .number {
-    color: #fff;
+    color: $c-bronze;
 }
 
 li.section.active .step-title {
@@ -714,5 +728,164 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 .checkout-onepage-index {
     .page-title h1 {
         border-bottom: 0;
+    }
+    .form-list {
+        .input-box {
+            select {
+                margin-top: 0;
+            }
+        }
+    }
+    #checkout-billing-load,
+    #co-shipping-form {
+        li {
+            position: relative;
+
+            button {
+                background-color: $c-iliv-grey-light!important;
+                padding: 5px 10px;
+                color: $c-iliv-grey!important;
+                border: none;
+                text-transform: uppercase;
+                font-size: 11px;
+                line-height: 24px;
+                font-weight: $font-weight-normal;
+                margin-right: 0!important;
+                min-width: 150px;
+            }
+        }
+    }
+
+    .buttons-set button {
+        background-color: $c-iliv-grey-light!important;
+        padding: 5px 10px;
+        color: $c-iliv-grey!important;
+        border: none;
+        text-transform: uppercase!important;
+        font-size: 11px!important;
+        line-height: 24px;
+        font-weight: $font-weight-normal;
+        margin-right: 0!important;
+        min-width: 150px;
+    }
+
+    #checkout-review-table fieldset {
+        textarea {
+            width: 100%!important;
+            max-width: 100%;
+        }
+    }
+
+    #checkout-step-billing,
+    #checkout-step-shipping {
+        .wide {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            label {
+                flex: 1 1 100%;
+            }
+            .input-box {
+                width: 100%;
+            }
+        }
+    }
+
+    #billing-address-search-button,
+    #shipping-address-search-button {
+        margin: .5rem 0 1rem auto;
+        order: 1;
+    }
+
+    #billing-address-select,
+    #shipping-address-select {
+        max-width: 100%;
+        padding-right: 50px;
+    }
+    .hidden-field {
+        display: none;
+    }
+
+    #checkout-step-payment {
+        .buttons-set {
+            position: relative;
+        }
+        .required {
+            position: absolute;
+            top: -20px;
+            right: 0;
+        }
+    }
+
+    #checkout-review-table-wrapper {
+        [for^='silk_delivery_date']{
+            font-size: 0;
+            &::before {
+                content: 'Earlist available ship date. For later ship dates please select from the below calendar';
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+// Small checkout review section styling
+@include bp('max-width', $bp-medium) {
+    .order-review {
+        table,
+        thead,
+        tbody,
+        tfoot,
+        tr {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1 1 auto;
+        }
+        table * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        th,
+        td {
+            flex: 1 1 auto;
+            width: auto;
+        }
+        thead {
+            display: none;
+        }
+        tfoot {
+            order: 1;
+        }
+        tbody {
+            td {
+                border-bottom: 0;
+            }
+        }
+        tr {
+            border: #DEDEDE solid 1px;
+            margin-top: 1rem;
+        }
+        td.product-details {
+            order: 1;
+        }
+        tr[data-product-name]::before {
+            border-bottom: #DEDEDE solid 1px;
+            content: attr(data-product-name);
+            flex: 1 0 100%;
+            font-weight: bold;
+            padding: 10px;
+            vertical-align: top;
+        }
+        td[data-label]::before {
+            content: attr(data-label) ': ' ;
+        }
+        td.a-right[data-label='Price'] {
+            text-align: left ;
+        }
+        h3.product-name {
+            display: none;
+        }
+        fieldset {
+            min-width: inherit;
+        }
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <modules>
+        <Interjar_SorterCreatedDate>
+            <version>1.0.0</version>
+        </Interjar_SorterCreatedDate>
+    </modules>
+    <global>
+        <models>
+            <catalog>
+                <rewrite>
+                    <config>Interjar_SorterCreatedDate_Model_Config</config>
+                </rewrite>
+            </catalog>
+        </models>
+    </global>
+</config>

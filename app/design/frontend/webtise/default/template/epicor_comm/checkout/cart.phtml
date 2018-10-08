@@ -58,11 +58,6 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
 <?php if ($displayContractDrop): ?>
     <input type="hidden" value="<?php echo Mage::getUrl('epicor_lists/cart/contractselectgrid'); ?>" name="line_contract_select_url" id="line_contract_select_url"/>
 <?php endif; ?>
-<style>
-.col-main > .messages {
-    display: none;
-}
-</style>
 <div class="cart <?php echo $_priceDisplay; ?>">
     <div class="page-title title-buttons">
         <h1><?php echo $this->__('Shopping Basket') ?></h1>
@@ -154,15 +149,7 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
             <tfoot>
             <tr>
                 <td colspan="50" class="a-right cart-footer-actions">
-
-
-                    <?php if ($this->getContinueShoppingUrl()): ?>
-                        <button type="button" title="<?php echo $this->__('Continue Shopping') ?>" class="btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
-                    <?php endif; ?>
-
                     <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Basket'); ?>" class="btn-update"><span><span><?php echo $this->__('Update Basket'); ?></span></span></button>
-
-
                     <!--[if lt IE 8]>
                     <input type="hidden" id="update_cart_action_container" />
                     <script type="text/javascript">
@@ -217,6 +204,11 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
 
 <?php if (!$this->hasError()): ?>
     <ul class="checkout-types bottom">
+        <li>
+            <?php if ($this->getContinueShoppingUrl()): ?>
+                <button type="button" title="<?php echo $this->__('Continue Shopping') ?>" class="btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+            <?php endif; ?>
+        </li>
         <?php foreach ($this->getMethods('methods') as $method): ?>
             <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
                 <li class="method-<?php echo preg_replace("/[^_a-zA-Z0-9-]/", '-', $method); ?>"><?php echo $methodHtml; ?></li>
@@ -224,3 +216,5 @@ $displayContractDrop = $contractHelper->canDisplayCartContracts();
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
+
+

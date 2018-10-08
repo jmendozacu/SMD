@@ -36,25 +36,25 @@ $totals_with_tax = 0;
 $totals = $this->getTotals();
 if(array_key_exists('tax', $totals)):
     if(Mage::helper('epicor_comm')->removeTaxLine($totals['tax']->getValue())):
-        $totals_with_tax = $this->getTotals(); 
+        $totals_with_tax = $this->getTotals();
         $totals_without_tax = $this->getTotals();
-        unset($totals_without_tax['tax']); 
-        $this->setTotals($totals_without_tax); 
+        unset($totals_without_tax['tax']);
+        $this->setTotals($totals_without_tax);
     endif;
 endif;
 ?>
 <?php if ($this->canApplyMsrp()): ?>
-    <div class="cart-msrp-totals"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></div> 
+    <div class="cart-msrp-totals"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></div>
 <?php else: ?>
     <table id="shopping-cart-totals-table">
         <col />
         <col width="1" />
-        <tfoot>           
+        <tfoot>
             <?php echo $this->renderTotals('footer'); ?>
         </tfoot>
-        <tbody>           
-            <?php //echo $this->renderTotals(); ?>
-        </tbody>     
+        <tbody>
+            <?php echo $this->renderTotals(); ?>
+        </tbody>
     </table>
 <?php endif; ?>
 <?php $totals_with_tax ? $this->setTotals($totals_with_tax) : null; // set back to previously with tax included ?> 

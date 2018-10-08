@@ -200,12 +200,36 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                 $attributesCollection->setAttributeGroupFilter($group_id);
                 ?>
                 <div class="detail-attributes">
-                    <?php foreach ($attributesCollection as $attribute) { ?>
+                    <?php foreach ($attributesCollection as $attribute): ?>
                         <div class="attributes-row">
-                            <span class="attributes-label"><span><strong><?php echo $attribute->getFrontendLabel(); ?>:</strong></span></span>
-                            <span class="attributes-value"><span><?php echo $attribute->getFrontend()->getValue($_product); ?></span></span>
+                            <?php
+                            $attrValue = $_product->getResource($_product)
+                                ->getAttribute($attribute->getAttributeCode())
+                                ->getFrontend()
+                                ->getValue($_product);
+                            $valueImages = array();
+                            $optionValues = (!empty($_product->getData($attribute->getAttributeCode()))) ? explode(',', $_product->getData($attribute->getAttributeCode())): '';
+                            if (!empty($optionValues)) {
+                                foreach ($optionValues as $val) {
+                                    $img = $this->helper('attributeoptionpro')->getAttributeOptionImage($val);
+                                    if ($img) {
+                                        $valueImages[] = sprintf(
+                                            '<img src="%s" alt="%s" title="%s" style="display:inline-block;vertical-align:middle;">',
+                                            $img,
+                                            $this->escapeHtml($attribute->getFrontendLabel()),
+                                            $this->escapeHtml($attribute->getFrontendLabel())
+                                        );
+                                    }
+                                }
+                            }
+                            ?>
+                            <?php if(!empty($attrValue)): ?>
+                                <strong><?php echo $attribute->getFrontendLabel() . ': ' ?></strong><?php echo (empty($valueImages)) ? $attrValue: ''; ?>
+                                <?php echo (is_array($valueImages) && !empty($valueImages)) ? implode(' ', $valueImages): ''; ?>
+                            <?php endif; ?>
                         </div>
-                    <?php } ?>
+                    <?php endforeach; ?>
+
                 </div>
 
                 <?php echo $this->getChildHtml('other'); ?>
@@ -227,10 +251,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
 
                     <?php endif; ?>
-                    <?php 
-                    $quantity = $_product->getData("poqtyone");
-                    $stock = $_product->getStockLevel();
-                    ?>
+
                     <?php echo $this->getChildHtml('extrahint') ?>
                     <?php if (!$this->hasOptions() || $_product->getConfigurator()): ?>
                         <?php if ($showAddToCart) : ?>
@@ -296,9 +317,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                     }
                                                 }
                                                 ?>
-                                                    <?php if (($stock + $quantity) > 0):?>
-                                                    <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick?>"><?php echo $this->__('Order Fabric') ?></button>
-                                                    <?php endif;?>
+                                                <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick?>"><?php echo $this->__('Order Fabric') ?></button>
                                             <?php else: // // if ($_product->getConfigurator()) : ?>
                                                 <?php
                                                 if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
@@ -314,7 +333,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                                                 ?>
                                                 <?php if ((Mage::getSingleton('customer/session')->isLoggedIn()) && Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B') : ?>
 
-                                                    <?php if($_product->getOrderFab() && ($stock + $quantity) > 0): ?>
+                                                    <?php if($_product->getOrderFab()): ?>
                                                         <button type="button" class="order_fabric_but button" onclick="<?php echo $onClick ?>"><?php echo $this->__('Order Fabric') ?></button>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
@@ -375,13 +394,14 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
             <div class="order-fabric">
                 <span><?php echo $this->__('Enter Your Requirements') ?></span>
                 <div style="width: 100%;margin: 20px 0px;">
-                    <input type="number" max="10000" id="your_metre" data-max="<?php echo $stock + $quantity;?>"/>
+                    <input type="number" max="10000" id="your_metre"/>
                     <span><?php echo $_product->getUom() ?></span>
                     <!--                <button-->
                     <!--                    onclick="document.cookie='userMetre='+ jQuery('#your_metre').val();jQuery('.curMetre').text(jQuery('#your_metre').val())">--><?php //echo $this->__('Confirm') ?><!--</button>-->
                 </div>
                 <button class="ajax-basket button"><?php echo $this->__('Add To Basket') ?></button>
-                <button class="button button-secondary ajax-quickbuy"><?php echo $this->__('Quick Buy') ?></button>
+                <button class="button button-secondary"
+                        onclick="window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + jQuery('#your_metre').val()"><?php echo $this->__('Quick Buy') ?></button>
             </div>
         </div>
 
@@ -626,15 +646,6 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
     $j('.ajax-basket').click(function () {
         var product_id = <?php echo $_product->getId();?>;
         var qty = jQuery('#your_metre').val();
-        var max = jQuery("#your_metre").data("max");
-        jQuery("#your_metre").removeClass("input-text validation-failed");
-        jQuery("#order-fabric .validation-advice").remove();
-        if (qty > max) {
-		max = max + '<?php echo $_product->getUom() ?>';
-            jQuery("#your_metre").addClass("input-text validation-failed");
-            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of #. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max));
-            return;
-        }
         $j.ajax({
             type: "GET",
             url: '/retailer/ajax/addBasket',
@@ -659,47 +670,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     window.location.href=data.url;
                 } else if (data.status == 'Failed') {
                     jQuery('#basket_box').css('display', 'block');
-                    jQuery('#basket_box .curMetre').parent().text(data.error);
-                    jQuery('#basket_box .msg_title').text(' ');
-                    jQuery('#basket_box .action_button').hide();
-                } else {
-                    console.log('wrong');
-                }
-            },
-            complete: function () {
-            }
-        });
-    });
-
-    $j('.ajax-quickbuy').click(function () {
-        var product_id = <?php echo $_product->getId();?>;
-        var qty = jQuery('#your_metre').val();
-        var max = jQuery("#your_metre").data("max");
-        jQuery("#your_metre").removeClass("input-text validation-failed");
-        jQuery("#order-fabric .validation-advice").remove();
-        if (qty > max) {
-		max = max + '<?php echo $_product->getUom() ?>';
-            jQuery("#your_metre").addClass("input-text validation-failed");
-            jQuery("#your_metre").parent().append('<div class="validation-advice">Sorry but your order quantity exceeds the available maximum quantity of #. Please contact our Customer services team on +44 (0) 1772 651199 for further assistance.</div>'.replace('#', max));
-            return;
-        }
-        $j.ajax({
-            type: "GET",
-            url: '/retailer/ajax/addBasket',
-            data: {'product': product_id, 'qty': qty},
-            dataType: 'json',
-            beforeSend: function () {
-            },
-            error: function (e) {
-            },
-            success: function (data) {
-                if (data.status == 'Success') {
-                    window.location.href = '/checkout/onepage';
-                } else if (data.status == 'login') {
-                    window.location.href=data.url;
-                } else if (data.status == 'Failed') {
-                    jQuery('#basket_box').css('display', 'block');
-                    jQuery('#basket_box .curMetre').parent().text(data.error);
+                    jQuery('#basket_box .curMetre').text(data.error);
                     jQuery('#basket_box .msg_title').text(' ');
                     jQuery('#basket_box .action_button').hide();
                 } else {

@@ -19,6 +19,7 @@ class Interjar_CollectionsCategory_Block_Category_View extends Mage_Catalog_Bloc
         if ($category->getId()) {
             /** @var Mage_Catalog_Model_Resource_Category_Collection $subcategories */
             $subcategories = $category->getChildrenCategories();
+            $subcategories->addAttributeToSelect('*');
             if ($subcategories->getSize()) {
                 return $subcategories;
             }
@@ -39,10 +40,11 @@ class Interjar_CollectionsCategory_Block_Category_View extends Mage_Catalog_Bloc
             ->addCategoryFilter($category)
             ->addAttributeToSelect('*')
             ->addUrlRewrite($category->getId())
-            ->setPageSize(11)
+            ->setPageSize(
+                $this->getProductLimit()
+            )
             ->setCurPage(1);
         if ($productCollection->getSize()) {
-
             return $productCollection;
         }
         return false;
@@ -62,5 +64,34 @@ class Interjar_CollectionsCategory_Block_Category_View extends Mage_Catalog_Bloc
         $productsBlock->setSubcategory($category);
         $productsBlock->setProductCollection($products);
         return $productsBlock->toHtml();
+    }
+
+    /**
+     * @return int
+     */
+    public function getProductLimit()
+    {
+        $productLimit = Mage::getStoreConfig(
+            'collectionscategory/general/subcategory_product_limit'
+        );
+        return $productLimit ? (int)$productLimit : 10;
+    }
+
+    /**
+     * @param $category
+     * @return bool
+     */
+    public function isSubcategoryDisplayCarousel($category)
+    {
+        /** @var Mage_Catalog_Model_Resource_Category_Collection $categoryCollection */
+        $categoryCollection = Mage::getResourceModel('catalog/category_collection')
+            ->addAttributeToSelect('collection_display')
+            ->addIdFilter([$category->getId()]);
+        $categoryItem = $categoryCollection->getFirstItem();
+        $categoryCollectionDisplay = $categoryItem->getCollectionDisplay();
+        if ($categoryCollectionDisplay) {
+            return $categoryCollectionDisplay == Interjar_CollectionsCategory_Model_Entity_Attribute_Source_Collection_Display::VALUE_CAROUSEL;
+        }
+        return false;
     }
 }

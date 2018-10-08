@@ -21,48 +21,73 @@
  *
  * Copyright © 2016 Wyomind. All rights reserved.
  * See LICENSE.txt for license details.
- * 
+ *
  * Product additional attributes template
  *
  * @see Mage_Catalog_Block_Product_View_Attributes
  */
 $_helper = $this->helper('catalog/output');
-$_product = $this->getProduct()
+$_product = $this->getProduct();
+$setId = $_product->getAttributeSetId(); // Attribute set Id
+$groups = Mage::getModel('eav/entity_attribute_group')
+    ->getResourceCollection()
+    ->setAttributeSetFilter($setId)
+    ->setSortOrder()
+    ->load();
+
+$attributeInfo = array();
+foreach ($groups as $group) {
+    if($group->getAttributeGroupName() == 'Attributes_Additional'){ // set name
+
+        $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
+            ->setAttributeGroupFilter($group->getId())
+            ->addVisibleFilter()
+            ->checkConfigurableProducts()
+            ->load();
+        if ($attributes->getSize() > 0) {
+            foreach ($attributes->getItems() as $attribute) {
+
+                $attributeInfo[] = [
+                    'code' => $attribute->getAttributeCode(),
+                    'label' => $attribute->getFrontendLabel()
+                ];
+
+            }
+        }
+    }
+}
 ?>
-<?php if($_additional = $this->getAdditionalData()): ?>
-    <h2><?php echo $this->__('Additional Information') ?></h2>
-    <table class="data-table" id="product-attribute-specs-table">
-        <col width="25%" />
-        <col />
-        <tbody>
-        <?php foreach ($_additional as $_data): ?>
+<?php if(count($attributeInfo) > 0): ?>
+    <ul class="check-list attribute-list">
+        <?php foreach ($attributeInfo as $attribute): ?>
             <?php
-                $_images = array();
-                $_labels = array();
-                $_values = explode(',', $_product->getData($_data['code']));
-                $_attr   = $_product->getResource()->getAttribute($_data['code']);
-                foreach ($_values as $_value) {
-                    $_image = $this->helper('attributeoptionpro')->getAttributeOptionImage($_value);
-                    $_label = '';
-                    if ($_attr->usesSource() && $_attr->getSource()) {
-                        $_label = $_attr->getSource()->getOptionText($_value);
-                    }
-                    if ($_image) {
-                        $_images[] = sprintf('<img src="%s" alt="%s" title="%s" style="display:inline-block;vertical-align:middle;">', $_image, $this->escapeHtml($_label), $this->escapeHtml($_label));
-                    } elseif ('' !== $_label) {
-                        $_labels[] = $_label;
+            $attrValue = $_product->getResource($_product)
+                ->getAttribute($attribute['code'])
+                ->getFrontend()
+                ->getValue($_product);
+            $valueImages = array();
+            $optionValues = (!empty($_product->getData($attribute['code']))) ? explode(',', $_product->getData($attribute['code'])): '';
+            if (!empty($optionValues)) {
+                foreach ($optionValues as $val) {
+                    $img = $this->helper('attributeoptionpro')->getAttributeOptionImage($val);
+                    if ($img) {
+                        $valueImages[] = sprintf(
+                            '<img src="%s" alt="%s" title="%s" style="display:inline-block;vertical-align:middle;">',
+                            $img,
+                            $this->escapeHtml($attribute['label']),
+                            $this->escapeHtml($attribute['label'])
+                        );
                     }
                 }
+            }
             ?>
-            <tr>
-                <th class="label"><?php echo $this->escapeHtml($this->__($_data['label'])) ?></th>
-                <td class="data">
-                    <?php echo implode(' ', $_images); ?>
-                    <?php echo implode(', ', $_labels); ?>
-                </td>
-            </tr>
+            <?php if(!empty($attrValue)): ?>
+                <li>
+                    <strong><?php echo $attribute['label'] . ': ' ?></strong><?php echo (empty($valueImages)) ? $attrValue: ''; ?>
+                    <?php echo (is_array($valueImages) && !empty($valueImages)) ? implode(' ', $valueImages): ''; ?>
+                </li>
+            <?php endif; ?>
         <?php endforeach; ?>
-        </tbody>
-    </table>
-    <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
-<?php endif;?>
+    </ul>
+<?php endif; ?>
+

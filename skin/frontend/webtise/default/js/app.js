@@ -1369,4 +1369,41 @@ $j(document).ready(function() {
     $j('#header-account .skip-link-close').on("click", function(){
         $j('.account-cart-wrapper a').trigger("click");
     });
+
+    // Checkout Cart Update Basket on Quantity change
+    function updateCart() {
+        $j('.cart-footer-actions .btn-update').trigger('click');
+    }
+    function updatePadCart() {
+        $j('#qop-basket-content .btn-update').trigger('click');
+    }
+    $j('.product-cart-actions input, .product-cart-info .line_comment').on('change', function(){
+        updateCart();
+    });
+    $j('.decrement_qty, .increment_qty').on('click', function(){
+        updateCart();
+    });
+    $j('#qop-basket-content .uom-qty').on('change', function(){
+        updatePadCart();
+    });
 });
+
+
+// Scroll to top Button
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("scrollTopButton").style.display = "block";
+    } else {
+        document.getElementById("scrollTopButton").style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+ 

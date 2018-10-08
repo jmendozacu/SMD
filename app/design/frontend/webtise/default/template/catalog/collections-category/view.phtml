@@ -18,7 +18,41 @@
                 </div>
             <?php endif; ?>
 
-        
+            <?php if ($this->getIsSubcategoryDisplayCarousel($subcategory)): ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function(){
+                        jQuery('#<?php echo $subcategory->getId(); ?>-subcategorySlider').slick({
+                            draggable: false,
+                            nextArrow: '<button type="button" class="slick-next slick-next-<?php echo $subcategory->getId(); ?>" id="slick-next-<?php echo $subcategory->getId(); ?>" data-clicks="1" data-page="2" onclick="loadNewProducts(<?php echo $subcategory->getId(); ?>, <?php echo $this->getProductLimit() ?>)">Previous</button>',
+                            responsive: [
+                                {
+                                    breakpoint: 1024,
+                                    settings: {
+                                        slidesToShow: 6,
+                                        slidesToScroll: 1,
+                                        infinite: true
+                                    }
+                                },
+                                {
+                                    breakpoint: 600,
+                                    settings: {
+                                        slidesToShow: 4,
+                                        slidesToScroll: 1
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 2,
+                                        slidesToScroll: 1
+                                    }
+                                }
+                            ],
+                            mobileFirst: true
+                        })
+                    });
+                </script>
+            <?php endif; ?>
 
         <?php endforeach; ?>
     </div>

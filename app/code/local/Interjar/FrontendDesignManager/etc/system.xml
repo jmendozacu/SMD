@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <interjar translate="label" module="frontenddesignmanager">
+            <label>Interjar</label>
+            <sort_order>500</sort_order>
+        </interjar>
+    </tabs>
+    <sections>
+        <frontenddesignmanager translate="label" module="frontenddesignmanager">
+            <label>Frontend Design Configuration</label>
+            <sort_order>10</sort_order>
+            <tab>interjar</tab>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General Settings</label>
+                    <sort_order>10</sort_order>
+                    <expanded>1</expanded>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled_designmanager translate="label">
+                            <label>Enable Design Manager</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_designmanager>
+                    </fields>
+                </general>
+                <header_section translate="label">
+                    <label>Header Section</label>
+                    <sort_order>20</sort_order>
+                    <expanded>1</expanded>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <header_enabled translate="label">
+                            <label>Enable Header Changes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable frontend header changes]]></comment>
+                        </header_enabled>
+
+                        <header_design type="group" translate="label">
+                            <label>Header Design</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <fields>
+                                <header_background>
+                                    <label>Header Background Colour</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>11</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Main header section of website]]></comment>
+                                </header_background>
+                                <header_top_links>
+                                    <label>Header Top Links Colour</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>12</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Header top links font colour.]]></comment>
+                                </header_top_links>
+                            </fields>
+                        </header_design>
+
+                        <header_account_method type="group" translate="label">
+                            <label>Header Account Menu</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>50</sort_order>
+                            <fields>
+                                <account_border_colour>
+                                    <label>Account Menu Border Colour</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>14</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Account menu border colour.]]></comment>
+                                </account_border_colour>
+                                <account_background_colour>
+                                    <label>Account Menu Background Colour</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>14</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Account menu background colour.]]></comment>
+                                </account_background_colour>
+                                <account_link_font_colour>
+                                    <label>Account Menu Font Colour</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>14</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Chnages the colour of font in account menu.]]></comment>
+                                </account_link_font_colour>
+                                <account_link_font_colour_hover>
+                                    <label>Account Menu Font Colour Hover</label>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>color</validate>
+                                    <sort_order>14</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Changes the hover state colour in account menu on hover state.]]></comment>
+                                </account_link_font_colour_hover>
+                            </fields>
+                        </header_account_method>
+
+                    </fields>
+                </header_section>
+
+                <menu_section translate="label">
+                    <label>Menu Section</label>
+                    <sort_order>30</sort_order>
+                    <expanded>1</expanded>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <menu_enabled translate="label">
+                            <label>Enable Menu Changes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable frontend menu changes]]></comment>
+                        </menu_enabled>
+                        <menu_font_colour>
+                            <label>Menu Font Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Header top links font colour.]]></comment>
+                        </menu_font_colour>
+                        <menu_font_colour_hover>
+                            <label>Menu Font Colour Hover</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Header top links font hover colour.]]></comment>
+                        </menu_font_colour_hover>
+                        <menusub_background>
+                            <label>Submenu Background Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Submenu background colour.]]></comment>
+                        </menusub_background>
+                        <menusub_background_hover>
+                            <label>Submenu Background Colour Hover</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Submenu background hover colour.]]></comment>
+                        </menusub_background_hover>
+                    </fields>
+                </menu_section>
+                <checkout_section translate="label">
+                    <label>Checkout Section</label>
+                    <sort_order>40</sort_order>
+                    <expanded>1</expanded>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <checkout_enabled translate="label">
+                            <label>Enable Checkout Changes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable frontend checkout changes]]></comment>
+                        </checkout_enabled>
+                        <checkout_sections_background translate="label">
+                            <label>Sections Background Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Changes the colour of checkout onepage block sections.]]></comment>
+                        </checkout_sections_background>
+                        <checkout_sections_font_background translate="label">
+                            <label>Sections Font Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Changes the colour of checkout section title.]]></comment>
+                        </checkout_sections_font_background>
+                    </fields>
+                </checkout_section>
+                <footer_section translate="label">
+                    <label>Footer Section</label>
+                    <sort_order>50</sort_order>
+                    <expanded>1</expanded>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <footer_enabled translate="label">
+                            <label>Enable Footer Changes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable frontend footer changes.]]></comment>
+                        </footer_enabled>
+                        <footer_background>
+                            <label>Footer Background Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Changes the colour of footer section background.]]></comment>
+                        </footer_background>
+                        <footer_font_colour>
+                            <label>Footer Font Colour</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>color</validate>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Changes the colour of footer text.]]></comment>
+                        </footer_font_colour>
+                    </fields>
+                </footer_section>
+            </groups>
+        </frontenddesignmanager>
+    </sections>
+</config>

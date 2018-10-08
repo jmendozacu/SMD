@@ -49,8 +49,10 @@
         <div id="myDropdown" class="dropdown-content">
             <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
                 <?php if($_key == 'price'): continue; // Remove price here to keep config in one place ?>
+                <?php elseif ($_key == 'created_at') : ?>
+                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__(' Newest to Oldest', $_order) ?></a>
                 <?php elseif ($_key == 'position') : ?>
-                <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__('Best Sellers') ?></a>
+                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__('Best Sellers') ?></a>
                 <?php else: ?>
                     <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'asc'): ?> class="active"<?php endif; ?>><?php echo $this->__('%s - A - Z', $_order) ?></a>
                     <a href="<?php echo $this->getOrderUrl($_key, 'desc') ?>"<?php if($this->isOrderCurrent($_key) and $this->getCurrentDirection() === 'desc'): ?> class="active"<?php endif; ?>><?php echo $this->__('%s - Z - A', $_order) ?></a>

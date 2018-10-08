@@ -1,0 +1,34 @@
+<?php
+/** Interjar_FrontendDesignManager_Block_DesignManager */
+$configuration = $this->getConfiguration(); ?>
+
+<style type="text/css">
+    <?php if($configuration['header']['header_enabled']): ?>
+    .page-header {background:#<?php echo $configuration['header']['header_background']; ?> !important; }
+    .skip-links .fa {color:#<?php echo $configuration['header']['header_top_links']; ?> !important;}
+    .skip-links a, .skip-links span {color:#<?php echo $configuration['header']['header_top_links']; ?> !important;}
+    #header-account.skip-active {border-color:#<?php echo $configuration['header']['header_account_menu']['border_colour']; ?> !important;
+        border: solid 1px #<?php echo $configuration['header']['header_account_menu']['border_colour']; ?> !important;
+        background:#<?php echo $configuration['header']['header_account_menu']['background_colour']; ?> !important;}
+    #header-account a {color: #<?php echo $configuration['header']['header_account_menu']['links_colour']; ?> !important;}
+    #header-account a:hover, #header-account a:active, #header-account a:focus {color:#<?php echo $configuration['header']['header_account_menu']['links_colour_hover']; ?> !important;}
+    <?php endif; ?>
+    <?php if($configuration['menu']['menu_enabled']): ?>
+    #header-nav a {color:#<?php echo $configuration['menu']['menu_font_colour']; ?> !important;}
+    #header-nav a:hover, #header-nav a:active, #header-nav a:focus {color:#<?php echo $configuration['menu']['menu_font_colour_hover']; ?> !important;}
+    .megamenu-nav-primary .megamenu {background-color:#<?php echo $configuration['menu']['menusub_background']; ?> !important;}
+    .megamenu-nav-primary .megamenu li:hover {background-color:#<?php echo $configuration['menu']['menusub_background_hover']; ?> !important;}
+    .wrapper-header .skip-content span {color:#<?php echo $configuration['menu']['menu_font_colour']; ?> !important;}
+    <?php endif; ?>
+    <?php if($configuration['checkout']['checkout_enabled']): ?>
+    .opc li.section.active .step-title, .opc .section .step-title {background:#<?php echo $configuration['checkout']['checkout_sections_background']; ?> !important;}
+    .opc li.section.active .step-title .number, .opc .section .step-title .number {color:#<?php echo $configuration['checkout']['checkout_sections_font_background']; ?> !important;}
+    .opc li.section.active .step-title h2, .opc .section .step-title h2 {color:#<?php echo $configuration['checkout']['checkout_sections_font_background']; ?> !important;}
+    .opc li.section.active .step-title a, .opc .section .step-title a {color:#<?php echo $configuration['checkout']['checkout_sections_font_background']; ?> !important;}
+    <?php endif; ?>
+    <?php if($configuration['footer']['footer_enabled']): ?>
+    .footer-container {background:#<?php echo $configuration['footer']['footer_background']; ?> !important;}
+    .footer .block-title a, .footer .links a {color:#<?php echo $configuration['footer']['footer_font_colour']; ?> !important;}
+    .footer address {color:#<?php echo $configuration['footer']['footer_font_colour']; ?> !important;}
+    <?php endif; ?>
+</style>

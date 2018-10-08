@@ -1,0 +1,23 @@
+
+.my-wishlist {
+  .add-to-cart-alt {
+    input {
+      &.qty {
+        width: 90px;
+        height: 25px !important;
+        margin-bottom:10px;
+      }
+    }
+  }
+  .btn-remove2 {
+    text-indent: 0;
+    background-image: none;
+    position:relative;
+    &:before {
+      content: '\f014';
+      color: #2c2d2a;
+      font-size: 18px;
+      font-family: "FontAwesome";
+    }
+  }
+}

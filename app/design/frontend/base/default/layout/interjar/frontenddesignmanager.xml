@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="after_body_start">
+            <block type="frontenddesignmanager/designManager" name="frontenddesignmanager"
+                   template="interjar/frontenddesignmanager/designmanager.phtml"
+                   ifconfig="frontenddesignmanager/general/enabled_designmanager" />
+        </reference>
+    </default>
+</layout>

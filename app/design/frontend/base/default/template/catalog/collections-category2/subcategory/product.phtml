@@ -1,0 +1,16 @@
+<?php
+    /** @var Interjar_CollectionsCategory_Block_Category_Subcategory_Product $this */
+    $_category = $this->getSubcategory();
+    $_products = $this->getProductCollection();
+?>
+<?php if ($_products && $_products->getSize()): ?>
+    <?php foreach($_products as $product): ?>
+        <div class="subcategory-product">
+            <a href="<?php echo $product->getProductUrl(); ?>">
+                <img class="product-image" src="<?php echo Mage::helper('catalog/image')->init($product, 'image')->resize(250, 250); ?>" alt="<?php echo $this->__($product->getName()); ?>"/>
+                <p class="product-title"><?php echo $this->__($product->getName()); ?></p>
+            </a>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+

@@ -310,7 +310,6 @@
  */
 
 .skip-link {
-    background: $c-iliv-grey;
     color: $c-bronze;
     float: left;
     height: 44px;
@@ -462,7 +461,6 @@ a.skip-link {
     &-header {
         background-color: $c-iliv-grey;
         .skip-account {
-            background-color: $c-iliv-grey;
             .icon {
                 background-image: url("../images/user.svg");
                 background-size: contain;
@@ -478,4 +476,31 @@ a.skip-link {
             }
         }
     }
+}
+
+
+//Go To Top Button
+#scrollTopButton {
+    display: none;
+    font-family: $font-lato;
+    font-weight: $font-weight-normal;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: $f-size-xs;
+    border: none;
+    outline: none;
+    background: $c-bronze!important;
+    color: $c-white;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#scrollTopButton:hover {
+    background-color: $c-bronze!important;
+    font-family: $font-lato;
 }
