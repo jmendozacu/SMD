@@ -1,7 +1,7 @@
 <?php
 $_product = Mage::registry('current_product');
 $loopProduct = Mage::registry('current_loop_product') ? : $_product;
-
+$uom = Mage::getModel('catalog/product')->load($_product->getId())->getPackSize();
 
 $locationData = Mage::registry('current_location');
 
@@ -36,7 +36,7 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
 
                 <?php case 'level': ?>
 			<?php if(Mage::helper('epicor_comm')->getErpAccountInfo()->getAccountType() == 'B2B'): ?>
-                            <p class="availability in-stock"><span><?php echo ((float) $loopProduct->getStockLevel()> 0)?number_format($loopProduct->getStockLevel(),2,'.',''):"Out of stock" ?></span></p>
+                            <p class="availability in-stock"><span><?php echo ((float) $loopProduct->getStockLevel()> 0) ? floor($loopProduct->getStockLevel())." ".$uom:"Out of stock" ?></span></p>
 			<?php endif; ?>
                     
                     <?php break; ?>
