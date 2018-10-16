@@ -9,17 +9,46 @@
         </div>
         <?php if ($this->getRequest()->getControllerName() == 'onepage'):?>
         <div class="field">
-            <link rel="stylesheet" type="text/css" href="http://www.dynarch.com/jscal/jscal/src/css/jscal2.css" />
-            <link rel="stylesheet" type="text/css" href="http://www.dynarch.com/jscal/jscal/src/css/border-radius.css" />
-            <link rel="stylesheet" type="text/css" href="http://www.dynarch.com/jscal/jscal/src/css/steel/steel.css" />
-			<?php echo $this->getLayout()->createBlock('core/html_calendar')->setTemplate('page/js/calendar.phtml')->toHtml();?>
             <label for="silk_delivery_date_<?php echo $this->getItem()->getId() ?>" ><?php echo $this->__('Required Date') ?></label>
             <?php
                 $silkDeliveryDate = ($this->getItem()->getSilkDeliveryDate() != "0000-00-00") ? $this->getItem()->getSilkDeliveryDate() : null;
                 $helperSilkDeliveryDate = Mage::getModel('core/date')->date('d-m-Y', strtotime($silkDeliveryDate . " +0 Weekday"));
             ?>
-            <input type="text" class="silk_delivery_date" name="cart[<?php echo $this->getItem()->getId() ?>][silk_delivery_date]" id="silk_delivery_date_<?php echo $this->getItem()->getId() ?>" value="<?php echo $helperSilkDeliveryDate; ?>" title="<?php echo $this->__('Select Required Date'); ?> "/>
+            <input type="text" class="silk_delivery_date" name="cart[<?php echo $this->getItem()->getId() ?>][silk_delivery_date]" id="silk_delivery_date_<?php echo $this->getItem()->getId() ?>" value="<?php echo $helperSilkDeliveryDate; ?>" title="<?php echo $this->__('Select Required Date'); ?> " readonly="readonly"/>
             <img class="status_help" title="Select date" id="required_date_trig_<?php echo $this->getItem()->getId() ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle" />
+            <script type="text/javascript">
+                 Calendar.setup({
+//                    onSelect: function(cal) { cal.hide() },
+                    showTime: false,
+                    button:"required_date_trig_<?php echo $this->getItem()->getId() ?>",
+                    align : "Bl",
+                    inputField:"silk_delivery_date_<?php echo $this->getItem()->getId();?>",
+                    ifFormat : "%d-%m-%Y",
+                     singleClick: true,
+                     disableFunc: function (date) {
+                        var now = new Date();
+                        //var now = new Date("<?php echo Mage::getModel('core/date')->date('d-m-Y', strtotime($silkDeliveryDate));?>");
+                        if (date.getFullYear() < now.getFullYear()) {
+
+                            return true;
+                        }
+                        if (date.getFullYear() == now.getFullYear()) {
+                            if (date.getMonth() < now.getMonth()) {
+                                return true;
+                            }
+                        }
+                        if (date.getMonth() == now.getMonth()) {
+                            if (date.getDate() <= now.getDate()) {
+                                return true;
+                            }
+                        }
+                        if (date.getDay() == 6 || date.getDay()==0) {
+                            return true;
+                        }
+                    },
+                });
+                //        cal.manageFields("required_date_trig_<?php //echo $this->getItem()->getId() ?>//", "silk_delivery_date_<?php //echo $this->getItem()->getId();?>//", "%d-%m-%Y");
+            </script>
         </div>
         <?php endif; ?>
     </fieldset>
@@ -35,33 +64,6 @@
         </script>
     <?php endif; ?>
     <?php if ($this->getRequest()->getControllerName() == 'onepage'):?>
-    <script type="text/javascript">
-        var cal = Calendar.setup({
-            onSelect: function(cal) { cal.hide() },
-            showTime: false,
-            disabled: function (date) {
-                var now = new Date("<?php echo Mage::getModel('core/date')->date('Y-m-d', strtotime($silkDeliveryDate));?>");
-                //var now = new Date("<?php echo Mage::getModel('core/date')->date('d-m-Y', strtotime($silkDeliveryDate));?>");
-                if (date.getFullYear() < now.getFullYear()) {
-			
-                    return true;
-                }
-                if (date.getFullYear() == now.getFullYear()) {
-                    if (date.getMonth() < now.getMonth()) {
-                        return true;
-                    }
-                }
-                if (date.getMonth() == now.getMonth()) {
-                    if (date.getDate() <= now.getDate()) {
-                        return true;
-                    }
-                }
-                if (date.getDay() == 6 || date.getDay()==0) {
-            		return true;
-      	  	}
-            },
-        });
-        cal.manageFields("required_date_trig_<?php echo $this->getItem()->getId() ?>", "silk_delivery_date_<?php echo $this->getItem()->getId();?>", "%d-%m-%Y");
-    </script>
+
     <?php endif;?>
 <?php endif; ?>

@@ -502,6 +502,22 @@
                 <type>skin_js</type>
                 <name>epicor/comm/js/jquery.maxlength.js</name>
             </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params></params>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+                <params></params>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+                <params></params>
+            </action>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
         </reference>
         <reference name="checkout.onepage">
             <action method="setTemplate">

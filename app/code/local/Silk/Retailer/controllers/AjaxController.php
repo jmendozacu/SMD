@@ -164,6 +164,30 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
 	//$this->_redirect($product->getUrlPath());
     }
 
+    public function addAllToBasketAction(){
+        $params  = $this->getRequest()->getParams();
+        $data = [];
+        $data['status'] = 'Success';
+        $faildProducts = [];
+        if(isset($params['products']) && $params['products']){
+            foreach ($params['products'] as $productId=>$items){
+                if(isset($items['multiple']) && $items['multiple']){
+                    foreach ($items['multiple'] as $item){
+                        if($item['qty'] > $item['max_quantity']){
+                            $data['status'] = 'Failed';
+                            $product = Mage::getModel('catalog/product')->load($productId);
+                            $faildProducts[$item['product']] = $item['max_quantity'].$product->getData('uom');
+                        }
+                    }
+                }
+            }
+        }
+        $data['faild_products'] = $faildProducts;
+        $json = Mage::helper('core')->jsonEncode($data);
+        $this->getResponse()->setBody($json);
+
+    }
+
     public function quickBuyAction(){
         $cart = Mage::getSingleton('checkout/cart');
         $params  = $this->getRequest()->getParams();
