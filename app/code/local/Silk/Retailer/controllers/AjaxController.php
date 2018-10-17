@@ -176,7 +176,10 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                         if($item['qty'] > $item['max_quantity']){
                             $data['status'] = 'Failed';
                             $product = Mage::getModel('catalog/product')->load($productId);
-                            $faildProducts[$item['product']] = $item['max_quantity'].$product->getData('uom');
+                            $poqtyStock = $product->getData('poqtyone');
+                            $helper = Mage::helper('epicor_comm/messaging');
+                            $helper->sendMsq($product, 'product_details');
+                            $faildProducts[$item['product']] = ($poqtyStock + $product->getStockLevel()).$product->getData('uom');
                         }
                     }
                 }
@@ -199,6 +202,7 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
             $product = Mage::getModel('catalog/product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($params['product']);
+
             if ($product->getId()) {
                 $isSample = $product->getIsSample();
                 $validateSample = true;
@@ -208,8 +212,12 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                 }
 
                 if ($validateSample) {
-                    $cart->addProduct($product, $params['qty']);
-                    $cart->save();
+                    try{
+                        $cart->addProduct($product, $params['qty']);
+                        $cart->save();
+                    } catch (Exception $e) {
+                        Mage::getSingleton('core/session')->addError($e->getMessage());
+                    }
                     $this->_redirect('checkout/onepage');
                 } else {
                     Mage::getSingleton('core/session')->addError($retailerHp->getSampleErrorMsg());

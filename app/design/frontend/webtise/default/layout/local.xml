@@ -43,13 +43,13 @@
 	</customer_account>
 	<checkout_onepage_index translate="label">
 		<reference name="head">
-			<!--<action method="removeItem"><type>js</type><name>calendar/calendar.js</name></action>-->
-			<!--<action method="removeItem"><type>js</type><name>calendar/calendar-setup.js</name></action>-->
-			<!--<action method="addItem"><type>js</type><name>calendar/jscal2.js</name></action>-->
-			<!--<action method="addItem"><type>js</type><name>calendar/en.js</name></action>-->
-			<!--<action method="addItem"><type>js_css</type><name>calendar/jscal2.css</name></action>-->
-			<!--<action method="addItem"><type>js_css</type><name>calendar/border-radius.css</name></action>-->
-			<!--<action method="addItem"><type>js_css</type><name>calendar/steel.css</name></action>-->
+			<action method="removeItem"><type>js</type><name>calendar/calendar.js</name></action>
+			<action method="removeItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+			<action method="addItem"><type>js</type><name>calendar/jscal2.js</name></action>
+			<action method="addItem"><type>js</type><name>calendar/en.js</name></action>
+			<action method="addItem"><type>js_css</type><name>calendar/jscal2.css</name></action>
+			<action method="addItem"><type>js_css</type><name>calendar/border-radius.css</name></action>
+			<action method="addItem"><type>js_css</type><name>calendar/steel.css</name></action>
 		</reference>
 	</checkout_onepage_index>
 </layout>

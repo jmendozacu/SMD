@@ -27,3 +27,6 @@ button:not(.button), .form-button{
 .my-account button:hover, .form-button:hover {
 	background:#cacaca !important;
 }
+.calendar_content_wapper{position: relative;}
+.calendar_content_wapper>.DynarchCalendar-topCont{top:0!important;}
+.calendar_content_wapper>.DynarchCalendar-topCont table td{padding:0;}
