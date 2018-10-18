@@ -2,8 +2,9 @@
 document.observe('dom:loaded', function () {
 
     if ($('add_all_to_basket')) {
-        $('add_all_to_basket').observe('click', function (event) {
-
+        var allAddFormHtml = jQuery('.addalltobasketform').html();
+        jQuery('.quickorderpad').delegate("#add_all_to_basket", "click", function (event) {
+            event.preventDefault();
             var products = 0;
             if(checkDecimal('qop-list'))
             {
@@ -34,7 +35,6 @@ document.observe('dom:loaded', function () {
             });
             }
             var allAddForm = $('add_all_to_basket').up();
-            var allAddFormHtml = jQuery('.addalltobasketform').html();
             jQuery.ajax({
                 type: "POST",
                 url: '/retailer/ajax/addAllToBasket',
@@ -42,7 +42,7 @@ document.observe('dom:loaded', function () {
                 dataType: 'json',
                 success: function (data) {
                     if (data.status == 'Success') {
-                        allAddForm.submit();
+                      allAddForm.submit();
                     } else if (data.status == 'Failed') {
                         jQuery('.addalltobasketform').html(allAddFormHtml);
                         var faildProducts = data.faild_products;
@@ -54,10 +54,9 @@ document.observe('dom:loaded', function () {
                     }
                 },
             });
-            event.stop();
-            if (products == 0) {
-                event.stop();
-            }
+            // if (products == 0) {
+            //     event.preventDefault();
+            // }
         });
     }
 });
