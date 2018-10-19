@@ -30,3 +30,4 @@ button:not(.button), .form-button{
 .calendar_content_wapper{position: relative;}
 .calendar_content_wapper>.DynarchCalendar-topCont{top:0!important;}
 .calendar_content_wapper>.DynarchCalendar-topCont table td{padding:0;}
+.checkout-onepage-index .DynarchCalendar-bottomBar{display: none!important;}
