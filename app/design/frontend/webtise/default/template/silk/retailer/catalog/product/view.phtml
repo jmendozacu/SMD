@@ -400,8 +400,7 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     <!--                    onclick="document.cookie='userMetre='+ jQuery('#your_metre').val();jQuery('.curMetre').text(jQuery('#your_metre').val())">--><?php //echo $this->__('Confirm') ?><!--</button>-->
                 </div>
                 <button class="ajax-basket button"><?php echo $this->__('Add To Basket') ?></button>
-                <button class="button button-secondary"
-                        onclick="window.location.href='<?php echo $this->getUrl('retailer/ajax/quickBuy', array('product' => $_product->getId())) ?>' + 'qty/' + jQuery('#your_metre').val()"><?php echo $this->__('Quick Buy') ?></button>
+                <button class="button button-secondary button-addto-quickbuy" type="button"><?php echo $this->__('Quick Buy') ?></button>
             </div>
         </div>
 
@@ -673,6 +672,39 @@ $_product->forceMainProductToBeSaleable($groupOrConfigurable);
                     jQuery('#basket_box .curMetre').text(data.error);
                     jQuery('#basket_box .msg_title').text(' ');
                     jQuery('#basket_box .action_button').hide();
+                } else {
+                    console.log('wrong');
+                }
+            },
+            complete: function () {
+            }
+        });
+    });
+
+    $j('.button-addto-quickbuy').click(function () {
+        $j(this).attr('disabled',true);
+        var product_id = <?php echo $_product->getId();?>;
+        var qty = jQuery('#your_metre').val();
+        $j.ajax({
+            type: "GET",
+            url: '/retailer/ajax/quickBuy',
+            data: {'product': product_id, 'qty': qty},
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            error: function (e) {
+            },
+            success: function (data) {
+                if (data.status == 'Success') {
+                    window.location.href="<?php echo Mage::getUrl('checkout/onepage') ?>";
+                } else if (data.status == 'login') {
+                    window.location.href=data.url;
+                } else if (data.status == 'Failed') {
+                    jQuery('#basket_box').css('display', 'block');
+                    jQuery('#basket_box .curMetre').text(data.error);
+                    jQuery('#basket_box .msg_title').text(' ');
+                    jQuery('#basket_box .action_button').hide();
+                    $j('.button-addto-quickbuy').attr('disabled',false);
                 } else {
                     console.log('wrong');
                 }

@@ -164,17 +164,52 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
 	//$this->_redirect($product->getUrlPath());
     }
 
+    public function addAllToBasketAction(){
+        $params  = $this->getRequest()->getParams();
+        $data = [];
+        $data['status'] = 'Success';
+        $faildProducts = [];
+        if(isset($params['products']) && $params['products']){
+            foreach ($params['products'] as $productId=>$items){
+                if(isset($items['multiple']) && $items['multiple']){
+                    foreach ($items['multiple'] as $item){
+                        $product = Mage::getModel('catalog/product')->load($productId);
+                        $poqtyStock = $product->getData('poqtyone');
+                        $helper = Mage::helper('epicor_comm/messaging');
+                        $helper->sendMsq($product, 'product_details');
+                        $maxQty = $poqtyStock + $product->getStockLevel();
+                        if($item['qty'] > $maxQty){
+                            $data['status'] = 'Failed';
+
+                            $faildProducts[$item['product']] = $maxQty.$product->getData('uom');
+                        }
+                    }
+                }
+            }
+        }
+        $data['faild_products'] = $faildProducts;
+        $json = Mage::helper('core')->jsonEncode($data);
+        $this->getResponse()->setBody($json);
+
+    }
+
     public function quickBuyAction(){
         $cart = Mage::getSingleton('checkout/cart');
         $params  = $this->getRequest()->getParams();
         $retailerHp = Mage::helper('silk_retailer');
-
-        if (empty($params['product'])) {
-            $this->_redirect('');
+        $data = [];
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if(empty($customerId)){
+            $data['status'] = 'login';
+            $data['url'] = Mage::getUrl('customer/account/login');
+        } else if (empty($params['qty']) || empty($params['product'])) {
+            $data['status'] = 'Failed';
+            $data['error'] = 'Wrong Params1';
         } else {
             $product = Mage::getModel('catalog/product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($params['product']);
+
             if ($product->getId()) {
                 $isSample = $product->getIsSample();
                 $validateSample = true;
@@ -184,13 +219,20 @@ class Silk_Retailer_AjaxController extends Mage_Core_Controller_Front_Action
                 }
 
                 if ($validateSample) {
-                    $cart->addProduct($product, $params['qty']);
-                    $cart->save();
-                    $this->_redirect('checkout/onepage');
+                    try{
+                        $cart->addProduct($product, $params['qty']);
+                        $cart->save();
+                        $data['status'] = 'Success';
+                    } catch (Exception $e) {
+                        $data['status'] = 'Failed';
+                        $data['error'] = $e->getMessage();
+                    }
                 } else {
-                    Mage::getSingleton('core/session')->addError($retailerHp->getSampleErrorMsg());
-                    $this->_redirect($product->getUrlPath());
+                    $data['status'] = 'Failed';
+                    $data['error'] = $retailerHp->getSampleErrorMsg();
                 }
+                $json = Mage::helper('core')->jsonEncode($data);
+                $this->getResponse()->setBody($json);
             } else {
                 $this->_redirect('');
             }

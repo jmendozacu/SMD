@@ -1373,6 +1373,7 @@ $j(document).ready(function() {
     // Checkout Cart Update Basket on Quantity change
     function updateCart() {
         $j('.cart-footer-actions .btn-update').trigger('click');
+        $j('.btn-proceed-checkout').attr('disabled',true)
     }
     function updatePadCart() {
         $j('#qop-basket-content .btn-update').trigger('click');
