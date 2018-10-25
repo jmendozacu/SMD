@@ -61,31 +61,43 @@ $allSourceLocations = (Mage::getStoreConfig('epicor_comm_locations/global/stockv
             <img src="<?php echo $_img['src']?>" alt="<?php echo $_img['alt']?>" title="<?php echo $_img['title']?>" />
             <?php break;?>
         <?php case 'level':?>
-
             <?php
                 $quantity = $_product->getData("poqtyone");
-		        $stock = $_product->getStockLevel();
+                $stock = $_product->getStockLevel(); // Epicore Stock
             ?>
-
             <?php if (($stock + $quantity) <= 0 ): ?>
-
                 <!-- -10 -100 -->
                 <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
                 <?php echo $this->__('Please contact our customer services team on +44 (0) 1772651199 for further stock assistance.'); ?>
-            <?php else : ?>
+            <?php elseif (($stock<=0) && ($quantity == '' )): ?>
+                <!-- -10 0 -->
+                <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
+                <?php echo $this->__('Please contact our customer services team on +44 (0) 1772651199 for further stock assistance..'); ?>
+            <?php elseif (($stock>0) && ($quantity == '' )): ?>
                 <!-- 10 0 -->
-                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo number_format($stock, 2,'.',''); ?></span>
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo floor($stock);?></span><?php echo ' '.$_product->getPackSize(); ?></p>
+            <?php elseif(($stock<=0) && ($stock+$quantity)>0): ?>
+                <!-- -10 1000 -->
+                <div class="poqty" style="display:block">
+                    <p class="availability out-of-stock"><span><?php echo $this->__('Product currently unavailable') ?></span></p>
+                    <strong><?php echo $this->__('New Stock Due:') ?></strong>
+                    <?php echo ($stock + $quantity) . ' ' . $_product->getPackSize(); ?>
+                    <span><?php echo $this->__('on') ?></span>
+                    <?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
+                </div>
+                <!-- Default -->
+            <?php else: ?>
+                <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo floor($stock);?></span><?php echo ' '.$_product->getPackSize(); ?></p>
+                <div class="poqty" style="display:block">
+                <strong><?php echo $this->__('New Stock Due:') ?></strong>
+                    <?php echo $_product->getData('poqtyone') . ' ' . $_product->getPackSize(); ?>
+                    <span><?php echo $this->__('on') ?></span>
+                    <?php echo Mage::helper('core')->formatDate($_product->getData('poqtyonedate'), 'short', false); ?>
+                </div>
             <?php endif; ?>
-
-            <?php break; ?>
-
-        <?php endswitch;?>
+        <?php break; ?>
+    <?php endswitch;?>
 <?php endif; ?>
-
-
-
-<p><?php //echo $this->__('upc-12: ') ?><span><?php //echo $_product->getUpc() ?></span></p>
-
 <?php  if(!$showLocations || $showLocations && ($allSourceLocations || $singleLocation)): ?>
     <?php echo $this->getPriceHtml($_product)?>
 <?php endif; ?>
