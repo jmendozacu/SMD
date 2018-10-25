@@ -27,7 +27,8 @@
 /* @var Mage_Wishlist_Model_Item $item */
 $item = $this->getItem();
 $product = $item->getProduct();
-$propoqtyone = Mage::getModel('catalog/product')->load($product->getId())->getData('poqtyone');
+$prod = Mage::getModel('catalog/product')->load($product->getId());
+$propoqtyone = $prod->getData('poqtyone');
 $helper = Mage::helper('epicor_comm/messaging');
 $helper->sendMsq($product, 'product_details');
 
@@ -40,10 +41,11 @@ $locHelper = Mage::helper('epicor_comm/locations');
      
  $locationsEnabled =   $locHelper->isLocationsEnabled() ? true : false;
  $groupOrConfigurable = in_array($product->getTypeId(),array('grouped','configurable')) ? true : false; 
+$order_fab = $prod->getData('order_fab');
 ?>
 <div class="cart-cell">
 <?php echo $this->getPriceHtml($product); ?>
-    <?php if ($showAddToCart && ($helper->getErpAccountInfo()->getAccountType()=='B2B')): ?>
+    <?php if ($order_fab && $showAddToCart && ($helper->getErpAccountInfo()->getAccountType()=='B2B')): ?>
         <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
                 <input type="text" class="input-text qty validate-not-negative-number" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" />

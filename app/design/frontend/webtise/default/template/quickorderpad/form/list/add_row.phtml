@@ -20,10 +20,13 @@ else:
     $showAddToCart = $helper->isFunctionalityDisabledForCustomer('cart') ? false : true;
 endif;
 
+$order_fab = Mage::getModel('catalog/product')->load($_product->getId())->getData('order_fab');
+//echo $order_fab;
+
 $showUom = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart');
 $showInColumn = Mage::getStoreConfigFlag('Epicor_Comm/units_of_measure/display_in_cart_column');
 ?>
-<?php if ($showAddToCart) : ?>
+<?php if ($order_fab && $showAddToCart) : ?>
 
     <td class="action last">
         <?php echo $this->getChildHtml('epicor_extra', false); ?>
